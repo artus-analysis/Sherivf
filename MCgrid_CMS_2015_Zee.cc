@@ -56,7 +56,7 @@ namespace Rivet {
 	  MSG_INFO("Using fastnlo");
       const string steeringFileName = "MCgrid_CMS_2015_Zee.str";
       MCgrid::fastnloGridArch arch_fnlo(50, 1, "Lagrange", "OneNode", "sqrtlog10", "linear");
-      MCgrid::fastnloConfig config_fnlo(0, 1960.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_ANTIPROTON, steeringFileName, arch_fnlo);
+      MCgrid::fastnloConfig config_fnlo(0, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_ANTIPROTON, steeringFileName, arch_fnlo);
       _fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo);
       _fnlo_xs = MCgrid::bookGrid(_h_xs, histoDir(), config_fnlo);
 #endif
@@ -75,15 +75,15 @@ namespace Rivet {
       if (zfinder.bosons().size() == 1) {
         double yZ = fabs(zfinder.bosons()[0].momentum().rapidity());
         _h_yZ->fill(yZ, weight);
-        _h_xs->fill(1960.0, weight);
+        _h_xs->fill(8000.0, weight);
         
 #if USE_APPL
         _appl_yZ->fill(yZ,event);
-        _appl_xs->fill(1960.0,event);
+        _appl_xs->fill(8000.0,event);
 #endif
 #if USE_FNLO
         _fnlo_yZ->fill(yZ,event);
-        _fnlo_xs->fill(1960.0,event);
+        _fnlo_xs->fill(8000.0,event);
 #endif
 
       }
