@@ -7,26 +7,17 @@
 
 namespace Rivet {
 
-  /// @brief CDF Z boson rapidity measurement
-  /// modified to generate APPLgrid or fastNLO files
+  /// @brief CMS Z boson rapidity measurement
+  /// modified to generate fastNLO files
   class MCgrid_CMS_2015_Zee : public Analysis {
   public:
-
-    /// @name Constructors etc.
-    //@{
 
     /// Constructor
     MCgrid_CMS_2015_Zee()
       : Analysis("MCgrid_CMS_2015_Zee")
     {    }
 
-    //@}
-
-
   public:
-
-    /// @name Analysis methods
-    //@{
 
     /// Book histograms and initialise projections before the run
     void init() {
@@ -43,13 +34,21 @@ namespace Rivet {
       _h_yZ = bookHisto1D(2, 1, 1);
 
 #if USE_FNLO
-	  MSG_INFO("Using fastnlo");
+      MSG_INFO("Using fastnlo");
       const string steeringFileName = "MCgrid_CMS_2015_Zee.str";
+
+      MSG_INFO("Creating fastnloGridArch and fastnloCOnfig");
       MCgrid::fastnloGridArch arch_fnlo(50, 1, "Lagrange", "OneNode", "sqrtlog10", "linear");
-      MCgrid::fastnloConfig config_fnlo(0, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_ANTIPROTON, steeringFileName, arch_fnlo);
+      MCgrid::fastnloConfig config_fnlo(0, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON, steeringFileName, arch_fnlo);
+
+      MSG_INFO("bookGrid for yZ");
       _fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo);
+      MSG_INFO("bookGrid for xs");
       _fnlo_xs = MCgrid::bookGrid(_h_xs, histoDir(), config_fnlo);
+
+      MSG_INFO("fastnlo init done");
 #endif
+
     }
 
 
@@ -99,16 +98,12 @@ namespace Rivet {
       MCgrid::PDFHandler::ClearHandler();
     }
 
-    //@}
-
 
   private:
 
     /// @name Histograms
-    //@{
     Histo1DPtr _h_yZ;
     Histo1DPtr _h_xs;
-    //@}
     
     // Grids
 #if USE_FNLO
@@ -117,7 +112,6 @@ namespace Rivet {
 #endif
 
   };
-
 
 
   // The hook for the plugin system
