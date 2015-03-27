@@ -37,13 +37,13 @@ namespace Rivet {
       MSG_INFO("Using fastnlo");
       const string steeringFileName = "MCgrid_CMS_2015_Zee.str";
 
-      MSG_INFO("Creating fastnloGridArch and fastnloCOnfig");
+      MSG_INFO("Creating fastnloGridArch and fastnloConfig");
       MCgrid::fastnloGridArch arch_fnlo(50, 1, "Lagrange", "OneNode", "sqrtlog10", "linear");
       MCgrid::fastnloConfig config_fnlo(0, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON, steeringFileName, arch_fnlo);
 
-      MSG_INFO("bookGrid for yZ");
+      MSG_INFO("bookGrid for yZ. histoDir: " << histoDir());
       _fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo);
-      MSG_INFO("bookGrid for xs");
+      MSG_INFO("bookGrid for xs. histoDir: " << histoDir());
       _fnlo_xs = MCgrid::bookGrid(_h_xs, histoDir(), config_fnlo);
 
       MSG_INFO("fastnlo init done");
