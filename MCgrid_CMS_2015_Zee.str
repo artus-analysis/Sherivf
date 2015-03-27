@@ -63,7 +63,7 @@ ApplyPDFReweighting          true
 # -------------------------------------------------------------------- #
 
 PDF1                           2212
-PDF2                          -2212
+PDF2                           2212
 
 NSubProcessesLO                  12
 NSubProcessesNLO                 12
