@@ -1,5 +1,6 @@
 // -*- C++ -*-
 #include "Rivet/Analysis.hh"
+#include "Rivet/Cuts.hh"
 #include "Rivet/Projections/FinalState.hh"
 #include "Rivet/Projections/ZFinder.hh"
 
@@ -25,8 +26,11 @@ namespace Rivet {
       /// Initialise and register projections here
       // this seems to have been corrected completely for all selection cuts,
       // i.e. eta cuts and pT cuts on leptons.
-      ZFinder zfinder(FinalState(), Cuts::open(), PID::ELECTRON,
-                      66*GeV, 116*GeV, 0.2, ZFinder::CLUSTERNODECAY, ZFinder::TRACK);
+
+      Cut cut = Cuts::etaIn(-2.5,2.5) & (Cuts::pT >= 25.0*GeV);
+      ZFinder zfinder(FinalState(), cut, PID::ELECTRON,
+                      81*GeV, 101*GeV, 0.2,
+                       ZFinder::CLUSTERNODECAY, ZFinder::TRACK);
       addProjection(zfinder, "ZFinder");
       
       /// Book histograms here
