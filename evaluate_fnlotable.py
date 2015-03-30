@@ -22,6 +22,7 @@ def main(
 		n=0,
 		input_filename='fnlo_yZ.txt',
 		pdf_set='../NNPDF21_100.LHgrid',#'CT10nlo.LHgrid',
+		lumi = 19789,  # in 1/pb
 	):
 
 	# init fnlo
@@ -37,19 +38,18 @@ def main(
 	x_binning = sorted(list(set([item for sublist in fnlo.GetDim0BinBoundaries() for item in sublist])))
 	histo = ROOT.TH1D(str(n),str(n),len(x_binning)-1, array('d', x_binning))
 
-	lumi = 19879
 
 	# fill values
 	xs = np.array(fnlo.GetCrossSection())
 	print xs
 	xs[xs <= 0.] = 0.  # ?
 	for i in range(0, fnlo.GetNDim0Bins()):
-		histo.SetBinContent(i+1, lumi*xs[i])
-		#histo.SetBinError(i+1, math.sqrt(xs[i]))
+		histo.SetBinContent(i+1, lumi*xs[i])  # multiply with lumi to get event count
 
 	# save
 	out = TFile(output_filename, "RECREATE")
 	histo.Write()
+	print "histogram written to file", output_filename
  
 if __name__ == '__main__':
 	main()
