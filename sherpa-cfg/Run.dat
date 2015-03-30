@@ -41,6 +41,13 @@
 
 
 (selector){
+
+  PT 11 25 999
+  PseudoRapidity 11 -2.5 2.5
+  PT -11 25 999
+  PseudoRapidity -11 -2.5 2.5
+
   Mass 11 -11 66 E_CMS
+
 }(selector)
 
