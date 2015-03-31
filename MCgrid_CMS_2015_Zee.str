@@ -129,12 +129,22 @@ PartonCombinationsNNLO {{
  14  0  3  0  5  0  1  0  2  0  4
 }}
 
-
-## warmup
-Warmup.OrderInAlphasOfWarmupRunWas      0
-Warmup.CheckScaleLimitsAgainstBins      true
-Warmup.ScaleDescriptionScale1           "Description [GeV]"
-Warmup.DifferentialDimension            1
+# --- Use emacs in sh mode -*-sh-*- #
+# This is a automatically generated file by fastNLO and holds the values of the warmup run. 
+# The values are valid for the scenario Name
+# and if calculated with the steerfile: MCgrid_CMS_2015_Zee.str
+# but only if no serious changes have been performed since its creation.
+# 
+# Delete this file, if you want fastNLO to calculate a new one.
+# 
+# This file has been calculated using 1 contributions.
+#   ( Mind: contributions != events. And contributions are not necessarily in phase space region.
+# Please check by eye for reasonability of the values.
+ 
+Warmup.OrderInAlphasOfWarmupRunWas	0
+Warmup.CheckScaleLimitsAgainstBins	true
+Warmup.ScaleDescriptionScale1     	"Description [GeV]"
+Warmup.DifferentialDimension      	1
 Warmup.DimensionLabels {
   "Quantity [Unit]"  
 } 
@@ -144,31 +154,31 @@ Warmup.DimensionIsDifferential {
 
 Warmup.Values {{
    ObsBin       x_min      x_max  Description_[GeV]_min  Description_[GeV]_max
-      0      7.08e-03   1.39e-02             81.00            101.00
-      1      6.38e-03   1.54e-02             81.00            100.98
-      2      5.84e-03   1.68e-02             81.00            100.97
-      3      5.32e-03   1.86e-02             81.00            100.97
-      4      4.73e-03   2.07e-02             81.00            100.92
-      5      4.29e-03   2.28e-02             81.00            100.97
-      6      3.92e-03   2.53e-02             81.00            100.96
-      7      3.54e-03   2.77e-02             81.00            100.96
-      8      3.21e-03   3.08e-02             81.00            100.91
-      9      2.90e-03   3.42e-02             81.00            100.96
-     10      2.61e-03   3.77e-02             81.22            100.99
-     11      2.37e-03   4.16e-02             81.00            101.00
-     12      2.13e-03   4.60e-02             81.00            100.99
-     13      1.93e-03   5.06e-02             81.00            100.89
-     14      1.75e-03   5.58e-02             81.00            100.99
-     15      1.59e-03   6.20e-02             81.00            100.99
-     16      1.44e-03   6.85e-02             81.00            100.88
-     17      1.31e-03   7.57e-02             81.13            100.85
-     18      1.19e-03   8.40e-02             81.00            100.87
-     19      1.06e-03   9.16e-02             81.13            100.99
-     20      9.57e-04   1.00e-01             81.00            100.74
-     21      8.86e-04   1.13e-01             81.49            100.75
-     22      7.87e-04   1.24e-01             81.26            100.82
-     23      7.21e-04   1.34e-01             81.65            100.98
-     24      6.97e-04   1.41e-01             81.85            100.90
+      0      4.50e-03   2.20e-02             81.20            100.35
+      1      3.67e-03   2.46e-02             81.39            100.06
+      2      3.95e-03   2.51e-02             81.00            100.08
+      3      2.83e-03   3.04e-02             81.00            100.18
+      4      3.24e-03   3.22e-02             81.47            100.00
+      5      2.29e-03   4.35e-02             81.50            100.66
+      6      2.19e-03   4.53e-02             81.64            100.91
+      7      1.81e-03   5.30e-02             81.00            100.68
+      8      1.69e-03   5.16e-02             81.42            100.98
+      9      1.72e-03   5.84e-02             83.00            100.94
+     10      1.73e-03   5.77e-02             82.00            100.95
+     11      1.44e-03   7.14e-02             81.11            100.73
+     12      1.22e-03   7.55e-02             81.23             99.74
+     13      1.27e-03   7.95e-02             82.17            100.60
+     14      1.10e-03   8.15e-02             81.17            100.65
+     15      1.01e-03   9.91e-02             82.51            100.84
+     16      1.03e-03   9.44e-02             81.00            100.15
+     17      8.77e-04   1.14e-01             81.56             99.72
+     18      9.19e-04   1.09e-01             81.20            100.25
+     19      8.98e-04   1.13e-01             82.42            100.50
+     20      8.32e-04   1.18e-01             81.36            100.32
+     21      7.99e-04   1.19e-01             85.48             98.79
+     22      7.69e-04   1.29e-01             83.13             99.78
+     23      7.75e-04   1.29e-01             83.62             97.08
+     24      7.17e-04   1.32e-01             85.62             93.40
 }}
 
 
@@ -200,6 +210,3 @@ Warmup.Binning {{
       23          2.300         2.400         0.100
       24          2.400         2.500         0.100
 }}
-
-
-
