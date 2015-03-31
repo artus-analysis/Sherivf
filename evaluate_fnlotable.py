@@ -9,6 +9,7 @@
 from array import array
 import numpy as np
 import math
+import argparse
  
 import fastnlo
 from fastnlo import fastNLOLHAPDF
@@ -52,4 +53,8 @@ def main(
 	print "histogram written to file", output_filename
  
 if __name__ == '__main__':
-	main()
+	parser = argparse.ArgumentParser()
+	parser.add_argument('-i', '--input', type=str, default=argparse.SUPPRESS)
+	opt = parser.parse_args()
+
+	main(**vars(opt))
