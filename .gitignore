@@ -1,7 +1,8 @@
 *.so
 *.txt
 *.root
-
+*.dat
+*.yoda
 
 #symlink
 rivet-analysis-files/MCGRID_CMS_2015_Zee.yoda
