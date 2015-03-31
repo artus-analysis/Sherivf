@@ -47,8 +47,8 @@ namespace Rivet {
       MCgrid::fastnloConfig config_fnlo(0, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON, steeringFileName, arch_fnlo);
 
       MSG_INFO("bookGrid for yZ. histoDir: " << histoDir());
-      _fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo);
-      _fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo);
+      _fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo, "fnlo_pTZ_warmup.txt");
+      _fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo, "fnlo_yZ_warmup.txt");
       //MSG_INFO("bookGrid for xs. histoDir: " << histoDir());
       //_fnlo_xs = MCgrid::bookGrid(_h_xs, histoDir(), config_fnlo);
 
