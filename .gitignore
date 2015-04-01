@@ -9,4 +9,6 @@ rivet-analysis-files/MCGRID_CMS_2015_Zee.yoda
 
 
 #no need to track
-mcgrid/MCgrid_CMS_2015_Zee.str.evtcount
+mcgrid/MCgrid_CMS_2015_Zee*.evtcount
+
+sherpa-gc/work.*
