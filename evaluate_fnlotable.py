@@ -30,8 +30,7 @@ def main(
 	fnlo = fastNLOLHAPDF(input_filename)
 	fnlo.SetLHAPDFFilename(pdf_set)
 	fnlo.SetLHAPDFMember(n)
-	output_filename = "histo_{}.root".format(n)
-	output_filename = "histo.root"
+	output_filename = input_filename.replace(".txt", ".root")
 
 	print "PDF member:", n, "  output_filename:", output_filename
 
@@ -54,7 +53,7 @@ def main(
  
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
-	parser.add_argument('-i', '--input', type=str, default=argparse.SUPPRESS)
+	parser.add_argument('-i', '--input-filename', type=str, default=argparse.SUPPRESS)
 	opt = parser.parse_args()
 
 	main(**vars(opt))
