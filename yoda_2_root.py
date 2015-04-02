@@ -1,5 +1,9 @@
 #! /usr/bin/env python
 
+"""
+	originally from http://www-pnp.physics.ox.ac.uk/~henderson/Other_stuff/scripts/yoda2root.python
+"""
+
 import os, sys, array, ROOT
 ROOT.gROOT.SetBatch()
 
@@ -15,14 +19,17 @@ input_files.append(sys.argv[1])
 #        pass
 #    pass
 
-num_batchJobs = float(sys.argv[2])
+if len(sys.argv) > 2:
+    num_batchJobs = float(sys.argv[2])
+else:
+    num_batchJobs = 1
 
 for f in input_files:
     convert_command = "yoda2flat " + f
     print convert_command
     os.system( convert_command )
     
-    in_f = open( f.replace(".yoda",".dat") , "r" )
+    in_f = open( os.path.basename(f).replace(".yoda",".dat") , "r" )
     
     histos = []
     bins = []
