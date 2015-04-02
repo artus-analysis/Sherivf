@@ -1,0 +1,51 @@
+# --- Use emacs in sh mode -*-sh-*- #
+# This is a automatically generated file by fastNLO and holds the values of the warmup run. 
+# The values are valid for the scenario Name
+# and if calculated with the steerfile: MCgrid_CMS_2015_Zee.str
+# but only if no serious changes have been performed since its creation.
+# 
+# Delete this file, if you want fastNLO to calculate a new one.
+# 
+# This file has been calculated using 1 contributions.
+#   ( Mind: contributions != events. And contributions are not necessarily in phase space region.
+# Please check by eye for reasonability of the values.
+ 
+Warmup.OrderInAlphasOfWarmupRunWas	0
+Warmup.CheckScaleLimitsAgainstBins	true
+Warmup.ScaleDescriptionScale1     	"Description [GeV]"
+Warmup.DifferentialDimension      	1
+Warmup.DimensionLabels {
+  "Quantity [Unit]"  
+} 
+Warmup.DimensionIsDifferential {
+  "2"  
+} 
+
+Warmup.Values {{
+   ObsBin       x_min      x_max  Description_[GeV]_min  Description_[GeV]_max
+      0      7.32e-04   1.41e-01             81.00            100.96
+      1      7.16e-04   1.42e-01             81.00            100.96
+      2      7.85e-04   1.31e-01             81.00            100.95
+      3      7.11e-04   1.33e-01             81.10            100.91
+      4      7.57e-04   1.21e-01             81.00            100.75
+      5      7.81e-04   1.30e-01             82.21            100.85
+      6      7.54e-04   1.20e-01             81.39            100.33
+      7      8.67e-04   1.26e-01             82.55             99.76
+      8      9.52e-04   1.02e-01             84.35            100.71
+      9      8.66e-04   1.17e-01             86.58             99.61
+}}
+
+
+Warmup.Binning {{
+    ObsBin  Quantity [Unit]_Lo  Quantity [Unit]_Up       BinSize
+       0          0.000        10.000        10.000
+       1         10.000        20.000        10.000
+       2         20.000        30.000        10.000
+       3         30.000        40.000        10.000
+       4         40.000        50.000        10.000
+       5         50.000        60.000        10.000
+       6         60.000        70.000        10.000
+       7         70.000        80.000        10.000
+       8         80.000        90.000        10.000
+       9         90.000       100.000        10.000
+}}

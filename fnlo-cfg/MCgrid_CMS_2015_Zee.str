@@ -1,0 +1,130 @@
+# -*-sh-*-
+# ==================================================================== #
+#
+#   A steering file for creating a fastNLO table with MCgrid
+#   Automatically generated from the PDF combination file
+#
+#     MCgrid_CMS_2015_Zee.config
+#
+# ==================================================================== #
+
+
+# -------------------------------------------------------------------- #
+# General settings 
+# -------------------------------------------------------------------- #
+
+# NOTE: Please review the following settings and modify them if needed
+
+# Unit of data cross sections (negative power of 10, e.g. 12->pb, 15->fb)
+PublicationUnits              12
+
+# Units of coeffients as passed to fastNLO (negative power of 10)
+UnitsOfCoefficients           12
+
+# Specify scale name and unit
+ScaleDescriptionScale1        "Description [GeV]"
+
+# Labels (symbol and unit) for the measurement dimension
+DimensionLabels {
+   "Quantity [Unit]"
+}
+
+## NOTE: The following settings can be uncommented to overwrite MCgrid defaults
+
+## MCgrid default: Rivet histogram name
+ScenarioName                "Name"
+
+ScenarioDescription {
+   "Description"
+   "RIVET_ID=MCgrid_CMS_2015_Zee/D02-x01-y01"
+}
+
+## MCgrid default: ["Sherpa"]
+#CodeDescription {
+#   "My Event Generator"
+#}
+
+## Number of decimal digits to store in the output table
+OutputPrecision              8
+
+## Global output verbosity of fastNLO
+# Possible values are DEBUG, MANUAL, INFO, WARNING, ERROR, SILENT
+GlobalVerbosity              INFO
+
+## Apply PDF reweighting for an optimized interpolation
+ApplyPDFReweighting          true
+
+## Set limits for scale nodes to bin borders, if possible
+#CheckScaleLimitsAgainstBins  true
+
+
+# -------------------------------------------------------------------- #
+# PDF combination settings 
+# -------------------------------------------------------------------- #
+
+PDF1                           2212
+PDF2                           2212
+
+NSubProcessesLO                  15
+NSubProcessesNLO                 15
+NSubProcessesNNLO                15
+IPDFdef3LO                       15
+IPDFdef3NLO                      15
+IPDFdef3NNLO                     15
+
+PartonCombinationsLO {{
+  # one line here!
+  0 -5 -1 -2 -5 -4 -2 -4 -1 -4 -5 -5 -3 -2 -1 -3 -1 -2 -3 -4 -3
+  1  3 -4  3 -2  2 -5  1 -5  2 -3  3 -5  3 -1  4 -2  1 -2  1 -3  5 -4  4 -3  1 -4  4 -5  2 -4  4 -1  5 -2  5 -1  2 -1  5 -3
+  2  3  3  4  4  1  1  5  5  2  2
+  3  0  0
+  4  4  0  2  0  1  0  3  0  5  0
+  5  1 -1  3 -3  2 -2  4 -4  5 -5
+  6 -5 -5 -4 -4 -2 -2 -1 -1 -3 -3
+  7 -1  0 -2  0 -5  0 -3  0 -4  0
+  8 -3  3 -4  4 -1  1 -5  5 -2  2
+  9  1  5  3  4  3  5  5  4  2  4  3  2  1  2  1  3  5  2  1  4
+ 10 -5  3 -3  2 -5  1 -1  4 -4  2 -4  3 -2  4 -1  5 -2  1 -5  2 -1  3 -3  1 -5  4 -4  1 -2  5 -1  2 -3  5 -4  5 -2  3 -3  4
+ 11  4  1  3  1  4  2  5  1  2  3  2  1  5  3  4  3  4  5  2  5
+ 12  0 -1  0 -3  0 -2  0 -5  0 -4
+ 13 -1 -3 -3 -2 -3 -5 -5 -4 -3 -4 -1 -2 -5 -2 -2 -4 -1 -4 -1 -5
+ 14  0  3  0  5  0  1  0  2  0  4
+}}
+
+PartonCombinationsNLO {{
+
+  0 -5 -1 -2 -5 -4 -2 -4 -1 -4 -5 -5 -3 -2 -1 -3 -1 -2 -3 -4 -3
+  1  3 -4  3 -2  2 -5  1 -5  2 -3  3 -5  3 -1  4 -2  1 -2  1 -3  5 -4  4 -3  1 -4  4 -5  2 -4  4 -1  5 -2  5 -1  2 -1  5 -3
+  2  3  3  4  4  1  1  5  5  2  2
+  3  0  0
+  4  4  0  2  0  1  0  3  0  5  0
+  5  1 -1  3 -3  2 -2  4 -4  5 -5
+  6 -5 -5 -4 -4 -2 -2 -1 -1 -3 -3
+  7 -1  0 -2  0 -5  0 -3  0 -4  0
+  8 -3  3 -4  4 -1  1 -5  5 -2  2
+  9  1  5  3  4  3  5  5  4  2  4  3  2  1  2  1  3  5  2  1  4
+ 10 -5  3 -3  2 -5  1 -1  4 -4  2 -4  3 -2  4 -1  5 -2  1 -5  2 -1  3 -3  1 -5  4 -4  1 -2  5 -1  2 -3  5 -4  5 -2  3 -3  4
+ 11  4  1  3  1  4  2  5  1  2  3  2  1  5  3  4  3  4  5  2  5
+ 12  0 -1  0 -3  0 -2  0 -5  0 -4
+ 13 -1 -3 -3 -2 -3 -5 -5 -4 -3 -4 -1 -2 -5 -2 -2 -4 -1 -4 -1 -5
+ 14  0  3  0  5  0  1  0  2  0  4
+}}
+
+PartonCombinationsNNLO {{
+
+  0 -5 -1 -2 -5 -4 -2 -4 -1 -4 -5 -5 -3 -2 -1 -3 -1 -2 -3 -4 -3
+  1  3 -4  3 -2  2 -5  1 -5  2 -3  3 -5  3 -1  4 -2  1 -2  1 -3  5 -4  4 -3  1 -4  4 -5  2 -4  4 -1  5 -2  5 -1  2 -1  5 -3
+  2  3  3  4  4  1  1  5  5  2  2
+  3  0  0
+  4  4  0  2  0  1  0  3  0  5  0
+  5  1 -1  3 -3  2 -2  4 -4  5 -5
+  6 -5 -5 -4 -4 -2 -2 -1 -1 -3 -3
+  7 -1  0 -2  0 -5  0 -3  0 -4  0
+  8 -3  3 -4  4 -1  1 -5  5 -2  2
+  9  1  5  3  4  3  5  5  4  2  4  3  2  1  2  1  3  5  2  1  4
+ 10 -5  3 -3  2 -5  1 -1  4 -4  2 -4  3 -2  4 -1  5 -2  1 -5  2 -1  3 -3  1 -5  4 -4  1 -2  5 -1  2 -3  5 -4  5 -2  3 -3  4
+ 11  4  1  3  1  4  2  5  1  2  3  2  1  5  3  4  3  4  5  2  5
+ 12  0 -1  0 -3  0 -2  0 -5  0 -4
+ 13 -1 -3 -3 -2 -3 -5 -5 -4 -3 -4 -1 -2 -5 -2 -2 -4 -1 -4 -1 -5
+ 14  0  3  0  5  0  1  0  2  0  4
+}}
