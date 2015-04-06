@@ -1,9 +1,7 @@
 (run){
   % general setting
-  EVENTS 1; ERROR 0.99;
-  EVENT_OUTPUT=HepMC_Short[fifo]
-  ANALYSIS Rivet
-  ANALYSIS_OUTPUT Rivet;
+  EVENTS 50000; ERROR 0.99;
+  EVENT_OUTPUT=HepMC_Short[sherpa_zjet]
 
   % scales, tags for scale variations
   FSF:=1.; RSF:=1.; QSF:=1.;
@@ -13,15 +11,16 @@
   NJET:=1;
   LJET:=0;
   QCUT:=30.;
+%NJET:=1;
+%LJET:=2,3,4;
 
   %c- and b-quarks are to be treated as massive.
   MASSIVE_PS 4 5;
 
   % me generator settings
-  ME_SIGNAL_GENERATOR Comix Amegic LOOPGEN;
-  EVENT_GENERATION_MODE Weighted;
-  LOOPGEN:=BlackHat;
-
+   ME_SIGNAL_GENERATOR Comix Amegic LOOPGEN;
+   EVENT_GENERATION_MODE Weighted;
+   LOOPGEN:=BlackHat;
 
   % exclude tau from lepton container
   MASSIVE[15] 1;
@@ -33,33 +32,20 @@
 }(run)
 
 (processes){
-
-  ### The Born, virtual, integrated and real-subtracted pieces
-  ### copied this part from mcgrid example runcards
   Process 93 93 -> 11 -11 93{NJET};
-  NLO_QCD_Mode Fixed_Order; 
-  NLO_QCD_Part B;
-  Order_EW 2;
-  End process;
 
-  Process 93 93 -> 11 -11;
-  NLO_QCD_Mode Fixed_Order; 
-  NLO_QCD_Part I;
-  Order_EW 2;
+  Order_EW 2; CKKW sqr(QCUT/E_CMS);
+  NLO_QCD_Mode MC@NLO {LJET};
+  ME_Generator Amegic {LJET};
+  RS_ME_Generator Comix {LJET};
+  Loop_Generator LOOPGEN {LJET};
+  Integration_Error 0.02 {4};
+  Integration_Error 0.02 {5};
+  Integration_Error 0.05 {6};
+  Integration_Error 0.08 {7};
+  Integration_Error 0.10 {8};
+  Scales LOOSE_METS{FSF*MU_F2}{RSF*MU_R2}{QSF*MU_Q2} {7,8};
   End process;
-
-  Process 93 93 -> 11 -11;
-  NLO_QCD_Mode Fixed_Order;
-  NLO_QCD_Part V;
-  Order_EW 2;
-  End process;
-
-  Process 93 93 -> 11 -11;
-  NLO_QCD_Mode Fixed_Order; 
-  NLO_QCD_Part RS;
-  Order_EW 2;
-  End process;
-
 
 }(processes);
 
@@ -75,10 +61,3 @@
 
 }(selector)
 
-(analysis){
-  BEGIN_RIVET {
-    -a MCgrid_CMS_2015_Zee;
-    USE_HEPMC_SHORT 1;
-    IGNOREBEAMS 1;
-  } END_RIVET;
-}(analysis);
