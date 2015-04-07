@@ -102,6 +102,6 @@ def main(
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-i', '--input-filename', type=str, default=argparse.SUPPRESS)
-	opt = parser.parse_args()
-
+	parser.add_argument('-p', '--pdf-set', type=str, default=argparse.SUPPRESS)
+	opt = parser.parse_args(
 	main(**vars(opt))
