@@ -10,6 +10,7 @@ https://gist.github.com/claria/da98570014514f0ada89
 import os
 import sys
 import argparse
+import ROOT
 import numpy as np
 
 import lhapdf
@@ -18,23 +19,25 @@ from fastnlo import fastNLOLHAPDF
 lhapdf.setVerbosity(0)
 
 
-partons = {0: 'gluon',
-           -1: 'd antiquark',
-           -2: 'u antiquark',
-           #            -3 : 'sbar',
-           #            -4 : 'cbar',
-           #            -5 : 'bbar',
-           #            -6 : 'tbar',
-           1: 'd quark',
-           2: 'u quark',
-           #            3 : 'strange',
-           #            4 : 'charm',
-           #            5 : 'bottom',
-           #            6 : 'top',
-           7: 'd valence quark',
-           8: 'u valence quark',
-           9: 'sea quarks',
+partons = {
+    0: 'gluon',
+    -1: 'd antiquark',
+    -2: 'u antiquark',
+    #            -3 : 'sbar',
+    #            -4 : 'cbar',
+    #            -5 : 'bbar',
+    #            -6 : 'tbar',
+    1: 'd quark',
+    2: 'u quark',
+    #            3 : 'strange',
+    #            4 : 'charm',
+    #            5 : 'bottom',
+    #            6 : 'top',
+    7: 'd valence quark',
+    8: 'u valence quark',
+    9: 'sea quarks',
 }
+
 
 def main():
 	#Parse Args
@@ -51,38 +54,35 @@ def get_corr(table, pdfset, **kwargs):
 	x = np.logspace(-4, -0.0001, 250)
 
 	for parton in partons:
-		print partons[parton]
-		#Split after y-bins
-		rap_bins = list(set(storage['y_low']))
-		for rapbin in rap_bins:
-			storage_bin = storage.copy()
-			#Apply cuts
-			filter_arr = storage_bin['y_low'].copy()
-			cut_arr_1dim = (filter_arr == rapbin)
-			for item in storage:
-				storage_bin[item] = storage[item][cut_arr_1dim]
-			nobsbins = len(storage_bin['xsnlo'])
-			obsbins = range(0, nobsbins)
-			corr = np.zeros((len(obsbins), len(x)))
-			for nobbin, obbin in enumerate(obsbins):
-				pdf = get_pdf(pdfset, parton, storage_bin['scale'][nobbin], x)
-				for xi in range(0, len(x)):
-					corr[nobbin][xi] = np.corrcoef([pdf.transpose()[xi], storage_bin['xsnlo'][obbin]])[0][1]
-			print "\nkwargs", kwargs
-			y = np.array(list(storage_bin['pt_low']) + [storage_bin['pt_high'][len(storage_bin['pt_high']) -1]])
-			#if table == 'fnl2932bm3_strippedless.tab':
-			#	y/=2.
-			#print y
-			print "\nx\n",x
-			print "\ny\n", y
-			print "\ncorr\n", corr
-			print "\nstorage_bin\n", storage_bin
-			print "\nparton\n", parton
-			print "\npdfset\n", pdfset
-			return
+		print "calculate correlation for" partons[parton]
+
+		nobsbins = len(storage_bin['xsnlo'])
+		obsbins = range(0, nobsbins)
+		corr = np.zeros((len(obsbins), len(x)))
+		for nobbin, obbin in enumerate(obsbins):
+			pdf = get_pdf(pdfset, parton, storage_bin['scale'][nobbin], x)
+			for xi in range(0, len(x)):
+				corr[nobbin][xi] = np.corrcoef([pdf.transpose()[xi], storage_bin['xsnlo'][obbin]])[0][1]
+		y = np.array(list(storage_bin['y_low']) + [storage_bin['y_high'][len(storage_bin['y_high']) -1]])
+		np_to_root(x, y, corr, partons[parton])
+
+
+def np_to_root(x, y, corr, name):
+	"""write np arrays to root file"""
+	out = ROOT.TFile("corr.root", "UPDATE")
+	tprof = ROOT.TH2D(name, name, len(x)-1, x, len(y)-1, y)
+
+	for ybin, xvalues in enumerate(corr):
+		for xbin, xvalue in enumerate(xvalues):
+			if not np.isnan(corr[ybin][xbin]):
+				tprof.SetBinContent(xbin, ybin, corr[ybin][xbin])
+
+	tprof.Write()
+	out.Close()
 
 
 def get_fnlo(table, pdfset):
+	""" """
 	xs_nlo = {}
 
 	fnlo = fastNLOLHAPDF(table)
