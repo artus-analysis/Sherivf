@@ -54,21 +54,21 @@ def get_corr(table, pdfset, **kwargs):
 	x = np.logspace(-4, -0.0001, 250)
 
 	for parton in partons:
-		print "calculate correlation for" partons[parton]
+		print "calculate correlation for", partons[parton]
 
-		nobsbins = len(storage_bin['xsnlo'])
+		nobsbins = len(storage['xsnlo'])
 		obsbins = range(0, nobsbins)
 		corr = np.zeros((len(obsbins), len(x)))
 		for nobbin, obbin in enumerate(obsbins):
-			pdf = get_pdf(pdfset, parton, storage_bin['scale'][nobbin], x)
+			pdf = get_pdf(pdfset, parton, storage['scale'][nobbin], x)
 			for xi in range(0, len(x)):
-				corr[nobbin][xi] = np.corrcoef([pdf.transpose()[xi], storage_bin['xsnlo'][obbin]])[0][1]
-		y = np.array(list(storage_bin['y_low']) + [storage_bin['y_high'][len(storage_bin['y_high']) -1]])
+				corr[nobbin][xi] = np.corrcoef([pdf.transpose()[xi], storage['xsnlo'][obbin]])[0][1]
+		y = np.array(list(storage['y_low']) + [storage['y_high'][len(storage['y_high']) -1]])
 		np_to_root(x, y, corr, partons[parton])
 
 
 def np_to_root(x, y, corr, name):
-	"""write np arrays to root file"""
+	"""convert np array to root histo, write to file"""
 	out = ROOT.TFile("corr.root", "UPDATE")
 	tprof = ROOT.TH2D(name, name, len(x)-1, x, len(y)-1, y)
 
