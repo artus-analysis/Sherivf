@@ -44,11 +44,12 @@ def main():
 	parser = argparse.ArgumentParser(description='Calculates the correlation coefficient between PDFs and xs')
 	parser.add_argument('-t', '--table', help='fastNLO table')
 	parser.add_argument('-p', '--pdfset', help='LHAPDF PDF Filename', default='NNPDF21_100.LHgrid')
+	parser.add_argument('-o', '--output-filename', help='corr.root')
 	kwargs = vars(parser.parse_args())
 	get_corr(**kwargs)
 
 
-def get_corr(table, pdfset, **kwargs):
+def get_corr(table, pdfset, output_filename, **kwargs):
 	storage = get_fnlo(table, pdfset)
 	kwargs['table_basename'] = os.path.basename(table)
 	x = np.logspace(-4, -0.0001, 250)
@@ -64,12 +65,12 @@ def get_corr(table, pdfset, **kwargs):
 			for xi in range(0, len(x)):
 				corr[nobbin][xi] = np.corrcoef([pdf.transpose()[xi], storage['xsnlo'][obbin]])[0][1]
 		y = np.array(list(storage['y_low']) + [storage['y_high'][len(storage['y_high']) -1]])
-		np_to_root(x, y, corr, partons[parton])
+		np_to_root(x, y, corr, partons[parton], output_filename)
 
 
-def np_to_root(x, y, corr, name):
+def np_to_root(x, y, corr, name, output_filename):
 	"""convert np array to root histo, write to file"""
-	out = ROOT.TFile("corr.root", "UPDATE")
+	out = ROOT.TFile(output_filename, "UPDATE")
 	tprof = ROOT.TH2D(name, name, len(x)-1, x, len(y)-1, y)
 
 	for ybin, xvalues in enumerate(corr):
