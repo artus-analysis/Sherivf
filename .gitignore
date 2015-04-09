@@ -12,3 +12,4 @@ rivet-analysis-files/MCGRID_CMS_2015_Zee.yoda
 mcgrid/MCgrid_CMS_2015_Zee*.evtcount
 
 sherpa-gc/work.*
+sherpa-gc/False
