@@ -1,1 +1,1 @@
-/usr/users/dhaitz/home/qcd/work/fnlo-cfg/MCgrid_CMS_2015_Zee.cc
+fnlo-cfg/MCgrid_CMS_2015_Zee.cc

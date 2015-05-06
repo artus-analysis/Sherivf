@@ -1,1 +1,1 @@
-/usr/users/dhaitz/home/qcd/work/fnlo-cfg/fnlo_pTZ_warmup.txt
+fnlo-cfg/fnlo_pTZ_warmup.txt
