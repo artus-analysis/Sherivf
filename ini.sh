@@ -31,3 +31,4 @@ export LD_LIBRARY_PATH=$PWD:$LD_LIBRARY_PATH:$BOOSTPATH/lib:/usr/users/dhaitz/lo
 alias rivbuild="rivet-buildplugin RivetMyAnalyses.so MCgrid_CMS_2015_Zee.cc -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA  -DUSE_FNLO=1"
 alias riv="rivet  --analysis MCgrid_CMS_2015_Zee ../SHERPA-MC-2.1.1/Examples/V_plus_Jets/LHC_ZJets/sherpa_zjet.hepmc --pwd"
 
+export PATH=$(dirname $(readlink -mf ${BASH_SOURCE[0]}))/scripts:$PATH

@@ -41,7 +41,7 @@ def main(
 	print "PDF member:", n, "  output_filename:", output_filename
 
 	# make histo
-	x_binning = sorted(list(set([item for sublist in fnlo.GetDim0BinBoundaries() for item in sublist])))
+	x_binning = sorted(list(set([item for sublist in fnlo.GetDim0BinBounds() for item in sublist])))
 	histo = ROOT.TH1D(str(n),str(n),len(x_binning)-1, array('d', x_binning))
 
 
