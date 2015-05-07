@@ -35,8 +35,8 @@ namespace Rivet {
       
       /// Book histograms here
       //_h_xs = bookHisto1D(1, 1, 1);
-      _h_pTZ = bookHisto1D("d01-x01-y01", 250, 0, 250);
-      _h_yZ = bookHisto1D("d02-x01-y01", 250, 0, 2.5);
+      _h_pTZ = bookHisto1D("d01-x01-y01", 25, 0, 250);
+      _h_yZ = bookHisto1D("d02-x01-y01", 25, 0, 2.5);
 
 #if USE_FNLO
       MSG_INFO("Using fastnlo");
