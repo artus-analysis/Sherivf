@@ -27,6 +27,8 @@ export BOOSTPATH=/cvmfs/cms.cern.ch//slc6_amd64_gcc481/external/boost/1.57.0-cfl
 export LD_LIBRARY_PATH=$PWD:$LD_LIBRARY_PATH:$BOOSTPATH/lib:/usr/users/dhaitz/local/lib64/
 # -L$(BOOSTPATH)/lib/
 
+#LHAPDF
+export PATH=/usr/users/dhaitz/qcd/lhapdf-5.9.1/bin/:$PATH
 
 alias rivbuild="rivet-buildplugin RivetMyAnalyses.so MCgrid_CMS_2015_Zee.cc -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA  -DUSE_FNLO=1"
 alias riv="rivet  --analysis MCgrid_CMS_2015_Zee ../SHERPA-MC-2.1.1/Examples/V_plus_Jets/LHC_ZJets/sherpa_zjet.hepmc --pwd"
