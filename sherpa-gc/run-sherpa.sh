@@ -2,7 +2,7 @@ echo "Make fifo"
 mkfifo fifo.hepmc
 
 # ini
-export LD_LIBRARY_PATH=/usr/users/dhaitz/local/lib:/usr/users/dhaitz/local/lib64:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$PWD:/usr/users/dhaitz/local/lib:/usr/users/dhaitz/local/lib64:$LD_LIBRARY_PATH
 export RIVET_ANALYSIS_PATH=$PWD:/usr/users/dhaitz/home/qcd/work:$RIVET_ANALYSIS_PATH
 . ini.sh
 
