@@ -40,10 +40,12 @@ for f in input_files:
     in_plot = False
     for i, line in enumerate(in_f):
         
-        if "# END HISTOGRAM" in line: 
+        if "# BEGIN HISTOGRAM" in line: 
+            histName = line.split("/")[-1][:-1] # -> sth like d01-x01-y01
+        elif "# END HISTOGRAM" in line: 
             bins.append( last_bin_upper )
             in_plot = False
-            new_histo = ROOT.TH1D( histName+str(i), histName+str(i), len(bins) - 1, array.array('d', bins ) )
+            new_histo = ROOT.TH1D( histName, histName, len(bins) - 1, array.array('d', bins ) )
             for bin,v in enumerate(values):
                 new_histo.SetBinContent( bin + 1, v )
                 new_histo.SetBinError( bin + 1, errors[bin] )
