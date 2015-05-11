@@ -26,7 +26,6 @@ namespace Rivet {
       /// Initialise and register projections here
       // this seems to have been corrected completely for all selection cuts,
       // i.e. eta cuts and pT cuts on leptons.
-
       Cut cut = Cuts::etaIn(-2.5,2.5) & (Cuts::pT >= 25.0*GeV);
       ZFinder zfinder(FinalState(), cut, PID::ELECTRON,
                       81*GeV, 101*GeV, 0.2,
@@ -70,14 +69,16 @@ namespace Rivet {
 
       const ZFinder& zfinder = applyProjection<ZFinder>(event, "ZFinder");
       if (zfinder.bosons().size() == 1) {
-        _h_pTZ->fill(zfinder.bosons()[0].momentum().pT(), weight);
         double yZ = fabs(zfinder.bosons()[0].momentum().rapidity());
+        double pTZ = zfinder.bosons()[0].momentum().pT();
+
+        _h_pTZ->fill(pTZ, weight);
         _h_yZ->fill(yZ, weight);
         //_h_xs->fill(8000.0, weight);
 
 #if USE_FNLO
-        _fnlo_yZ->fill(yZ,event);
-        _fnlo_pTZ->fill(zfinder.bosons()[0].momentum().pT(),event);
+        _fnlo_yZ->fill(yZ, event);
+        _fnlo_pTZ->fill(pTZ, event);
         //_fnlo_xs->fill(8000.0,event);
 #endif
 
