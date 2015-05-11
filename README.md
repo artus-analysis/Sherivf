@@ -16,7 +16,6 @@ Rivet output: Rivet.yoda
 	(multiple files: `yodamerge *.yoda > Rivet.yoda`)
 	convert to root: `yoda_2_root.py Rivet.yoda`
 
-
 fastNLO output: fnlo_yZ.txt
 	(multiple files: `fnlo-tk-append *.txt fnlo.txt`)
 	convert to root: `evaluate_fnlotable.py -i fnlo.txt`
