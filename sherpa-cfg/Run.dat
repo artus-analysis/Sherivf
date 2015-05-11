@@ -7,12 +7,10 @@
   FSF:=1.; RSF:=1.; QSF:=1.;
   SCALES METS{FSF*MU_F2}{RSF*MU_R2}{QSF*MU_Q2};
 
-  % tags for process setup
-  NJET:=1;
-  LJET:=0;
+  % tags for process setup, which jets at NLO/LO
+  NJET:=4;
+  LJET:=2,3,4;
   QCUT:=30.;
-%NJET:=1;
-%LJET:=2,3,4;
 
   %c- and b-quarks are to be treated as massive.
   MASSIVE_PS 4 5;
@@ -33,8 +31,7 @@
 
 (processes){
   Process 93 93 -> 11 -11 93{NJET};
-
-  Order_EW 2; CKKW sqr(QCUT/E_CMS);
+  Order (*,2); CKKW sqr(QCUT/E_CMS);
   NLO_QCD_Mode MC@NLO {LJET};
   ME_Generator Amegic {LJET};
   RS_ME_Generator Comix {LJET};
@@ -46,16 +43,15 @@
   Integration_Error 0.10 {8};
   Scales LOOSE_METS{FSF*MU_F2}{RSF*MU_R2}{QSF*MU_Q2} {7,8};
   End process;
-
 }(processes);
 
 
 (selector){
 
-  PT 11 25 999
-  PseudoRapidity 11 -2.5 2.5
-  PT -11 25 999
-  PseudoRapidity -11 -2.5 2.5
+  PT 11 15 999
+  PseudoRapidity 11 -3 3
+  PT -11 15 999
+  PseudoRapidity -11 -3 3
 
   Mass 11 -11 81 101
 
