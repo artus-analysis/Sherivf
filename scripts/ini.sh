@@ -1,5 +1,11 @@
 export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
 
+if [[ $HOSTNAME == *"ekp"* ]]; then
+	export SHERIVFDIR=/portal/ekpcms6/home/dhaitz/qcd/sherivf
+else
+	export SHERIVFDIR=/afs/desy.de/user/d/dhaitz/qcd/sherivf
+fi
+
 export PATH=$SHERIVFDIR/../Rivet-2.2.0/bin/:$SHERIVFDIR/scripts:$PATH:/usr/users/dhaitz/local/bin
 . $SHERIVFDIR/../Rivet-2.2.0/rivetenv.sh
 
