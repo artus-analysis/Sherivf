@@ -1,6 +1,7 @@
 (run){
   % general setting
-  EVENTS 50000; ERROR 0.99;
+  EVENTS 500000; % More statistic should also help
+  ERROR 0.99;
   EVENT_OUTPUT=HepMC_Short[sherpa_zjet]
 
   % scales, tags for scale variations
@@ -9,15 +10,15 @@
 
   % tags for process setup, which jets at NLO/LO
   NJET:=4;
-  LJET:=2,3,4;
-  QCUT:=30.;
+  %LJET:=2,3,4;
+  QCUT:=30.; % BTW check the QCUT in MG5
 
   %c- and b-quarks are to be treated as massive.
-  MASSIVE_PS 4 5;
+  %MASSIVE_PS 4 5; You should not need this setting
 
   % me generator settings
    ME_SIGNAL_GENERATOR Comix Amegic LOOPGEN;
-   EVENT_GENERATION_MODE Weighted;
+   EVENT_GENERATION_MODE Weighted; % If you use weighted events you should generate a lot more events to get a reasonable statistic
    LOOPGEN:=BlackHat;
 
   % exclude tau from lepton container
@@ -32,10 +33,11 @@
 (processes){
   Process 93 93 -> 11 -11 93{NJET};
   Order (*,2); CKKW sqr(QCUT/E_CMS);
-  NLO_QCD_Mode MC@NLO {LJET};
-  ME_Generator Amegic {LJET};
-  RS_ME_Generator Comix {LJET};
-  Loop_Generator LOOPGEN {LJET};
+  %NLO_QCD_Mode MC@NLO {LJET};
+  ME_Generator Amegic; % I am not sure if this line is correct, otherwise use line below
+  %ME_Generator Amegic {LJET};
+  %RS_ME_Generator Comix {LJET};
+  %Loop_Generator LOOPGEN {LJET};
   Integration_Error 0.02 {4};
   Integration_Error 0.02 {5};
   Integration_Error 0.05 {6};
@@ -48,7 +50,7 @@
 
 (selector){
 
-  PT 11 15 999
+  PT 11 15 999 % check pT cut in MG5
   PseudoRapidity 11 -3 3
   PT -11 15 999
   PseudoRapidity -11 -3 3
