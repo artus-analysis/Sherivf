@@ -1,6 +1,5 @@
 echo "Make fifo"
 mkfifo fifo.hepmc
-echo @HOME@ @LOCAL@
 
 # ini
 export LD_LIBRARY_PATH=$PWD:@LOCAL@/lib:@LOCAL@/lib64:$LD_LIBRARY_PATH
