@@ -7,7 +7,11 @@ import sys, os, glob, shutil, time, subprocess, argparse, socket
 
 
 def sherivf():
-	"""Main function."""
+	"""Main function.
+		1. Get configs.
+		2. Check if a new workdir has to be created.
+		3. Delete, resume or start new (default) run
+	"""
 
 	args = get_arguments()
 
@@ -15,17 +19,20 @@ def sherivf():
 	if args.delete or args.resume:
 		paths = glob.glob(args.output_dir + "/*")
 		paths.sort()
-		args.output_dir = paths[-1]
+		try:
+			args.output_dir = paths[-1]
+		except IndexError:
+			sys.exit("No output directories exist!")
 	else:
 		args.output_dir += time.strftime("%Y-%m-%d_%H-%M")
 
 	if args.delete:
 		delete_latest_output_dir(args.output_dir, args.configfile)
-
-	if not args.resume:
-		create_output_dir(args.output_dir, args.configfile)
-		copy_gc_configs(args.output_dir, args.list_of_gc_cfgs)
-	run_gc(args.output_dir + "/" + args.configfile)
+	else:
+		if not args.resume:
+			create_output_dir(args.output_dir, args.configfile)
+			copy_gc_configs(args.output_dir, args.list_of_gc_cfgs)
+		run_gc(args.output_dir + "/" + args.configfile)
 
 
 def delete_latest_output_dir(output_dir, configfile):
@@ -39,25 +46,33 @@ def delete_latest_output_dir(output_dir, configfile):
 		print "Directory {0} deleted.".format(output_dir)
 	except:
 		print "Could not delete output directory {0}".format(output_dir)
-	exit(0)
 
 
 def get_arguments():
 	parser = argparse.ArgumentParser(
 		description="%(prog)s is the main analysis program.", epilog="Have fun.")
 
-	parser.add_argument('-c', '--config', type=str, default="ekpcluster",
-		help="config to run")
+	if 'naf' in socket.gethostname().lower():
+		default_config = 'naf'
+		default_storage_path = '/afs/desy.de/user/d/dhaitz/nfs/sherivf'
+	elif 'ekp' in socket.gethostname().lower():
+		default_config = 'ekpcluster'
+		default_storage_path = '/storage/a/dhaitz/sherivf/'
+
+	parser.add_argument('-c', '--config', type=str, default=default_config,
+		help="config to run. will be set automatically for naf")
 	parser.add_argument('-d', '--delete', action='store_true',
 		help="delete the latest output and jobs still running")
 	parser.add_argument('-R', '--resume', action='store_true',
 		help="resume the grid-control run.")
 
+	parser.add_argument('--output-dir', type=str, help="output directory",
+		default=default_storage_path)
+
 	args = parser.parse_args()
 
-	# define variables
-	# TODO make this more configurable
-	args.output_dir = "/storage/a/dhaitz/sherivf/"
+	# define configs to use
+	args.configfile = 'sherpa-rivet_{0}.conf'.format(args.config)
 	args.list_of_gc_cfgs = [
 		get_env('SHERIVFDIR') + '/' + 'sherpa-gc/sherpa-rivet_base.conf',
 		get_env('SHERIVFDIR') + '/' + 'sherpa-gc/run-sherpa.sh',
@@ -65,7 +80,6 @@ def get_arguments():
 	]
 	if 'ekp' in socket.gethostname().lower():
 		args.list_of_gc_cfgs.append(get_env('SHERIVFDIR') + '/' + 'sherpa-gc/sherpa-rivet_ekp-base.conf')
-	args.configfile = 'sherpa-rivet_{0}.conf'.format(args.config)
 
 	return args
 
@@ -98,7 +112,9 @@ def run_gc(config):
 
 """
 def copyfile(source, target, replace={}):
-	""" copy file with replace dict"""
+	"""
+# copy file with replace dict
+"""
 	with open(source) as f:
 		text = f.read()
 	for a, b in replace.items():
