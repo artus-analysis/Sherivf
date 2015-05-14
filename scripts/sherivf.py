@@ -32,7 +32,7 @@ def sherivf():
 	else:
 		if not args.resume:
 			create_output_dir(args.output_dir, args.configfile)
-			copy_gc_configs(args.output_dir, args.list_of_gc_cfgs)
+			copy_gc_configs(args.output_dir, args.list_of_gc_cfgs, args.n_events, args.n_jobs)
 		run_gc(args.output_dir + "/" + args.configfile)
 
 
@@ -64,8 +64,13 @@ def get_arguments():
 		help="config to run. will be set automatically for naf")
 	parser.add_argument('-d', '--delete', action='store_true',
 		help="delete the latest output and jobs still running")
-	parser.add_argument('-R', '--resume', action='store_true',
+	parser.add_argument('-r', '--resume', action='store_true',
 		help="resume the grid-control run.")
+
+	parser.add_argument('-n', '--n-events', type=str, default='1',
+		help="n events")
+	parser.add_argument('-j', '--n-jobs', type=str, default='1',
+		help="n jobs")
 
 	parser.add_argument('--output-dir', type=str, help="output directory",
 		default=default_storage_path)
@@ -92,11 +97,13 @@ def create_output_dir(work, configfile):
 	"""
 	print "Output directory:", work
 	os.makedirs(work + "/work." + configfile.replace(".conf", ""))
+	os.makedirs(work + "/output")
 
 
-def copy_gc_configs(output_dir, list_of_gc_cfgs):
+def copy_gc_configs(output_dir, list_of_gc_cfgs, events, jobs):
 	for gcfile in list_of_gc_cfgs:
-		shutil.copy(gcfile, output_dir)
+		copyfile(gcfile, output_dir+'/'+os.path.basename(gcfile),
+			{'@NEVENTS@': events, '@NJOBS@': jobs, '@OUTDIR@': output_dir+'/output'})
 
 
 def run_gc(config):
@@ -111,11 +118,8 @@ def run_gc(config):
 		exit(1)
 
 
-"""
 def copyfile(source, target, replace={}):
-	"""
-# copy file with replace dict
-"""
+	# copy file with replace dict
 	with open(source) as f:
 		text = f.read()
 	for a, b in replace.items():
@@ -123,7 +127,6 @@ def copyfile(source, target, replace={}):
 	with open(target, 'wb') as f:
 		f.write(text)
 	return text
-"""
 
 
 def get_env(variable):
