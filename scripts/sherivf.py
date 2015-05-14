@@ -21,6 +21,7 @@ def sherivf():
 		paths.sort()
 		try:
 			args.output_dir = paths[-1]
+			args.configfile = filter(lambda x: "work.sherpa-rivet" in x, glob.glob(paths[-1] + "/*"))[0].split("work.")[-1] + ".conf"
 		except IndexError:
 			sys.exit("No output directories exist!")
 	else:
