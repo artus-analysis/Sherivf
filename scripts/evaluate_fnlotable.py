@@ -20,7 +20,7 @@ from ROOT import TFile
 
 
 def main(
-		n=0,
+		member=0,
 		input_filename='fnlo_yZ.txt',
 		pdf_set=(
 			#'../NNPDF21_100.LHgrid'
@@ -32,17 +32,17 @@ def main(
 	# init fnlo
 	fnlo = fastNLOLHAPDF(input_filename)
 	fnlo.SetLHAPDFFilename(pdf_set)
-	fnlo.SetLHAPDFMember(n)
+	fnlo.SetLHAPDFMember(member)
 	fnlo.CalcCrossSection()
-	output_filename = input_filename.replace(".txt", ".root")
+	output_filename = input_filename.replace(".txt", ("_"+str(member) if member != 0 else "")+".root")
 	out = TFile(output_filename, "RECREATE")
 
 
-	print "PDF member:", n, "  output_filename:", output_filename
+	print "PDF member:", member, "  output_filename:", output_filename
 
 	# make histo
 	x_binning = sorted(list(set([item for sublist in fnlo.GetDim0BinBounds() for item in sublist])))
-	histo = ROOT.TH1D(str(n),str(n),len(x_binning)-1, array('d', x_binning))
+	histo = ROOT.TH1D(str(member),str(member),len(x_binning)-1, array('d', x_binning))
 
 
 	# fill values for central xsec
@@ -54,24 +54,25 @@ def main(
 
 
 	# errors for PDF variations
-	print "Calulating errors for {} PDF variations".format(fnlo.GetNPDFMembers() - 1)
-	errors = [0.] * len(x_binning)
-	for i in range(1, fnlo.GetNPDFMembers()):
-		fnlo.SetLHAPDFMember(i)
-		fnlo.CalcCrossSection()
-		xsec = fnlo.GetCrossSection()
-		for j in range(len(xsec)):
-			errors[j] += ((xsec[j]-xs[j])/xs[j])**2 # sum up errors in QUADRATURE
-	for i, quad_error in enumerate(errors):
-		errors[i] = math.sqrt(quad_error) # root of squared errors
+	if False:
+		print "Calulating errors for {} PDF variations".format(fnlo.GetNPDFMembers() - 1)
+		errors = [0.] * len(x_binning)
+		for i in range(1, fnlo.GetNPDFMembers()):
+			fnlo.SetLHAPDFMember(i)
+			fnlo.CalcCrossSection()
+			xsec = fnlo.GetCrossSection()
+			for j in range(len(xsec)):
+				errors[j] += ((xsec[j]-xs[j])/xs[j])**2 # sum up errors in QUADRATURE
+		for i, quad_error in enumerate(errors):
+			errors[i] = math.sqrt(quad_error) # root of squared errors
 
-	# put PDF errors in graph
-	pdf_uncertainty = ROOT.TGraph()
-	pdf_uncertainty.SetName("pdf_uncertainty")
-	for i, error in enumerate(errors):
-		pdf_uncertainty.SetPoint(i, x_binning[i], error)
+		# put PDF errors in graph
+		pdf_uncertainty = ROOT.TGraph()
+		pdf_uncertainty.SetName("pdf_uncertainty")
+		for i, error in enumerate(errors):
+			pdf_uncertainty.SetPoint(i, x_binning[i], error)
 
-	pdf_uncertainty.Write()
+		pdf_uncertainty.Write()
 
 
 	if False:  # dont use for now
@@ -103,5 +104,6 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-i', '--input-filename', type=str, default=argparse.SUPPRESS)
 	parser.add_argument('-p', '--pdf-set', type=str, default=argparse.SUPPRESS)
+	parser.add_argument('-m', '--member', type=int, default=argparse.SUPPRESS)
 	opt = parser.parse_args()
 	main(**vars(opt))
