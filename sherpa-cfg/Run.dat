@@ -9,7 +9,8 @@
   SCALES METS{FSF*MU_F2}{RSF*MU_R2}{QSF*MU_Q2};
 
   % tags for process setup, which jets at NLO/LO
-  NJET:=4;
+NJET:=2; LJET:=0;
+  %NJET:=4;
   %LJET:=2,3,4;
   QCUT:=30.; % BTW check the QCUT in MG5
 
