@@ -17,7 +17,7 @@ def sherivf():
 
 	# config dir: new or existing one?
 	if args.delete or args.resume:
-		paths = glob.glob(args.output_dir + "/*")
+		paths = glob.glob("{0}/{1}*".format(args.output_dir, args.config))
 		paths.sort()
 		try:
 			args.output_dir = paths[-1]
@@ -25,7 +25,7 @@ def sherivf():
 		except IndexError:
 			sys.exit("No output directories exist!")
 	else:
-		args.output_dir += time.strftime("%Y-%m-%d_%H-%M")
+		args.output_dir += (args.config + "_" + time.strftime("%Y-%m-%d_%H-%M"))
 
 	if args.delete:
 		delete_latest_output_dir(args.output_dir, args.configfile)
