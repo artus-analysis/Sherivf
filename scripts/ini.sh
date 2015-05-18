@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
 
 if [[ $HOSTNAME == *"ekp"* ]]; then
