@@ -10,7 +10,7 @@ Sherpa,Rivet &amp; FastNLO configs
 
 
 Build Rivet plugin:
-	`rivet-buildplugin RivetMyAnalyses.so MCgrid_CMS_2015_Zee.cc -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA  -DUSE_FNLO=1"`
+* `rivet-buildplugin RivetMyAnalyses.so MCgrid_CMS_2015_Zee.cc -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA  -DUSE_FNLO=1"`
 
 Rivet output: Rivet.yoda
 * (multiple files: `yodamerge *.yoda > Rivet.yoda`)
