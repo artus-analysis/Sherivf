@@ -5,16 +5,12 @@ echo "Make directory $TESTDIR"
 mkdir -p $SHERIVFDIR/test/$TESTDIR
 cd $SHERIVFDIR/test/$TESTDIR
 cp -r $SHERIVFDIR/sherpa-cfg/* .
+cp $SHERIVFDIR/fnlo_pTZ_warmup.txt $SHERIVFDIR/fnlo_yZ_warmup.txt $SHERIVFDIR/MCgrid_CMS_2015_Zee.cc $SHERIVFDIR/MCgrid_CMS_2015_Zee.str $SHERIVFDIR/MCgrid_CMS_2015_Zee_2.str .
+cp $SHERIVFDIR/MCgrid_CMS_2015_Zee.cc $SHERIVFDIR/MCgrid_CMS_2015_Zee.str $SHERIVFDIR/MCgrid_CMS_2015_Zee_2.str .
+cp $SHERIVFDIR/RivetMyAnalyses.so .
 
-echo "Make fifo"
-#mkfifo fifo.hepmc
 
-export SHERPACMD="/usr/users/dhaitz/local/bin/Sherpa RESULT_DIRECTORY=$PWD EVENTS=1 EVENT_OUTPUT=HepMC_Short[fifo]"
+export SHERPACMD="/usr/users/dhaitz/local/bin/Sherpa EVENTS=99" # EVENT_OUTPUT=HepMC_Short[fifo]"
 echo "Start Sherpa: $SHERPACMD"
-$SHERPACMD #&
+$SHERPACMD
 
-export RIVETCMD="/usr/users/dhaitz/local/bin/rivet --pwd --analysis MCgrid_CMS_2015_Zee fifo.hepmc"
-echo "Start Rivet "$RIVETCMD
-#$RIVETCMD
-
-#rm fifo.hepmc
