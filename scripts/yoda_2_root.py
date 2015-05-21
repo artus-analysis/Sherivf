@@ -27,7 +27,13 @@ else:
 for f in input_files:
     convert_command = "yoda2flat " + f
     print convert_command
-    os.system( convert_command )
+    try:
+        import subprocess
+        subprocess.call(["yoda2flat", f])
+        #os.system( convert_command )
+    except:
+        print "could not execute", convert_command, "EXIT"
+        sys.exit(1)
     
     in_f = open( os.path.basename(f).replace(".yoda",".dat") , "r" )
     
