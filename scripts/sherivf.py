@@ -132,7 +132,7 @@ def merge_outputs(output_dir):
 		for quantity in ['pT', 'y']:
 			commands = ['fnlo-tk-append'] + glob.glob(output_dir+'/output/'+'fnlo_{}Z*.txt'.format(quantity)) + [output_dir+'/fnlo_{}Z.txt'.format(quantity)]
 			print_and_call(commands)
-		outputs.append(output_dir+'/fnlo_{}Z.txt'.format(quantity))
+			outputs.append(output_dir+'/fnlo_{}Z.txt'.format(quantity))
 	except:
 		print "Could not merge fastNLO outputs!"
 
