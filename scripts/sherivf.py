@@ -32,10 +32,13 @@ def sherivf():
 	else:
 		if not args.resume:
 			create_output_dir(args.output_dir, args.configfile)
-			copy_gc_configs(args.output_dir, args.list_of_gc_cfgs, args.n_events, args.n_jobs)
+			copy_gc_configs(args.output_dir, args.list_of_gc_cfgs, args.n_events, args.n_jobs, args.warmup)
 		run_gc(args.output_dir + "/" + args.configfile)
-		outputs = merge_outputs(args.output_dir)
-		print outputs
+		if not args.warmup:
+			outputs = merge_outputs(args.output_dir)
+			print outputs
+		else:
+			merge_warmup_files(args.output_dir)
 
 
 def delete_latest_output_dir(output_dir, configfile):
@@ -77,6 +80,9 @@ def get_arguments():
 	parser.add_argument('--output-dir', type=str, help="output directory",
 		default=default_storage_path)
 
+	parser.add_argument('-w', '--warmup', action='store_true', default=False,
+		help="if set, do warmup run")
+
 	args = parser.parse_args()
 
 	# define configs to use
@@ -102,10 +108,15 @@ def create_output_dir(work, configfile):
 	os.makedirs(work + "/output")
 
 
-def copy_gc_configs(output_dir, list_of_gc_cfgs, events, jobs):
+def copy_gc_configs(output_dir, list_of_gc_cfgs, events, jobs, warmup=False):
 	for gcfile in list_of_gc_cfgs:
-		copyfile(gcfile, output_dir+'/'+os.path.basename(gcfile),
-			{'@NEVENTS@': events, '@NJOBS@': jobs, '@OUTDIR@': output_dir+'/output'})
+		copyfile(gcfile, output_dir+'/'+os.path.basename(gcfile),{
+			'@NEVENTS@': events,
+			'@NJOBS@': jobs,
+			'@OUTDIR@': output_dir+'/output',
+			'@WARMUP@': ("rm *warmup*.txt"if warmup else ""),
+			'@OUTPUT@': ("fnlo_yZ.txt fnlo_pTZ.txt" if warmup else "Rivet.yoda fnlo_yZ.txt fnlo_pTZ.txt"),
+		})
 
 
 def run_gc(config):
@@ -138,6 +149,16 @@ def merge_outputs(output_dir):
 
 	return outputs
 
+
+def merge_warmup_files(output_dir):
+	for scenario in ['fnlo_y', 'fnlo_pT']:
+		commands = [
+			"/usr/users/dhaitz/home/qcd/fastnlo_toolkit_fredpatches/fastNLO/trunk/tools/fnlo-add-warmup.pl",
+			"-w",
+			output_dir+"/output/",
+			scenario
+		]
+		print_and_call(commands)
 
 def print_and_call(commands):
 	print " ".join(commands)
