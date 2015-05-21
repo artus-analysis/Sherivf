@@ -34,6 +34,8 @@ def sherivf():
 			create_output_dir(args.output_dir, args.configfile)
 			copy_gc_configs(args.output_dir, args.list_of_gc_cfgs, args.n_events, args.n_jobs)
 		run_gc(args.output_dir + "/" + args.configfile)
+		outputs = merge_outputs(args.output_dir)
+		print outputs
 
 
 def delete_latest_output_dir(output_dir, configfile):
@@ -109,13 +111,37 @@ def copy_gc_configs(output_dir, list_of_gc_cfgs, events, jobs):
 def run_gc(config):
 	commands = ['go.py', config]
 	try:
-		print " ".join(commands)
-		subprocess.call(commands)
+		print_and_call(commands)
 	except KeyboardInterrupt:
 		exit(0)
 	except:
 		print "grid-control run failed"
 		exit(1)
+
+
+def merge_outputs(output_dir):
+	outputs = []
+	try:
+		commands = ['yodamerge']+ glob.glob(output_dir+'/output/'+'*.yoda') +['-o', output_dir+'/Rivet.yoda']
+		print_and_call(commands)
+		outputs.append(output_dir+'/Rivet.yoda')
+	except:
+		print "Could not merge Rivet outputs!"
+
+	try:
+		for quantity in ['pT', 'y']:
+			commands = ['fnlo-tk-append'] + glob.glob(output_dir+'/output/'+'fnlo_{}Z*.txt'.format(quantity)) + [output_dir+'/fnlo_{}Z.txt'.format(quantity)]
+			print_and_call(commands)
+		outputs.append(output_dir+'/fnlo_{}Z.txt'.format(quantity))
+	except:
+		print "Could not merge fastNLO outputs!"
+
+	return outputs
+
+
+def print_and_call(commands):
+	print " ".join(commands)
+	subprocess.call(commands)
 
 
 def copyfile(source, target, replace={}):
