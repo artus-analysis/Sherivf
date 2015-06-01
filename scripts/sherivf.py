@@ -115,7 +115,8 @@ def copy_gc_configs(output_dir, list_of_gc_cfgs, events, jobs, warmup=False):
 			'@NJOBS@': jobs,
 			'@OUTDIR@': output_dir+'/output',
 			'@WARMUP@': ("rm *warmup*.txt"if warmup else ""),
-			'@OUTPUT@': ("fnlo_yZ.txt fnlo_pTZ.txt" if warmup else "Rivet.yoda fnlo_yZ.txt fnlo_pTZ.txt"),
+			#'@OUTPUT@': ("fnlo_yZ.txt fnlo_pTZ.txt" if warmup else "Rivet.yoda fnlo_yZ.txt fnlo_pTZ.txt"),
+			'@OUTPUT@': ("fnlo_yZ.txt fnlo_pTZ.txt" if warmup else "Rivet.yoda"),
 		})
 
 

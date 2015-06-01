@@ -33,7 +33,6 @@ namespace Rivet {
       addProjection(zfinder, "ZFinder");
       
       /// Book histograms here
-      //_h_xs = bookHisto1D(1, 1, 1);
       _h_pTZ = bookHisto1D("d01-x01-y01", 25, 0, 250);
       _h_yZ = bookHisto1D("d02-x01-y01", 25, 0, 2.5);
 
@@ -72,16 +71,16 @@ namespace Rivet {
         double yZ = fabs(zfinder.bosons()[0].momentum().rapidity());
         double pTZ = zfinder.bosons()[0].momentum().pT();
 
-        _h_pTZ->fill(pTZ, weight);
-        _h_yZ->fill(yZ, weight);
-        //_h_xs->fill(8000.0, weight);
+        if (pTZ > 30)
+        {
+            _h_pTZ->fill(pTZ, weight);
+            _h_yZ->fill(yZ, weight);
 
 #if USE_FNLO
-        _fnlo_yZ->fill(yZ, event);
-        _fnlo_pTZ->fill(pTZ, event);
-        //_fnlo_xs->fill(8000.0,event);
+            _fnlo_yZ->fill(yZ, event);
+            _fnlo_pTZ->fill(pTZ, event);
 #endif
-
+        }
       }
       else {
         MSG_DEBUG("no unique lepton pair found.");
@@ -92,19 +91,18 @@ namespace Rivet {
 
     /// Normalise histograms etc., after the run
     void finalize() {
-      //scale(_h_xs, crossSection()/sumOfWeights());
 
       // Data seems to have been normalized for the avg of the two sides
       // (+ve & -ve rapidity) rather than the sum, hence the 0.5:
       scale(_h_yZ, 0.5*crossSection()/sumOfWeights());
+      scale(_h_pTZ, crossSection()/sumOfWeights());
 
 #if USE_FNLO
+std::cout << "crosssec " << crossSection() << "  sumW " << sumOfWeights() << std::endl;
       _fnlo_pTZ->scale(crossSection()/sumOfWeights());
       _fnlo_yZ->scale(0.5*crossSection()/sumOfWeights());
-      //_fnlo_xs->scale(crossSection()/sumOfWeights());
       _fnlo_pTZ->exportgrid("fnlo_pTZ.txt");
       _fnlo_yZ->exportgrid("fnlo_yZ.txt");
-      //_fnlo_xs->exportgrid("fnlo_xs.txt");
 #endif
       
       // Clear event handler
