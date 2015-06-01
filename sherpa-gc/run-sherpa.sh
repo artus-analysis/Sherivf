@@ -8,6 +8,6 @@ cp $SHERIVFDIR/RivetMyAnalyses.so .
 
 @WARMUP@
 
-export SHERPACMD="@LOCAL@/bin/Sherpa EVENTS=@NEVENTS@"
+export SHERPACMD="@LOCAL@/bin/Sherpa EVENTS=@NEVENTS@ SEED=@SEED_0@"
 echo "Start Sherpa: $SHERPACMD"
 $SHERPACMD
