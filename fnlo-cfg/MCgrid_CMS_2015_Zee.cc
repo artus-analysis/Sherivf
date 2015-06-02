@@ -33,8 +33,9 @@ namespace Rivet {
       addProjection(zfinder, "ZFinder");
       
       /// Book histograms here
-      _h_pTZ = bookHisto1D("d01-x01-y01", 25, 0, 250);
+      _h_pTZ = bookHisto1D("d01-x01-y01", 40, 0, 400);
       _h_yZ = bookHisto1D("d02-x01-y01", 25, 0, 2.5);
+      _h_mZ = bookHisto1D("d03-x01-y01", 20, 81, 101);
 
 #if USE_FNLO
       MSG_INFO("Using fastnlo");
@@ -70,11 +71,13 @@ namespace Rivet {
       if (zfinder.bosons().size() == 1) {
         double yZ = fabs(zfinder.bosons()[0].momentum().rapidity());
         double pTZ = zfinder.bosons()[0].momentum().pT();
+        double mZ = zfinder.bosons()[0].momentum().mass();
 
         if (pTZ > 30)
         {
             _h_pTZ->fill(pTZ, weight);
             _h_yZ->fill(yZ, weight);
+            _h_mZ->fill(mZ, weight);
 
 #if USE_FNLO
             _fnlo_yZ->fill(yZ, event);
@@ -94,8 +97,10 @@ namespace Rivet {
 
       // Data seems to have been normalized for the avg of the two sides
       // (+ve & -ve rapidity) rather than the sum, hence the 0.5:
+      //scale(_h_yZ, 0.5*crossSection()/sumOfWeights());
       scale(_h_yZ, 0.5*crossSection()/sumOfWeights());
       scale(_h_pTZ, crossSection()/sumOfWeights());
+      scale(_h_mZ, crossSection()/sumOfWeights());
 
 #if USE_FNLO
 std::cout << "crosssec " << crossSection() << "  sumW " << sumOfWeights() << std::endl;
@@ -115,6 +120,7 @@ std::cout << "crosssec " << crossSection() << "  sumW " << sumOfWeights() << std
     /// @name Histograms
     Histo1DPtr _h_pTZ;
     Histo1DPtr _h_yZ;
+    Histo1DPtr _h_mZ;
     //Histo1DPtr _h_xs;
     
     // Grids
