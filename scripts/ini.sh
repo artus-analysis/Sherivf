@@ -19,7 +19,7 @@ export RIVET_ANALYSIS_PATH=$PWD:$RIVET_ANALYSIS_PATH
 # install fastjet with  "./configure --prefix=$HOME/local  --enable-allcxxplugins --enable-shared"
 
 #SHERPA
-# ./configure --prefix=$HOME/local --with-sqlite3=install --enable-hepmc2=$HOME/local/ --enable-rivet=/usr/users/dhaitz/local/ --enable-blackhat=/storage/a/dhaitz/blackhat   --enable-fastjet=/usr/users/dhaitz/local/
+# ./configure --prefix=$HOME/local --with-sqlite3=install --enable-hepmc2=$HOME/local/ --enable-rivet=$HOME/local/ --enable-blackhat=/storage/a/dhaitz/blackhat   --enable-fastjet=$HOME/local/
 
 
 # build plugins
