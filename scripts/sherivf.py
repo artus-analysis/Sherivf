@@ -60,7 +60,7 @@ def get_arguments():
 
 	if 'naf' in socket.gethostname().lower():
 		default_config = 'naf'
-		default_storage_path = '/afs/desy.de/user/d/dhaitz/nfs/sherivf'
+		default_storage_path = '/afs/desy.de/user/d/dhaitz/nfs/sherivf/'
 	elif 'ekp' in socket.gethostname().lower():
 		default_config = 'ekpcluster'
 		default_storage_path = '/storage/a/dhaitz/sherivf/'
