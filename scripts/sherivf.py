@@ -32,10 +32,10 @@ def sherivf():
 	else:
 		if not args.resume:
 			create_output_dir(args.output_dir, args.configfile)
-			copy_gc_configs(args.output_dir, args.list_of_gc_cfgs, args.n_events, args.n_jobs, args.warmup)
+			copy_gc_configs(args.output_dir, args.list_of_gc_cfgs, args.n_events, args.n_jobs, args.warmup, args.rivet_only)
 		run_gc(args.output_dir + "/" + args.configfile)
 		if not args.warmup:
-			outputs = merge_outputs(args.output_dir)
+			outputs = merge_outputs(args.output_dir, args.rivet_only)
 			print outputs
 		else:
 			merge_warmup_files(args.output_dir)
@@ -71,6 +71,8 @@ def get_arguments():
 		help="delete the latest output and jobs still running")
 	parser.add_argument('-r', '--resume', action='store_true',
 		help="resume the grid-control run.")
+	parser.add_argument('--rivet-only', action='store_true',
+		help="only recover rivet outputs, not fastNLO.")
 
 	parser.add_argument('-n', '--n-events', type=str, default='1',
 		help="n events")
@@ -108,15 +110,19 @@ def create_output_dir(work, configfile):
 	os.makedirs(work + "/output")
 
 
-def copy_gc_configs(output_dir, list_of_gc_cfgs, events, jobs, warmup=False):
+def copy_gc_configs(output_dir, list_of_gc_cfgs, events, jobs, warmup=False, rivet_only=False):
+	if rivet_only:
+		output = ("fnlo_yZ.txt fnlo_pTZ.txt" if warmup else "Rivet.yoda")
+	else:
+		output = ("fnlo_yZ.txt fnlo_pTZ.txt" if warmup else "Rivet.yoda fnlo_yZ.txt fnlo_pTZ.txt")
+
 	for gcfile in list_of_gc_cfgs:
 		copyfile(gcfile, output_dir+'/'+os.path.basename(gcfile),{
 			'@NEVENTS@': events,
 			'@NJOBS@': jobs,
 			'@OUTDIR@': output_dir+'/output',
 			'@WARMUP@': ("rm *warmup*.txt"if warmup else ""),
-			#'@OUTPUT@': ("fnlo_yZ.txt fnlo_pTZ.txt" if warmup else "Rivet.yoda fnlo_yZ.txt fnlo_pTZ.txt"),
-			'@OUTPUT@': ("fnlo_yZ.txt fnlo_pTZ.txt" if warmup else "Rivet.yoda"),
+			'@OUTPUT@': output,
 		})
 
 
@@ -131,7 +137,7 @@ def run_gc(config):
 		exit(1)
 
 
-def merge_outputs(output_dir):
+def merge_outputs(output_dir, rivet_only=False):
 	outputs = []
 	try:
 		commands = ['yodamerge']+ glob.glob(output_dir+'/output/'+'*.yoda') +['-o', output_dir+'/Rivet.yoda']
@@ -139,6 +145,10 @@ def merge_outputs(output_dir):
 		outputs.append(output_dir+'/Rivet.yoda')
 	except:
 		print "Could not merge Rivet outputs!"
+
+	if rivet_only:
+		return outputs
+
 
 	try:
 		for quantity in ['pT', 'y']:
