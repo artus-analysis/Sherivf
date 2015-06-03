@@ -112,9 +112,9 @@ def create_output_dir(work, configfile):
 
 def copy_gc_configs(output_dir, list_of_gc_cfgs, events, jobs, warmup=False, rivet_only=False):
 	if rivet_only:
-		output = ("fnlo_yZ.txt fnlo_pTZ.txt" if warmup else "Rivet.yoda")
+		output = ("fnlo_yZ.txt fnlo_pTZ.txt fnlo_mZ.txt" if warmup else "Rivet.yoda")
 	else:
-		output = ("fnlo_yZ.txt fnlo_pTZ.txt" if warmup else "Rivet.yoda fnlo_yZ.txt fnlo_pTZ.txt")
+		output = ("fnlo_yZ.txt fnlo_pTZ.txt fnlo_mZ.txt" if warmup else "Rivet.yoda fnlo_yZ.txt fnlo_pTZ.txt fnlo_mZ.txt")
 
 	for gcfile in list_of_gc_cfgs:
 		copyfile(gcfile, output_dir+'/'+os.path.basename(gcfile),{
@@ -151,7 +151,7 @@ def merge_outputs(output_dir, rivet_only=False):
 
 
 	try:
-		for quantity in ['pT', 'y']:
+		for quantity in ['pT', 'y', 'm']:
 			commands = ['fnlo-tk-append'] + glob.glob(output_dir+'/output/'+'fnlo_{}Z*.txt'.format(quantity)) + [output_dir+'/fnlo_{}Z.txt'.format(quantity)]
 			print_and_call(commands)
 			outputs.append(output_dir+'/fnlo_{}Z.txt'.format(quantity))
@@ -162,7 +162,7 @@ def merge_outputs(output_dir, rivet_only=False):
 
 
 def merge_warmup_files(output_dir):
-	for scenario in ['fnlo_y', 'fnlo_pT']:
+	for scenario in ['fnlo_y', 'fnlo_pT', 'fnlo_m']:
 		commands = [
 			"/usr/users/dhaitz/home/qcd/fastnlo_toolkit_fredpatches/fastNLO/trunk/tools/fnlo-add-warmup.pl",
 			"-w",

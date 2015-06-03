@@ -41,15 +41,18 @@ namespace Rivet {
       MSG_INFO("Using fastnlo");
       const string steeringFileName = "MCgrid_CMS_2015_Zee.str";
       const string steeringFileName2 = "MCgrid_CMS_2015_Zee_2.str";
+      const string steeringFileName3 = "MCgrid_CMS_2015_Zee_3.str";
 
       MSG_INFO("Creating fastnloGridArch and fastnloConfig");
       MCgrid::fastnloGridArch arch_fnlo(50, 1, "Lagrange", "OneNode", "sqrtlog10", "linear");
       MCgrid::fastnloConfig config_fnlo(0, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON, steeringFileName, arch_fnlo);
       MCgrid::fastnloConfig config_fnlo_2(0, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON, steeringFileName2, arch_fnlo);
+      MCgrid::fastnloConfig config_fnlo_3(0, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON, steeringFileName3, arch_fnlo);
 
       MSG_INFO("bookGrid for yZ. histoDir: " << histoDir());
       _fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo, "fnlo_pTZ_warmup.txt");
       _fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_2, "fnlo_yZ_warmup.txt");
+      _fnlo_mZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_3, "fnlo_mZ_warmup.txt");
 
       //_fnlo_xs = MCgrid::bookGrid(_h_xs, histoDir(), config_fnlo);
 
@@ -82,6 +85,7 @@ namespace Rivet {
 #if USE_FNLO
             _fnlo_yZ->fill(yZ, event);
             _fnlo_pTZ->fill(pTZ, event);
+            _fnlo_mZ->fill(mZ, event);
 #endif
         }
       }
@@ -103,11 +107,13 @@ namespace Rivet {
       scale(_h_mZ, crossSection()/sumOfWeights());
 
 #if USE_FNLO
-std::cout << "crosssec " << crossSection() << "  sumW " << sumOfWeights() << std::endl;
       _fnlo_pTZ->scale(crossSection()/sumOfWeights());
       _fnlo_yZ->scale(0.5*crossSection()/sumOfWeights());
+      _fnlo_mZ->scale(crossSection()/sumOfWeights());
+
       _fnlo_pTZ->exportgrid("fnlo_pTZ.txt");
       _fnlo_yZ->exportgrid("fnlo_yZ.txt");
+      _fnlo_mZ->exportgrid("fnlo_mZ.txt");
 #endif
       
       // Clear event handler
@@ -127,6 +133,7 @@ std::cout << "crosssec " << crossSection() << "  sumW " << sumOfWeights() << std
 #if USE_FNLO
     MCgrid::gridPtr _fnlo_pTZ;
     MCgrid::gridPtr _fnlo_yZ;
+    MCgrid::gridPtr _fnlo_mZ;
     //MCgrid::gridPtr _fnlo_xs;
 #endif
 
