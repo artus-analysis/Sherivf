@@ -13,7 +13,7 @@ cp -r $SHERIVFDIR/sherpa-cfg/* .
 cp $SHERIVFDIR/MCgrid_CMS_2015_Zee*.* .
 cp $SHERIVFDIR/RivetMyAnalyses.so .
 
-export SHERPACMD="/usr/users/dhaitz/local/bin/Sherpa EVENTS=${1:-1000}"
+export SHERPACMD="$HOME/local/bin/Sherpa EVENTS=${1:-1000}"
 echo "Start Sherpa: $SHERPACMD"
 $SHERPACMD
 
