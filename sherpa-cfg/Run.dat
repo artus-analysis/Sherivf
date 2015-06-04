@@ -59,7 +59,6 @@
 
 (selector){
   Mass 11 -11 60. 120.
-  "PT"  11,-11 30,1000
 }(selector)
 
 
