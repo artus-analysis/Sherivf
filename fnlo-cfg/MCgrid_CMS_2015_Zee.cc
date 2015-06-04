@@ -52,7 +52,7 @@ namespace Rivet {
       MSG_INFO("bookGrid for yZ. histoDir: " << histoDir());
       _fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo, "fnlo_pTZ_warmup.txt");
       _fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_2, "fnlo_yZ_warmup.txt");
-      _fnlo_mZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_3, "fnlo_mZ_warmup.txt");
+      _fnlo_mZ = MCgrid::bookGrid(_h_mZ, histoDir(), config_fnlo_3, "fnlo_mZ_warmup.txt");
 
       //_fnlo_xs = MCgrid::bookGrid(_h_xs, histoDir(), config_fnlo);
 
