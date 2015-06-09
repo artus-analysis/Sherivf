@@ -5,7 +5,6 @@
 
 import sys, os, glob, shutil, time, subprocess, argparse, socket
 
-
 class Sherivf(object):
 
 	def __init__(self):
@@ -45,7 +44,9 @@ class Sherivf(object):
 			if not self.args.resume:
 				self.create_output_dir()
 				self.copy_gc_configs()
+			self.gctime = time.time()
 			run_gc(self.args.output_dir + "/" + self.args.configfile)
+			self.gctime = time.time() - self.gctime
 			if not self.args.warmup:
 				outputs = self.merge_outputs()
 				print "\nOutputs:\n", outputs
@@ -201,5 +202,8 @@ def get_env(variable):
 
 
 if __name__ == "__main__":
+	start_time = time.time()
 	sherivf = Sherivf()
 	sherivf.run()
+	print "---     Sherivf took {0:.2g} minutes ---".format((time.time() - start_time)/60.)
+	print "--- GridControl took {0:.2g} minutes ---".format(sherivf.gctime/60.)
