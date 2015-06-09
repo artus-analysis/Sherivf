@@ -6,125 +6,163 @@
 import sys, os, glob, shutil, time, subprocess, argparse, socket
 
 
-def sherivf():
-	"""Main function.
-		1. Get configs.
-		2. Check if a new workdir has to be created.
-		3. Delete, resume or start new (default) run
-	"""
+class Sherivf(object):
 
-	args = get_arguments()
+	def __init__(self):
+		self.fastnlo_outputs = ['fnlo_yZ.txt', 'fnlo_pTZ.txt', 'fnlo_mZ.txt']
 
-	# config dir: new or existing one?
-	if args.delete or args.resume:
-		paths = glob.glob("{0}/{1}*".format(args.output_dir, args.config))
-		paths.sort()
-		try:
-			args.output_dir = paths[-1]
-			args.configfile = filter(lambda x: "work.sherpa-rivet" in x, glob.glob(paths[-1] + "/*"))[0].split("work.")[-1] + ".conf"
-		except IndexError:
-			sys.exit("No output directories exist!")
-	else:
-		args.output_dir += (args.config + "_" + time.strftime("%Y-%m-%d_%H-%M"))
+		if 'naf' in socket.gethostname().lower():
+			self.default_config = 'naf'
+			self.default_storage_path = '/afs/desy.de/user/d/dhaitz/nfs/sherivf/'
+		elif 'ekp' in socket.gethostname().lower():
+			self.default_config = 'ekpcluster'
+			self.default_storage_path = '/storage/a/dhaitz/sherivf/'
+		self.get_arguments()
 
-	if args.delete:
-		delete_latest_output_dir(args.output_dir, args.configfile)
-	else:
-		if not args.resume:
-			create_output_dir(args.output_dir, args.configfile)
-			copy_gc_configs(args.output_dir, args.list_of_gc_cfgs, args.n_events, args.n_jobs, args.warmup, args.rivet_only)
-		run_gc(args.output_dir + "/" + args.configfile)
-		if not args.warmup:
-			outputs = merge_outputs(args.output_dir, args.rivet_only)
-			print outputs
+	def run(self):
+		"""Main function.
+			1. Get configs.
+			2. Check if a new workdir has to be created.
+			3. Delete, resume or start new (default) run
+		"""
+
+		# config dir: new or existing one?
+		if self.args.delete or self.args.resume:
+			paths = glob.glob("{0}/{1}*".format(self.args.output_dir, self.args.config))
+			paths.sort()
+			try:
+				self.args.output_dir = paths[-1]
+				self.args.configfile = filter(lambda x: "work.sherpa-rivet" in x, glob.glob(paths[-1] + "/*"))[0].split("work.")[-1] + ".conf"
+			except IndexError:
+				sys.exit("No output directories exist!")
 		else:
-			merge_warmup_files(args.output_dir)
+			self.args.output_dir += (self.args.config + "_" + time.strftime("%Y-%m-%d_%H-%M"))
+
+		# delete, normal run or warmup?
+		if self.args.delete:
+			self.delete_latest_output_dir()
+		else:
+			if not self.args.resume:
+				self.create_output_dir()
+				self.copy_gc_configs()
+			run_gc(self.args.output_dir + "/" + self.args.configfile)
+			if not self.args.warmup:
+				outputs = self.merge_outputs()
+				print "\nOutputs:\n", outputs
+			else:
+				self.merge_warmup_files()
 
 
-def delete_latest_output_dir(output_dir, configfile):
-	try:
-		subprocess.call(['go.py', output_dir + "/" + configfile, "-d all"])
-	except:
-		print "could not delete currently running jobs"
-		exit(1)
-	try:
-		shutil.rmtree(output_dir)
-		print "Directory {0} deleted.".format(output_dir)
-	except:
-		print "Could not delete output directory {0}".format(output_dir)
+	def delete_latest_output_dir(self):
+		try:
+			subprocess.call(['go.py', self.args.output_dir + "/" + self.args.configfile, "-d all"])
+		except:
+			print "could not delete currently running jobs"
+			exit(1)
+		try:
+			shutil.rmtree(self.args.output_dir)
+			print "Directory {0} deleted.".format(self.args.output_dir)
+		except:
+			print "Could not delete output directory {0}".format(self.args.output_dir)
 
 
-def get_arguments():
-	parser = argparse.ArgumentParser(
-		description="%(prog)s is the main analysis program.", epilog="Have fun.")
+	def get_arguments(self):
+		parser = argparse.ArgumentParser(
+			description="%(prog)s is the main analysis program.", epilog="Have fun.")
 
-	if 'naf' in socket.gethostname().lower():
-		default_config = 'naf'
-		default_storage_path = '/afs/desy.de/user/d/dhaitz/nfs/sherivf/'
-	elif 'ekp' in socket.gethostname().lower():
-		default_config = 'ekpcluster'
-		default_storage_path = '/storage/a/dhaitz/sherivf/'
+		parser.add_argument('-c', '--config', type=str, default=self.default_config,
+			help="config to run. will be set automatically for naf")
+		parser.add_argument('-d', '--delete', action='store_true',
+			help="delete the latest output and jobs still running")
+		parser.add_argument('-r', '--resume', action='store_true',
+			help="resume the grid-control run.")
+		parser.add_argument('--rivet-only', action='store_true',
+			help="only recover rivet outputs, not fastNLO.")
 
-	parser.add_argument('-c', '--config', type=str, default=default_config,
-		help="config to run. will be set automatically for naf")
-	parser.add_argument('-d', '--delete', action='store_true',
-		help="delete the latest output and jobs still running")
-	parser.add_argument('-r', '--resume', action='store_true',
-		help="resume the grid-control run.")
-	parser.add_argument('--rivet-only', action='store_true',
-		help="only recover rivet outputs, not fastNLO.")
+		parser.add_argument('-n', '--n-events', type=str, default='1',
+			help="n events")
+		parser.add_argument('-j', '--n-jobs', type=str, default='1',
+			help="n jobs")
 
-	parser.add_argument('-n', '--n-events', type=str, default='1',
-		help="n events")
-	parser.add_argument('-j', '--n-jobs', type=str, default='1',
-		help="n jobs")
+		parser.add_argument('--output-dir', type=str, help="output directory",
+			default=self.default_storage_path)
 
-	parser.add_argument('--output-dir', type=str, help="output directory",
-		default=default_storage_path)
+		parser.add_argument('-w', '--warmup', action='store_true', default=False,
+			help="if set, do warmup run")
 
-	parser.add_argument('-w', '--warmup', action='store_true', default=False,
-		help="if set, do warmup run")
+		self.args = parser.parse_args()
 
-	args = parser.parse_args()
-
-	# define configs to use
-	args.configfile = 'sherpa-rivet_{0}.conf'.format(args.config)
-	args.list_of_gc_cfgs = [
-		get_env('SHERIVFDIR') + '/' + 'sherpa-gc/sherpa-rivet_base.conf',
-		get_env('SHERIVFDIR') + '/' + 'sherpa-gc/run-sherpa.sh',
-		get_env('SHERIVFDIR') + '/' + 'sherpa-gc/sherpa-rivet_{0}.conf'.format(args.config)
-	]
-	if 'ekp' in socket.gethostname().lower():
-		args.list_of_gc_cfgs.append(get_env('SHERIVFDIR') + '/' + 'sherpa-gc/sherpa-rivet_ekp-base.conf')
-
-	return args
+		# define configs to use
+		self.args.configfile = 'sherpa-rivet_{0}.conf'.format(self.args.config)
+		self.args.list_of_gc_cfgs = [
+			get_env('SHERIVFDIR') + '/' + 'sherpa-gc/sherpa-rivet_base.conf',
+			get_env('SHERIVFDIR') + '/' + 'sherpa-gc/run-sherpa.sh',
+			get_env('SHERIVFDIR') + '/' + 'sherpa-gc/sherpa-rivet_{0}.conf'.format(self.args.config)
+		]
+		if 'ekp' in socket.gethostname().lower():
+			self.args.list_of_gc_cfgs.append(get_env('SHERIVFDIR') + '/' + 'sherpa-gc/sherpa-rivet_ekp-base.conf')
+		if self.args.config == 'ekpcloud':
+			self.args.output_dir = self.args.output_dir.replace("/a/", "/ekpcloud_local/")
 
 
-def create_output_dir(work, configfile):
-	"""
-		ensure that the output path exists and delete old outputs optionally)
-		to save your outputs simply rename them without timestamp
-	"""
-	print "Output directory:", work
-	os.makedirs(work + "/work." + configfile.replace(".conf", ""))
-	os.makedirs(work + "/output")
+	def create_output_dir(self):
+		"""
+			ensure that the output path exists and delete old outputs optionally)
+			to save your outputs simply rename them without timestamp
+		"""
+		print "Output directory:", self.args.output_dir
+		os.makedirs(self.args.output_dir + "/work." + self.args.configfile.replace(".conf", ""))
+		os.makedirs(self.args.output_dir + "/output")
 
 
-def copy_gc_configs(output_dir, list_of_gc_cfgs, events, jobs, warmup=False, rivet_only=False):
-	if rivet_only:
-		output = ("fnlo_yZ.txt fnlo_pTZ.txt fnlo_mZ.txt" if warmup else "Rivet.yoda")
-	else:
-		output = ("fnlo_yZ.txt fnlo_pTZ.txt fnlo_mZ.txt" if warmup else "Rivet.yoda fnlo_yZ.txt fnlo_pTZ.txt fnlo_mZ.txt")
+	def copy_gc_configs(self):
+		if self.args.rivet_only:
+			output = (' '.join(self.fastnlo_outputs) if self.args.warmup else "Rivet.yoda")
+		else:
+			output = (' '.join(self.fastnlo_outputs) if self.args.warmup else "Rivet.yoda " + ' '.join(self.fastnlo_outputs))
 
-	for gcfile in list_of_gc_cfgs:
-		copyfile(gcfile, output_dir+'/'+os.path.basename(gcfile),{
-			'@NEVENTS@': events,
-			'@NJOBS@': jobs,
-			'@OUTDIR@': output_dir+'/output',
-			'@WARMUP@': ("rm *warmup*.txt"if warmup else ""),
-			'@OUTPUT@': output,
-		})
+		for gcfile in self.args.list_of_gc_cfgs:
+			copyfile(gcfile, self.args.output_dir+'/'+os.path.basename(gcfile),{
+				'@NEVENTS@': self.args.n_events,
+				'@NJOBS@': self.args.n_jobs,
+				'@OUTDIR@': self.args.output_dir+'/output',
+				'@WARMUP@': ("rm *warmup*.txt"if self.args.warmup else ""),
+				'@OUTPUT@': output,
+			})
 
+
+	def merge_outputs(self):
+		outputs = []
+		try:
+			commands = ['yodamerge']+ glob.glob(self.args.output_dir+'/output/'+'*.yoda') +['-o', self.args.output_dir+'/Rivet.yoda']
+			print_and_call(commands)
+			outputs.append(self.args.output_dir+'/Rivet.yoda')
+		except:
+			print "Could not merge Rivet outputs!"
+
+		if self.args.rivet_only:
+			return outputs
+
+		try:
+			for quantity in [item.split("_")[1].replace("Z.txt", "") for item in self.fastnlo_outputs]:
+				commands = ['fnlo-tk-append'] + glob.glob(self.args.output_dir+'/output/'+'fnlo_{}Z*.txt'.format(quantity)) + [output_dir+'/fnlo_{}Z.txt'.format(quantity)]
+				print_and_call(commands)
+				outputs.append(self.args.output_dir+'/fnlo_{}Z.txt'.format(quantity))
+		except:
+			print "Could not merge fastNLO outputs!"
+
+		return outputs
+
+
+	def merge_warmup_files(self):
+		for scenario in [item.replace("Z.txt", "") for item in self.fastnlo_outputs]:
+			commands = [
+				"/usr/users/dhaitz/home/qcd/fastnlo_toolkit_fredpatches/fastNLO/trunk/tools/fnlo-add-warmup.pl",
+				"-w",
+				self.args.output_dir+"/output/",
+				scenario
+			]
+			print_and_call(commands)
 
 def run_gc(config):
 	commands = ['go.py', config]
@@ -136,40 +174,6 @@ def run_gc(config):
 		print "grid-control run failed"
 		exit(1)
 
-
-def merge_outputs(output_dir, rivet_only=False):
-	outputs = []
-	try:
-		commands = ['yodamerge']+ glob.glob(output_dir+'/output/'+'*.yoda') +['-o', output_dir+'/Rivet.yoda']
-		print_and_call(commands)
-		outputs.append(output_dir+'/Rivet.yoda')
-	except:
-		print "Could not merge Rivet outputs!"
-
-	if rivet_only:
-		return outputs
-
-
-	try:
-		for quantity in ['pT', 'y', 'm']:
-			commands = ['fnlo-tk-append'] + glob.glob(output_dir+'/output/'+'fnlo_{}Z*.txt'.format(quantity)) + [output_dir+'/fnlo_{}Z.txt'.format(quantity)]
-			print_and_call(commands)
-			outputs.append(output_dir+'/fnlo_{}Z.txt'.format(quantity))
-	except:
-		print "Could not merge fastNLO outputs!"
-
-	return outputs
-
-
-def merge_warmup_files(output_dir):
-	for scenario in ['fnlo_y', 'fnlo_pT', 'fnlo_m']:
-		commands = [
-			"/usr/users/dhaitz/home/qcd/fastnlo_toolkit_fredpatches/fastNLO/trunk/tools/fnlo-add-warmup.pl",
-			"-w",
-			output_dir+"/output/",
-			scenario
-		]
-		print_and_call(commands)
 
 def print_and_call(commands):
 	print " ".join(commands)
@@ -197,4 +201,5 @@ def get_env(variable):
 
 
 if __name__ == "__main__":
-	sherivf()
+	sherivf = Sherivf()
+	sherivf.run()
