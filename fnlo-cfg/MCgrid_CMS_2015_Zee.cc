@@ -26,7 +26,7 @@ namespace Rivet {
       /// Initialise and register projections here
       // this seems to have been corrected completely for all selection cuts,
       // i.e. eta cuts and pT cuts on leptons.
-      Cut cut = Cuts::etaIn(-2.5,2.5) & (Cuts::pT >= 25.0*GeV);
+      Cut cut = Cuts::etaIn(-2.4,2.4) & (Cuts::pT >= 25.0*GeV);
       ZFinder zfinder(FinalState(), cut, PID::ELECTRON,
                       81*GeV, 101*GeV, 0.2,
                        ZFinder::CLUSTERNODECAY, ZFinder::TRACK);
