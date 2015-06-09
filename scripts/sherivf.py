@@ -56,14 +56,14 @@ class Sherivf(object):
 	def delete_latest_output_dir(self):
 		try:
 			subprocess.call(['go.py', self.args.output_dir + "/" + self.args.configfile, "-d all"])
-		except:
-			print "could not delete currently running jobs"
+		except OSError as e:
+			print "could not delete currently running jobs ({0}): {1}".format(e.errno, e.strerror)
 			exit(1)
 		try:
 			shutil.rmtree(self.args.output_dir)
 			print "Directory {0} deleted.".format(self.args.output_dir)
-		except:
-			print "Could not delete output directory {0}".format(self.args.output_dir)
+		except OSError as e:
+			print "Could not delete output directory {0} ({1}): {2}".format(self.args.output_dir, e.errno, e.strerror)
 
 
 	def get_arguments(self):
@@ -137,19 +137,19 @@ class Sherivf(object):
 			commands = ['yodamerge']+ glob.glob(self.args.output_dir+'/output/'+'*.yoda') +['-o', self.args.output_dir+'/Rivet.yoda']
 			print_and_call(commands)
 			outputs.append(self.args.output_dir+'/Rivet.yoda')
-		except:
-			print "Could not merge Rivet outputs!"
+		except OSError as e:
+			print "Could not merge Rivet outputs ({0}): {1}".format(e.errno, e.strerror)
 
 		if self.args.rivet_only:
 			return outputs
 
 		try:
 			for quantity in [item.split("_")[1].replace("Z.txt", "") for item in self.fastnlo_outputs]:
-				commands = ['fnlo-tk-append'] + glob.glob(self.args.output_dir+'/output/'+'fnlo_{}Z*.txt'.format(quantity)) + [output_dir+'/fnlo_{}Z.txt'.format(quantity)]
+				commands = ['fnlo-tk-append'] + glob.glob(self.args.output_dir+'/output/'+'fnlo_{}Z*.txt'.format(quantity)) + [self.args.output_dir+'/fnlo_{}Z.txt'.format(quantity)]
 				print_and_call(commands)
 				outputs.append(self.args.output_dir+'/fnlo_{}Z.txt'.format(quantity))
-		except:
-			print "Could not merge fastNLO outputs!"
+		except OSError as e:
+			print "Could not merge fastNLO outputs ({0}): {1}".format(e.errno, e.strerror)
 
 		return outputs
 
