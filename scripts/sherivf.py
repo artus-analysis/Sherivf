@@ -12,7 +12,7 @@ class Sherivf(object):
 
 		if 'naf' in socket.gethostname().lower():
 			self.default_config = 'naf'
-			self.default_storage_path = '/afs/desy.de/user/d/dhaitz/nfs/sherivf/'
+			self.default_storage_path = '/nfs/dust/cms/user/dhaitz/sherivf'
 		elif 'ekp' in socket.gethostname().lower():
 			self.default_config = 'ekpcluster'
 			self.default_storage_path = '/storage/a/dhaitz/sherivf/'

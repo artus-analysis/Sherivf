@@ -2,7 +2,7 @@
 
 export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
 
-if [[ $HOSTNAME == *"naf"* ]]; then
+if ( [[ $HOSTNAME == *"naf"* ]] || [[ $HOSTNAME == *"bird"* ]] ); then
 	export SHERIVFDIR=/afs/desy.de/user/d/dhaitz/qcd/sherivf
 else
 	export SHERIVFDIR=/portal/ekpcms6/home/dhaitz/qcd/sherivf
