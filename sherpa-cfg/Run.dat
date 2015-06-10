@@ -13,7 +13,7 @@
 }(beam);
 
 (integration){
-  ERROR 0.05;
+  ERROR 0.02;
 }(integration);
 
 (me){
@@ -58,7 +58,7 @@
 
 
 (selector){
-  Mass 11 -11 60. 120.
+  Mass 11 -11 81. 101.
 }(selector)
 
 
