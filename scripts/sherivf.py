@@ -12,7 +12,7 @@ class Sherivf(object):
 
 		if 'naf' in socket.gethostname().lower():
 			self.default_config = 'naf'
-			self.default_storage_path = '/nfs/dust/cms/user/dhaitz/sherivf'
+			self.default_storage_path = '/nfs/dust/cms/user/dhaitz/sherivf/'
 		elif 'ekp' in socket.gethostname().lower():
 			self.default_config = 'ekpcluster'
 			self.default_storage_path = '/storage/a/dhaitz/sherivf/'
@@ -200,7 +200,7 @@ def get_env(variable):
 		print "Please source scripts/ini.sh!"
 		sys.exit(1)
 
-def format_time(seconds)
+def format_time(seconds):
 	if seconds < 180.:
 		return "{0:.0f} seconds".format(seconds)
 	elif (seconds/60.) < 120:
