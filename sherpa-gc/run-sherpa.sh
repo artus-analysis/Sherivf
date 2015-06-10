@@ -12,7 +12,7 @@ cp $SHERIVFDIR/RivetMyAnalyses.so .
 
 echo -e "\ndirectory contents:"
 ls
-echo "\n\n"
+echo -e "\n\n"
 
 export SHERPACMD="@LOCAL@/bin/Sherpa -e @NEVENTS@ -R @SEED_0@"
 echo -e "Start Sherpa: $SHERPACMD\n"
