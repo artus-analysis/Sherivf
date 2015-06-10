@@ -200,6 +200,13 @@ def get_env(variable):
 		print "Please source scripts/ini.sh!"
 		sys.exit(1)
 
+def format_time(seconds)
+	if seconds < 180.:
+		return "{0:.0f} seconds".format(seconds)
+	elif (seconds/60.) < 120:
+		return "{0:.0f} minutes".format(seconds/60.)
+	else:
+		return "{0:.0f} hours {1:.0f} minutes".format(int(seconds/3600), (seconds/60 % 60))
 
 if __name__ == "__main__":
 	start_time = time.time()
