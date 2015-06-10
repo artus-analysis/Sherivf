@@ -205,5 +205,6 @@ if __name__ == "__main__":
 	start_time = time.time()
 	sherivf = Sherivf()
 	sherivf.run()
-	print "---     Sherivf took {0:.2g} minutes ---".format((time.time() - start_time)/60.)
-	print "--- GridControl took {0:.2g} minutes ---".format(sherivf.gctime/60.)
+	if hasattr(sherivf, "gctime"):
+		print "---     Sherivf took {0:.2g} minutes ---".format((time.time() - start_time)/60.)
+		print "--- GridControl took {0:.2g} minutes ---".format(sherivf.gctime/60.)
