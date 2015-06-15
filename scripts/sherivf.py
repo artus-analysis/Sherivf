@@ -183,8 +183,12 @@ def print_and_call(commands):
 
 def copyfile(source, target, replace={}):
 	# copy file with replace dict
-	with open(source) as f:
-		text = f.read()
+	try:
+		with open(source) as f:
+			text = f.read()
+	except IOError:
+		print "Couldnt open file", source
+		sys.exit(1)
 	for a, b in replace.items():
 		text = text.replace(a, b)
 	with open(target, 'wb') as f:
