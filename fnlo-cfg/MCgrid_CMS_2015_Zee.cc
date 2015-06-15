@@ -36,7 +36,7 @@ namespace Rivet {
       
       /// Book histograms here
       _h_pTZ = bookHisto1D("d01-x01-y01", 37, 30, 400);
-      _h_yZ = bookHisto1D("d02-x01-y01", 25, 0, 2.5);
+      _h_yZ = bookHisto1D("d02-x01-y01", 25, -2.5 , 2.5);
       _h_mZ = bookHisto1D("d03-x01-y01", 20, 81, 101);
       _h_phiZ = bookHisto1D("d04-x01-y01", 32, -3.2, 3.2);
 
@@ -75,7 +75,7 @@ namespace Rivet {
 
       const ZFinder& zfinder = applyProjection<ZFinder>(event, "ZFinder");
       if (zfinder.bosons().size() == 1) {
-        double yZ = fabs(zfinder.bosons()[0].momentum().rapidity());
+        double yZ = zfinder.bosons()[0].momentum().rapidity();
         double pTZ = zfinder.bosons()[0].momentum().pT();
         double mZ = zfinder.bosons()[0].momentum().mass();
         double phiZ = zfinder.bosons()[0].momentum().phi()-pi;
@@ -106,14 +106,16 @@ namespace Rivet {
 
       // Data seems to have been normalized for the avg of the two sides
       // (+ve & -ve rapidity) rather than the sum, hence the 0.5:
-      scale(_h_yZ, 0.5*crossSection()/sumOfWeights());
+      scale(_h_yZ, crossSection()/sumOfWeights());
+      //scale(_h_yZ, 0.5*crossSection()/sumOfWeights());
       scale(_h_pTZ, crossSection()/sumOfWeights());
       scale(_h_mZ, crossSection()/sumOfWeights());
       scale(_h_phiZ, crossSection()/sumOfWeights());
 
 #if USE_FNLO
       _fnlo_pTZ->scale(crossSection()/sumOfWeights());
-      _fnlo_yZ->scale(0.5*crossSection()/sumOfWeights());
+      //_fnlo_yZ->scale(0.5*crossSection()/sumOfWeights());
+      _fnlo_yZ->scale(crossSection()/sumOfWeights());
       _fnlo_mZ->scale(crossSection()/sumOfWeights());
 
       _fnlo_pTZ->exportgrid("fnlo_pTZ.txt");
