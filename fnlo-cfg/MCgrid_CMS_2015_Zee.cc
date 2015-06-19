@@ -36,9 +36,12 @@ namespace Rivet {
       
       /// Book histograms here
       _h_pTZ = bookHisto1D("d01-x01-y01", 37, 30, 400);
-      _h_yZ = bookHisto1D("d02-x01-y01", 25, -2.5 , 2.5);
+      _h_yZ = bookHisto1D("d02-x01-y01", 25, -2.5, 2.5);
       _h_mZ = bookHisto1D("d03-x01-y01", 20, 81, 101);
       _h_phiZ = bookHisto1D("d04-x01-y01", 32, -3.2, 3.2);
+      
+      _pTZ_yZ = bookProfile1D("d05-x01-y01", 25, 0, 2.5);
+      _yZ_pTZ = bookProfile1D("d06-x01-y01", 37, 30, 400);
 
 #if USE_FNLO
       MSG_INFO("Using fastnlo");
@@ -75,20 +78,25 @@ namespace Rivet {
 
       const ZFinder& zfinder = applyProjection<ZFinder>(event, "ZFinder");
       if (zfinder.bosons().size() == 1) {
-        double yZ = zfinder.bosons()[0].momentum().rapidity();
+        double yZ = fabs(zfinder.bosons()[0].momentum().rapidity());
         double pTZ = zfinder.bosons()[0].momentum().pT();
         double mZ = zfinder.bosons()[0].momentum().mass();
         double phiZ = zfinder.bosons()[0].momentum().phi()-pi;
+        
 
-        if (pTZ > 30)
+        if (pTZ > 30.)
         {
             _h_pTZ->fill(pTZ, weight);
             _h_yZ->fill(yZ, weight);
             _h_mZ->fill(mZ, weight);
             _h_phiZ->fill(phiZ, weight);
 
+            _pTZ_yZ->fill(yZ, pTZ, weight);
+            _yZ_pTZ->fill(pTZ, yZ, weight);
+
 #if USE_FNLO
-            _fnlo_yZ->fill(yZ, event);
+            //_fnlo_yZ->fill(yZ, event);
+            _fnlo_yZ->fill(zfinder.bosons()[0].momentum().rapidity(), event);
             _fnlo_pTZ->fill(pTZ, event);
             _fnlo_mZ->fill(mZ, event);
 #endif
@@ -136,6 +144,8 @@ namespace Rivet {
     Histo1DPtr _h_mZ;
     Histo1DPtr _h_phiZ;
     //Histo1DPtr _h_xs;
+    Profile1DPtr _pTZ_yZ;
+    Profile1DPtr _yZ_pTZ;
     
     // Grids
 #if USE_FNLO
