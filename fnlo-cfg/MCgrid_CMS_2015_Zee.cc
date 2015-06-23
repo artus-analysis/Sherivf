@@ -4,6 +4,8 @@
 #include "Rivet/Projections/FinalState.hh"
 #include "Rivet/Projections/ZFinder.hh"
 
+#include "Rivet/Projections/IdentifiedFinalState.hh"
+
 #include "Rivet/Math/Constants.hh"
 
 #include "mcgrid/mcgrid.hh"
@@ -34,6 +36,12 @@ namespace Rivet {
                        ZFinder::CLUSTERNODECAY, ZFinder::TRACK);
       addProjection(zfinder, "ZFinder");
       
+      // electrons
+      IdentifiedFinalState electrons;
+      //electrons.acceptIdPair(PID::ELECTRON);
+      electrons.acceptId(PID::ELECTRON);
+      addProjection(electrons, "Electrons");
+      
       /// Book histograms here
       _h_pTZ = bookHisto1D("d01-x01-y01", 37, 30, 400);
       _h_yZ = bookHisto1D("d02-x01-y01", 25, 0, 2.5);
@@ -42,6 +50,12 @@ namespace Rivet {
       
       _pTZ_yZ = bookProfile1D("d05-x01-y01", 25, 0, 2.5);
       _yZ_pTZ = bookProfile1D("d06-x01-y01", 37, 30, 400);
+      
+      
+      _h_pTe = bookHisto1D("d07-x01-y01", 40, 0, 400);
+      _h_etae = bookHisto1D("d08-x01-y01", 30, 0, 3);
+      _h_me = bookHisto1D("d09-x01-y01", 20, -0.1, 0.1);
+      _h_phie = bookHisto1D("d10-x01-y01", 20, -3.14159, 3.14159);
 
 #if USE_FNLO
       MSG_INFO("Using fastnlo");
@@ -86,6 +100,15 @@ namespace Rivet {
 
         if (pTZ > 30.)
         {
+        
+          const Particles particles = applyProjection<FinalState>(event, "Electrons").particlesByPt(Cuts::pT>=0.5*GeV);
+
+      _h_pTe->fill(particles[0].pt(), weight);
+      _h_etae->fill(fabs(particles[0].eta()), weight);
+      _h_me->fill(particles[0].mass(), weight);
+      _h_phie->fill(particles[0].phi()-pi, weight);
+
+
             _h_pTZ->fill(pTZ, weight);
             _h_yZ->fill(yZ, weight);
             _h_mZ->fill(mZ, weight);
@@ -120,6 +143,11 @@ namespace Rivet {
       scale(_h_mZ, crossSection()/sumOfWeights());
       scale(_h_phiZ, crossSection()/sumOfWeights());
 
+      scale(_h_pTe, crossSection()/sumOfWeights());
+      scale(_h_etae, crossSection()/sumOfWeights());
+      scale(_h_me, crossSection()/sumOfWeights());
+      scale(_h_phie, crossSection()/sumOfWeights());
+
 #if USE_FNLO
       _fnlo_pTZ->scale(crossSection()/sumOfWeights());
       //_fnlo_yZ->scale(0.5*crossSection()/sumOfWeights());
@@ -146,6 +174,11 @@ namespace Rivet {
     //Histo1DPtr _h_xs;
     Profile1DPtr _pTZ_yZ;
     Profile1DPtr _yZ_pTZ;
+    
+    Histo1DPtr _h_pTe;
+    Histo1DPtr _h_etae;
+    Histo1DPtr _h_me;
+    Histo1DPtr _h_phie;
     
     // Grids
 #if USE_FNLO
