@@ -49,7 +49,7 @@ class Sherivf(object):
 			self.gctime = time.time() - self.gctime
 			if not self.args.warmup:
 				outputs = self.merge_outputs()
-				print "\nOutputs:\n", outputs
+				print "\nOutputs:\n", "\n".join(outputs)
 			else:
 				self.merge_warmup_files()
 
@@ -135,7 +135,13 @@ class Sherivf(object):
 	def merge_outputs(self):
 		outputs = []
 		try:
-			commands = ['yodamerge']+ glob.glob(self.args.output_dir+'/output/'+'*.yoda') +['-o', self.args.output_dir+'/Rivet.yoda']
+			#merge yoda files
+			yoda_files = glob.glob(self.args.output_dir+'/output/'+'*.yoda')
+			commands = ['yodamerge'] + yoda_files + ['-o', self.args.output_dir+'/Rivet.yoda']
+			print_and_call(commands)
+			#apply scalefactor
+			scalefactor = 1./len(yoda_files)
+			commands = ['yodascale', self.args.output_dir+'/Rivet.yoda', '-c', "'.* {0}x'".format(scalefactor), '-i']
 			print_and_call(commands)
 			outputs.append(self.args.output_dir+'/Rivet.yoda')
 		except OSError as e:
