@@ -64,17 +64,20 @@ namespace Rivet {
       const string steeringFileName = "MCgrid_CMS_2015_Zee.str";
       const string steeringFileName2 = "MCgrid_CMS_2015_Zee_2.str";
       const string steeringFileName3 = "MCgrid_CMS_2015_Zee_3.str";
+      const string steeringFileName4 = "MCgrid_CMS_2015_Zee_4.str";
 
       MSG_INFO("Creating fastnloGridArch and fastnloConfig");
       MCgrid::fastnloGridArch arch_fnlo(50, 1, "Lagrange", "OneNode", "sqrtlog10", "linear");
       MCgrid::fastnloConfig config_fnlo(0, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON, steeringFileName, arch_fnlo);
       MCgrid::fastnloConfig config_fnlo_2(0, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON, steeringFileName2, arch_fnlo);
       MCgrid::fastnloConfig config_fnlo_3(0, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON, steeringFileName3, arch_fnlo);
+      MCgrid::fastnloConfig config_fnlo_4(0, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON, steeringFileName4, arch_fnlo);
 
       MSG_INFO("bookGrid for yZ. histoDir: " << histoDir());
       _fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo, "fnlo_pTZ_warmup.txt");
       _fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_2, "fnlo_yZ_warmup.txt");
       _fnlo_mZ = MCgrid::bookGrid(_h_mZ, histoDir(), config_fnlo_3, "fnlo_mZ_warmup.txt");
+      _fnlo_phiZ = MCgrid::bookGrid(_h_phiZ, histoDir(), config_fnlo_4, "fnlo_phiZ_warmup.txt");
 
       //_fnlo_xs = MCgrid::bookGrid(_h_xs, histoDir(), config_fnlo);
 
@@ -119,6 +122,7 @@ namespace Rivet {
             _fnlo_yZ->fill(yZ, event);
             _fnlo_pTZ->fill(pTZ, event);
             _fnlo_mZ->fill(mZ, event);
+            _fnlo_phiZ->fill(phiZ, event);
 #endif
         }
       }
@@ -149,10 +153,12 @@ namespace Rivet {
       //_fnlo_yZ->scale(0.5*crossSection()/sumOfWeights());
       _fnlo_yZ->scale(crossSection()/sumOfWeights());
       _fnlo_mZ->scale(crossSection()/sumOfWeights());
+      _fnlo_phiZ->scale(crossSection()/sumOfWeights());
 
       _fnlo_pTZ->exportgrid("fnlo_pTZ.txt");
       _fnlo_yZ->exportgrid("fnlo_yZ.txt");
       _fnlo_mZ->exportgrid("fnlo_mZ.txt");
+      _fnlo_phiZ->exportgrid("fnlo_phiZ.txt");
 #endif
       
       // Clear event handler
@@ -180,6 +186,7 @@ namespace Rivet {
     MCgrid::gridPtr _fnlo_pTZ;
     MCgrid::gridPtr _fnlo_yZ;
     MCgrid::gridPtr _fnlo_mZ;
+    MCgrid::gridPtr _fnlo_phiZ;
     //MCgrid::gridPtr _fnlo_xs;
 #endif
 
