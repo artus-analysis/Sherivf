@@ -30,7 +30,11 @@ namespace Rivet {
       /// Initialise and register projections here
       // this seems to have been corrected completely for all selection cuts,
       // i.e. eta cuts and pT cuts on leptons.
-      Cut cut = Cuts::etaIn(-2.4,2.4) & (Cuts::pT >= 25.0*GeV);
+      Cut cut = (
+          (Cuts::pT >= 25.0*GeV) &
+          (Cuts::etaIn(-2.4, -1.566) | Cuts::etaIn(-1.442, 1.442) | Cuts::etaIn(1.566, 2.4))
+      );
+
       ZFinder zfinder(FinalState(), cut, PID::ELECTRON,
                       81*GeV, 101*GeV, 0.2,
                        ZFinder::CLUSTERNODECAY, ZFinder::TRACK);
@@ -38,7 +42,6 @@ namespace Rivet {
       
       // electrons
       IdentifiedFinalState electrons;
-      //electrons.acceptIdPair(PID::ELECTRON);
       electrons.acceptId(PID::ELECTRON);
       addProjection(electrons, "Electrons");
       
@@ -52,9 +55,8 @@ namespace Rivet {
       _yZ_pTZ = bookProfile1D("d06-x01-y01", 37, 30, 400);
       
       
-      _h_pTe = bookHisto1D("d07-x01-y01", 40, 0, 400);
-      _h_etae = bookHisto1D("d08-x01-y01", 30, 0, 3);
-      _h_me = bookHisto1D("d09-x01-y01", 20, -0.1, 0.1);
+      _h_pTe = bookHisto1D("d07-x01-y01", 40, 0, 200);
+      _h_etae = bookHisto1D("d08-x01-y01", 60, -3, 3);
       _h_phie = bookHisto1D("d10-x01-y01", 20, -3.14159, 3.14159);
 
 #if USE_FNLO
@@ -78,7 +80,6 @@ namespace Rivet {
 
       MSG_INFO("fastnlo init done");
 #endif
-
     }
 
 
@@ -96,30 +97,26 @@ namespace Rivet {
         double pTZ = zfinder.bosons()[0].momentum().pT();
         double mZ = zfinder.bosons()[0].momentum().mass();
         double phiZ = zfinder.bosons()[0].momentum().phi()-pi;
-        
 
         if (pTZ > 30.)
         {
-        
-          const Particles particles = applyProjection<FinalState>(event, "Electrons").particlesByPt(Cuts::pT>=0.5*GeV);
+             // electron histos
+             const Particles particles = applyProjection<FinalState>(event, "Electrons").particlesByPt(Cuts::pT>=0.5*GeV);
+             _h_pTe->fill(particles[0].pt(), weight);
+             _h_etae->fill(particles[0].eta(), weight);
+             _h_phie->fill(particles[0].phi()-pi, weight);
 
-      _h_pTe->fill(particles[0].pt(), weight);
-      _h_etae->fill(fabs(particles[0].eta()), weight);
-      _h_me->fill(particles[0].mass(), weight);
-      _h_phie->fill(particles[0].phi()-pi, weight);
+             // Z histos
+             _h_pTZ->fill(pTZ, weight);
+             _h_yZ->fill(yZ, weight);
+             _h_mZ->fill(mZ, weight);
+             _h_phiZ->fill(phiZ, weight);
 
-
-            _h_pTZ->fill(pTZ, weight);
-            _h_yZ->fill(yZ, weight);
-            _h_mZ->fill(mZ, weight);
-            _h_phiZ->fill(phiZ, weight);
-
-            _pTZ_yZ->fill(yZ, pTZ, weight);
-            _yZ_pTZ->fill(pTZ, yZ, weight);
+             _pTZ_yZ->fill(yZ, pTZ, weight);
+             _yZ_pTZ->fill(pTZ, yZ, weight);
 
 #if USE_FNLO
-            //_fnlo_yZ->fill(yZ, event);
-            _fnlo_yZ->fill(zfinder.bosons()[0].momentum().rapidity(), event);
+            _fnlo_yZ->fill(yZ, event);
             _fnlo_pTZ->fill(pTZ, event);
             _fnlo_mZ->fill(mZ, event);
 #endif
@@ -145,7 +142,6 @@ namespace Rivet {
 
       scale(_h_pTe, crossSection()/sumOfWeights());
       scale(_h_etae, crossSection()/sumOfWeights());
-      scale(_h_me, crossSection()/sumOfWeights());
       scale(_h_phie, crossSection()/sumOfWeights());
 
 #if USE_FNLO
@@ -177,7 +173,6 @@ namespace Rivet {
     
     Histo1DPtr _h_pTe;
     Histo1DPtr _h_etae;
-    Histo1DPtr _h_me;
     Histo1DPtr _h_phie;
     
     // Grids
