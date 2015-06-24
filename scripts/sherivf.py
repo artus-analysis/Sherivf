@@ -151,6 +151,7 @@ class Sherivf(object):
 			return outputs
 
 		try:
+			#merge fastNLO files
 			for quantity in [item.split("_")[1].replace("Z.txt", "") for item in self.fastnlo_outputs]:
 				commands = ['fnlo-tk-append'] + glob.glob(self.args.output_dir+'/output/'+'fnlo_{}Z*.txt'.format(quantity)) + [self.args.output_dir+'/fnlo_{}Z.txt'.format(quantity)]
 				print_and_call(commands)

@@ -13,7 +13,7 @@
 }(beam);
 
 (integration){
-  ERROR 0.02;
+  ERROR 0.01;
 }(integration);
 
 (me){
