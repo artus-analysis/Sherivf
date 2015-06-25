@@ -18,6 +18,10 @@ export RIVET_ANALYSIS_PATH=$PWD:$RIVET_ANALYSIS_PATH
 #-L$HOME/local/include/fastjet/.libs
 # install fastjet with  "./configure --prefix=$HOME/local  --enable-allcxxplugins --enable-shared"
 
+#MCgrid
+#./configure --prefix=$HOME/local CXXFLAGS='-DFASTNLO_ENABLED=1'
+
+
 #SHERPA
 # ./configure --prefix=$HOME/local --with-sqlite3=install --enable-hepmc2=$HOME/local/ --enable-rivet=$HOME/local/ --enable-blackhat=/storage/a/dhaitz/blackhat   --enable-fastjet=$HOME/local/
 
@@ -50,4 +54,4 @@ export PATH=$SHERIVFDIR/../lhapdf-5.9.1/bin/:$PATH
 alias rivbuild="rivet-buildplugin RivetMyAnalyses.so MCgrid_CMS_2015_Zee.cc -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA  -DUSE_FNLO=1"
 alias riv="rivet  --analysis MCgrid_CMS_2015_Zee ../SHERPA-MC-2.1.1/Examples/V_plus_Jets/LHC_ZJets/sherpa_zjet.hepmc --pwd"
 
-
+alias newwarmup="rename _warm Z_warm fnlo_*_warmup.txt && mv fnlo_*_warmup.txt $SHERIVFDIR/fnlo-cfg/"
