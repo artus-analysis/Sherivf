@@ -3,6 +3,7 @@
 #include "Rivet/Cuts.hh"
 #include "Rivet/Projections/FinalState.hh"
 #include "Rivet/Projections/ZFinder.hh"
+#include "Rivet/Projections/FastJets.hh"
 
 #include "Rivet/Projections/IdentifiedFinalState.hh"
 
@@ -39,7 +40,10 @@ namespace Rivet {
                       81*GeV, 101*GeV, 0.2,
                        ZFinder::CLUSTERNODECAY, ZFinder::TRACK);
       addProjection(zfinder, "ZFinder");
-      
+
+      const FastJets jets(FinalState(), FastJets::ANTIKT, 0.5);
+       addProjection(jets, "JETS");
+
       // electrons
       IdentifiedFinalState electrons;
       electrons.acceptId(PID::ELECTRON);
@@ -51,8 +55,7 @@ namespace Rivet {
       _h_mZ = bookHisto1D("d03-x01-y01", 20, 81, 101);
       _h_phiZ = bookHisto1D("d04-x01-y01", 12, -3, 3);
       
-      _pTZ_yZ = bookProfile1D("d05-x01-y01", 25, 0, 2.5);
-      _yZ_pTZ = bookProfile1D("d06-x01-y01", 37, 30, 400);
+      _njets_pTZ = bookProfile1D("d06-x01-y01", 37, 30, 400);
       
       
       _h_pTe = bookHisto1D("d07-x01-y01", 40, 0, 200);
@@ -95,6 +98,11 @@ namespace Rivet {
       const double weight = event.weight();
 
       const ZFinder& zfinder = applyProjection<ZFinder>(event, "ZFinder");
+
+      //jets
+      const FastJets& jetfs = applyProjection<FastJets>(event, "JETS");
+      const Jets& jets = jetfs.jetsByPt(0*GeV);// && Cuts::abseta < 2.5);
+
       if (zfinder.bosons().size() == 1) {
         double yZ = fabs(zfinder.bosons()[0].momentum().rapidity());
         double pTZ = zfinder.bosons()[0].momentum().pT();
@@ -115,8 +123,7 @@ namespace Rivet {
              _h_mZ->fill(mZ, weight);
              _h_phiZ->fill(phiZ, weight);
 
-             _pTZ_yZ->fill(yZ, pTZ, weight);
-             _yZ_pTZ->fill(pTZ, yZ, weight);
+             _njets_pTZ->fill(pTZ, 1, weight);
 
 #if USE_FNLO
             _fnlo_yZ->fill(yZ, event);
@@ -174,8 +181,7 @@ namespace Rivet {
     Histo1DPtr _h_mZ;
     Histo1DPtr _h_phiZ;
     //Histo1DPtr _h_xs;
-    Profile1DPtr _pTZ_yZ;
-    Profile1DPtr _yZ_pTZ;
+    Profile1DPtr _njets_pTZ;
     
     Histo1DPtr _h_pTe;
     Histo1DPtr _h_etae;
