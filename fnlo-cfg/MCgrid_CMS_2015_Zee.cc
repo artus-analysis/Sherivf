@@ -49,7 +49,7 @@ namespace Rivet {
       _h_pTZ = bookHisto1D("d01-x01-y01", 37, 30, 400);
       _h_yZ = bookHisto1D("d02-x01-y01", 25, 0, 2.5);
       _h_mZ = bookHisto1D("d03-x01-y01", 20, 81, 101);
-      _h_phiZ = bookHisto1D("d04-x01-y01", 20, -3.14159, 3.14159);
+      _h_phiZ = bookHisto1D("d04-x01-y01", 12, -3, 3);
       
       _pTZ_yZ = bookProfile1D("d05-x01-y01", 25, 0, 2.5);
       _yZ_pTZ = bookProfile1D("d06-x01-y01", 37, 30, 400);
