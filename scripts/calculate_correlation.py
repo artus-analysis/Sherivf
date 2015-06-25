@@ -78,7 +78,7 @@ def np_to_root(x, y, corr, name, output_filename):
 	for ybin, xvalues in enumerate(corr):
 		for xbin, xvalue in enumerate(xvalues):
 			if not np.isnan(corr[ybin][xbin]):
-				tprof.SetBinContent(xbin, ybin, corr[ybin][xbin])
+				tprof.SetBinContent(xbin+1, ybin+1, corr[ybin][xbin])
 
 	tprof.Write()
 	out.Close()
