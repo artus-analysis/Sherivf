@@ -123,7 +123,7 @@ namespace Rivet {
              _h_mZ->fill(mZ, weight);
              _h_phiZ->fill(phiZ, weight);
 
-             _njets_pTZ->fill(pTZ, 1, weight);
+             _njets_pTZ->fill(pTZ, jets.size(), weight);
 
 #if USE_FNLO
             _fnlo_yZ->fill(yZ, event);
