@@ -21,22 +21,25 @@ export RIVET_ANALYSIS_PATH=$PWD:$RIVET_ANALYSIS_PATH
 #MCgrid
 #./configure --prefix=$HOME/local CXXFLAGS='-DFASTNLO_ENABLED=1'
 
-
 #SHERPA
 # ./configure --prefix=$HOME/local --with-sqlite3=install --enable-hepmc2=$HOME/local/ --enable-rivet=$HOME/local/ --enable-blackhat=/storage/a/dhaitz/blackhat   --enable-fastjet=$HOME/local/
 
-
-# build plugins
-# rivet-buildplugin RivetMyAnalyses.so MCgrid_CMS_2015_Zee.cc -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA  -DUSE_FNLO=1
-
 #fastnlo 
 # ./configure --prefix=$HOME/local --enable-pyext  PYTHON_VERSION="2.6"
+
+#blackhat
+# ./configure --prefix=/storage/a/dhaitz/blackhat --with-QDpath=$HOME/local
 
 # HERAfitter
 #./configure --enable-lhapdf  LDFLAGS="-L/usr/users/dhaitz/local/lib/ -lblas -llapack -ltmglib"
 
 #yoda
 # ./configure --prefix=$HOME/local --with-boost=$BOOSTPATH --enable-root
+
+
+# build plugins
+# rivet-buildplugin RivetMyAnalyses.so MCgrid_CMS_2015_Zee.cc -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA  -DUSE_FNLO=1
+
 export PYTHONPATH=$HOME/local/lib/python2.7/site-packages:$PYTHONPATH
 
 #export BOOSTPATH=$(ls ${VO_CMS_SW_DIR}/${SCRAM_ARCH}/external/boost/* -d | tail -n 1)
