@@ -4,6 +4,7 @@
 *.dat
 *.yoda
 *.pyc
+False
 
 #symlink
 rivet-analysis-files/MCGRID_CMS_2015_Zee.yoda
