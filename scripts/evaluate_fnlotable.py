@@ -41,7 +41,7 @@ def main(
 	print "PDF member:", member, "  output_filename:", output_filename
 
 	# make histo
-	x_binning = sorted(list(set([item for sublist in fnlo.GetDim0BinBounds() for item in sublist])))
+	x_binning = sorted(list(set([item for sublist in fnlo.GetDim0BinBoundaries() for item in sublist])))
 	histo = ROOT.TH1D(str(member),str(member),len(x_binning)-1, array('d', x_binning))
 
 
@@ -103,6 +103,7 @@ def main(
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-i', '--input-filename', type=str, default=argparse.SUPPRESS)
+	parser.add_argument('-l', '--lumi', type=float, default=argparse.SUPPRESS)
 	parser.add_argument('-p', '--pdf-set', type=str, default=argparse.SUPPRESS)
 	parser.add_argument('-m', '--member', type=int, default=argparse.SUPPRESS)
 	opt = parser.parse_args()
