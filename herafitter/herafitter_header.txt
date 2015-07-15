@@ -4,33 +4,20 @@
 !
 &Data
    Name           = 'CMS Zee jets 2012'
-   Reaction       = 'NC pp'
+   Reaction       = 'FastNLO jets'
 
    NDATA          = @NDATA@
-   NColumn        = 8
-   ColumnType     = 'Bin'  , 'Bin'   , 'Bin'   , 'Bin'    , 'Sigma' , 'Error' , 'Error'
-   ColumnName     = 'ylow' , 'yhigh' , 'ptlow' , 'pthigh' , 'Sigma' , 'stat'  , 'uncor'
+   NColumn        = 5
+   ColumnType     = 'Bin'   , 'Bin'    , 'Sigma' , 'Error' , 'Error'
+   ColumnName     = 'ptlow' , 'pthigh' , 'Sigma' , 'stat'  , 'uncor'
    NInfo          = 4
    DataInfo       = 8000.     , 1.                 , -1.      , -1.
    CInfo          = 'sqrt(S)' , 'PublicationUnits' , 'MurDef' , 'MufDef'
 
    IndexDataset   = 784
 
-  TheoryInfoFile = '/usr/users/dhaitz/home/qcd/herafitter-1.1.1/../sherivf/fnlo-results/fnlo_yZ.txt'
+  TheoryInfoFile = '/storage/a/dhaitz/sherivf/sg_2015-06-25_17-51/fnlo_pTZ.txt'
    TheoryType     = 'FastNLO'
 
-
-   !Percent        = 25*True
+   Percent        = 2*False
 &End
-&PlotDesc
-   PlotN = 5
-   PlotDefColumn = 'ylow'
-   PlotDefValue = -1., 0, 0.5, 1.0, 1.5, 2.0
-   PlotVarColumn = 'ptlow'
-   PlotOptions(1) = 'Experiment:CMS@Title: 0.0 < y < 0.5  @XTitle:P_{T} (GeV)@YTitle:#sigma_{Z}@Xmin:30@Xmax:400.@Xlog@Ylog'
-   PlotOptions(2) = 'Experiment:CMS@Title: 0.5 < y < 1.0  @XTitle:P_{T} (GeV)@YTitle:#sigma_{Z}@Xmin:30@Xmax:400.@Xlog@Ylog'
-   PlotOptions(3) = 'Experiment:CMS@Title: 1.0 < y < 1.5  @XTitle:P_{T} (GeV)@YTitle:#sigma_{Z}@Xmin:30@Xmax:400.@Xlog@Ylog'
-   PlotOptions(4) = 'Experiment:CMS@Title: 1.5 < y < 2.0  @XTitle:P_{T} (GeV)@YTitle:#sigma_{Z}@Xmin:30@Xmax:400.@Xlog@Ylog'
-   PlotOptions(5) = 'Experiment:CMS@Title: 2.0 < y < 2.5  @XTitle:P_{T} (GeV)@YTitle:#sigma_{Z}@Xmin:30@Xmax:400.@Xlog@Ylog'
-&End
-
