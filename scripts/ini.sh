@@ -9,7 +9,12 @@ else
 fi
 
 export PATH=$SHERIVFDIR/../Rivet-2.2.0/bin/:$SHERIVFDIR/scripts:$PATH:/usr/users/dhaitz/local/bin
+export PATH=$SHERIVFDIR/../herafitter-1.1.1/bin:$PATH
 . $SHERIVFDIR/../Rivet-2.2.0/rivetenv.sh
+
+#harry plotter
+export PYTHONCONFIGS=$SHERIVFDIR/harryplotter:$PYTHONCONFIGS
+export PYTHONPATH=$SHERIVFDIR/harryplotter:$PYTHONPATH
 
 export PKG_CONFIG_PATH=$SHERIVFDIR/../enrico/mcgrid/mcgrid/:$PKG_CONFIG_PATH
 export RIVET_ANALYSIS_PATH=$PWD:$RIVET_ANALYSIS_PATH
@@ -24,14 +29,15 @@ export RIVET_ANALYSIS_PATH=$PWD:$RIVET_ANALYSIS_PATH
 #SHERPA
 # ./configure --prefix=$HOME/local --with-sqlite3=install --enable-hepmc2=$HOME/local/ --enable-rivet=$HOME/local/ --enable-blackhat=/storage/a/dhaitz/blackhat   --enable-fastjet=$HOME/local/
 
-#fastnlo 
+#fastnlo
 # ./configure --prefix=$HOME/local --enable-pyext  PYTHON_VERSION="2.6"
 
 #blackhat
 # ./configure --prefix=/storage/a/dhaitz/blackhat --with-QDpath=$HOME/local
 
 # HERAfitter
-#./configure --enable-lhapdf  LDFLAGS="-L/usr/users/dhaitz/local/lib/ -lblas -llapack -ltmglib"
+#./configure --enable-lhapdf  LDFLAGS="-L/usr/users/dhaitz/local/lib/ -lblas -llapack -ltmglib"  --enable-nnpdfWeight
+export QCDNUM_ROOT=/portal/ekpcms6/home/dhaitz/qcd/qcdnum-17-00-06
 
 #yoda
 # ./configure --prefix=$HOME/local --with-boost=$BOOSTPATH --enable-root
@@ -50,8 +56,8 @@ export LD_LIBRARY_PATH=$PWD:$LD_LIBRARY_PATH:$BOOSTPATH/lib:$HOME/local/lib64/:/
 # -L$(BOOSTPATH)/lib/
 
 #LHAPDF
-export PATH=$SHERIVFDIR/../lhapdf-5.9.1/bin/:$PATH
-
+export PATH=$SHERIVFDIR/../LHAPDF-6.1.5/bin/:$PATH
+export LHAPATH=/storage/a/dhaitz/PDFsets:$LHAPATH
 
 # aliases
 alias rivbuild="rivet-buildplugin RivetMyAnalyses.so MCgrid_CMS_2015_Zee.cc -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA  -DUSE_FNLO=1"
