@@ -32,11 +32,21 @@ namespace Rivet {
       // this seems to have been corrected completely for all selection cuts,
       // i.e. eta cuts and pT cuts on leptons.
       Cut cut = (
+#if USE_MUONS
+          (Cuts::pT >= 20.0*GeV) &
+          (Cuts::etaIn(-2.3, 2.3))
+#else
           (Cuts::pT >= 25.0*GeV) &
           (Cuts::etaIn(-2.4, -1.566) | Cuts::etaIn(-1.442, 1.442) | Cuts::etaIn(1.566, 2.4))
+#endif
       );
 
-      ZFinder zfinder(FinalState(), cut, PID::ELECTRON,
+      ZFinder zfinder(FinalState(), cut,
+#if USE_MUONS
+                   PID::MUON,
+#else
+                   PID::ELECTRON,
+#endif
                       81*GeV, 101*GeV, 0.2,
                        ZFinder::CLUSTERNODECAY, ZFinder::TRACK);
       addProjection(zfinder, "ZFinder");
@@ -112,11 +122,12 @@ namespace Rivet {
         if (pTZ > 30.)
         {
              // electron histos
+#ifndef USE_MUONS
              const Particles particles = applyProjection<FinalState>(event, "Electrons").particlesByPt(Cuts::pT>=0.5*GeV);
              _h_pTe->fill(particles[0].pt(), weight);
              _h_etae->fill(particles[0].eta(), weight);
              _h_phie->fill(particles[0].phi()-pi, weight);
-
+#endif
              // Z histos
              _h_pTZ->fill(pTZ, weight);
              _h_yZ->fill(yZ, weight);
