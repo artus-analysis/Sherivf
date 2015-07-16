@@ -64,3 +64,7 @@ alias rivbuild="rivet-buildplugin RivetMyAnalyses.so MCgrid_CMS_2015_Zee.cc -Wl,
 alias riv="rivet  --analysis MCgrid_CMS_2015_Zee ../SHERPA-MC-2.1.1/Examples/V_plus_Jets/LHC_ZJets/sherpa_zjet.hepmc --pwd"
 
 alias newwarmup="rename _warm Z_warm fnlo_*_warmup.txt && mv fnlo_*_warmup.txt $SHERIVFDIR/fnlo-cfg/"
+
+alias herafit="cd $SHERIVFDIR/../herafitter-1.1.1 && rm $SHERIVFDIR/../herafitter-1.1.1/output/NNPDF23_nlo_as_0118_HighStat_chi2/* $SHERIVFDIR/../herafitter-1.1.1/NNPDF/data/* -rf && FitPDF"
+
+alias makeherafile="cal && merlin.py -x zpt -i old_work/data_ee_corr.root -f zcuts_AK5PFJetsCHSL1L2L3  --plot-m ExportHerafitter --x-bins '37,30,400' -w '(48/19789)' --header-file ../../qcd/sherivf/herafitter/herafitter_header.txt && cat plots/zpt.txt"
