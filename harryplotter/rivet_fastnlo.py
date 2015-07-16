@@ -175,7 +175,7 @@ def fastnlo_all(args=None, additional_dictionary=None):
 			'members': range(n_members)*len(pdf_sets),
 			#'labels': ['Different PDF Sets'.format(N-1)] + [None]*(N-1),
 			'labels': labels,
-			'fastnlo_files': ["/storage/a/dhaitz/sherivf/sg_2015-06-23_15-43/fnlo_{0}Z.txt".format(quantity)],
+			'fastnlo_files': ["/storage/a/dhaitz/sherivf/sg_2015-06-23_15-43/fnlo_{0}Z.tab".format(quantity)],
 			'legend': 'upper right',
 			'markers': ['-',]*N,
 			'line_styles': ['-']*N,

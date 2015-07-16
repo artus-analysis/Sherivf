@@ -63,7 +63,7 @@ export LHAPATH=/storage/a/dhaitz/PDFsets:$LHAPATH
 alias rivbuild="rivet-buildplugin RivetMyAnalyses.so MCgrid_CMS_2015_Zee.cc -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA  -DUSE_FNLO=1"
 alias riv="rivet  --analysis MCgrid_CMS_2015_Zee ../SHERPA-MC-2.1.1/Examples/V_plus_Jets/LHC_ZJets/sherpa_zjet.hepmc --pwd"
 
-alias newwarmup="rename _warm Z_warm fnlo_*_warmup.txt && mv fnlo_*_warmup.txt $SHERIVFDIR/fnlo-cfg/"
+alias newwarmup="rename _warm Z_warm fnlo_*_warmup.tab && mv fnlo_*_warmup.tab $SHERIVFDIR/fnlo-cfg/"
 
 alias herafit="cd $SHERIVFDIR/../herafitter-1.1.1 && rm $SHERIVFDIR/../herafitter-1.1.1/output/NNPDF23_nlo_as_0118_HighStat_chi2/* $SHERIVFDIR/../herafitter-1.1.1/NNPDF/data/* -rf && FitPDF"
 

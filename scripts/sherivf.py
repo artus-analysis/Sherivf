@@ -8,7 +8,7 @@ import sys, os, glob, shutil, time, subprocess, argparse, socket
 class Sherivf(object):
 
 	def __init__(self):
-		self.fastnlo_outputs = ['fnlo_yZ.txt', 'fnlo_pTZ.txt', 'fnlo_mZ.txt', 'fnlo_phiZ.txt']
+		self.fastnlo_outputs = ['fnlo_yZ.tab', 'fnlo_pTZ.tab', 'fnlo_mZ.tab', 'fnlo_phiZ.tab']
 
 		if 'naf' in socket.gethostname().lower():
 			self.default_config = 'naf'
@@ -127,7 +127,7 @@ class Sherivf(object):
 				'@NEVENTS@': self.args.n_events,
 				'@NJOBS@': self.args.n_jobs,
 				'@OUTDIR@': self.args.output_dir+'/output',
-				'@WARMUP@': ("rm *warmup*.txt"if self.args.warmup else ""),
+				'@WARMUP@': ("rm *warmup*.tab"if self.args.warmup else ""),
 				'@OUTPUT@': output,
 			})
 
@@ -152,10 +152,10 @@ class Sherivf(object):
 
 		try:
 			#merge fastNLO files
-			for quantity in [item.split("_")[1].replace("Z.txt", "") for item in self.fastnlo_outputs]:
-				commands = ['fnlo-tk-append'] + glob.glob(self.args.output_dir+'/output/'+'fnlo_{}Z*.txt'.format(quantity)) + [self.args.output_dir+'/fnlo_{}Z.txt'.format(quantity)]
+			for quantity in [item.split("_")[1].replace("Z.tab", "") for item in self.fastnlo_outputs]:
+				commands = ['fnlo-tk-append'] + glob.glob(self.args.output_dir+'/output/'+'fnlo_{}Z*.tab'.format(quantity)) + [self.args.output_dir+'/fnlo_{}Z.tab'.format(quantity)]
 				print_and_call(commands)
-				outputs.append(self.args.output_dir+'/fnlo_{}Z.txt'.format(quantity))
+				outputs.append(self.args.output_dir+'/fnlo_{}Z.tab'.format(quantity))
 		except OSError as e:
 			print "Could not merge fastNLO outputs ({0}): {1}".format(e.errno, e.strerror)
 
@@ -163,7 +163,7 @@ class Sherivf(object):
 
 
 	def merge_warmup_files(self):
-		for scenario in [item.replace("Z.txt", "") for item in self.fastnlo_outputs]:
+		for scenario in [item.replace("Z.tab", "") for item in self.fastnlo_outputs]:
 			commands = [
 				"/usr/users/dhaitz/home/qcd/fastnlo_toolkit_fredpatches/fastNLO/trunk/tools/fnlo-add-warmup.pl",
 				"-w",

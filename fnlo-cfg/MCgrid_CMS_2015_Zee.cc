@@ -87,10 +87,10 @@ namespace Rivet {
       MCgrid::fastnloConfig config_fnlo_4(0, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON, steeringFileName4, arch_fnlo);
 
       MSG_INFO("bookGrid for yZ. histoDir: " << histoDir());
-      _fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo, "fnlo_pTZ_warmup.txt");
-      _fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_2, "fnlo_yZ_warmup.txt");
-      _fnlo_mZ = MCgrid::bookGrid(_h_mZ, histoDir(), config_fnlo_3, "fnlo_mZ_warmup.txt");
-      _fnlo_phiZ = MCgrid::bookGrid(_h_phiZ, histoDir(), config_fnlo_4, "fnlo_phiZ_warmup.txt");
+      _fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo, "fnlo_pTZ_warmup.tab");
+      _fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_2, "fnlo_yZ_warmup.tab");
+      _fnlo_mZ = MCgrid::bookGrid(_h_mZ, histoDir(), config_fnlo_3, "fnlo_mZ_warmup.tab");
+      _fnlo_phiZ = MCgrid::bookGrid(_h_phiZ, histoDir(), config_fnlo_4, "fnlo_phiZ_warmup.tab");
 
       //_fnlo_xs = MCgrid::bookGrid(_h_xs, histoDir(), config_fnlo);
 
@@ -173,10 +173,10 @@ namespace Rivet {
       _fnlo_mZ->scale(crossSection()/sumOfWeights());
       _fnlo_phiZ->scale(crossSection()/sumOfWeights());
 
-      _fnlo_pTZ->exportgrid("fnlo_pTZ.txt");
-      _fnlo_yZ->exportgrid("fnlo_yZ.txt");
-      _fnlo_mZ->exportgrid("fnlo_mZ.txt");
-      _fnlo_phiZ->exportgrid("fnlo_phiZ.txt");
+      _fnlo_pTZ->exportgrid("fnlo_pTZ.tab");
+      _fnlo_yZ->exportgrid("fnlo_yZ.tab");
+      _fnlo_mZ->exportgrid("fnlo_mZ.tab");
+      _fnlo_phiZ->exportgrid("fnlo_phiZ.tab");
 #endif
       
       // Clear event handler

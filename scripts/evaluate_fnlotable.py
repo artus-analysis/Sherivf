@@ -21,7 +21,7 @@ from ROOT import TFile
 
 def main(
 		member=0,
-		input_filename='fnlo_yZ.txt',
+		input_filename='fnlo_yZ.tab',
 		pdf_set=(
 			#'../NNPDF21_100.LHgrid'
 			'CT10nlo.LHgrid'
@@ -34,7 +34,7 @@ def main(
 	fnlo.SetLHAPDFFilename(pdf_set)
 	fnlo.SetLHAPDFMember(member)
 	fnlo.CalcCrossSection()
-	output_filename = input_filename.replace(".txt", ("_"+str(member) if member != 0 else "")+".root")
+	output_filename = input_filename.replace(".tab", ("_"+str(member) if member != 0 else "")+".root")
 	out = TFile(output_filename, "RECREATE")
 
 

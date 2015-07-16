@@ -47,7 +47,7 @@ def main():
 	parser.add_argument('-o', '--output-filename', help='corr.root')
 	kwargs = vars(parser.parse_args())
 	if kwargs['output_filename'] == None:
-		kwargs['output_filename'] = os.path.basename(kwargs['table']).replace(".txt", ".root")
+		kwargs['output_filename'] = os.path.basename(kwargs['table']).replace(".tab", ".root")
 	get_corr(**kwargs)
 
 
