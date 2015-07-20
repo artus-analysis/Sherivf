@@ -22,7 +22,7 @@ fastNLO output: fnlo_yZ.tab
 
 
 Save data in herafitter format
-* `merlin.py -x zpt -i old_work/data_ee_corr.root -f zcuts_AK5PFJetsCHSL1L2L3  --plot-m ExportHerafitter --x-bins '37,30,400' -w '(0.95*0.05/19.712)' --header-file ../../qcd/sherivf/herafitter/herafitter_header.txt`
+* `makeherafile`, alias defined in ini.sh
 
 Run herafitter
 * `herafit`, alias defined in ini.sh
