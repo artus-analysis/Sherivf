@@ -156,10 +156,11 @@ def fastnlo_all(args=None, additional_dictionary=None):
 			'zmass': ['20,81,101'],
 			'abs(zy)': ['25,0,2.5'],
 			'zpt': ['37,30,400'],
+			'zphi': ['20,-3.14159,3.14159'],
 	}
-	qdict = {'pT': 'zpt', 'y': 'abs(zy)', 'm': 'zmass'}
+	qdict = {'pT': 'zpt', 'y': 'abs(zy)', 'm': 'zmass', 'phi': 'zphi'}
 
-	scale = False#True
+	scale = True
 
 	# configure fastNLO input
 	n_members = 1
@@ -168,14 +169,14 @@ def fastnlo_all(args=None, additional_dictionary=None):
 	colors = ['blue', 'red', 'green', 'purple', 'orange']
 	N = n_members * len(pdf_sets)
 
-	for quantity, sf in zip(['y', 'm', 'pT'], [0.5, 2, 20]):
+	for quantity, sf in zip(['y', 'm', 'pT', 'phi'], [2*i for i in [0.1, 1, 10, 0.314159]]):
 		d = {
 			'input_modules': 'InputFastNLO',
 			'pdf_sets': pdf_sets,
 			'members': range(n_members)*len(pdf_sets),
 			#'labels': ['Different PDF Sets'.format(N-1)] + [None]*(N-1),
 			'labels': labels,
-			'fastnlo_files': ["/storage/a/dhaitz/sherivf/sg_2015-06-23_15-43/fnlo_{0}Z.tab".format(quantity)],
+			'fastnlo_files': ["latest_sherivf_output/fnlo_{0}Z.txt".format(quantity)],
 			'legend': 'upper right',
 			'markers': ['-',]*N,
 			'line_styles': ['-']*N,
