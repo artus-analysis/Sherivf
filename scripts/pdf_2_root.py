@@ -34,7 +34,6 @@ def main():
 	"""evaluate a PDF set and write the resuling TGraph to disk"""
 
 	opt = getopt()
-	opt.output_filename = opt.output_filename + ".root"
 	out = ROOT.TFile(opt.output_filename, "RECREATE")
 	n_members = 101
 	x_values = np.logspace(-4, -0.0001, opt.n_points)
@@ -61,11 +60,15 @@ def getopt():
 	parser.add_argument('-p', '--pdfset', help='LHAPDF PDF Filename', 
 		default='NNPDF23_nlo_as_0118_HighStat_chi2_nRep100')
 	#	default='NNPDF23_nlo_as_0118')
-	parser.add_argument('-o', '--output-filename', default='out')
+	parser.add_argument('-o', '--output-filename', default=None)
 	parser.add_argument('-f', '--flavours', nargs="*", default=[0, 1, 2])#, 7, 8, 9])
 	parser.add_argument('-n', '--n-points', default=100, type=int, help="points in x")
 	parser.add_argument('-q', '--q', default=91.2, type=float, help="Q")
 	opt = parser.parse_args()
+	if opt.output_filename is None:
+		opt.output_filename = opt.pdfset + ".root"
+	else:
+		opt.output_filename += ".root"
 	return opt
 
 def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q): 
