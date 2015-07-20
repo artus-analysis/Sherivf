@@ -4,11 +4,9 @@
 *.yoda
 *.pyc
 False
-plots/
 
 #symlink
 rivet-analysis-files/MCGRID_CMS_2015_Zee.yoda
-
 
 #no need to track
 mcgrid/MCgrid_CMS_2015_Zee*.evtcount
@@ -23,3 +21,5 @@ sherpa-cfg/Sherpa_References.tex
 sherpa-cfg/Results_NLO.db
 
 test/
+plots/
+websync/
