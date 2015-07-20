@@ -4,6 +4,7 @@
 *.yoda
 *.pyc
 False
+plots/
 
 #symlink
 rivet-analysis-files/MCGRID_CMS_2015_Zee.yoda
