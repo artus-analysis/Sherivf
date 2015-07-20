@@ -34,7 +34,7 @@ def main():
 	"""evaluate a PDF set and write the resuling TGraph to disk"""
 
 	opt = getopt()
-	out = ROOT.TFile(opt.output_filename, "RECREATE")
+	out = ROOT.TFile((opt.folder+"/" if opt.folder is not None else "") + opt.output_filename, "RECREATE")
 	n_members = 101
 	x_values = np.logspace(-4, -0.0001, opt.n_points)
 
@@ -64,6 +64,8 @@ def getopt():
 	parser.add_argument('-f', '--flavours', nargs="*", default=[0, 1, 2])#, 7, 8, 9])
 	parser.add_argument('-n', '--n-points', default=100, type=int, help="points in x")
 	parser.add_argument('-q', '--q', default=91.2, type=float, help="Q")
+	parser.add_argument('--folder', type=str, default=None)
+
 	opt = parser.parse_args()
 	if opt.output_filename is None:
 		opt.output_filename = opt.pdfset + ".root"
