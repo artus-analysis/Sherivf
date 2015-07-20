@@ -68,4 +68,15 @@ alias newwarmup="rename _warm Z_warm fnlo_*_warmup.tab && mv fnlo_*_warmup.tab $
 
 alias herafit="(LHAPATH=/storage/a/dhaitz/PDFsets && cd $SHERIVFDIR/../herafitter-1.1.1 && rm $SHERIVFDIR/../herafitter-1.1.1/output/NNPDF23_nlo_as_0118_HighStat_chi2/* $SHERIVFDIR/../herafitter-1.1.1/NNPDF/data/* -rf && FitPDF)"
 
-alias makeherafile=" merlin.py -x zpt -i ~/home/artus/Excalibur/old_work/data_ee_corr.root -f zcuts_AK5PFJetsCHSL1L2L3  --plot-m ExportHerafitter --x-bins '37,30,400' -w '(0.05/19.712)' --header-file ../../qcd/sherivf/herafitter/herafitter_header.txt --filename CMS_Zee_HFinput -o ~/home/qcd/sherivf/herafitter/"
+alias makeherafile="(merlin.py -x zpt -i ~/home/artus/Excalibur/old_work/data_ee_corr.root -f zcuts_AK5PFJetsCHSL1L2L3  --plot-m ExportHerafitter --x-bins '37,30,400' -w '(0.05/19.712)' --header-file ../../qcd/sherivf/herafitter/herafitter_header.txt --filename CMS_Zee_HFinput -o ~/home/qcd/sherivf/herafitter/)"
+
+nnpdf_analysis(){
+	qcd &&
+	makeherafile &&
+	herafit &&
+	pdf_2_root.py --folder pdf_sets  &&
+	merlin.py --py nnpdf
+
+}
+
+
