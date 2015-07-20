@@ -15,6 +15,7 @@ export PATH=$SHERIVFDIR/../herafitter-1.1.1/bin:$PATH
 #harry plotter
 export PYTHONCONFIGS=$SHERIVFDIR/harryplotter:$PYTHONCONFIGS
 export PYTHONPATH=$SHERIVFDIR/harryplotter:$PYTHONPATH
+export MODULES_SEARCH_PATH=$SHERIVFDIR/harryplotter/modules:$MODULES_SEARCH_PATH
 
 export PKG_CONFIG_PATH=$SHERIVFDIR/../enrico/mcgrid/mcgrid/:$PKG_CONFIG_PATH
 export RIVET_ANALYSIS_PATH=$PWD:$RIVET_ANALYSIS_PATH
