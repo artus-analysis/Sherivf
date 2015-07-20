@@ -57,7 +57,7 @@ export LD_LIBRARY_PATH=$PWD:$LD_LIBRARY_PATH:$BOOSTPATH/lib:$HOME/local/lib64/:/
 
 #LHAPDF
 export PATH=$SHERIVFDIR/../LHAPDF-6.1.5/bin/:$PATH
-export LHAPATH=/storage/a/dhaitz/PDFsets:$LHAPATH
+#export LHAPATH=/storage/a/dhaitz/PDFsets:$LHAPATH
 
 # aliases
 alias rivbuild="rivet-buildplugin RivetMyAnalyses.so MCgrid_CMS_2015_Zee.cc -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA  -DUSE_FNLO=1"
