@@ -80,7 +80,7 @@ class ExportHerafitter(plotbase.PlotBase):
 				"{:{width}.0f}".format(line[0], width=list_of_max_len[0]),
 				"{:{width}.0f}".format(line[1], width=list_of_max_len[1]),
 				"{:{width}.2f}".format(line[2], width=list_of_max_len[2]+3),
-				"{:{width}.5f}".format(line[3], width=list_of_max_len[3]+3),
-				"{:{width}.5f}".format(line[4], width=list_of_max_len[4]+3),
+				"{:{width}.3f}".format(line[3], width=list_of_max_len[3]+3),
+				"{:{width}.3f}".format(line[4], width=list_of_max_len[4]+3),
 			]))
 		plotData.plot.values = "\n".join(str_lines)
