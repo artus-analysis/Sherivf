@@ -24,9 +24,10 @@ def pdf(args=None, additional_dictionary=None):
 			"colors": [colors.histo_colors['blue'], colors.histo_colors['yellow']],
 			"x_log": True,
 			"y_label": "PDF xfx",
-			"y_subplot_lims": [0.8, 1.2],
+			"y_subplot_lims": [0.75, 1.25],
 			"y_subplot_label": "Ratio to NNPDF",
 			"texts": [r"NNPDF 2.3 NLO\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)"],
+			"texts_x": [0.05],
 		}
 		d.update({
 			'x_expressions': [flavour],

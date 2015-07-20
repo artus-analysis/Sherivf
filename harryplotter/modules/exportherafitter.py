@@ -66,7 +66,7 @@ class ExportHerafitter(plotbase.PlotBase):
 				root_object.GetBinLowEdge(i) + root_object.GetBinWidth(i),
 				root_object.GetBinContent(i),
 				root_object.GetBinError(i),  # stat
-				100*root_object.GetBinError(i)  # sys
+				2*root_object.GetBinError(i)  # sys
 			])
 		# now, format the values to strings with proper widths
 		list_of_max_len = [0]*len(lines[0])
@@ -80,7 +80,7 @@ class ExportHerafitter(plotbase.PlotBase):
 				"{:{width}.0f}".format(line[0], width=list_of_max_len[0]),
 				"{:{width}.0f}".format(line[1], width=list_of_max_len[1]),
 				"{:{width}.2f}".format(line[2], width=list_of_max_len[2]+3),
-				"{:{width}.2f}".format(line[3], width=list_of_max_len[3]+3),
-				"{:{width}.2f}".format(line[4], width=list_of_max_len[4]+3),
+				"{:{width}.5f}".format(line[3], width=list_of_max_len[3]+3),
+				"{:{width}.5f}".format(line[4], width=list_of_max_len[4]+3),
 			]))
 		plotData.plot.values = "\n".join(str_lines)
