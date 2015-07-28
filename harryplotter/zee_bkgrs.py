@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
+import parsertools
 
 import Artus.HarryPlotter.harry as harry
 import Excalibur.Plotting.harryinterface as harryinterface
@@ -17,28 +18,38 @@ def zee_bkgrs(args=None):
 	ybins = np.arange(0, 2.4, 0.4)
 	bkgr_signal_ratio = False
 
-	for njetweight, njetlabel, njetsuffix in zip(
+	known_args, args = parsertools.parser_list_tool(args, ['njets', 'ybins', 'mcs', 'logs', 'quantities'])
+
+	for njetweight, njetlabel, njetsuffix in zip(*parsertools.get_list_slice([
 		["1", "njets30<2", "njets30>1"],
 		["", "$ n_{jets(p_T>30GeV)}<=1$", "$ n_{jets(p_T>30GeV)}>1$"],
 		["", "_njets0-1", "_njets2"]
-	):
+	], known_args.no_njets)):
 		# iterate over rapidity bins
-		for ybin, ybinlabel, ybinsuffix in zip(
+		for ybin, ybinlabel, ybinsuffix in zip(*parsertools.get_list_slice([
 					["1"] + ["abs(zy)<{1} && abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])],
 					["", "|y|<0.4"] + ["{0}<|y|<{1}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])][1:],
 					["_inclusive"] + ["_{0:02d}y{1:02d}".format(int(10*low), int(10*up)) for low, up in zip(ybins[:-1], ybins[1:])]
-		):
+		], known_args.no_ybins)):
 		# iterate over MC samples
-			for mc, mc_label in zip(['/work/mc_ee.root', '/work/mc_ee_powheg.root'],
-				['Madgraph', 'Powheg']):
+			for mc, mc_label in zip(*parsertools.get_list_slice([
+				['/work/mc_ee.root', '/work/mc_ee_powheg.root'],
+				['Madgraph', 'Powheg']
+			], known_args.no_mcs)):
 				# log / linear scale
-				for log, suffix in zip([False, True], ['', '_log']):
+				for log, suffix in zip(*parsertools.get_list_slice([
+					[False, True], ['', '_log']
+				], known_args.no_logs)):
 					# different quantities
-					for quantity, bins in zip(['zpt', 'zy', 'zmass', 'njets30'],
-						["30 40 60 80 100 120 140 170 200 1000",
-						"14,-2.8,2.8",
-						"20,81,101",
-						"7,-0.5,6.5"]):
+					for quantity, bins in zip(*parsertools.get_list_slice([
+						['zpt', 'zy', 'zmass', 'njets30'],
+						[
+							"30 40 60 80 100 120 140 170 200 1000",
+							"14,-2.8,2.8",
+							"20,81,101",
+							"7,-0.5,6.5"
+						]
+				], known_args.no_quantities)):
 						d = {
 							'x_expressions': quantity,
 							'files': [
@@ -56,9 +67,9 @@ def zee_bkgrs(args=None):
 							],
 							'legend': None,
 							"labels": [
-								"data",
+								"Data",
 								r"DY$\\rightarrow ee$",
-								"ZZ,WZ",
+								"ZZ, WZ",
 								"tt",
 								r"tW, WW, W+jets, DY$\\rightarrow \\tau\\tau$"
 							],
