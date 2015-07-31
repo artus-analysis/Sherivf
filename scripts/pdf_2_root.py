@@ -30,13 +30,19 @@ partondict = {
 }
 
 
-def main():
+def main(
+		pdfset,
+		flavours,
+		output_filename,
+		n_points,
+		q,
+		folder):
 	"""evaluate a PDF set and write the resuling TGraph to disk"""
 
-	opt = getopt()
-	out = ROOT.TFile((opt.folder+"/" if opt.folder is not None else "") + opt.output_filename, "RECREATE")
+	
+	out = ROOT.TFile((folder+"/" if folder is not None else "") + output_filename, "RECREATE")
 	n_members = 101
-	x_values = np.logspace(-4, -0.0001, opt.n_points)
+	x_values = np.logspace(-4, -0.0001, n_points)
 
 	## Version info, search paths, and metadata
 	print "LHAPDF version", lhapdf.version()
@@ -44,15 +50,15 @@ def main():
 	lhapdf.pathsPrepend("/usr/users/dhaitz/home/qcd/herafitter-1.1.1/output/NNPDF23_nlo_as_0118_HighStat_chi2")
 	lhapdf.setVerbosity(0)
 	print "LHAPDF paths",lhapdf.paths()
-	print "PDFset:", opt.pdfset
-	pset = lhapdf.getPDFSet(opt.pdfset)
+	print "PDFset:", pdfset
+	pset = lhapdf.getPDFSet(pdfset)
 
 	# iterate over flavours, get pdfgraph, write
-	for flavour in opt.flavours:
-		tgraph = get_pdf_tgraph(pset, flavour, x_values, opt.n_points, n_members, opt.q)
+	for flavour in flavours:
+		tgraph = get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, q)
 		tgraph.Write(partondict[flavour].replace(' ', '_'))
 
-	print "Written to", opt.output_filename
+	print "Written to", output_filename
 	out.Close()
 
 def getopt():
@@ -97,4 +103,5 @@ def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q):
 	return tgraph
 
 if __name__ == '__main__':
-	main()
+	opt = getopt()
+	main(**vars(opt))
