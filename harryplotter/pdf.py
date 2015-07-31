@@ -50,9 +50,9 @@ def pdfs_thesis(args=None, additional_dictionary=None):
 	"""PDF plots for thesis"""
 	plots = []
 	flavours = ['gluon', 'd_quark', 'u_quark', 'd_antiquark', 'u_antiquark']
-	labels = ["gluon/10", "Down", "Up", "Anti-Down", "Anti-Up"]
+	labels = ["Gluon/10", "Down", "Up", "Anti-Down", "Anti-Up"]
 	for q, upper_y_lim in zip(
-		[1.9, 3, 10, 14, 91.2, 200],
+		[1, 1.9, 3, 10, 14, 91.2, 200],
 		[3]*10,#[0.8, 1.2, 2, 2, 3.5, 4]
 	):
 		d = {
