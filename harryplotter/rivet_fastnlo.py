@@ -303,28 +303,5 @@ def sherpa_gens(args=None, additional_dictionary=None):
 	harryinterface.harry_interface(plots, args)
 
 
-def correlations(args=None, additional_dictionary=None):
-	"""   """
-	plots = []
-	for flavour in ['gluon']:
-		for quantity in ['pT' ,'m', 'phi', 'y']:
-			d = {
-				"colormap": "bwr",
-				"filename": quantity,
-				"files": ["/usr/users/dhaitz/home/qcd/sherivf/correlations/fnlo_{}Z.root".format(quantity)],
-				"folders": [""],
-				"texts": ["NNPDF2.2 NLO"],
-				"x_expressions": [flavour],
-				"x_label": "x",
-				"x_log": True,
-				"y_label": 'z'+(quantity if quantity != 'm' else 'mass'),
-				"z_label": "Correlation Coefficient",
-				"z_lims": [-1.0, 1.0]
-			}
-
-			plots.append(d)
-	harryinterface.harry_interface(plots, args)
-
-
 if __name__ == '__main__':
 	rivet_fastnlo()
