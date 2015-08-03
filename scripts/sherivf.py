@@ -153,9 +153,9 @@ class Sherivf(object):
 		try:
 			#merge fastNLO files
 			for quantity in [item.split("_")[1].replace("Z.tab", "") for item in self.fastnlo_outputs]:
-				commands = ['fnlo-tk-append'] + glob.glob(self.args.output_dir+'/output/'+'fnlo_{}Z*.tab'.format(quantity)) + [self.args.output_dir+'/fnlo_{}Z.tab'.format(quantity)]
+				commands = ['fnlo-tk-append'] + glob.glob(self.args.output_dir+'/output/'+'fnlo_{0}Z*.tab'.format(quantity)) + [self.args.output_dir+'/fnlo_{0}Z.tab'.format(quantity)]
 				print_and_call(commands)
-				outputs.append(self.args.output_dir+'/fnlo_{}Z.tab'.format(quantity))
+				outputs.append(self.args.output_dir+'/fnlo_{0}Z.tab'.format(quantity))
 		except OSError as e:
 			print "Could not merge fastNLO outputs ({0}): {1}".format(e.errno, e.strerror)
 
