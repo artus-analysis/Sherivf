@@ -80,3 +80,4 @@ nnpdf_analysis(){
 }
 
 
+#|  Total XS is 3645.82 pb +- ( 20.6701 pb = 0.56 % )  |
