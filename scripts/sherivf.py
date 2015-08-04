@@ -141,7 +141,7 @@ class Sherivf(object):
 			print_and_call(commands)
 			#apply scalefactor
 			scalefactor = 1./len(yoda_files)
-			commands = ['yodascale', self.args.output_dir+'/Rivet.yoda', '-c', "'.* {0}x'".format(scalefactor), '-i']
+			commands = ['yodascale', '-c', "'.* {0}x'".format(scalefactor), '-i', self.args.output_dir+'/Rivet.yoda']
 			print_and_call(commands)
 			outputs.append(self.args.output_dir+'/Rivet.yoda')
 		except OSError as e:
