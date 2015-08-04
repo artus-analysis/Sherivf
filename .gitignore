@@ -19,7 +19,8 @@ sherpa-cfg/Results.db
 sherpa-cfg/*.hepmc
 sherpa-cfg/makelibs
 sherpa-cfg/Sherpa_References.tex
-sherpa-cfg/Results_NLO.db
+sherpa-cfg/Results_NLO.*
+sherpa-cfg/Status__*
 
 test/
 plots/
