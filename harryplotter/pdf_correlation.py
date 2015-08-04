@@ -4,78 +4,38 @@
 import Excalibur.Plotting.harryinterface as harryinterface
 
 
-def pdf_corr(args=None):
-	"""Correlation of sigma_Z and PDF vs |y| and x (2D), for u/d/s/g."""
-	dicts = []
-	partons = ["Gluon", "Up", "Down", "Strange"]
-	for parton, title in zip(partons, [p.lower() for p in partons]):
-		d = {
-			"colormap": "seismic", 
-			"filename": parton, 
-			"files": [
-				"/usr/users/dhaitz/home/artus/Excalibur/test_{}.root".format(parton)
-			], 
-			"folders": [
-				"result"
-			], 
-			"texts": [
-				"NNPDF 2.3 NNLO",
-				"Q = 91.1 GeV",
-				r"$ Z \\rightarrow \\mu \\mu$ "
-			], 
-			"texts_y": [
-				0.97,
-				0.92,
-				0.97
-			], 
-			"texts_x": [
-				0.03,
-				0.03,
-				0.8
-			],
-			"title": title, 
-			"x_expressions": [
-				"corr"
-			], 
-			"x_label": "x", 
-			"x_lims": [
-				0.0001, 
-				1.0
-			], 
-			"x_log": True, 
-			"y_label": "|$ y_Z $|", 
-			"y_lims": [
-				0.0, 
-				2.8
-			], 
-			"z_label": r"Correlation coefficient $ \\rho$ ($ \\sigma_Z$, PDF)", 
-			"z_lims": [
-				-1.0, 
-				1.0
-			]
-		}
-		dicts.append(d)
-	harryinterface.harry_interface(dicts, args)
-
-
-def correlations(args=None, additional_dictionary=None):
-	"""   """
+def pdf_correlations(args=None, additional_dictionary=None):
+	""" Correlation of sigma_Z and PDF vs Z quantities and x (2D), for u/d/s/g."""
 	plots = []
-	for flavour in ['gluon']:
+	lims = {
+		'y': [0, 2.4],
+		'm': [81, 101],
+		'pT': [30, 400],
+		'phi': [-3, 3],
+	}
+	for flavour in ['gluon', 'd quark', 'u quark', 'u antiquark', 'd antiquark', 'sea quarks']:
 		for quantity in ['pT' ,'m', 'phi', 'y']:
 			d = {
-				"colormap": "bwr",
-				"filename": quantity,
+				# input
+				"x_expressions": [flavour],
 				"files": ["/usr/users/dhaitz/home/qcd/sherivf/correlations/fnlo_{}Z.root".format(quantity)],
 				"folders": [""],
-				"texts": ["NNPDF2.2 NLO"],
-				"x_expressions": [flavour],
+				# formatting
 				"x_label": "x",
 				"x_log": True,
 				"y_label": 'z'+(quantity if quantity != 'm' else 'mass'),
-				"z_label": "Correlation Coefficient",
-				"z_lims": [-1.0, 1.0]
+				"z_label": r"Correlation coefficient $ \\rho$ ($ \\sigma_Z$, PDF)",
+				"z_lims": [-1.0, 1.0],
+				"colormap": "bwr",
+				"texts": [r"NNPDF 2.3 NLO\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)"],
+				"title": flavour,
+				# output
+				"filename": flavour+"_"+quantity,
 			}
+			try:
+				d['y_lims'] = lims[quantity]
+			except KeyError:
+				pass
 
 			plots.append(d)
 	harryinterface.harry_interface(plots, args)
