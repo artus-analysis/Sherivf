@@ -60,7 +60,7 @@ namespace Rivet {
       addProjection(electrons, "Electrons");
       
       /// Book histograms here
-      _h_pTZ = bookHisto1D("d01-x01-y01", 37, 30, 400);
+      _h_pTZ = bookHisto1D("d01-x01-y01", 40, 0, 400);
       _h_yZ = bookHisto1D("d02-x01-y01", 25, 0, 2.5);
       _h_mZ = bookHisto1D("d03-x01-y01", 20, 81, 101);
       _h_phiZ = bookHisto1D("d04-x01-y01", 12, -3, 3);
@@ -68,7 +68,7 @@ namespace Rivet {
       _njets_pTZ = bookProfile1D("d06-x01-y01", 37, 30, 400);
       
       
-      _h_pTe = bookHisto1D("d07-x01-y01", 40, 0, 200);
+      _h_pTe = bookHisto1D("d07-x01-y01", 40, 20, 120);
       _h_etae = bookHisto1D("d08-x01-y01", 60, -3, 3);
       _h_phie = bookHisto1D("d10-x01-y01", 20, -3.14159, 3.14159);
 
@@ -153,6 +153,8 @@ namespace Rivet {
 
     /// Normalise histograms etc., after the run
     void finalize() {
+
+      MSG_INFO("xsec: " << crossSection() << "  sumW: " << sumOfWeights() << "  ratio: " << crossSection()/sumOfWeights());
 
       // Data seems to have been normalized for the avg of the two sides
       // (+ve & -ve rapidity) rather than the sum, hence the 0.5:
