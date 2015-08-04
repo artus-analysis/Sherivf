@@ -29,6 +29,10 @@ export RIVET_ANALYSIS_PATH=$PWD:$RIVET_ANALYSIS_PATH
 
 #SHERPA
 # ./configure --prefix=$HOME/local --with-sqlite3=install --enable-hepmc2=$HOME/local/ --enable-rivet=$HOME/local/ --enable-blackhat=/storage/a/dhaitz/blackhat   --enable-fastjet=$HOME/local/
+export SHERPA_INCLUDE_PATH=$HOME/local/include/SHERPA-MC
+export SHERPA_SHARE_PATH=$HOME/local/share/SHERPA-MC
+export SHERPA_LIBRARY_PATH=$HOME/local/lib/SHERPA-MC
+export LD_LIBRARY_PATH=$SHERPA_LIBRARY_PATH:$LD_LIBRARY_PATH
 
 #fastnlo
 # ./configure --prefix=$HOME/local --enable-pyext  PYTHON_VERSION="2.6"
