@@ -273,26 +273,27 @@ def sherpa_gens(args=None, additional_dictionary=None):
 	"""Comparisons for Sherpa and Madgraph,Powheg Gen."""
 	plots = []
 
-	normalize = False
-	for normalize in [True, False]:
+	for normalize in [True,
+			False]:
 		for index, quantity, binning, label in zip(
 			[0,1,2,3,6,7],
 			["genzpt", "abs(genzy)", "genzmass", "genzphi", "geneminuspt", "geneminuseta"],
-			["37,30,400", "25,0,2.5", "20,81,101", "12,-3,3", "40,0,200", "60,-3,3"],
+			["40,0,400", "25,0,2.5", "20,81,101", "12,-3,3", "40,20,120", "60,-3,3"],
 			["xsecpt", "xsecabsy", "xsecm", "xsecphi", "xsecpt", "xseceta"],
 		):
 			d = {
 				#"yoda_files": ["/storage/a/dhaitz/sherivf/sg_2015-08-03_11-40/Rivet.yoda"],
-				"yoda_files": ["/storage/a/dhaitz/sherivf/sg_2015-08-03_15-25/output/Rivet_1.yoda"],
+				"yoda_files": ["/storage/a/dhaitz/sherivf/sg_2015-08-03_22-31/output/Rivet_1.yoda"],
 
 				#"weights": ["(genepluspt>25&&geneminuspt>25&&((geneminuseta>-2.4&&geneminuseta<-1.566)||(geneminuseta>-1.442&&geneminuseta<1.442)||(geneminuseta>1.566&&geneminuseta<2.4))&&((genepluseta>-2.4&&genepluseta<-1.566)||(genepluseta>-1.442&&genepluseta<1.442)||(genepluseta>1.566&&genepluseta<2.4))&&genzmass>81&&genzmass<101&&genzpt>30)"],
-				"weights": ["(genepluspt>0&&geneminuspt>0&&genzmass>81&&genzmass<101&&genzpt>0&&((geneminuseta>-2.4&&geneminuseta<-1.566)||(geneminuseta>-1.442&&geneminuseta<1.442)||(geneminuseta>1.566&&geneminuseta<2.4))&&((genepluseta>-2.4&&genepluseta<-1.566)||(genepluseta>-1.442&&genepluseta<1.442)||(genepluseta>1.566&&genepluseta<2.4)))"],
+				"weights": ["(ngenelectrons>1&&genepluspt>25&&geneminuspt>25&&genzmass>81&&genzmass<101&&genzpt>30&&((geneminuseta>-2.4&&geneminuseta<-1.566)||(geneminuseta>-1.442&&geneminuseta<1.442)||(geneminuseta>1.566&&geneminuseta<2.4))&&((genepluseta>-2.4&&genepluseta<-1.566)||(genepluseta>-1.442&&genepluseta<1.442)||(genepluseta>1.566&&genepluseta<2.4)))"],
 				"files": [
-					os.environ['EXCALIBURPATH'] + '/work/mc_ee.root',
-					os.environ['EXCALIBURPATH'] + '/work/mc_ee_powheg.root',
+					#os.environ['EXCALIBURPATH'] + '/work/mc_ee.root',
+					#os.environ['EXCALIBURPATH'] + '/work/mc_ee_powheg.root',
+					os.environ['EXCALIBURPATH'] + '/work/mc_ee_gen.root',
 				],
 				"nicks": ["madg", "powh"],
-				"folders": ["zcuts_ak5PFJetsCHSL1L2L3/ntuple"],
+				"folders": ["nocuts_ak5PFJetsCHSL1L2L3/ntuple"],
 				"input_modules": ["InputRootZJet", "InputYoda"],
 				'scale_factors': [1e-3], # MC: fb->pb
 				"x_expressions": [quantity],
@@ -301,8 +302,9 @@ def sherpa_gens(args=None, additional_dictionary=None):
 				"analysis_modules": ["ScaleHistograms"]
 					+(["NormalizeToFirstHisto"] if normalize else [])
 					+["Ratio"],
-				'scale_nicks': ["MCgrid_CMS_2015_Zeed0{}-x01-y01".format(index+1)],
-				'scale': 1./50., # contributions
+					'scale_nicks': ["MCgrid_CMS_2015_Zeed0{}-x01-y01".format(index+1)],
+					'scale': 1223./10000., # contributions
+
 				"ratio_numerator_nicks": ["MCgrid_CMS_2015_Zeed{:02d}-x01-y01".format(index+1)],
 				"ratio_denominator_nicks": ["madg", "powh"],
 				"ratio_result_nicks": ["ratio0", "ratio1"],
@@ -317,15 +319,16 @@ def sherpa_gens(args=None, additional_dictionary=None):
 				"step": [False, True, True, False, False],
 				"markers": ["fill", ".", ".", ".", "."],
 				"title": ("Shape comparison" if normalize else ""),
-				"y_subplot_lims": [0.75, 1.25],
+				"y_subplot_lims": [0, 2.],
 				"energies": [8],
 
-				"filename": quantity + ("_norm" if normalize else ""),
+				"filename": ("norm_" if normalize else "") + quantity ,
 
 			}
 			if quantity == 'genzpt':
 				d['y_log'] = True
 				d['legend'] = 'upper right'
+				d['y_lims'] = [0.001, 900]
 			elif quantity == 'genzmass' or quantity == 'geneminuseta':
 				d['legend'] = None
 			elif quantity == 'geneminuspt':
