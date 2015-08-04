@@ -18,7 +18,7 @@
 
 (me){
   ME_SIGNAL_GENERATOR BlackHat Comix Internal;
-  EVENT_GENERATION_MODE Unweighted;
+  EVENT_GENERATION_MODE Weighted;
   SCALES VAR{SF*8315.18};
   RESULT_DIRECTORY Results_NLO; 
 }(me);
