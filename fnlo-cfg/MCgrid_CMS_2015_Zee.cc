@@ -28,31 +28,35 @@ namespace Rivet {
     /// Book histograms and initialise projections before the run
     void init() {
 
+       // Full final state
+       const FinalState fs(Cuts::abseta < 5);
+       addProjection(fs, "FS");
+
+      m_zptmin = 30.;
+      m_eptmin = 25.;
+
       /// Initialise and register projections here
-      // this seems to have been corrected completely for all selection cuts,
-      // i.e. eta cuts and pT cuts on leptons.
       Cut cut = (
-#if USE_MUONS
-          (Cuts::pT >= 20.0*GeV) &
+        #if USE_MUONS
+          (Cuts::pT >= 20.*GeV) &
           (Cuts::etaIn(-2.3, 2.3))
-#else
-          (Cuts::pT >= 25.0*GeV) &
-          (Cuts::etaIn(-2.4, -1.566) | Cuts::etaIn(-1.442, 1.442) | Cuts::etaIn(1.566, 2.4))
-#endif
+        #else
+          (Cuts::pT >= m_eptmin*GeV)
+           & (Cuts::etaIn(-2.4, -1.566) | Cuts::etaIn(-1.442, 1.442) | Cuts::etaIn(1.566, 2.4))
+        #endif
       );
 
-      ZFinder zfinder(FinalState(), cut,
-#if USE_MUONS
-                   PID::MUON,
-#else
-                   PID::ELECTRON,
-#endif
-                      81*GeV, 101*GeV, 0.2,
-                       ZFinder::CLUSTERNODECAY, ZFinder::TRACK);
+      ZFinder zfinder(fs, cut,
+        #if USE_MUONS
+          PID::MUON,
+        #else
+          PID::ELECTRON,
+        #endif
+        50*GeV, 99999*GeV);
       addProjection(zfinder, "ZFinder");
 
-      const FastJets jets(FinalState(), FastJets::ANTIKT, 0.5);
-       addProjection(jets, "JETS");
+      const FastJets jets(fs, FastJets::ANTIKT, 0.5);
+      addProjection(jets, "JETS");
 
       // electrons
       IdentifiedFinalState electrons;
@@ -63,16 +67,15 @@ namespace Rivet {
       _h_pTZ = bookHisto1D("d01-x01-y01", 40, 0, 400);
       _h_yZ = bookHisto1D("d02-x01-y01", 25, 0, 2.5);
       _h_mZ = bookHisto1D("d03-x01-y01", 20, 81, 101);
-      _h_phiZ = bookHisto1D("d04-x01-y01", 12, -3, 3);
-      
+      _h_phiZ = bookHisto1D("d04-x01-y01", 1, -4, 4);
+
       _njets_pTZ = bookProfile1D("d06-x01-y01", 37, 30, 400);
-      
-      
+
       _h_pTe = bookHisto1D("d07-x01-y01", 40, 20, 120);
       _h_etae = bookHisto1D("d08-x01-y01", 60, -3, 3);
       _h_phie = bookHisto1D("d10-x01-y01", 20, -3.14159, 3.14159);
 
-#if USE_FNLO
+    #if USE_FNLO
       MSG_INFO("Using fastnlo");
       const string steeringFileName = "MCgrid_CMS_2015_Zee.str";
       const string steeringFileName2 = "MCgrid_CMS_2015_Zee_2.str";
@@ -95,23 +98,25 @@ namespace Rivet {
       //_fnlo_xs = MCgrid::bookGrid(_h_xs, histoDir(), config_fnlo);
 
       MSG_INFO("fastnlo init done");
-#endif
+    #endif
     }
 
 
     /// Perform the per-event analysis
     void analyze(const Event& event) {
-      
+
+
       // Handle APPL event
       MCgrid::PDFHandler::HandleEvent(event);
       
+      // Handle weights
       const double weight = event.weight();
-
-      const ZFinder& zfinder = applyProjection<ZFinder>(event, "ZFinder");
 
       //jets
       const FastJets& jetfs = applyProjection<FastJets>(event, "JETS");
       const Jets& jets = jetfs.jetsByPt(0*GeV);// && Cuts::abseta < 2.5);
+
+      const ZFinder& zfinder = applyProjection<ZFinder>(event, "ZFinder");
 
       if (zfinder.bosons().size() == 1) {
         double yZ = fabs(zfinder.bosons()[0].momentum().rapidity());
@@ -119,15 +124,15 @@ namespace Rivet {
         double mZ = zfinder.bosons()[0].momentum().mass();
         double phiZ = zfinder.bosons()[0].momentum().phi()-pi;
 
-        if (pTZ > 30.)
+        if (pTZ > m_zptmin)
         {
              // electron histos
-#ifndef USE_MUONS
+           #ifndef USE_MUONS
              const Particles particles = applyProjection<FinalState>(event, "Electrons").particlesByPt(Cuts::pT>=0.5*GeV);
              _h_pTe->fill(particles[0].pt(), weight);
              _h_etae->fill(particles[0].eta(), weight);
              _h_phie->fill(particles[0].phi()-pi, weight);
-#endif
+           #endif
              // Z histos
              _h_pTZ->fill(pTZ, weight);
              _h_yZ->fill(yZ, weight);
@@ -136,12 +141,12 @@ namespace Rivet {
 
              _njets_pTZ->fill(pTZ, jets.size(), weight);
 
-#if USE_FNLO
+           #if USE_FNLO
             _fnlo_yZ->fill(yZ, event);
             _fnlo_pTZ->fill(pTZ, event);
             _fnlo_mZ->fill(mZ, event);
             _fnlo_phiZ->fill(phiZ, event);
-#endif
+           #endif
         }
       }
       else {
@@ -154,39 +159,42 @@ namespace Rivet {
     /// Normalise histograms etc., after the run
     void finalize() {
 
+      double normfactor = crossSection()/sumOfWeights();
       MSG_INFO("xsec: " << crossSection() << "  sumW: " << sumOfWeights() << "  ratio: " << crossSection()/sumOfWeights());
 
       // Data seems to have been normalized for the avg of the two sides
       // (+ve & -ve rapidity) rather than the sum, hence the 0.5:
-      scale(_h_yZ, crossSection()/sumOfWeights());
-      //scale(_h_yZ, 0.5*crossSection()/sumOfWeights());
-      scale(_h_pTZ, crossSection()/sumOfWeights());
-      scale(_h_mZ, crossSection()/sumOfWeights());
-      scale(_h_phiZ, crossSection()/sumOfWeights());
+      scale(_h_yZ, normfactor);
+      //scale(_h_yZ, 0.5*normfactor);
+      scale(_h_pTZ, normfactor);
+      scale(_h_mZ, normfactor);
+      scale(_h_phiZ, normfactor);
 
-      scale(_h_pTe, crossSection()/sumOfWeights());
-      scale(_h_etae, crossSection()/sumOfWeights());
-      scale(_h_phie, crossSection()/sumOfWeights());
+      scale(_h_pTe, normfactor);
+      scale(_h_etae, normfactor);
+      scale(_h_phie, normfactor);
 
-#if USE_FNLO
-      _fnlo_pTZ->scale(crossSection()/sumOfWeights());
-      //_fnlo_yZ->scale(0.5*crossSection()/sumOfWeights());
-      _fnlo_yZ->scale(crossSection()/sumOfWeights());
-      _fnlo_mZ->scale(crossSection()/sumOfWeights());
-      _fnlo_phiZ->scale(crossSection()/sumOfWeights());
+    #if USE_FNLO
+      _fnlo_pTZ->scale(normfactor);
+      //_fnlo_yZ->scale(0.5*normfactor);
+      _fnlo_yZ->scale(normfactor);
+      _fnlo_mZ->scale(normfactor);
+      _fnlo_phiZ->scale(normfactor);
 
       _fnlo_pTZ->exportgrid("fnlo_pTZ.tab");
       _fnlo_yZ->exportgrid("fnlo_yZ.tab");
       _fnlo_mZ->exportgrid("fnlo_mZ.tab");
       _fnlo_phiZ->exportgrid("fnlo_phiZ.tab");
-#endif
-      
+    #endif
+
       // Clear event handler
       MCgrid::PDFHandler::ClearHandler();
     }
 
 
   private:
+    double m_zptmin;
+    double m_eptmin;
 
     /// @name Histograms
     Histo1DPtr _h_pTZ;
@@ -208,11 +216,9 @@ namespace Rivet {
     MCgrid::gridPtr _fnlo_phiZ;
     //MCgrid::gridPtr _fnlo_xs;
 #endif
-
   };
 
 
   // The hook for the plugin system
   DECLARE_RIVET_PLUGIN(MCgrid_CMS_2015_Zee);
-
 }
