@@ -33,25 +33,25 @@
   Process 93 93 -> 11 -11;
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part B;
-  Order_EW 2;
+  Order (*,2);
   End process;
 
   Process 93 93 -> 11 -11;
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part I;
-  Order_EW 2;
+  Order (*,2);
   End process;
 
   Process 93 93 -> 11 -11;
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part V;
-  Order_EW 2;
+  Order (*,2);
   End process;
 
   Process 93 93 -> 11 -11;
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part RS;
-  Order_EW 2;
+  Order (*,2);
   End process;
 
 }(processes);
