@@ -278,7 +278,7 @@ def sherpa_gens(args=None, additional_dictionary=None):
 		for index, quantity, binning, label in zip(
 			[0,1,2,3,6,7],
 			["genzpt", "abs(genzy)", "genzmass", "genzphi", "geneminuspt", "geneminuseta"],
-			["40,0,400", "25,0,2.5", "20,81,101", "12,-3,3", "40,20,120", "60,-3,3"],
+			["40,0,400", "25,0,2.5", "20,81,101", "10,-3.14159,3.14159", "40,20,120", "60,-3,3"],
 			["xsecpt", "xsecabsy", "xsecm", "xsecphi", "xsecpt", "xseceta"],
 		):
 			d = {
@@ -286,13 +286,13 @@ def sherpa_gens(args=None, additional_dictionary=None):
 				"yoda_files": ["/storage/a/dhaitz/sherivf/sg_2015-08-03_22-31/output/Rivet_1.yoda"],
 
 				#"weights": ["(genepluspt>25&&geneminuspt>25&&((geneminuseta>-2.4&&geneminuseta<-1.566)||(geneminuseta>-1.442&&geneminuseta<1.442)||(geneminuseta>1.566&&geneminuseta<2.4))&&((genepluseta>-2.4&&genepluseta<-1.566)||(genepluseta>-1.442&&genepluseta<1.442)||(genepluseta>1.566&&genepluseta<2.4))&&genzmass>81&&genzmass<101&&genzpt>30)"],
-				"weights": ["(ngenelectrons>1&&genepluspt>25&&geneminuspt>25&&genzmass>81&&genzmass<101&&genzpt>30&&((geneminuseta>-2.4&&geneminuseta<-1.566)||(geneminuseta>-1.442&&geneminuseta<1.442)||(geneminuseta>1.566&&geneminuseta<2.4))&&((genepluseta>-2.4&&genepluseta<-1.566)||(genepluseta>-1.442&&genepluseta<1.442)||(genepluseta>1.566&&genepluseta<2.4)))"],
+				"weights": ["(ngenelectrons>1&&genepluspt>25&&geneminuspt>25&&genzmass>50&&genzmass<999999&&genzpt>30&&((geneminuseta>-2.4&&geneminuseta<-1.566)||(geneminuseta>-1.442&&geneminuseta<1.442)||(geneminuseta>1.566&&geneminuseta<2.4))&&((genepluseta>-2.4&&genepluseta<-1.566)||(genepluseta>-1.442&&genepluseta<1.442)||(genepluseta>1.566&&genepluseta<2.4)))"],
 				"files": [
 					#os.environ['EXCALIBURPATH'] + '/work/mc_ee.root',
 					#os.environ['EXCALIBURPATH'] + '/work/mc_ee_powheg.root',
 					os.environ['EXCALIBURPATH'] + '/work/mc_ee_gen.root',
 				],
-				"nicks": ["madg", "powh"],
+				"nicks": ["madg", "sh"],
 				"folders": ["nocuts_ak5PFJetsCHSL1L2L3/ntuple"],
 				"input_modules": ["InputRootZJet", "InputYoda"],
 				'scale_factors': [1e-3], # MC: fb->pb
@@ -303,23 +303,28 @@ def sherpa_gens(args=None, additional_dictionary=None):
 					+(["NormalizeToFirstHisto"] if normalize else [])
 					+["Ratio"],
 					'scale_nicks': ["MCgrid_CMS_2015_Zeed0{}-x01-y01".format(index+1)],
-					'scale': 1223./10000., # contributions
+					'scale': 1., # for test scaling
 
+				#"ratio_numerator_nicks": ["MCgrid_CMS_2015_Zeed{:02d}-x01-y01".format(index+1)],
+				#"ratio_denominator_nicks": ["madg", "powh"],
+				#"ratio_result_nicks": ["ratio0", "ratio1"],
 				"ratio_numerator_nicks": ["MCgrid_CMS_2015_Zeed{:02d}-x01-y01".format(index+1)],
-				"ratio_denominator_nicks": ["madg", "powh"],
-				"ratio_result_nicks": ["ratio0", "ratio1"],
+				"ratio_denominator_nicks": ["madg"],
+				"ratio_result_nicks": ["ratio0"],
 
 				"nicks_whitelist": ["d0"+str(index+1), "madg","powh", "ratio"],
 
 				"y_label": label,
-				"labels": ["Sherpa+Rivet", "Madgraph DYJets", "Powheg DY", "ratio", "ratio2"],
+				#"labels": ["Sherpa+Rivet", "Madgraph DYJets", "Powheg DY", "ratio", "ratio2"],
+				"labels": ["Sherpa+Rivet", "Madgraph DYJets", 'ratio'],
 				"legend": "lower center",
-				"marker_colors": ["black", "red", "black", "red"],
-				"line_styles": [None, "-", "-", None, None],
-				"step": [False, True, True, False, False],
-				"markers": ["fill", ".", ".", ".", "."],
+				#"marker_colors": ["black", "red", "black", "red"],
+				"marker_colors": ["black"],
+				#"line_styles": [None, "-", "-", None, None],
+				#"step": [False, True, True, False, False],
+				#"markers": ["fill", ".", ".", ".", "."],
 				"title": ("Shape comparison" if normalize else ""),
-				"y_subplot_lims": [0, 2.],
+				"y_subplot_lims": [0.5, 1.5],
 				"energies": [8],
 
 				"filename": ("norm_" if normalize else "") + quantity ,
@@ -332,6 +337,8 @@ def sherpa_gens(args=None, additional_dictionary=None):
 			elif quantity == 'genzmass' or quantity == 'geneminuseta':
 				d['legend'] = None
 			elif quantity == 'geneminuspt':
+				d['legend'] = 'upper right'
+			elif quantity == 'genzy':
 				d['legend'] = 'upper right'
 
 			plots.append(d)
