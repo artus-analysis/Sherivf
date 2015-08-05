@@ -38,15 +38,13 @@ Plot the evaluated pdf sets:
 
 
 
-
-
-
 ## Plots
 ### PDFs
-PDF evaluation at different Q:
-* merlin.py --py pdfs_thesis
+* PDF evaluation at different Q: `merlin.py --py pdfs_thesis`
+* Correlation plots: `merlin.py --py pdf_correlations`
 
 ### Data Analysis
 * Performance and Efficiencies: electron_plots.py
-* Spectra: 
+* Distributions with backgrounds
+* Distributions unfolded
 
