@@ -8,7 +8,7 @@ from itertools import combinations
 import Artus.HarryPlotter.harry as harry
 import Excalibur.Plotting.harryinterface as harryinterface
 from Excalibur.Plotting.utility.colors import histo_colors
-
+import parsertools
 
 def rivet_fastnlo(args=None):
 	""" compare rivet with fastnlo and MC-gen"""
@@ -273,8 +273,9 @@ def sherpa_gens(args=None, additional_dictionary=None):
 	"""Comparisons for Sherpa and Madgraph,Powheg Gen."""
 	plots = []
 
-	for normalize in [True,
-			False]:
+	known_args, args = parsertools.parser_list_tool(args, ['norm'])
+
+	for normalize in parsertools.get_list_slice([[True, False]], known_args.no_norm)[0]:
 		for index, quantity, binning, label in zip(
 			[0,1,2,3,6,7],
 			["genzpt", "abs(genzy)", "genzmass", "genzphi", "geneminuspt", "geneminuseta"],
