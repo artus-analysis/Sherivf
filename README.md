@@ -45,6 +45,6 @@ Plot the evaluated pdf sets:
 
 ### Data Analysis
 * Performance and Efficiencies: electron_plots.py
-* Distributions with backgrounds
+* Distributions with backgrounds: merlin.py --py zee_bkgrs
 * Distributions unfolded
 
