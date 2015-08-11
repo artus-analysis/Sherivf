@@ -2,43 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-import os
 import parsertools
+import common
 
 import Artus.HarryPlotter.harry as harry
 import Excalibur.Plotting.harryinterface as harryinterface
 import Excalibur.Plotting.utility.colors as colors
 
-
-
-bkgr_labels = {
-	'zz': "ZZ",
-	'wz': "WZ",
-	'tt': r"$t\\bar{t}$",
-	'tw': "tW",
-	'ww': "WW",
-	'wjets': "W+jets",
-	'dytautau': r"DY$\\rightarrow \\tau\\tau$",
-	'qcd': "QCD",
-	'others': "tW, WW, QCD,\nW+jets, "+r"DY$\\rightarrow \\tau\\tau$",
-	'diboson': 'ZZ, WZ',
-}
-bkgr_colors = {
-	'mc': 'blue',
-	'zz': 'yellow',
-	'wz': 'green',
-	'tt': 'green',
-	'tw': 'violet',
-	'ww': 'grey',
-	'wjets': 'red',
-	'dytautau': 'teal',
-	'qcd': 'salmon',
-	'others': 'brown',
-	'diboson': 'yellow',
-}
-
-bkgr_path = os.environ['EXCALIBURPATH']
-bkgr_backgrounds = ['zz', 'wz', 'tt', 'tw', 'ww', 'wjets', 'dytautau', 'qcd']
 
 def zee_bkgrs(args=None):
 	"""Plot data, signal and backgrounds, for all combinations of njet categories,
@@ -47,8 +17,8 @@ def zee_bkgrs(args=None):
 	plots = []
 	ybins = np.arange(0, 2.4, 0.4)
 	bkgr_signal_ratio = False
-	path = bkgr_path
-	backgrounds = bkgr_backgrounds
+	path = common.bkgr_path
+	backgrounds = common.bkgr_backgrounds
 
 	known_args, args = parsertools.parser_list_tool(args, ['njets', 'ybins', 'mcs', 'logs', 'quantities', 'signal'])
 
@@ -81,19 +51,11 @@ def zee_bkgrs(args=None):
 						[False, True], ['', '_log']
 					], known_args.no_logs)):
 						# different quantities
-						for quantity, bins in zip(*parsertools.get_list_slice([
-							['zpt', 'zy', 'zmass', 'njets30'],
-							[
-								"40,0,400",#"0 30 40 60 80 100 120 140 170 200 1000",
-								"14,-2.8,2.8",
-								"20,81,101",
-								"7,-0.5,6.5"
-							]
-						], known_args.no_quantities)):
+						for quantity in parsertools.get_list_slice(['zpt', 'zy', 'zmass', 'njets30'], known_args.no_quantities):
 							d = {
 								# input
 								'x_expressions': quantity,
-								'x_bins': [bins],
+								'x_bins': [common.bins[quantity]],
 								'files': ([path+'/work/data_ee.root', path+mc] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds])[(0 if signal else 2):],
 								"nicks": (['data','mc']+backgrounds_merged)[(0 if signal else 2):],
 								'folders': (['leptoncuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['leptoncuts_ak5PFJetsCHSL1L2L3/ntuple']*n_mcs)[(0 if signal else 2):],
@@ -101,10 +63,10 @@ def zee_bkgrs(args=None):
 								'scale_factors': [1. if signal else 19.712],
 								# formatting
 								'legend': None,
-								"labels": (["Data", r"DY$\\rightarrow ee$"]+[bkgr_labels[item] for item in backgrounds_merged_short])[(0 if signal else 2):],
+								"labels": (["Data", r"DY$\\rightarrow ee$"]+[common.bkgr_labels[item] for item in backgrounds_merged_short])[(0 if signal else 2):],
 								"markers": (['o'] + ['fill']*n_mcs_merged_short)[(0 if signal else 2):],
 								'stacks': (['data'] + ['mc']*n_mcs_merged_short)[(0 if signal else 2):],
-								"bar_colors": [colors.histo_colors[color] for color in [bkgr_colors[item] for item in ['mc']+backgrounds_merged_short]][(0 if signal else 1):],
+								"bar_colors": [colors.histo_colors[color] for color in [common.bkgr_colors[item] for item in ['mc']+backgrounds_merged_short]][(0 if signal else 1):],
 								'y_log': log,
 								'texts': [ybinlabel, njetlabel],
 								'texts_x':[0.03],
@@ -139,9 +101,9 @@ def subtract_backgrounds(args=None):
 	plots = []
 	known_args, args = parsertools.parser_list_tool(args, ['ybins', 'mcs', 'quantities'])
 
-	path = bkgr_path
+	path = common.bkgr_path
 	ybins = np.arange(0, 2.4, 0.4)
-	backgrounds = bkgr_backgrounds
+	backgrounds = common.bkgr_backgrounds
 	mc_scalefactor = -1
 
 	for ybin, ybinsuffix in zip(*parsertools.get_list_slice([

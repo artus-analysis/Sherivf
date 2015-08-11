@@ -6,7 +6,7 @@ import Excalibur.Plotting.harryinterface as harryinterface
 import parsertools
 
 import numpy as np
-import zee_bkgrs as bkgrs
+import common
 
 unfold_path = " 2_unfolded"
 
@@ -19,7 +19,7 @@ def unfold(args=None):
 	# some variables
 	ybins = np.arange(0, 2.8, 0.4)
 	lumi = 19.712
-	path = bkgrs.bkgr_path
+	path = common.bkgr_path
 	max_iterations = 4
 
 	plots = []
@@ -31,10 +31,7 @@ def unfold(args=None):
 			['Madgraph', 'Powheg'],
 			['mc_ee.root', 'mc_ee_powheg.root']
 		], known_args.no_mcs)):
-			for quantity, bins in zip(*parsertools.get_list_slice([
-				['zpt', 'zmass', 'zy'],
-				["40,0,400", "20,81,101", "14,-2.8,2.8"]
-			], known_args.no_quantities)):
+			for quantity in parsertools.get_list_slice(['zpt', 'zmass', 'zy'], known_args.no_quantities):
 				for iteration in parsertools.get_list_slice([range(1, 1+max_iterations)], known_args.no_iterations)[0]:
 					d = {
 						'x_expressions': ['data']+[quantity.replace("z", "genz"), quantity, quantity.replace("z", "genz")],
@@ -49,8 +46,8 @@ def unfold(args=None):
 						'lumis': [lumi],
 						'folders': ['']+['leptoncuts_ak5PFJetsCHSL1L2L3/ntuple']*3,
 						'weights': "({}&&hlt)".format(ybin),
-						'x_bins': [bins],
-						'y_bins': [bins],
+						'x_bins': [common.bins[quantity]],
+						'y_bins': [common.bins[quantity]],
 						# analysis
 						'analysis_modules': ['Unfolding'],
 						'unfolding': ['data_reco', 'mc_reco'],
