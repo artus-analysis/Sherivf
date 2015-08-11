@@ -130,6 +130,7 @@ def subtract_backgrounds(args=None):
 				'plot_modules': ['ExportRoot'],
 				'filename': "_".join([quantity, ybinsuffix]),
 				'output_dir': "1_background-subtracted",
+				'export_json': False,
 			}
 			plots.append(d)
 
