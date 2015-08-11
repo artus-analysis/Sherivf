@@ -37,8 +37,8 @@ bkgr_colors = {
 	'diboson': 'yellow',
 }
 
-bkgrs_path = os.environ['EXCALIBURPATH']
-bkgrs_backgrounds = ['zz', 'wz', 'tt', 'tw', 'ww', 'wjets', 'dytautau', 'qcd']
+bkgr_path = os.environ['EXCALIBURPATH']
+bkgr_backgrounds = ['zz', 'wz', 'tt', 'tw', 'ww', 'wjets', 'dytautau', 'qcd']
 
 def zee_bkgrs(args=None):
 	"""Plot data, signal and backgrounds, for all combinations of njet categories,
@@ -47,8 +47,8 @@ def zee_bkgrs(args=None):
 	plots = []
 	ybins = np.arange(0, 2.4, 0.4)
 	bkgr_signal_ratio = False
-	path = bkgrs_path
-	backgrounds = bkgrs_backgrounds
+	path = bkgr_path
+	backgrounds = bkgr_backgrounds
 
 	known_args, args = parsertools.parser_list_tool(args, ['njets', 'ybins', 'mcs', 'logs', 'quantities', 'signal'])
 
@@ -112,6 +112,7 @@ def zee_bkgrs(args=None):
 								# output
 								'save_legend': "legend" + "_" + mc_label + ("" if signal else "_only-bkgrs"),
 								'filename': quantity + suffix + "_" + mc_label+ybinsuffix+njetsuffix + ("" if signal else "_only_bkgrs"),
+								'export_json': False,
 							}
 							plots.append(d)
 	"""
@@ -138,11 +139,10 @@ def subtract_backgrounds(args=None):
 	plots = []
 	known_args, args = parsertools.parser_list_tool(args, ['ybins', 'mcs', 'quantities'])
 
-	path = bkgrs_path
+	path = bkgr_path
 	ybins = np.arange(0, 2.4, 0.4)
-	backgrounds = bkgrs_backgrounds
+	backgrounds = bkgr_backgrounds
 	mc_scalefactor = -1
-
 
 	for ybin, ybinsuffix in zip(*parsertools.get_list_slice([
 		["1"] + ["abs(zy)<{1} && abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])],
@@ -151,7 +151,7 @@ def subtract_backgrounds(args=None):
 		for quantity, bins in zip(*parsertools.get_list_slice([
 			['zpt', 'zy', 'zmass'],
 			[
-				"40,0,400",#"0 30 40 60 80 100 120 140 170 200 1000",
+				"40,0,400",
 				"14,-2.8,2.8",
 				"20,81,101",
 			]
@@ -162,7 +162,7 @@ def subtract_backgrounds(args=None):
 				'x_bins': [bins],
 				'files': [path+'/work/data_ee.root'] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds],
 				'nicks': ['data'],
-				'weights': ["(e1mvatrig && e2mvatrig && ({}))".format(ybin)] + ["({scalefactor}*(hlt && e1mvatrig && e2mvatrig && ({ybin})))".format(ybin=ybin, scalefactor=mc_scalefactor)]*len(backgrounds),
+				'weights': [ybin] + ["({scalefactor}*(hlt && ({ybin})))".format(ybin=ybin, scalefactor=mc_scalefactor)]*len(backgrounds),
 				'folders': ['leptoncuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['leptoncuts_ak5PFJetsCHSL1L2L3/ntuple']*len(backgrounds),
 				#output
 				'plot_modules': ['ExportRoot'],
