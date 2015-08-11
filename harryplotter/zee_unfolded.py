@@ -82,9 +82,10 @@ def different_iterations(args=None):
 			'labels': ['Data', 'MC Gen'] + ["Unfolded ({} iter.)".format(str(item+1)) for item in range(max_iteration)],
 			'x_expressions': ['data_reco', 'mc_gen']+['data_unfolded']*max_iteration,
 			# formatting
-			'markers': ['o', 'fill'] + ['.']*(max_iteration),
-			'line_styles': ['None'] + ['-']*(max_iteration+1),
+			'markers': ['o', 'fill'] + ['.']*(max_iteration*2+1),
+			'line_styles': ['None']*2 + ['-']*(max_iteration)+['None']*(max_iteration+1),
 			'step': [True],
+			'marker_colors': ['black', 'red', 'blue', 'green'],
 			'x_label': quantity,
 			'y_errors': [True],
 			# output
@@ -94,7 +95,14 @@ def different_iterations(args=None):
 			d['y_log'] = True
 		else:
 			d['legend'] = 'upper left'
-		#TODO: ratio to MC gen
+		# ratio to MC gen
+		d.update({
+			'analysis_modules': ['Ratio'],
+			'ratio_numerator_nicks': [str(item) for item in ([0]+range(2,max_iteration+2))],
+			'ratio_denominator_nicks': ['1'],
+			'y_subplot_label': 'Ratio to MC Gen',
+			'y_subplot_lims': [0, 2],
+		})
 		plots.append(d)
 	harryinterface.harry_interface(plots, args)
 
