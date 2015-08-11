@@ -1,8 +1,10 @@
 *.so
+*.db
 *.root
 *.dat
 *.yoda
 *.pyc
+*.json
 False
 
 #symlink
