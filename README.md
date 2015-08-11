@@ -9,7 +9,7 @@ Sherpa,Rivet &amp; FastNLO configs
 * fastNLO
 
 
-## Workflow
+## Workflow MC
 Build Rivet plugin:
 * `rivet-buildplugin RivetMyAnalyses.so MCgrid_CMS_2015_Zee.cc -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA  -DUSE_FNLO=1`
 
@@ -35,6 +35,11 @@ Evaluate PDF sets and save as root files:
 Plot the evaluated pdf sets:
 * `merlin.py --py pdf -i original.root new.root`
 * `merlin.py --py nnpdf`
+
+## Workflow Data Analysis
+make sure the Excalibur outputs are present
+1. Subtract backgrounds: merlin --py subtract_backgrounds
+	root outputs will be stored in `1_background-subtracted` folder
 
 
 

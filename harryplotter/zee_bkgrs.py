@@ -37,20 +37,21 @@ bkgr_colors = {
 	'diboson': 'yellow',
 }
 
+bkgrs_path = os.environ['EXCALIBURPATH']
+bkgrs_backgrounds = ['zz', 'wz', 'tt', 'tw', 'ww', 'wjets', 'dytautau', 'qcd']
+
 def zee_bkgrs(args=None):
 	"""Plot data, signal and backgrounds, for all combinations of njet categories,
 	rapidity bins, mc samples, log/linear scale, ZpT/y/mass/ Njets as x-quantity."""
 
-	path = os.environ['EXCALIBURPATH']
 	plots = []
 	ybins = np.arange(0, 2.4, 0.4)
 	bkgr_signal_ratio = False
+	path = bkgrs_path
+	backgrounds = bkgrs_backgrounds
 
 	known_args, args = parsertools.parser_list_tool(args, ['njets', 'ybins', 'mcs', 'logs', 'quantities', 'signal'])
 
-	backgrounds = [
-		'zz', 'wz', 'tt', 'tw', 'ww', 'wjets', 'dytautau', 'qcd'
-	]
 	n_mcs = 1 + len(backgrounds)
 	backgrounds_merged = ['diboson', 'diboson', 'tt', 'others', 'others', 'others', 'others', 'others']
 	n_mcs_merged = 1 + len(backgrounds_merged)
@@ -88,7 +89,7 @@ def zee_bkgrs(args=None):
 								"20,81,101",
 								"7,-0.5,6.5"
 							]
-					], known_args.no_quantities)):
+						], known_args.no_quantities)):
 							d = {
 								# input
 								'x_expressions': quantity,
@@ -131,6 +132,47 @@ def zee_bkgrs(args=None):
 						"""
 	harryinterface.harry_interface(plots, args)
 
+
+def subtract_backgrounds(args=None):
+	"""Subtract backgrounds from data"""
+	plots = []
+	known_args, args = parsertools.parser_list_tool(args, ['ybins', 'mcs', 'quantities'])
+
+	path = bkgrs_path
+	ybins = np.arange(0, 2.4, 0.4)
+	backgrounds = bkgrs_backgrounds
+	mc_scalefactor = -1
+
+
+	for ybin, ybinsuffix in zip(*parsertools.get_list_slice([
+		["1"] + ["abs(zy)<{1} && abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])],
+		["inclusive"] + ["{0:02d}y{1:02d}".format(int(10*low), int(10*up)) for low, up in zip(ybins[:-1], ybins[1:])]
+	], known_args.no_ybins)):
+		for quantity, bins in zip(*parsertools.get_list_slice([
+			['zpt', 'zy', 'zmass'],
+			[
+				"40,0,400",#"0 30 40 60 80 100 120 140 170 200 1000",
+				"14,-2.8,2.8",
+				"20,81,101",
+			]
+		], known_args.no_quantities)):
+			d = {
+				#input
+				'x_expressions': quantity,
+				'x_bins': [bins],
+				'files': [path+'/work/data_ee.root'] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds],
+				'nicks': ['data'],
+				'weights': ["(e1mvatrig && e2mvatrig && ({}))".format(ybin)] + ["({scalefactor}*(hlt && e1mvatrig && e2mvatrig && ({ybin})))".format(ybin=ybin, scalefactor=mc_scalefactor)]*len(backgrounds),
+				'folders': ['leptoncuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['leptoncuts_ak5PFJetsCHSL1L2L3/ntuple']*len(backgrounds),
+				#output
+				'plot_modules': ['ExportRoot'],
+				'filename': "_".join([quantity, ybinsuffix]),
+				'output_dir': "1_background-subtracted",
+				'export_json': False,
+			}
+			plots.append(d)
+
+	harryinterface.harry_interface(plots, args)
 
 if __name__ == '__main__':
 	zee_bkgrs()
