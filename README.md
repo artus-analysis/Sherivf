@@ -38,10 +38,11 @@ Plot the evaluated pdf sets:
 
 ## Workflow Data Analysis
 make sure the Excalibur outputs are present
-1. Subtract backgrounds: merlin --py subtract_backgrounds (--no-ybins)
+1. Subtract backgrounds: `merlin.py --py subtract_backgrounds #--no-ybins`
 	root outputs will be stored in `1_background-subtracted` folder
-2. Unfold: merlin --py unfold (--no-ybins --no-mcs)
+2. Unfold: `merlin.py --py unfold  #--no-ybins --no-mcs`
 	root outputs will be stored in `2_unfolded` folder
+3. Export unfolded data into herafitter format: `merlin.py --py unfolded_to_hera`
 
 
 
