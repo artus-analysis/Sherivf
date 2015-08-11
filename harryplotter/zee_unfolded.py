@@ -146,7 +146,7 @@ def unfolded_to_hera(args=None):
 		'plot_modules': 'ExportHerafitter',
 		'header_file': '/usr/users/dhaitz/home/qcd/sherivf/herafitter/herafitter_header.txt',
 		'filename': 'CMS_Zee_HFinput',
-		'output_dir': '~/home/qcd/sherivf/herafitter/',
+		'output_dir': 'herafitter/',
 	}
 	plots.append(d)
 	harryinterface.harry_interface(plots, args)
