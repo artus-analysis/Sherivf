@@ -5,6 +5,7 @@
 *.yoda
 *.pyc
 *.json
+*.db.bak
 False
 
 #symlink
