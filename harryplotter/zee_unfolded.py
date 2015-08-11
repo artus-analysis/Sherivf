@@ -8,7 +8,7 @@ import parsertools
 import numpy as np
 import common
 
-unfold_path = " 2_unfolded"
+unfold_path = "2_unfolded"
 
 
 def unfold(args=None):
