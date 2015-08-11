@@ -133,8 +133,34 @@ def subtract_backgrounds(args=None):
 				'export_json': False,
 			}
 			plots.append(d)
-
 	harryinterface.harry_interface(plots, args)
+
+
+def emu(args=None):
+	"""plot emu Data and backgrounds"""
+	plots = []
+	backgrounds = ['tt', 'tw', 'ww','dytautau']
+	known_args, args = parsertools.parser_list_tool(args, ['quantities'])
+	path = common.bkgr_path
+
+	for quantity in parsertools.get_list_slice(['zpt', 'zy', 'zmass', 'njets30'], known_args.no_quantities):
+		d = {
+			# input
+			'x_expressions': quantity,
+			'x_bins': [common.bins[quantity]],
+			'files': [path+'/work/data_em.root']+[path+'/work/background_ee_{}.root'.format(item) for item in backgrounds],
+			'folders': ['leptoncuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['leptoncuts_ak5PFJetsCHSL1L2L3/ntuple']*len(backgrounds),
+			#'weights': ['1']+['(hlt&&e1mvatrig&&e2mvatrig)']*4,
+			# formatting
+			'stacks': ['data'] + ['mc']*len(backgrounds),
+			"bar_colors": [colors.histo_colors[color] for color in ['blue', 'yellow', 'green', 'brown']],
+			"labels": [r"Data $e\\mu$"]+[common.bkgr_labels[item] for item in backgrounds],
+		}
+		if quantity == 'zpt':
+			d['x_lims'] = [0, 200]
+		plots.append(d)
+	harryinterface.harry_interface(plots, args)
+
 
 if __name__ == '__main__':
 	zee_bkgrs()
