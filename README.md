@@ -54,6 +54,9 @@ make sure the Excalibur outputs are present
 
 ### Data Analysis
 * Performance and Efficiencies: electron_plots.py
-* Distributions with backgrounds: merlin.py --py zee_bkgrs
-* Distributions unfolded
+* Distributions with backgrounds: `merlin.py --py zee_bkgrs`
+* Background estimation with the e-mu method: `merlin.py --py emu`
+* Unfolding for different iterations: `merlin.py --py different_iterations`
+* Unfolding response matrices: `merlin.py --py response_matrix`
+* Comparison of unfolded, reco, gen distributions: `merlin.py --py unfolding_comparison`
 
