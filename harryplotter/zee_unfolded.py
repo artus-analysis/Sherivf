@@ -8,6 +8,9 @@ import parsertools
 import numpy as np
 import zee_bkgrs as bkgrs
 
+unfold_path = " 2_unfolded"
+
+
 def unfold(args=None):
 	"""Unfold Z(->ee) distributions and save as root. All combinations of n jet categories, rapidity bins, MC samples and quantities (y, mass, pT) are plotted."""
 
@@ -17,6 +20,7 @@ def unfold(args=None):
 	ybins = np.arange(0, 2.8, 0.4)
 	lumi = 19.712
 	path = bkgrs.bkgr_path
+	max_iterations = 4
 
 	plots = []
 	for ybin, ybinsuffix in zip(*parsertools.get_list_slice([
@@ -29,9 +33,9 @@ def unfold(args=None):
 		], known_args.no_mcs)):
 			for quantity, bins in zip(*parsertools.get_list_slice([
 				['zpt', 'zmass', 'zy'],
-				["40,0,400", "20,81,101", "25,-2.5,2.5"]
+				["40,0,400", "20,81,101", "14,-2.8,2.8"]
 			], known_args.no_quantities)):
-				for iteration in parsertools.get_list_slice([range(5)], known_args.no_iterations)[0]:
+				for iteration in parsertools.get_list_slice([range(1, 1+max_iterations)], known_args.no_iterations)[0]:
 					d = {
 						'x_expressions': ['data']+[quantity.replace("z", "genz"), quantity, quantity.replace("z", "genz")],
 						'y_expressions': [None, quantity, None, None],
@@ -44,7 +48,7 @@ def unfold(args=None):
 						],
 						'lumis': [lumi],
 						'folders': ['']+['leptoncuts_ak5PFJetsCHSL1L2L3/ntuple']*3,
-						'weights': ybin,
+						'weights': "({}&&hlt)".format(ybin),
 						'x_bins': [bins],
 						'y_bins': [bins],
 						# analysis
@@ -59,17 +63,70 @@ def unfold(args=None):
 						#output
 						'plot_modules': ['ExportRoot'],
 						'filename': "_".join([quantity, mc_label.lower(), ybinsuffix, str(iteration)]),
-						'output_dir': "2_unfolded",
+						'output_dir': unfold_path,
 						'export_json': False,
 					}
 					plots.append(d)
 	harryinterface.harry_interface(plots, args)
 
 
-def unfold(args=None):
-	"""Unfolded Z(->ee) distributions. All combinations of n jet categories, rapidity bins, MC samples and quantities (y, mass, pT) are plotted."""
+def different_iterations(args=None):
+	"""compare different unfolding iterations"""
+	plots = []
+	ybin = 'inclusive'
+	max_iteration = 3
+	for quantity in ['zmass', 'zpt', 'zy']:
+		basename = unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '{}']) + '.root'
+		d = {
+			# input
+			'files': [basename.format(str(1))]*2 + [basename.format(str(1+n)) for n in range(max_iteration)],
+			'folders': [''],
+			'nicks': [str(item) for item in range(max_iteration+2)],
+			'labels': ['Data', 'MC Gen'] + ["Unfolded ({} iter.)".format(str(item+1)) for item in range(max_iteration)],
+			'x_expressions': ['data_reco', 'mc_gen']+['data_unfolded']*max_iteration,
+			# formatting
+			'markers': ['o', 'fill'] + ['.']*(max_iteration),
+			'line_styles': ['None'] + ['-']*(max_iteration+1),
+			'step': [True],
+			'x_label': quantity,
+			'y_errors': [True],
+			# output
+			'filename': 'iterations_' + quantity,
+		}
+		if quantity == 'zpt':
+			d['y_log'] = True
+		else:
+			d['legend'] = 'upper left'
+		#TODO: ratio to MC gen
+		plots.append(d)
+	harryinterface.harry_interface(plots, args)
 
+def response_matrix(args=None):
+	""" plot response matrix"""
+	plots = []
+	ybin = 'inclusive'
+	for log in [True, False]:
+		for quantity, y_lims in zip(['zmass', 'zpt', 'zy'], [[81, 101], [0, 400], [-2.5, 2.5]]):
+			d = {
+				# input
+				'files': [unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '1']) + '.root'],
+				'folders': [''],
+				'x_expressions': ['responsematrix'],
+				# formatting
+				'y_lims': y_lims,
+				'x_label': 'gen' + quantity,
+				'y_label': 'reco' + quantity,
+				'energies': [8],
+				'z_log': log,
+				# output
+				'filename': 'responsematrix_' + quantity + ("_log" if log else ""),
+			}
+			plots.append(d)
+	harryinterface.harry_interface(plots, args)
 
+def unfolding_comparison(args=None):
+	"""Comparison between reco,gen,unfolded"""
+	pass
 
 if __name__ == '__main__':
 	zee_unfolded()
