@@ -129,9 +129,28 @@ def response_matrix(args=None):
 			plots.append(d)
 	harryinterface.harry_interface(plots, args)
 
+
 def unfolding_comparison(args=None):
 	"""Comparison between reco,gen,unfolded"""
 	pass
+
+
+def unfolded_to_hera(args=None):
+	""" take unfolded data and convert it into herafitter format"""
+	plots = []
+	d = {
+		'files': ['2_unfolded/zpt_madgraph_inclusive_3.root'],
+		'folders': [''],
+		'x_expressions': ['data_unfolded'],
+		# output
+		'plot_modules': 'ExportHerafitter',
+		'header_file': '/usr/users/dhaitz/home/qcd/sherivf/herafitter/herafitter_header.txt',
+		'filename': 'CMS_Zee_HFinput',
+		'output_dir': '~/home/qcd/sherivf/herafitter/',
+	}
+	plots.append(d)
+	harryinterface.harry_interface(plots, args)
+
 
 if __name__ == '__main__':
 	zee_unfolded()
