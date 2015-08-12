@@ -3,6 +3,7 @@
 
 import Artus.HarryPlotter.harry as harry
 import Excalibur.Plotting.harryinterface as harryinterface
+import Excalibur.Plotting.utility.colors as colors
 import parsertools
 
 import numpy as np
@@ -87,7 +88,6 @@ def different_iterations(args=None):
 			'step': [True],
 			'marker_colors': ['black', 'red', 'blue', 'green'],
 			'x_label': quantity,
-			'y_errors': [True],
 			# output
 			'filename': 'iterations_' + quantity,
 		}
@@ -131,8 +131,50 @@ def response_matrix(args=None):
 
 
 def unfolding_comparison(args=None):
-	"""Comparison between reco,gen,unfolded"""
-	pass
+	"""Comparison between reco,gen,unfolded for Data and MC"""
+	plots = []
+
+	ybin = 'inclusive'
+	labels = ['Data Reco', 'MC Reco', 'MC Gen', 'Data Unfolded', 'MC Unfolded']
+	expressions = [label.lower().replace(" ", "_") for label in labels]
+
+	for iterations in range(1, 4):
+		for quantity in ['zmass', 'zpt', 'zy']:
+			filename = unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, str(iterations)]) + '.root'
+			d = {
+				# input
+				'files': [filename],
+				'folders': [''],
+				'x_expressions': expressions,
+				'nicks': expressions,
+				# formatting
+				'labels': labels,
+				'markers': ['o']*2+['fill']+['.']*2+['o']*2+['.']*2,
+				'line_styles': [None]*3 + ['-']*2+[None]*2+['-']*2,
+				'step': [True],
+				'marker_colors': ['black', 'red'],
+				'zorder': [10,10,2,10,10],
+				'energies': [8],
+				'lumis': [19.712],
+				'x_label': quantity,
+				'title': str(iterations) + " iteration" + ("s" if iterations != 1 else ""),
+				# output
+				'filename': "_".join(['unfolded', quantity, str(iterations)]),
+			}
+			if quantity == 'zpt':
+				d['y_log'] = True
+			else:
+				d['legend'] = 'upper left'
+			# ratio to MC gen
+			d.update({
+				'analysis_modules': ['Ratio'],
+				'ratio_numerator_nicks': [expression for expression in expressions if expression != 'mc_gen'],
+				'ratio_denominator_nicks': ['mc_gen'],
+				'y_subplot_label': 'Ratio to MC Gen',
+				'y_subplot_lims': [0, 2],
+			})
+			plots.append(d)
+	harryinterface.harry_interface(plots, args)
 
 
 def unfolded_to_hera(args=None):
