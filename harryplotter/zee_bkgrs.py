@@ -32,13 +32,13 @@ def zee_bkgrs(args=None):
 	for signal in parsertools.get_list_slice([[False, True]], known_args.no_signal)[0]:
 		for njetweight, njetlabel, njetsuffix in zip(*parsertools.get_list_slice([
 			["1", "njets30<2", "njets30>1"],
-			["", "$ n_{jets(p_T>30GeV)}<=1$", "$ n_{jets(p_T>30GeV)}>1$"],
+			["", "$n_{jets}<=1$", "$n_{jets}}>1$"],
 			["", "_njets0-1", "_njets2"]
 		], known_args.no_njets)):
 			# iterate over rapidity bins
 			for ybin, ybinlabel, ybinsuffix in zip(*parsertools.get_list_slice([
 						["1"] + ["abs(zy)<{1} && abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])],
-						["", "|y|<0.4"] + ["{0}<|y|<{1}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])][1:],
+						["", "$|y|<0.4$"] + ["${0}<|y|<{1}$".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])][1:],
 						["_inclusive"] + ["_{0:02d}y{1:02d}".format(int(10*low), int(10*up)) for low, up in zip(ybins[:-1], ybins[1:])]
 			], known_args.no_ybins)):
 			# iterate over MC samples

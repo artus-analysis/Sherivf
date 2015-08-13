@@ -3,14 +3,14 @@
 
 import Artus.HarryPlotter.harry as harry
 import Excalibur.Plotting.harryinterface as harryinterface
-
+import common
 
 def z_hlt(args=None, additional_dictionary=None):
 	""" HLT efficiency vs Z pT, y  """
 	plots = []
 	ybins = [30, 40, 50, 70, 100, 200, 400]
 	d = {
-		"files": ["work/mc_ee.root"],
+		"files": [common.mc],
 		"folders": ["zcuts_ak5PFJetsCHSL1L2L3/ntuple"],
 		"tree_draw_options": ["prof"],
 		"x_bins": ["12,0,2.4"],
@@ -27,7 +27,7 @@ def z_hlt(args=None, additional_dictionary=None):
 	plots.append(d)
 
 	d2 = {
-		#"files": ["work/mc_ee.root"],
+		"files": [common.mc],
 		"folders": ["zcuts_ak5PFJetsCHSL1L2L3/ntuple"],
 		"line_styles": ["-"],
 		"tree_draw_options": ["prof"],
@@ -50,12 +50,12 @@ def z_hlt(args=None, additional_dictionary=None):
 
 
 def electron_id(args=None, additional_dictionary=None):
-	"""   """
+	"""ID efficiency for the different IDs"""
 	plots = []
 	ids = ["e1mvanontrig", "e1mvatrig", "e1looseid", "e1looseid95", "e1mediumid", "e1mediumid95", "e1tightid", "e1tightid95"]
 	labels = ['MVA(Non-Trig)', 'MVA(Trig)', 'Loose', 'Loose(95)', 'Medium', 'Medium(95)', 'Tight', 'Tight(95)']
 	d = {
-		"files": ["work/mc_ee.root"],
+		"files": [common.mc],
 		#"folders": ["zcuts_ak5PFJetsCHSL1L2L3/electrons"],
 		#"x_expressions": ["object.p4.Pt()"],
 		#"y_expressions": ["object.id{}()".format(ID) for ID in ids],
@@ -107,6 +107,7 @@ def electron_corr(args=None, additional_dictionary=None):
 	"""pT Reco/Gen for corrected/raw electrons as a function of electron |eta|"""
 	d = {
 		# Input
+		"files": [common.mc, common.mc_raw],
 		"folders": ["zcuts_ak5PFJetsCHSL1L2L3/electrons"],
 		"no_weight": True,
 		"tree_draw_options": ["prof"],
@@ -136,6 +137,7 @@ def z_corr(args=None, additional_dictionary=None):
 	"""Z mass as a function of |y| for corrected and uncorrected"""
 	d = {
 		# Input
+		"files": [common.mc, common.mc_raw],
 		"folders": ["zcuts_ak5PFJetsCHSL1L2L3/ntuple"],
 		"tree_draw_options": ["prof"],
 		"x_expressions": ["abs(zy)"],
@@ -153,15 +155,3 @@ def z_corr(args=None, additional_dictionary=None):
 	if additional_dictionary is not None:
 		d.update(additional_dictionary)
 	harryinterface.harry_interface([d], args)
-
-
-def electron_all(args=None):
-
-	d = {'files': ['work/mc_ee.root', 'work/mc_ee_raw.root']}
-
-	electron_corr(args, d)
-	electron_id(args, d)
-	z_corr(args, d)
-	z_hlt(args, d)
-
-
