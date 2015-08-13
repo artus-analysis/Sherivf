@@ -49,14 +49,21 @@ make sure the Excalibur outputs are present
 
 
 ## Plots
-### PDFs
+##### PDFs
 * PDF evaluation at different Q: `merlin.py --py pdfs_thesis`
 * Correlation plots: `merlin.py --py pdf_correlations`
 
-### Data Analysis
-* Performance and Efficiencies: electron_plots.py
+##### Electron performance plots
+* HLT efficiency: `merlin.py --py z_hlt`
+* Electron ID efficiency: `merlin.py --py electron_id`
+* Electron corrections: `merlin.py --py electron_corr`
+* Effect of electron corrections on Z reconstruction: `merlin.py --py z_corr`
+
+##### Backgrounds
 * Distributions with backgrounds: `merlin.py --py zee_bkgrs`
 * Background estimation with the e-mu method: `merlin.py --py emu`
+
+##### Unfolding
 * Unfolding for different iterations: `merlin.py --py different_iterations`
 * Unfolding response matrices: `merlin.py --py response_matrix`
 * Comparison of unfolded, reco, gen distributions: `merlin.py --py unfolding_comparison`
