@@ -58,7 +58,8 @@
 
 
 (selector){
-  Mass 11 -11 50. 999999.
+  Mass 11 -11 50. E_CMS
+  "PT" 11,-11 1,E_CMS
 }(selector)
 
 
