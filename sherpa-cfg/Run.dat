@@ -64,7 +64,7 @@
   PTNLO -11 25 E_CMS
   PseudoRapidityNLO 11 -2.4 2.4
   PseudoRapidityNLO -11 -2.4 2.4
-  ###PT2NLO 11 -11 0.1 E_CMS
+  ### PT2NLO 11 -11 30 E_CMS
 }(selector)
 
 
