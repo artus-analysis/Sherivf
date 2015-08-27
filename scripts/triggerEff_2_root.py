@@ -19,10 +19,10 @@ def main(
 	):
 	splitted = [m.group(0) for m in finditer('.+?(?:(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|$)', input_filename)]
 	if output_filename is None:
-		output_filename = ('ElectronEff_'+ splitted[4]).replace('.txt', 'ScaleFactors.root')
+		output_filename = ('Electron-'+ splitted[4]).replace('.txt', 'ScaleFactors.root')
 	txtfile = open(input_filename , "r" )
 	content = txtfile.readlines()
-	idname = splitted[3]
+	idname = "vbft95_"+splitted[3].lower()
 	
 	# get binning
 	xbins, ybins = [], []
