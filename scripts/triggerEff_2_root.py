@@ -18,9 +18,8 @@ def main(
 		output_filename=None,
 	):
 	splitted = [m.group(0) for m in finditer('.+?(?:(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|$)', input_filename)]
-	print splitted
 	if output_filename is None:
-		output_filename = ('eff_'+ splitted[4]).replace('.txt', '.root')
+		output_filename = ('ElectronEff_'+ splitted[4]).replace('.txt', 'ScaleFactors.root')
 	txtfile = open(input_filename , "r" )
 	content = txtfile.readlines()
 	idname = splitted[3]
@@ -46,7 +45,7 @@ def main(
 		values = [float(item) for item in line.split()]
 		x = 0.5 * (values[1] + values[0])
 		y = 0.5 * (values[3] + values[2])
-		eff = values[4]
+		eff = 1./values[4]
 		histo.Fill(x, y, eff)
 
 	# write
