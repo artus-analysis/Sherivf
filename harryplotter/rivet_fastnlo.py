@@ -273,63 +273,56 @@ def sherpa_gens(args=None, additional_dictionary=None):
 	"""Comparisons for Sherpa and Madgraph,Powheg Gen."""
 	plots = []
 
-	known_args, args = parsertools.parser_list_tool(args, ['norm'])
+	known_args, args = parsertools.parser_list_tool(args, ['norm', 'quantities'])
 
-	for normalize in parsertools.get_list_slice([[True, False]], known_args.no_norm)[0]:
-		for index, quantity, binning, label in zip(
+	for normalize in parsertools.get_list_slice([[False, True]], known_args.no_norm)[0]:
+		for index, quantity, binning, label in zip(*parsertools.get_list_slice([
 			[0,1,2,3,6,7],
 			["genzpt", "abs(genzy)", "genzmass", "genzphi", "geneminuspt", "geneminuseta"],
-			["40,0,400", "25,0,2.5", "20,81,101", "10,-3.14159,3.14159", "40,20,120", "60,-3,3"],
-			["xsecpt", "xsecabsy", "xsecm", "xsecphi", "xsecpt", "xseceta"],
-		):
+			["40,0,400", "25,0,2.5", "20,81,101", "20,-3.1416,3.1416", "20,20,120", "50,-2.5,2.5"],
+			["xsecpt", "xsecabsy", "xsecm", "xsecphi", "xsecpt", "xseceta"]
+		], known_args.no_quantities)):
 			d = {
+				# input
 				#"yoda_files": ["/storage/a/dhaitz/sherivf/sg_2015-08-03_11-40/Rivet.yoda"],
-				"yoda_files": ["/storage/a/dhaitz/sherivf/sg_2015-08-03_22-31/output/Rivet_1.yoda"],
-
-				#"weights": ["(genepluspt>25&&geneminuspt>25&&((geneminuseta>-2.4&&geneminuseta<-1.566)||(geneminuseta>-1.442&&geneminuseta<1.442)||(geneminuseta>1.566&&geneminuseta<2.4))&&((genepluseta>-2.4&&genepluseta<-1.566)||(genepluseta>-1.442&&genepluseta<1.442)||(genepluseta>1.566&&genepluseta<2.4))&&genzmass>81&&genzmass<101&&genzpt>30)"],
-				"weights": ["(ngenelectrons>1&&genepluspt>25&&geneminuspt>25&&genzmass>50&&genzmass<999999&&genzpt>30&&((geneminuseta>-2.4&&geneminuseta<-1.566)||(geneminuseta>-1.442&&geneminuseta<1.442)||(geneminuseta>1.566&&geneminuseta<2.4))&&((genepluseta>-2.4&&genepluseta<-1.566)||(genepluseta>-1.442&&genepluseta<1.442)||(genepluseta>1.566&&genepluseta<2.4)))"],
 				"files": [
-					#os.environ['EXCALIBURPATH'] + '/work/mc_ee.root',
-					#os.environ['EXCALIBURPATH'] + '/work/mc_ee_powheg.root',
-					os.environ['EXCALIBURPATH'] + '/work/mc_ee_gen.root',
+					os.environ['EXCALIBURPATH'] + '/work/mc_ee.root',
+					os.environ['EXCALIBURPATH'] + '/work/data_ee.root',
 				],
-				"nicks": ["madg", "sh"],
-				"folders": ["nocuts_ak5PFJetsCHSL1L2L3/ntuple"],
+				"nicks": ["madg", "data"],
+				"folders": [
+					"nocuts_ak5PFJetsCHSL1L2L3/ntuple",
+					"zcuts_ak5PFJetsCHSL1L2L3Res/ntuple",
+				],
 				"input_modules": ["InputRootZJet", "InputYoda"],
-				'scale_factors': [1e-3], # MC: fb->pb
-				"x_expressions": [quantity],
+				'scale_factors': [1./19712.], # MC: fb->pb
+				"x_expressions": [quantity, quantity.replace("gen", "")],
 				"x_bins": [binning],
-
+				# analysis
 				"analysis_modules": ["ScaleHistograms"]
 					+(["NormalizeToFirstHisto"] if normalize else [])
 					+["Ratio"],
 					'scale_nicks': ["MCgrid_CMS_2015_Zeed0{}-x01-y01".format(index+1)],
 					'scale': 1., # for test scaling
-
-				#"ratio_numerator_nicks": ["MCgrid_CMS_2015_Zeed{:02d}-x01-y01".format(index+1)],
-				#"ratio_denominator_nicks": ["madg", "powh"],
-				#"ratio_result_nicks": ["ratio0", "ratio1"],
-				"ratio_numerator_nicks": ["MCgrid_CMS_2015_Zeed{:02d}-x01-y01".format(index+1)],
-				"ratio_denominator_nicks": ["madg"],
-				"ratio_result_nicks": ["ratio0"],
-
-				"nicks_whitelist": ["d0"+str(index+1), "madg","powh", "ratio"],
-
+				"ratio_numerator_nicks": ["MCgrid_CMS_2015_Zeed{:02d}-x01-y01".format(index+1), "madg"],
+				"ratio_denominator_nicks": ["data"],
+				"ratio_result_nicks": ["ratio0", "ratio1"],
+				# plotting
+				"nicks_whitelist": ["data", "d0"+str(index+1), "madg","powh", "ratio"],
+				"x_label": quantity.replace("gen", ""),
 				"y_label": label,
-				#"labels": ["Sherpa+Rivet", "Madgraph DYJets", "Powheg DY", "ratio", "ratio2"],
-				"labels": ["Sherpa+Rivet", "Madgraph DYJets", 'ratio'],
+				"labels": [r"Data", "Sherpa", "Madgraph+Pythia", "ratio0", "ratio1"],
 				"legend": "lower center",
-				#"marker_colors": ["black", "red", "black", "red"],
-				"marker_colors": ["black"],
-				#"line_styles": [None, "-", "-", None, None],
-				#"step": [False, True, True, False, False],
-				#"markers": ["fill", ".", ".", ".", "."],
+				"marker_colors": ["black", "red", "red", "cornflowerblue"],
+				"line_styles": [None, "-", None, None, None],
+				"step": [True],
+				"markers": [".", ".", "fill", ".", "."],
 				"title": ("Shape comparison" if normalize else ""),
-				"y_subplot_lims": [0.5, 1.5],
+				"y_subplot_lims": [0, 2],
 				"energies": [8],
-
+				"y_errors": [True, False, True, False, False],
+				# output
 				"filename": ("norm_" if normalize else "") + quantity ,
-
 			}
 			if quantity == 'genzpt':
 				d['y_log'] = True
