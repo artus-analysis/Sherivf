@@ -2,6 +2,7 @@
 (run){
   EVENTS 1M;
   SF:=1;
+  NJET:=0;
   ANALYSIS Rivet;
   ANALYSIS_OUTPUT Rivet;
 }(run);
@@ -13,7 +14,7 @@
 }(beam);
 
 (integration){
-  ERROR 0.1;
+  ERROR 0.05;
 }(integration);
 
 (me){
@@ -30,26 +31,26 @@
 (processes){
 
   ### The Born, virtual, integrated and real-subtracted pieces
-  Process 93 93 -> 11 -11;
+  Process 93 93 -> 11 -11 93 93{NJET};
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part B;
   Order (*,2);
   End process;
 
-  Process 93 93 -> 11 -11;
+  Process 93 93 -> 11 -11 93 93{NJET};
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part I;
   Order (*,2);
   End process;
 
-  Process 93 93 -> 11 -11;
+  Process 93 93 -> 11 -11 93 93{NJET};
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part V;
   Loop_Generator BlackHat;
   Order (*,2);
   End process;
 
-  Process 93 93 -> 11 -11;
+  Process 93 93 -> 11 -11 93 93{NJET};
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part RS;
   Order (*,2);
@@ -59,12 +60,13 @@
 
 
 (selector){
-  Mass 11 -11 50. E_CMS
+  Mass 11 -11 81. 101.
+  #FastjetFinder  antikt 1 10  0  0.5
   PTNLO 11 25 E_CMS
   PTNLO -11 25 E_CMS
   PseudoRapidityNLO 11 -2.4 2.4
   PseudoRapidityNLO -11 -2.4 2.4
-  ### PT2NLO 11 -11 30 E_CMS
+  PT2NLO 11 -11 20 E_CMS
 }(selector)
 
 
