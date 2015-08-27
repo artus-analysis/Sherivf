@@ -13,7 +13,7 @@ cp $SHERIVFDIR/fnlo-cfg/fnlo_*_warmup.tab .
 cp $SHERIVFDIR/MCgrid_CMS_2015_Zee*.* .
 cp $SHERIVFDIR/RivetMyAnalyses.so .
 
-export SHERPACMD="$HOME/local/bin/Sherpa EVENTS=${1:-1000}"
+export SHERPACMD="$HOME/local/bin/Sherpa $@"
 echo "Start Sherpa: $SHERPACMD"
 $SHERPACMD
 
