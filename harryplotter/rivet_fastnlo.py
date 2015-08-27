@@ -296,7 +296,7 @@ def sherpa_gens(args=None, additional_dictionary=None):
 				],
 				"input_modules": ["InputRootZJet", "InputYoda"],
 				'scale_factors': [1./19712.], # MC: fb->pb
-				"x_expressions": [quantity, quantity.replace("gen", "")],
+				"x_expressions": [quantity.replace("gen", "")],
 				"x_bins": [binning],
 				# analysis
 				"analysis_modules": ["ScaleHistograms"]
