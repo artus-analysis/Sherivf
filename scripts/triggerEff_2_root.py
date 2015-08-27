@@ -7,6 +7,7 @@
 
 import argparse
 import array
+from re import finditer
 
 import ROOT
 ROOT.PyConfig.IgnoreCommandLineOptions = True
@@ -16,10 +17,13 @@ def main(
 		input_filename='effiGsfIdTightData.txt',
 		output_filename=None,
 	):
+	splitted = [m.group(0) for m in finditer('.+?(?:(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|$)', input_filename)]
+	print splitted
 	if output_filename is None:
-		output_filename = input_filename.replace('.txt', '.root')
+		output_filename = ('eff_'+ splitted[4]).replace('.txt', '.root')
 	txtfile = open(input_filename , "r" )
 	content = txtfile.readlines()
+	idname = splitted[3]
 	
 	# get binning
 	xbins, ybins = [], []
@@ -31,7 +35,7 @@ def main(
 	ybins = sorted(list(set(ybins)))
 
 	#create histo
-	histo = ROOT.TH2D('name', 'title',
+	histo = ROOT.TH2D(idname, idname,
 		len(xbins)-1, array.array('d', xbins),
 		len(ybins)-1, array.array('d', ybins),
 	)
@@ -46,7 +50,7 @@ def main(
 		histo.Fill(x, y, eff)
 
 	# write
-	out_file = ROOT.TFile(output_filename, "RECREATE")
+	out_file = ROOT.TFile(output_filename, "UPDATE")
 	histo.Write()
 	out_file.Close()
 
