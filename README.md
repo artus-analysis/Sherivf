@@ -58,6 +58,7 @@ make sure the Excalibur outputs are present
 * Electron ID efficiency: `merlin.py --py electron_id`
 * Electron corrections: `merlin.py --py electron_corr`
 * Effect of electron corrections on Z reconstruction: `merlin.py --py z_corr`
+* ID+Trigger scale factors: `merlin.py --py electron_trigger_sf --www sf`
 
 ##### Backgrounds
 * Distributions with backgrounds: `merlin.py --py zee_bkgrs`

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
+
 import Artus.HarryPlotter.harry as harry
 import Excalibur.Plotting.harryinterface as harryinterface
 import common
@@ -155,3 +157,47 @@ def z_corr(args=None, additional_dictionary=None):
 	if additional_dictionary is not None:
 		d.update(additional_dictionary)
 	harryinterface.harry_interface([d], args)
+
+
+def electron_trigger_sf(args=None, additional_dictionary=None):
+	"""electron trigger scale factors"""
+	plots = []
+	for typ in ['Data', 'MC']:
+		for ID in ['tight', 'medium', 'loose', 'veto']:
+			d = {
+				# Input
+				"files": [os.environ['EXCALIBURPATH'] + "/data/electron_scalefactors//Electron-DataScaleFactors.root"],
+				"folders": [""],
+				# Plotting
+				"plot_modules": [
+					"PlotMplZJet",
+					"PlotMplRectangle"
+				],
+				"rectangle_color": [
+					"red",
+					"red"
+				],
+				"rectangle_x": [
+					10.0,
+					25.0,
+					25.0,
+					50.0
+				],
+				"rectangle_y": [
+					0.0,
+					2.5,
+					1.442,
+					1.566
+				],
+				"x_expressions": ["vbft95_"+ID],
+				"x_label": "ept",
+				"x_lims": [10.0, 50.0],
+				"y_label": "eabseta",
+				"z_label": "Trigger+ID Efficiency Scalefactor",
+				# Output
+				"filename": "_".join(['sf', typ.lower(), ID]),
+			}
+			if additional_dictionary is not None:
+				d.update(additional_dictionary)
+			plots.append(d)
+	harryinterface.harry_interface(plots, args)
