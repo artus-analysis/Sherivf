@@ -64,7 +64,7 @@ def main(
 def getopt():
 	parser = argparse.ArgumentParser(description='evaluate PDF set')
 	parser.add_argument('-p', '--pdfset', help='LHAPDF PDF Filename', 
-		default='NNPDF23_nlo_as_0118_HighStat_chi2_nRep100')
+		default='NNPDF30_nlo_as_0118')
 	#	default='NNPDF23_nlo_as_0118')
 	parser.add_argument('-o', '--output-filename', default=None)
 	parser.add_argument('-f', '--flavours', nargs="*", default=[0, 1, 2])#, 7, 8, 9])
@@ -94,6 +94,7 @@ def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q):
 		max_values.append(max([pdf_values[i] for pdf_values in all_values]))
 		min_values.append(min([pdf_values[i] for pdf_values in all_values]))
 		mean_values.append(0.5*(max_values[-1] + min_values[-1]))
+		#print min_values[-1], max_values[-1], mean_values[-1]
 
 	# put the python lists into a TGraph
 	tgraph = ROOT.TGraphErrors()

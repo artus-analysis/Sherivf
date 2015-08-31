@@ -53,7 +53,7 @@ def pdfs_thesis(args=None, additional_dictionary=None):
 	labels = ["Gluon/10", "Down", "Up", "Anti-Down", "Anti-Up"]
 	for q, upper_y_lim in zip(
 		[1, 1.9, 3, 10, 14, 91.2, 200],
-		[3]*10,#[0.8, 1.2, 2, 2, 3.5, 4]
+		[3.]*10,#[0.8, 1.2, 2, 2, 3.5, 4]
 	):
 		d = {
 			"files": ["pdf_sets/pdfs_for_plotting_{}.root".format(str(q).replace(".", "_"))],
@@ -73,7 +73,7 @@ def pdfs_thesis(args=None, additional_dictionary=None):
 			"y_label": "PDF xfx",
 			"x_lims": [1e-4, 1],
 			"y_lims": [0, upper_y_lim],
-			"texts": [r"NNPDF 2.3 NLO\n$\\mathit{Q}=$" + " {} GeV".format(q)],
+			"texts": [r"NNPDF 3.0 NLO\n$\\mathit{Q}=$" + " {} GeV".format(q)],
 			"texts_x": [0.05],
 			
 			"filename": "pdf_{}".format(("%03d" % q).replace(".", "_")),
