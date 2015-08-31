@@ -269,8 +269,8 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 	harryinterface.harry_interface(plots, args)
 
 
-def sherpa_gens(args=None, additional_dictionary=None):
-	"""Comparisons for Sherpa and Madgraph,Powheg Gen."""
+def sherpa(args=None, additional_dictionary=None):
+	"""Comparisons for Sherpa and Data,Madgraph(Powheg)"""
 	plots = []
 
 	known_args, args = parsertools.parser_list_tool(args, ['norm', 'quantities'])
@@ -291,7 +291,7 @@ def sherpa_gens(args=None, additional_dictionary=None):
 				],
 				"nicks": ["madg", "data"],
 				"folders": [
-					"nocuts_ak5PFJetsCHSL1L2L3/ntuple",
+					"zcuts_ak5PFJetsCHSL1L2L3/ntuple",
 					"zcuts_ak5PFJetsCHSL1L2L3Res/ntuple",
 				],
 				"input_modules": ["InputRootZJet", "InputYoda"],
@@ -335,6 +335,64 @@ def sherpa_gens(args=None, additional_dictionary=None):
 			elif quantity == 'genzy':
 				d['legend'] = 'upper right'
 
+			plots.append(d)
+	harryinterface.harry_interface(plots, args)
+
+def sherpa_mc(args=None, additional_dictionary=None):
+	"""Comparisons for Sherpa and Madgraph Gen"""
+	known_args, args = parsertools.parser_list_tool(args, ['quantities'])
+	plots = []
+
+	for index, quantity, binning, label in zip(*parsertools.get_list_slice([
+		[0,1,2,3,6,7],
+		["genzpt", "abs(genzy)", "genzmass", "genzphi", "geneminuspt", "geneminuseta"],
+		["40,0,400", "25,0,2.5", "20,81,101", "20,-3.1416,3.1416", "20,20,120", "50,-2.5,2.5"],
+		["xsecpt", "xsecabsy", "xsecm", "xsecphi", "xsecpt", "xseceta"]
+	], known_args.no_quantities)):
+			d = {
+				# input
+				#"yoda_files": ["/storage/a/dhaitz/sherivf/sg_2015-08-03_11-40/Rivet.yoda"],
+				"weights": ["({})".format("&&".join([
+					"(ngenelectrons>1)",
+					"(geneminuspt>25&&genepluspt>25)",
+					"(abs(geneminuseta)<2.4&&abs(genepluseta)<2.4)",
+					"(abs(geneminuseta)<1.442||abs(geneminuseta)>1.566)",
+					"(abs(genepluseta)<1.442||abs(genepluseta)>1.566)",
+					"(genzpt>20)",
+					"(genzmass>81&&genzmass<101)",
+				]))],
+				"files": [
+					os.environ['EXCALIBURPATH'] + '/work/mc_ee_gen.root',
+				],
+				#"nicks": ["madg", "data"],
+				"folders": [
+					"nocuts_ak5PFJetsCHSL1L2L3/ntuple",
+				],
+				"input_modules": ["InputRootZJet", "InputYoda"],
+				'scale_factors': [1./1000.],
+				"x_expressions": [quantity],
+				"x_bins": [binning],
+				# analysis
+				"analysis_modules": ["Ratio"],
+				"ratio_numerator_nicks": ["MCgrid_CMS_2015_Zeed{:02d}-x01-y01".format(index+1)],
+				"ratio_denominator_nicks": ["nick0"],
+				# plotting
+				"nicks_whitelist": ["nick", "d0"+str(index+1), "madg", "ratio"],
+				"y_label": label,
+				"y_subplot_lims": [0.9, 1.1],
+				"y_errors": [True, False, False],
+				"labels": ['Madgraph', 'ratio', 'Sherpa'],
+			}
+			if quantity == 'genzpt':
+				d['y_log'] = True
+				d['legend'] = 'upper right'
+				d['y_lims'] = [0.001, 900]
+			elif quantity == 'genzmass' or quantity == 'geneminuseta':
+				d['legend'] = None
+			elif quantity == 'geneminuspt':
+				d['legend'] = 'upper right'
+			elif quantity == 'genzy':
+				d['legend'] = 'upper right'
 			plots.append(d)
 	harryinterface.harry_interface(plots, args)
 
