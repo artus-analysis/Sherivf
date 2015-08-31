@@ -52,6 +52,7 @@ class Sherivf(object):
 				print "\nOutputs:\n", "\n".join(outputs)
 			else:
 				self.merge_warmup_files()
+			subprocess.call(['ln', '-sf', self.args.output_dir, 'latest_sherivf_output'])
 
 
 	def delete_latest_output_dir(self):
