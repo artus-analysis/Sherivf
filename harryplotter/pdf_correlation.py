@@ -30,7 +30,7 @@ def pdf_correlations(args=None, additional_dictionary=None):
 				"texts": [r"NNPDF 2.3 NLO\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)"],
 				"title": flavour,
 				# output
-				"filename": flavour+"_"+quantity,
+				"filename": flavour.replace(" ", "-")+"_"+quantity,
 			}
 			try:
 				d['y_lims'] = lims[quantity]

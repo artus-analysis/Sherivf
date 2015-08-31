@@ -105,19 +105,14 @@ def subtract_backgrounds(args=None):
 	ybins = np.arange(0, 2.4, 0.4)
 	backgrounds = common.bkgr_backgrounds
 	mc_scalefactor = -1
+	quantities = ['zpt', 'zy', 'zmass']
+	binnings = [common.bins[i] for i in quantities]
 
 	for ybin, ybinsuffix in zip(*parsertools.get_list_slice([
 		["1"] + ["abs(zy)<{1} && abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])],
 		["inclusive"] + ["{0:02d}y{1:02d}".format(int(10*low), int(10*up)) for low, up in zip(ybins[:-1], ybins[1:])]
 	], known_args.no_ybins)):
-		for quantity, bins in zip(*parsertools.get_list_slice([
-			['zpt', 'zy', 'zmass'],
-			[
-				"40,0,400",
-				"14,-2.8,2.8",
-				"20,81,101",
-			]
-		], known_args.no_quantities)):
+		for quantity, bins in zip(*parsertools.get_list_slice([quantities, binnings], known_args.no_quantities)):
 			d = {
 				#input
 				'x_expressions': quantity,
@@ -125,7 +120,7 @@ def subtract_backgrounds(args=None):
 				'files': [path+'/work/data_ee.root'] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds],
 				'nicks': ['data'],
 				'weights': [ybin] + ["({scalefactor}*(hlt && ({ybin})))".format(ybin=ybin, scalefactor=mc_scalefactor)]*len(backgrounds),
-				'folders': ['leptoncuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['leptoncuts_ak5PFJetsCHSL1L2L3/ntuple']*len(backgrounds),
+				'folders': ['zcuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['zcuts_ak5PFJetsCHSL1L2L3/ntuple']*len(backgrounds),
 				#output
 				'plot_modules': ['ExportRoot'],
 				'filename': "_".join([quantity, ybinsuffix]),
@@ -149,7 +144,7 @@ def emu(args=None):
 			'x_expressions': quantity,
 			'x_bins': [common.bins[quantity]],
 			'files': [path+'/work/data_em.root']+[path+'/work/background_ee_{}.root'.format(item) for item in backgrounds],
-			'folders': ['leptoncuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['leptoncuts_ak5PFJetsCHSL1L2L3/ntuple']*len(backgrounds),
+			'folders': ['zcuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['zcuts_ak5PFJetsCHSL1L2L3/ntuple']*len(backgrounds),
 			#'weights': ['1']+['(hlt&&e1mvatrig&&e2mvatrig)']*4,
 			# formatting
 			'stacks': ['data'] + ['mc']*len(backgrounds),

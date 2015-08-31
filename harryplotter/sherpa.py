@@ -17,7 +17,7 @@ def sherpa(args=None, additional_dictionary=None):
 		for index, quantity, binning, label in zip(*parsertools.get_list_slice([
 			[0,1,2,3,6,7],
 			["genzpt", "abs(genzy)", "genzmass", "genzphi", "geneminuspt", "geneminuseta"],
-			["40,0,400", "25,0,2.5", "20,81,101", "20,-3.1416,3.1416", "20,20,120", "50,-2.5,2.5"],
+			["38,20,400", "25,0,2.5", "20,81,101", "32,-3.2,3.2", "20,20,120", "48,-2.4,2.4"],
 			["xsecpt", "xsecabsy", "xsecm", "xsecphi", "xsecpt", "xseceta"]
 		], known_args.no_quantities)):
 			d = {

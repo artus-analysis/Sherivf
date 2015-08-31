@@ -30,14 +30,17 @@ bkgr_colors = {
 }
 
 bins = {
-	'zpt': "40,0,400",
-	'zy': "14,-2.8,2.8",
+	'zpt': "38,20,400",
+	'zy': "28,-2.4,2.4",
+	'abs(zy)': "24,0,2.4",
 	'zmass': "20,81,101",
 	'njets30': "7,-0.5,6.5",
 }
 
 excaliburpath = os.environ['EXCALIBURPATH']
 bkgr_path = excaliburpath
+
+unfold_path = "2_unfolded"
 
 mc = excaliburpath + "/work/mc_ee.root"
 mc_raw = excaliburpath + "/work/mc_ee_raw.root"

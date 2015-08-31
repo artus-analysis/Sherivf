@@ -9,8 +9,6 @@ import parsertools
 import numpy as np
 import common
 
-unfold_path = "2_unfolded"
-
 
 def unfold(args=None):
 	"""Unfold Z(->ee) distributions and save as root. All combinations of n jet categories, rapidity bins, MC samples and quantities (y, mass, pT) are plotted."""
@@ -61,7 +59,7 @@ def unfold(args=None):
 						#output
 						'plot_modules': ['ExportRoot'],
 						'filename': "_".join([quantity, mc_label.lower(), ybinsuffix, str(iteration)]),
-						'output_dir': unfold_path,
+						'output_dir': common.unfold_path,
 						'export_json': False,
 					}
 					plots.append(d)
@@ -74,7 +72,7 @@ def different_iterations(args=None):
 	ybin = 'inclusive'
 	max_iteration = 3
 	for quantity in ['zmass', 'zpt', 'zy']:
-		basename = unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '{}']) + '.root'
+		basename = common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '{}']) + '.root'
 		d = {
 			# input
 			'files': [basename.format(str(1))]*2 + [basename.format(str(1+n)) for n in range(max_iteration)],
@@ -114,7 +112,7 @@ def response_matrix(args=None):
 		for quantity, y_lims in zip(['zmass', 'zpt', 'zy'], [[81, 101], [0, 400], [-2.5, 2.5]]):
 			d = {
 				# input
-				'files': [unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '1']) + '.root'],
+				'files': [common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '1']) + '.root'],
 				'folders': [''],
 				'x_expressions': ['responsematrix'],
 				# formatting

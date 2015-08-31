@@ -1,10 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 from itertools import combinations
 
+import common
 import Excalibur.Plotting.harryinterface as harryinterface
 
+
+qdict = {'pT': 'zpt', 'y': 'abs(zy)', 'm': 'zmass', 'phi': 'zphi'}
 
 def rivet_fastnlo(args=None):
 	""" compare rivet with fastnlo and MC-gen"""
@@ -57,15 +61,14 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 			'zpt': ['38,20,400'],
 			'zphi': ['20,-3.14159,3.14159'],
 	}
-	qdict = {'pT': 'zpt', 'y': 'abs(zy)', 'm': 'zmass', 'phi': 'zphi'}
 
 	scale = True
 
 	# configure fastNLO input
 	n_members = 1
-	pdf_sets = ['NNPDF30_nlo_as_0118'
-		#'CT10nlo.LHgrid', 'NNPDF21_100.LHgrid', 'abm11_3n_nlo.LHgrid',
-		#'cteq65.LHgrid', 'MSTW2008nnlo90cl.LHgrid'
+	pdf_sets = [#'NNPDF30_nlo_as_0118'cal
+		'CT10nlo.LHgrid', 'NNPDF21_100.LHgrid', 'abm11_3n_nlo.LHgrid',
+		'cteq65.LHgrid', 'MSTW2008nnlo90cl.LHgrid'
 		]
 	labels = ['CT10', 'NNPDF', 'ABM11', 'CTEQ6', 'MSTW']
 	colors = ['blue', 'red', 'green', 'purple', 'orange']
@@ -146,26 +149,43 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 	"""Evaluate fastNLO table for n members of a PDF set."""
 	plots = []
 
-	n_members = 100
+	n_members = 101
 
-	for quantity in ['y', 'm', 'pT', 'phi']:
+	for quantity, sf in zip(['y', 'm', 'pT'], [0.1, 1, 10]):
 		d = {
-			'input_modules': 'InputFastNLO',
+			# input
+			'input_modules': ['InputRootZJet', 'InputFastNLO'],
+			# input fastNLO
 			'pdf_sets': ['NNPDF21_100.LHgrid'],
 			'members': range(n_members),
-			'fastnlo_files': ["latest_sherivf_output/fnlo_{0}Z.txt".format(quantity)],
-
+			#'fastnlo_files': ["latest_sherivf_output/fnlo_{0}Z.tab".format(quantity)],
+			'fastnlo_files': ["latest_sherivf_output/output/fnlo_{0}Z_0.tab".format(quantity)],
+			# input root
+			'files': [os.environ['EXCALIBURPATH'] + '/work/data_ee.root'],#[common.unfold_path + '/' + '_'.join([qdict[quantity].replace("abs(zy)", "zy"), 'madgraph', 'inclusive', '1']) + '.root'],
+				#'folders': '',
+			'x_bins': common.bins[qdict[quantity]],
+			'zjetfolders': ['zcuts'],
+			'algorithms': ['ak5PFJetsCHS'],
+			'x_expressions': qdict[quantity], #'data_unfolded',
+			'scale_factors': [1./19712.],
+			# analysis
+			"analysis_modules": ["ScaleHistograms"],
+			'scale': sf*(0.2),
+			#'scale_nicks':["latest_sherivf_output/fnlo_{}Z.tab_NNPDF21_100.LHgrid_{}".format(quantity, i) for i in range(n_members)],
+			'scale_nicks':["latest_sherivf_output/output/fnlo_{}Z_0.tab_NNPDF21_100.LHgrid_{}".format(quantity, i) for i in range(n_members)],
+			# formatting
 			'legend': None,
-			'markers': ['-',],
-			'line_styles': ['-'],
+			'markers': ['o'] + ['-']*n_members,
+			'line_styles': [None] + ['-']*n_members,
 			'line_widths': [0.1],
-			'colors': ['blue'],
+			'colors': ['black'] + ['blue']*n_members,
 			'energies': [8],
-
-			'filename': quantity,
+			# output
+			'filename': qdict[quantity],
 		}
 		if quantity == 'pT':
 			d['y_log'] = True
+			d['y_lims'] = [1e-3, 1e2]
 		plots.append(d)
 
 	harryinterface.harry_interface(plots, args)
