@@ -20,6 +20,7 @@ Rivet output: Rivet.yoda
 fastNLO output: fnlo_yZ.tab
 * (multiple files: `fnlo-tk-append *.tab fnlo.tab`)
 * convert to root: `evaluate_fnlotable.py -i fnlo.tab`
+* make all correlation root files (needed for correlation plots): `calculate_all_correlations`
 
 
 Save data in herafitter format
@@ -31,11 +32,6 @@ Run herafitter
 Evaluate PDF sets and save as root files:
 * `pdf_2_root.py --folder pdf_sets -p NNPDF23_nlo_as_0118`
 
-
-Plot the evaluated pdf sets:
-* `merlin.py --py pdf -i original.root new.root`
-* `merlin.py --py nnpdf`
-
 ## Workflow Data Analysis
 make sure the Excalibur outputs are present
 
@@ -44,7 +40,6 @@ make sure the Excalibur outputs are present
 2. Unfold: `merlin.py --py unfold  #--no-ybins --no-mcs`
 	root outputs will be stored in `2_unfolded` folder
 3. Export unfolded data into herafitter format: `merlin.py --py unfolded_to_hera`
-
 
 
 
@@ -68,4 +63,17 @@ make sure the Excalibur outputs are present
 * Unfolding for different iterations: `merlin.py --py different_iterations`
 * Unfolding response matrices: `merlin.py --py response_matrix`
 * Comparison of unfolded, reco, gen distributions: `merlin.py --py unfolding_comparison`
+
+##### Sherpa
+* Comparison of Sherpa and Data: `merlin.py --py sherpa`
+* Comparison of Sherpa and Madgraph-Gen: `merlin.py --py sherpa_mc`
+
+##### FastNLO
+* FastNLO with different PDF sets:
+* FastNLO vs direct Sherpa:
+* FastNLO with different PDF set members:
+
+##### Results of NNPDF Reweighting
+* Comparison `merlin.py --py pdf -i original.root new.root`
+* ?? `merlin.py --py nnpdf`
 
