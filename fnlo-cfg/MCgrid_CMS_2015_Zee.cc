@@ -54,13 +54,13 @@ public:
 	addProjection(electrons, "Electrons");
 	
 	/// Book histograms here
-	_h_pTZ = bookHisto1D("d01-x01-y01", 40, 0, 400);
+	_h_pTZ = bookHisto1D("d01-x01-y01", 38, 20, 400);
 	_h_yZ = bookHisto1D("d02-x01-y01", 25, 0, 2.5);
 	_h_mZ = bookHisto1D("d03-x01-y01", 20, 81, 101);
 	_h_phiZ = bookHisto1D("d04-x01-y01", 32, -3.2, 3.2);
 
 	_h_pTe = bookHisto1D("d07-x01-y01", 20, 20, 120);
-	_h_etae = bookHisto1D("d08-x01-y01", 50, -2.5, 2.5);
+	_h_etae = bookHisto1D("d08-x01-y01", 48, -2.4, 2.4);
 	_h_phie = bookHisto1D("d10-x01-y01", 32, -3.2, 3.2);
 
 	#if USE_FNLO
@@ -81,9 +81,6 @@ public:
 	_fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo, "fnlo_pTZ_warmup.tab");
 	_fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_2, "fnlo_yZ_warmup.tab");
 	_fnlo_mZ = MCgrid::bookGrid(_h_mZ, histoDir(), config_fnlo_3, "fnlo_mZ_warmup.tab");
-	_fnlo_phiZ = MCgrid::bookGrid(_h_phiZ, histoDir(), config_fnlo_4, "fnlo_phiZ_warmup.tab");
-
-	//_fnlo_xs = MCgrid::bookGrid(_h_xs, histoDir(), config_fnlo);
 
 	MSG_INFO("fastnlo init done");
 	#endif
@@ -128,7 +125,6 @@ public:
 				_fnlo_yZ->fill(yZ, event);
 				_fnlo_pTZ->fill(pTZ, event);
 				_fnlo_mZ->fill(mZ, event);
-				_fnlo_phiZ->fill(phiZ, event);
 			#endif
 		}
 		else {
@@ -149,10 +145,7 @@ public:
 		MSG_INFO("weights auto:  " << sumOfWeights());
 
 
-		// Data seems to have been normalized for the avg of the two sides
-		// (+ve & -ve rapidity) rather than the sum, hence the 0.5:
 		scale(_h_yZ, normfactor);
-		//scale(_h_yZ, 0.5*normfactor);
 		scale(_h_pTZ, normfactor);
 		scale(_h_mZ, normfactor);
 		scale(_h_phiZ, normfactor);
@@ -163,15 +156,12 @@ public:
 
 		#if USE_FNLO
 		_fnlo_pTZ->scale(normfactor);
-		//_fnlo_yZ->scale(0.5*normfactor);
 		_fnlo_yZ->scale(normfactor);
 		_fnlo_mZ->scale(normfactor);
-		_fnlo_phiZ->scale(normfactor);
 
 		_fnlo_pTZ->exportgrid("fnlo_pTZ.tab");
 		_fnlo_yZ->exportgrid("fnlo_yZ.tab");
 		_fnlo_mZ->exportgrid("fnlo_mZ.tab");
-		_fnlo_phiZ->exportgrid("fnlo_phiZ.tab");
 		#endif
 
 		// Clear event handler
@@ -187,8 +177,7 @@ private:
 	Histo1DPtr _h_yZ;
 	Histo1DPtr _h_mZ;
 	Histo1DPtr _h_phiZ;
-	//Histo1DPtr _h_xs;
-	
+
 	Histo1DPtr _h_pTe;
 	Histo1DPtr _h_etae;
 	Histo1DPtr _h_phie;
@@ -198,8 +187,6 @@ private:
 	MCgrid::gridPtr _fnlo_pTZ;
 	MCgrid::gridPtr _fnlo_yZ;
 	MCgrid::gridPtr _fnlo_mZ;
-	MCgrid::gridPtr _fnlo_phiZ;
-	//MCgrid::gridPtr _fnlo_xs;
 	#endif
 };
 
