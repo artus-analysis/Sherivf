@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo -e "\ndirectory contents:"
-ls
+ls -lt
 
 export LD_LIBRARY_PATH=$PWD:@LOCAL@/lib:@LOCAL@/lib64:$LD_LIBRARY_PATH
 export RIVET_ANALYSIS_PATH=$PWD:@HOME@/sherivf/work:$RIVET_ANALYSIS_PATH
