@@ -59,11 +59,11 @@ namespace Rivet {
 	_h_pTZ = bookHisto1D("d01-x01-y01", 40, 0, 400);
 	_h_yZ = bookHisto1D("d02-x01-y01", 25, 0, 2.5);
 	_h_mZ = bookHisto1D("d03-x01-y01", 20, 81, 101);
-	_h_phiZ = bookHisto1D("d04-x01-y01", 20, -3.1416, 3.1416);
+	_h_phiZ = bookHisto1D("d04-x01-y01", 32, -3.2, 3.2);
 
 	_h_pTe = bookHisto1D("d07-x01-y01", 20, 20, 120);
 	_h_etae = bookHisto1D("d08-x01-y01", 50, -2.5, 2.5);
-	_h_phie = bookHisto1D("d10-x01-y01", 20, -3.1416, 3.1416);
+	_h_phie = bookHisto1D("d10-x01-y01", 32, -3.2, 3.2);
 
 	#if USE_FNLO
 	MSG_INFO("Using fastnlo");
