@@ -43,7 +43,7 @@ def main():
 	#Parse Args
 	parser = argparse.ArgumentParser(description='Calculates the correlation coefficient between PDFs and xs')
 	parser.add_argument('-t', '--table', help='fastNLO table')
-	parser.add_argument('-p', '--pdfset', help='LHAPDF PDF Filename', default='NNPDF22_nlo_100.LHgrid')
+	parser.add_argument('-p', '--pdfset', help='LHAPDF PDF Filename', default='NNPDF23_nlo_as_0118.LHgrid')
 	parser.add_argument('-o', '--output-filename', help='corr.root')
 	kwargs = vars(parser.parse_args())
 	if kwargs['output_filename'] == None:
