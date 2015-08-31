@@ -8,7 +8,8 @@ import sys, os, glob, shutil, time, subprocess, argparse, socket
 class Sherivf(object):
 
 	def __init__(self):
-		self.fastnlo_outputs = ['fnlo_yZ.tab', 'fnlo_pTZ.tab', 'fnlo_mZ.tab', 'fnlo_phiZ.tab']
+		quantities = ['y', 'pT', 'm']#, 'phi']
+		self.fastnlo_outputs = ['fnlo_{}Z.tab'.format(quantity) for quantity in quantities]
 
 		if 'naf' in socket.gethostname().lower():
 			self.default_config = 'naf'
@@ -52,6 +53,7 @@ class Sherivf(object):
 				print "\nOutputs:\n", "\n".join(outputs)
 			else:
 				self.merge_warmup_files()
+			subprocess.call(['rm', '-f', 'latest_sherivf_output'])
 			subprocess.call(['ln', '-sf', self.args.output_dir, 'latest_sherivf_output'])
 
 
