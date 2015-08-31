@@ -62,8 +62,10 @@ export BOOSTPATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/boost/1.57.0-cflf
 export LD_LIBRARY_PATH=$PWD:$LD_LIBRARY_PATH:$BOOSTPATH/lib:$HOME/local/lib64/:/usr/users/dhaitz/local/lib/SHERPA-MC/
 # -L$(BOOSTPATH)/lib/
 
-#LHAPDF
+#LHAPDF (6)
 export PATH=$SHERIVFDIR/../LHAPDF-6.1.5/bin/:$PATH
+#export LHAPATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/lhapdf/6.1.5/share/LHAPDF/:$LHAPATH
+export LHAPATH=/cvmfs/cms.cern.ch/lhapdf/pdfsets/5.9.1 # LHA 5
 #export LHAPATH=/storage/a/dhaitz/PDFsets:$LHAPATH
 
 # aliases
@@ -82,8 +84,16 @@ nnpdf_analysis(){
 	herafit &&
 	pdf_2_root.py --folder pdf_sets  &&
 	merlin.py --py nnpdf
-
 }
 
 
+calculate_all_correlations(){
+	for i in pT m y; do
+		calculate_correlation.py -t latest_sherivf_output/fnlo_${i}Z.tab -o  correlations/fnlo_${i}Z.root
+	done
+}
+
 #|  Total XS is 3645.82 pb +- ( 20.6701 pb = 0.56 % )  |
+
+# Nevent
+# 10000 evts -> avg 2.5 min
