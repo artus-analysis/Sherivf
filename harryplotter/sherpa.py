@@ -22,7 +22,7 @@ def sherpa(args=None, additional_dictionary=None):
 		], known_args.no_quantities)):
 			d = {
 				# input
-				#"yoda_files": ["/storage/a/dhaitz/sherivf/sg_2015-08-03_11-40/Rivet.yoda"],
+				"yoda_files": ["latest_sherivf_output/Rivet.yoda"],
 				"files": [
 					os.environ['EXCALIBURPATH'] + '/work/mc_ee.root',
 					os.environ['EXCALIBURPATH'] + '/work/data_ee.root',
@@ -90,7 +90,7 @@ def sherpa_mc(args=None, additional_dictionary=None):
 	], known_args.no_quantities)):
 			d = {
 				# input
-				#"yoda_files": ["/storage/a/dhaitz/sherivf/sg_2015-08-03_11-40/Rivet.yoda"],
+				"yoda_files": ["latest_sherivf_output/Rivet.yoda"],
 				"weights": ["({})".format("&&".join([
 					"(ngenelectrons>1)",
 					"(geneminuspt>25&&genepluspt>25)",
