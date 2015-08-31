@@ -54,7 +54,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 	bindict = {
 			'zmass': ['20,81,101'],
 			'abs(zy)': ['25,0,2.5'],
-			'zpt': ['37,30,400'],
+			'zpt': ['38,20,400'],
 			'zphi': ['20,-3.14159,3.14159'],
 	}
 	qdict = {'pT': 'zpt', 'y': 'abs(zy)', 'm': 'zmass', 'phi': 'zphi'}
@@ -63,20 +63,23 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 
 	# configure fastNLO input
 	n_members = 1
-	pdf_sets = ['CT10nlo.LHgrid', 'NNPDF21_100.LHgrid', 'abm11_3n_nlo.LHgrid',
-		'cteq65.LHgrid', 'MSTW2008nnlo90cl.LHgrid']
+	pdf_sets = ['NNPDF30_nlo_as_0118'
+		#'CT10nlo.LHgrid', 'NNPDF21_100.LHgrid', 'abm11_3n_nlo.LHgrid',
+		#'cteq65.LHgrid', 'MSTW2008nnlo90cl.LHgrid'
+		]
 	labels = ['CT10', 'NNPDF', 'ABM11', 'CTEQ6', 'MSTW']
 	colors = ['blue', 'red', 'green', 'purple', 'orange']
 	N = len(pdf_sets)
 
-	for quantity, sf in zip(['y', 'm', 'pT', 'phi'], [2*i for i in [0.1, 1, 10, 0.314159]]):
+	for quantity, sf in zip(['y', 'm', 'pT'#, 'phi'
+								], [2*i for i in [0.1, 1, 10, 0.314159]]):
 		d = {
-			'input_modules': 'InputFastNLO',
+			'input_modules': ['InputFastNLO'],
 			'pdf_sets': pdf_sets,
 			'members': len(pdf_sets),
 			#'labels': ['Different PDF Sets'.format(N-1)] + [None]*(N-1),
 			'labels': labels,
-			'fastnlo_files': ["latest_sherivf_output/fnlo_{0}Z.txt".format(quantity)],
+			'fastnlo_files': ["latest_sherivf_output/fnlo_{0}Z.tab".format(quantity)],
 			'legend': 'upper right',
 			'markers': ['-',]*N,
 			'line_styles': ['-']*N,
@@ -86,7 +89,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 		}
 		if quantity == 'pT':
 			d['y_log'] = True
-	
+		"""
 		# add comparison with unfolded data / MC
 		rootfile = '/usr/users/dhaitz/home/qcd/sherivf/unfolded/{0}_unfolded_Madgraph_inclusive.root'
 		mc = False
@@ -133,7 +136,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				'y_subplot_label': 'Ratio MC/Data',
 				
 			})
-			
+		"""
 		plots.append(d)
 
 	harryinterface.harry_interface(plots, args)
