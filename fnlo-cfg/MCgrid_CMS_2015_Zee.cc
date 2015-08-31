@@ -12,17 +12,15 @@
 
 namespace Rivet {
 
- /// @brief CMS Z boson rapidity measurement
- /// modified to generate fastNLO files
- class MCgrid_CMS_2015_Zee : public Analysis {
- public:
+/// @brief CMS Z boson rapidity measurement
+/// modified to generate fastNLO files
+class MCgrid_CMS_2015_Zee : public Analysis {
+public:
 
 	/// Constructor
-	MCgrid_CMS_2015_Zee()
-	: Analysis("MCgrid_CMS_2015_Zee")
-	{	}
+	MCgrid_CMS_2015_Zee(): Analysis("MCgrid_CMS_2015_Zee"){}
 
- public:
+public:
 
 	/// Book histograms and initialise projections before the run
 	void init() {
@@ -95,94 +93,92 @@ namespace Rivet {
 	/// Perform the per-event analysis
 	void analyze(const Event& event) {
 
-
-	// Handle APPL event
-	MCgrid::PDFHandler::HandleEvent(event);
+		// Handle APPL event
+		MCgrid::PDFHandler::HandleEvent(event);
 	
-	// Handle weights
-	const double weight = event.weight();
-	m_n += weight;
+		// Handle weights
+		const double weight = event.weight();
+		m_n += weight;
 
-	const Particles particles = applyProjection<FinalState>(event, "Electrons").particlesByPt(Cuts::pT>=0.5*GeV);
+		const Particles particles = applyProjection<FinalState>(event, "Electrons").particlesByPt(Cuts::pT>=0.5*GeV);
 
-	const ZFinder& zfinder = applyProjection<ZFinder>(event, "ZFinder");
-	if (zfinder.bosons().size() == 1) {
+		const ZFinder& zfinder = applyProjection<ZFinder>(event, "ZFinder");
+		if (zfinder.bosons().size() == 1) {
 
-		double yZ = fabs(zfinder.bosons()[0].momentum().rapidity());
-		double pTZ = zfinder.bosons()[0].momentum().pT();
-		double mZ = zfinder.bosons()[0].momentum().mass();
-		double phiZ = zfinder.bosons()[0].momentum().phi()-pi;
+			double yZ = fabs(zfinder.bosons()[0].momentum().rapidity());
+			double pTZ = zfinder.bosons()[0].momentum().pT();
+			double mZ = zfinder.bosons()[0].momentum().mass();
+			double phiZ = zfinder.bosons()[0].momentum().phi()-pi;
 
 			// electron histos
-		#ifndef USE_MUONS
-		if (particles.size() > 0)
-		{
-			_h_pTe->fill(particles[0].pt(), weight);
-			_h_etae->fill(particles[0].eta(), weight);
-			_h_phie->fill(particles[0].phi()-pi, weight);
+			#ifndef USE_MUONS
+			if (particles.size() > 0)
+			{
+				_h_pTe->fill(particles[0].pt(), weight);
+				_h_etae->fill(particles[0].eta(), weight);
+				_h_phie->fill(particles[0].phi()-pi, weight);
+			}
+			#endif
+				// Z histos
+				_h_pTZ->fill(pTZ, weight);
+				_h_yZ->fill(yZ, weight);
+				_h_mZ->fill(mZ, weight);
+				_h_phiZ->fill(phiZ, weight);
+			#if USE_FNLO
+				_fnlo_yZ->fill(yZ, event);
+				_fnlo_pTZ->fill(pTZ, event);
+				_fnlo_mZ->fill(mZ, event);
+				_fnlo_phiZ->fill(phiZ, event);
+			#endif
 		}
-		#endif
-			// Z histos
-			_h_pTZ->fill(pTZ, weight);
-			_h_yZ->fill(yZ, weight);
-			_h_mZ->fill(mZ, weight);
-			_h_phiZ->fill(phiZ, weight);
-		#if USE_FNLO
-			_fnlo_yZ->fill(yZ, event);
-			_fnlo_pTZ->fill(pTZ, event);
-			_fnlo_mZ->fill(mZ, event);
-			_fnlo_phiZ->fill(phiZ, event);
-		#endif
-	}
-	else {
-		MSG_DEBUG("no unique lepton pair found: " << zfinder.bosons().size() << " weight: " << weight);
-	}
+		else {
+			MSG_DEBUG("no unique lepton pair found: " << zfinder.bosons().size() << " weight: " << weight);
+		}
 
-	}
+		}
 
 
-	/// Normalise histograms etc., after the run
-	void finalize() {
+		/// Normalise histograms etc., after the run
+		void finalize() {
 
-	double normfactor = crossSection()/sumOfWeights();
+		double normfactor = crossSection()/sumOfWeights();
 	
 
-	MSG_INFO("weights manual " << m_n << " normfactor: " << normfactor);
-	MSG_INFO("xsec: " << crossSection() << " sumW: " << sumOfWeights() << " ratio: " << crossSection()/sumOfWeights());
-	MSG_INFO("weights auto:  " << sumOfWeights());
+		MSG_INFO("weights manual " << m_n << " normfactor: " << normfactor);
+		MSG_INFO("xsec: " << crossSection() << " sumW: " << sumOfWeights() << " ratio: " << crossSection()/sumOfWeights());
+		MSG_INFO("weights auto:  " << sumOfWeights());
 
 
-	// Data seems to have been normalized for the avg of the two sides
-	// (+ve & -ve rapidity) rather than the sum, hence the 0.5:
-	scale(_h_yZ, normfactor);
-	//scale(_h_yZ, 0.5*normfactor);
-	scale(_h_pTZ, normfactor);
-	scale(_h_mZ, normfactor);
-	scale(_h_phiZ, normfactor);
+		// Data seems to have been normalized for the avg of the two sides
+		// (+ve & -ve rapidity) rather than the sum, hence the 0.5:
+		scale(_h_yZ, normfactor);
+		//scale(_h_yZ, 0.5*normfactor);
+		scale(_h_pTZ, normfactor);
+		scale(_h_mZ, normfactor);
+		scale(_h_phiZ, normfactor);
 
-	scale(_h_pTe, normfactor);
-	scale(_h_etae, normfactor);
-	scale(_h_phie, normfactor);
+		scale(_h_pTe, normfactor);
+		scale(_h_etae, normfactor);
+		scale(_h_phie, normfactor);
 
-	#if USE_FNLO
-	_fnlo_pTZ->scale(normfactor);
-	//_fnlo_yZ->scale(0.5*normfactor);
-	_fnlo_yZ->scale(normfactor);
-	_fnlo_mZ->scale(normfactor);
-	_fnlo_phiZ->scale(normfactor);
+		#if USE_FNLO
+		_fnlo_pTZ->scale(normfactor);
+		//_fnlo_yZ->scale(0.5*normfactor);
+		_fnlo_yZ->scale(normfactor);
+		_fnlo_mZ->scale(normfactor);
+		_fnlo_phiZ->scale(normfactor);
 
-	_fnlo_pTZ->exportgrid("fnlo_pTZ.tab");
-	_fnlo_yZ->exportgrid("fnlo_yZ.tab");
-	_fnlo_mZ->exportgrid("fnlo_mZ.tab");
-	_fnlo_phiZ->exportgrid("fnlo_phiZ.tab");
-	#endif
+		_fnlo_pTZ->exportgrid("fnlo_pTZ.tab");
+		_fnlo_yZ->exportgrid("fnlo_yZ.tab");
+		_fnlo_mZ->exportgrid("fnlo_mZ.tab");
+		_fnlo_phiZ->exportgrid("fnlo_phiZ.tab");
+		#endif
 
-	// Clear event handler
-	MCgrid::PDFHandler::ClearHandler();
+		// Clear event handler
+		MCgrid::PDFHandler::ClearHandler();
 	}
 
-
- private:
+private:
 	double m_eptmin;
 	double m_n;
 
@@ -198,16 +194,16 @@ namespace Rivet {
 	Histo1DPtr _h_phie;
 	
 	// Grids
-#if USE_FNLO
+	#if USE_FNLO
 	MCgrid::gridPtr _fnlo_pTZ;
 	MCgrid::gridPtr _fnlo_yZ;
 	MCgrid::gridPtr _fnlo_mZ;
 	MCgrid::gridPtr _fnlo_phiZ;
 	//MCgrid::gridPtr _fnlo_xs;
-#endif
- };
+	#endif
+};
 
 
- // The hook for the plugin system
- DECLARE_RIVET_PLUGIN(MCgrid_CMS_2015_Zee);
+// The hook for the plugin system
+DECLARE_RIVET_PLUGIN(MCgrid_CMS_2015_Zee);
 }
