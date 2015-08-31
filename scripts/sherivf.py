@@ -96,12 +96,12 @@ class Sherivf(object):
 		# define configs to use
 		self.args.configfile = 'sherpa-rivet_{0}.conf'.format(self.args.config)
 		self.args.list_of_gc_cfgs = [
-			get_env('SHERIVFDIR') + '/' + 'sherpa-gc/sherpa-rivet_base.conf',
-			get_env('SHERIVFDIR') + '/' + 'sherpa-gc/run-sherpa.sh',
-			get_env('SHERIVFDIR') + '/' + 'sherpa-gc/sherpa-rivet_{0}.conf'.format(self.args.config)
+			get_env('SHERIVFDIR') + '/' + 'gc_configs/sherpa-rivet_base.conf',
+			get_env('SHERIVFDIR') + '/' + 'gc_configs/run-sherpa.sh',
+			get_env('SHERIVFDIR') + '/' + 'gc_configs/sherpa-rivet_{0}.conf'.format(self.args.config)
 		]
 		if 'ekp' in socket.gethostname().lower():
-			self.args.list_of_gc_cfgs.append(get_env('SHERIVFDIR') + '/' + 'sherpa-gc/sherpa-rivet_ekp-base.conf')
+			self.args.list_of_gc_cfgs.append(get_env('SHERIVFDIR') + '/' + 'gc_configs/sherpa-rivet_ekp-base.conf')
 		if self.args.config == 'ekpcloud':
 			self.args.output_dir = self.args.output_dir.replace("/a/", "/ekpcloud_local/")
 
