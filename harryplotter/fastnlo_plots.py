@@ -25,12 +25,12 @@ def sherpa_fastnlo(args=None):
 				"x_expressions": x,
 				#"scale_factors": 19712.,
 				'pdf_sets': ['CT10.LHgrid'],
-				'fastnlo_files': ["latest_sherivf_output/fnlo_{0}Z.tab".format(quantity)],
+				'fastnlo_files': ["latest_sherivf_output/output/fnlo_{0}Z_10.tab".format(quantity)],
 				'members': [0],
 				# analysis
 				'analysis_modules': ['ScaleHistograms'] + (['NormalizeToFirstHisto'] if norm else []) + ['Ratio'],
 				'scale_nicks': ['latest_sherivf_output/fnlo_{}Z.tab_CT10.LHgrid_0'.format(quantity)],
-				'scale': 1./56.,
+				'scale': 1./1.,
 				# formatting
 				'nicks_whitelist': ['fnlo', 'nick', 'ratio'],
 				"markers": ["o", "fill","."],
@@ -69,35 +69,28 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 	# configure fastNLO input
 	n_members = 1
 	pdf_sets = [#'NNPDF30_nlo_as_0118'cal
-		'CT10nlo.LHgrid', 'NNPDF21_100.LHgrid', 'abm11_3n_nlo.LHgrid',
+		'CT10.LHgrid', 'NNPDF21_100.LHgrid', 'abm11_3n_nlo.LHgrid',
 		'cteq65.LHgrid', 'MSTW2008nnlo90cl.LHgrid'
 		]
-	labels = ['CT10', 'NNPDF', 'ABM11', 'CTEQ6', 'MSTW']
+	labels = ['CT10', 'NNPDF21', 'ABM11', 'CTEQ6', 'MSTW2008']
 	N = len(pdf_sets)
 
-	for quantity, sf in zip(['y', 'm', 'pT'], [2*i for i in [0.1, 1, 10]]):
+	for quantity, s in zip(['y', 'm', 'pT'], [2*i for i in [0.1, 1, 10]]):
 		d = {
 			# input
 			'input_modules': ['InputFastNLO'],
 			'pdf_sets': pdf_sets,
 			'members': len(pdf_sets),
-			'fastnlo_files': ["latest_sherivf_output/fnlo_{0}Z.tab".format(quantity)],
-			
+			'fastnlo_files': ["latest_sherivf_outpfnlo_{0}Z.tab".format(quantity)],
 			
 			'input_modules': ['InputRootZJet', 'InputFastNLO'],
-			'files': [os.environ['EXCALIBURPATH'] + '/work/data_ee.root'],#[common.unfold_path + '/' + '_'.join([qdict[quantity].replace("abs(zy)", "zy"), 'madgraph', 'inclusive', '1']) + '.root'],
-			#'folders': '',
-			'x_bins': common.bins[qdict[quantity]],
-			'zjetfolders': ['zcuts'],
-			'algorithms': ['ak5PFJetsCHS'],
-			'x_expressions': qdict[quantity], #'data_unfolded',
-			'scale_factors': [1./19712.],
-
-
+			'files': [common.divided_path + '/' + '_'.join([qdict[quantity].replace("abs(zy)", "zy"), 'madgraph', 'inclusive', '1']) + '.root'],
+			'folders': '',
+			'x_expressions': 'nick0',
 
 			# analysis
 			"analysis_modules": ["ScaleHistograms"],
-			'scale': sf*(1./112.)*0.1,
+			'scale': 1.,
 			'scale_nicks':["latest_sherivf_output/fnlo_{}Z.tab_{}_{}".format(quantity, i, N) for i in pdf_sets],
 			# formatting
 			'labels': ['Data'] + labels,
@@ -105,6 +98,8 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 			'markers': ['o'] + ['-',]*N,
 			'line_styles': [None] + ['-']*N,
 			'energies': [8],
+			'y_label': r'$\\sigma \\ / \\ pb$',
+			'x_label': qdict[quantity],
 			# output
 			'filename': ("scale_" if scale else "")+"fastnlo_"+qdict[quantity],
 		}
@@ -120,9 +115,9 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 	"""Evaluate fastNLO table for n members of a PDF set."""
 	plots = []
 
-	n_members = 1
+	n_members = 101
 
-	for quantity, sf in zip(['y', 'm', 'pT'], [0.1, 1, 10]):
+	for quantity in ['y', 'm', 'pT']:
 		d = {
 			# input
 			'input_modules': ['InputRootZJet', 'InputFastNLO'],
@@ -131,24 +126,21 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			'members': range(n_members),
 			'fastnlo_files': ["latest_sherivf_output/fnlo_{0}Z.tab".format(quantity)],
 			# input root
-			'files': [os.environ['EXCALIBURPATH'] + '/work/data_ee.root'],#[common.unfold_path + '/' + '_'.join([qdict[quantity].replace("abs(zy)", "zy"), 'madgraph', 'inclusive', '1']) + '.root'],
-				#'folders': '',
-			'x_bins': common.bins[qdict[quantity]],
-			'zjetfolders': ['zcuts'],
-			'algorithms': ['ak5PFJetsCHS'],
-			'x_expressions': qdict[quantity], #'data_unfolded',
-			'scale_factors': [1./19712.],
-			# analysis
-			"analysis_modules": ["ScaleHistograms"],
-			'scale': sf*(1./112.)*0.2,
-			'scale_nicks':["latest_sherivf_output/fnlo_{}Z.tab_NNPDF21_100.LHgrid_{}".format(quantity, i) for i in range(n_members)],
+			'files': [common.divided_path + '/' + '_'.join([qdict[quantity].replace("abs(zy)", "zy"), 'madgraph', 'inclusive', '1']) + '.root'],
+			'folders': '',
+			'x_expressions': 'nick0',
+			'scale_factors': [(2. if quantity == 'y' else 1.)],
 			# formatting
-			'legend': None,
+			'labels': ['Data', 'PDF replicas'] + [None]*(n_members-1),
+			'y_label': r'$\\sigma \\ / \\ pb$',
+			'x_errors': [False],
+			'y_errors': [True] + [False]*n_members,
 			'markers': ['o'] + ['-']*n_members,
 			'line_styles': [None] + ['-']*n_members,
 			'line_widths': [0.1],
 			'colors': ['black'] + ['blue']*n_members,
 			'energies': [8],
+			'x_label': qdict[quantity],
 			# output
 			'filename': qdict[quantity],
 		}

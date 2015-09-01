@@ -41,6 +41,7 @@ excaliburpath = os.environ['EXCALIBURPATH']
 bkgr_path = excaliburpath
 
 unfold_path = "2_unfolded"
+divided_path = "3_divided"
 
 mc = excaliburpath + "/work/mc_ee.root"
 mc_raw = excaliburpath + "/work/mc_ee_raw.root"

@@ -12,12 +12,24 @@ def zee_divide(args=None):
 	"""Divide unfolded Zee data by lumi and bin width"""
 
 	#known_args, args = parsertools.parser_list_tool(args, ['ybins', 'mcs', 'quantities', 'iterations'])
-
-	# TODO: divide unfolded data by lumi and bin width and write root output to folder '3_divided/'
-
 	plots = []
-	
-	plots.append(d)
+	for quantity, name in zip(['pT', 'y', 'm'], ['pt', 'y', 'mass']):
+		filename = 'z{}_madgraph_inclusive_1'.format(name)
+		d = {
+			'files': ['2_unfolded/' + filename + '.root'],
+			'folders': [""],
+			'x_expressions': ['data_unfolded'],
+			'scale_factors': 1./19712.,
+
+			'analysis_modules': ['NormalizeByBinWidth'],
+
+			'plot_modules': ['ExportRoot'],
+			'output_dir': common.divided_path,
+			'filename': filename,
+			
+		}
+
+		plots.append(d)
 	harryinterface.harry_interface(plots, args)
 
 
