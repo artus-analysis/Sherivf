@@ -10,8 +10,10 @@ fi
 
 export PATH=$SHERIVFDIR/../Rivet-2.2.0/bin/:$SHERIVFDIR/scripts:$PATH:/usr/users/dhaitz/local/bin
 export PATH=$SHERIVFDIR/../herafitter-1.1.1/bin:$PATH
-. $SHERIVFDIR/../Rivet-2.2.0/rivetenv.sh
-
+if [ -e $SHERIVFDIR/../Rivet-2.2.0/rivetenv.sh ]
+then
+	. $SHERIVFDIR/../Rivet-2.2.0/rivetenv.sh
+fi
 #harry plotter
 export PYTHONCONFIGS=$SHERIVFDIR/harryplotter:$PYTHONCONFIGS
 export PYTHONPATH=$SHERIVFDIR/harryplotter:$PYTHONPATH
