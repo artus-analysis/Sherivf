@@ -39,6 +39,7 @@ make sure the Excalibur outputs are present
 	root outputs will be stored in `1_background-subtracted` folder
 2. Unfold: `merlin.py --py unfold  #--no-ybins --no-mcs`
 	root outputs will be stored in `2_unfolded` folder
+3. Divide by lumi and bin width `merlin.py --py zee_divided`
 3. Export unfolded data into herafitter format: `merlin.py --py unfolded_to_hera`
 
 
