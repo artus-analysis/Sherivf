@@ -14,7 +14,7 @@
 }(beam);
 
 (integration){
-  ERROR 0.01;
+  ERROR 0.05;
 }(integration);
 
 (me){
@@ -34,26 +34,26 @@
   Process 93 93 -> 11 -11 93 93{NJET};
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part B;
-  Order (*,2);
+  Order_EW 2;
   End process;
 
   Process 93 93 -> 11 -11 93 93{NJET};
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part I;
-  Order (*,2);
+  Order_EW 2;
   End process;
 
   Process 93 93 -> 11 -11 93 93{NJET};
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part V;
   Loop_Generator BlackHat;
-  Order (*,2);
+  Order_EW 2;
   End process;
 
   Process 93 93 -> 11 -11 93 93{NJET};
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part RS;
-  Order (*,2);
+  Order_EW 2;
   End process;
 
 }(processes);
