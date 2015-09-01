@@ -19,3 +19,4 @@ $SHERPACMD
 
 echo $SHERIVFDIR/test/$TESTDIR
 
+yoda_2_root.py Rivet.yoda
