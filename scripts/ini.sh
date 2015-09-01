@@ -74,16 +74,26 @@ alias rivbuild="rivbuild_nofastnlo -DUSE_FNLO=1"
 
 alias newwarmup="rename _warm Z_warm fnlo_*_warmup.tab && mv fnlo_*_warmup.tab $SHERIVFDIR/fnlo-cfg/"
 
-alias herafit="(LHAPATH=/storage/a/dhaitz/PDFsets && cd $SHERIVFDIR/../herafitter-1.1.1 && rm $SHERIVFDIR/../herafitter-1.1.1/output/NNPDF23_nlo_as_0118_HighStat_chi2/* $SHERIVFDIR/../herafitter-1.1.1/NNPDF/data/* -rf && FitPDF)"
+make_herafile(){
+	merlin.py -i 3_divided/zpt_madgraph_inclusive_1.root -f "''" -x nick0  --plot-m ExportHerafitter --x-bins '38,20,400' --header-file ../../qcd/sherivf/herafitter/herafitter_header.txt --filename CMS_Zee_HFinput -o ~/home/qcd/sherivf/herafitter/
+}
 
-alias makeherafile="(merlin.py -x zpt -i ~/home/artus/Excalibur/old_work/data_ee_corr.root -f zcuts_AK5PFJetsCHSL1L2L3  --plot-m ExportHerafitter --x-bins '37,30,400' -w '(0.05/19.712)' --header-file ../../qcd/sherivf/herafitter/herafitter_header.txt --filename CMS_Zee_HFinput -o ~/home/qcd/sherivf/herafitter/)"
+hera_fit(){
+	export LHAPATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/lhapdf/6.1.5/share/LHAPDF/
+	cd $SHERIVFDIR/../herafitter-1.1.1
+	rm $SHERIVFDIR/../herafitter-1.1.1/output/NNPDF23_nlo_as_0118_HighStat_chi2/* $SHERIVFDIR/../herafitter-1.1.1/NNPDF/data/* -rf
+	FitPDF
+	cd output/NNPDF23_nlo_as_0118_HighStat_chi2
+	pdf_2_root.py -p NNPDF23_nlo_as_0118_HighStat_chi2_nRep100
+	cp NNPDF23_nlo_as_0118_HighStat_chi2_nRep100.root $SHERIVFDIR/pdf_sets
+	cd $SHERIVFDIR
+}
 
 nnpdf_analysis(){
-	qcd &&
-	makeherafile &&
-	herafit &&
-	pdf_2_root.py --folder pdf_sets  &&
-	merlin.py --py nnpdf
+	qcd
+	make_herafile
+	hera_fit
+	merlin.py --py nnpdf --www nnpdf
 }
 
 
@@ -92,8 +102,6 @@ calculate_all_correlations(){
 		calculate_correlation.py -t latest_sherivf_output/fnlo_${i}Z.tab -o  correlations/fnlo_${i}Z.root
 	done
 }
-
-#|  Total XS is 3645.82 pb +- ( 20.6701 pb = 0.56 % )  |
 
 # Nevent
 # 10000 evts -> avg 2.5 min
