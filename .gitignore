@@ -6,6 +6,7 @@
 *.pyc
 *.json
 *.db.bak
+*.tex
 False
 
 #symlink
