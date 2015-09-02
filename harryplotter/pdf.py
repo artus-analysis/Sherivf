@@ -49,12 +49,9 @@ def nnpdf(args=None):
 def pdfs_thesis(args=None, additional_dictionary=None):
 	"""PDF plots for thesis"""
 	plots = []
-	flavours = ['gluon', 'd_quark', 'u_quark', 'd_antiquark', 'u_antiquark']
-	labels = ["Gluon/10", "Down", "Up", "Anti-Down", "Anti-Up"]
-	for q, upper_y_lim in zip(
-		[1, 1.9, 3, 10, 14, 91.2, 200],
-		[3.]*10,#[0.8, 1.2, 2, 2, 3.5, 4]
-	):
+	flavours = ['gluon', 'd_valence_quark', 'u_valence_quark', 'strange', 'd_antiquark', 'u_antiquark']
+	labels = ["gluon/10", r"$d_v$", r"$u_v$", r"$s$", r"$\\bar{d}$", r"$\\bar{u}$"]
+	for q in [1, 1.9, 3, 10, 14, 91.2, 200]:
 		d = {
 			"files": ["pdf_sets/pdfs_for_plotting_{}.root".format(str(q).replace(".", "_"))],
 			"folders": [""],
@@ -70,10 +67,11 @@ def pdfs_thesis(args=None, additional_dictionary=None):
 			"x_label": r"$\\mathit{x}$",
 			"x_log": True,
 			"labels": labels,
-			"y_label": "PDF xfx",
-			"x_lims": [1e-4, 1],
-			"y_lims": [0, upper_y_lim],
-			"texts": [r"NNPDF 3.0 NLO\n$\\mathit{Q}=$" + " {} GeV".format(q)],
+			"y_label": r"$\\mathit{x}f(\\mathit{x}, \\mathit{Q})$",
+			"x_lims": [1e-3, 1],
+			"y_lims": [0, 1],
+			"title": "NNPDF 3.0 NLO",
+			"texts": [r"$\\mathit{Q}=$" + " {} GeV".format(q)],
 			"texts_x": [0.05],
 			
 			"filename": "pdf_{}".format(("%03d" % q).replace(".", "_")),
