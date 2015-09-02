@@ -55,7 +55,7 @@ class Sherivf(object):
 				self.merge_warmup_files()
 			subprocess.call(['rm', '-f', 'latest_sherivf_output'])
 			subprocess.call(['ln', '-sf', self.args.output_dir, 'latest_sherivf_output'])
-
+			subprocess.call(['yoda_2_root.py', 'latest_sherivf_output/Rivet.yoda'])
 
 	def delete_latest_output_dir(self):
 		try:
