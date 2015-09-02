@@ -76,6 +76,13 @@ alias rivbuild="rivbuild_nofastnlo -DUSE_FNLO=1"
 
 alias newwarmup="rename _warm Z_warm fnlo_*_warmup.tab && mv fnlo_*_warmup.tab $SHERIVFDIR/fnlo-cfg/"
 
+
+make_analysis(){
+	merlin.py --py subtract_backgrounds --no-ybins
+	merlin.py --py unfold --no-ybins --no-mcs
+	merlin.py --py zee_divided
+}
+
 make_herafile(){
 	merlin.py -i 3_divided/zpt_madgraph_inclusive_1.root -f "''" -x nick0  --plot-m ExportHerafitter --x-bins '38,20,400' --header-file ../../qcd/sherivf/herafitter/herafitter_header.txt --filename CMS_Zee_HFinput -o ~/home/qcd/sherivf/herafitter/
 }
