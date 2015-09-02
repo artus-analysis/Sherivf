@@ -1,8 +1,8 @@
 #!/bin/bash
 
-. functions.sh
-
 export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
+
+. $SHERIVFDIR/scripts/functions.sh
 
 if ( [[ $HOSTNAME == *"naf"* ]] || [[ $HOSTNAME == *"bird"* ]] ); then
 	export SHERIVFDIR=/afs/desy.de/user/d/dhaitz/qcd/sherivf

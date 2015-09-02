@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# CMS data analysis steps
 make_analysis(){
 	merlin.py --py subtract_backgrounds --no-ybins
 	merlin.py --py unfold --no-ybins --no-mcs
@@ -11,10 +12,52 @@ make_herafile(){
 	merlin.py -i 3_divided/zpt_madgraph_inclusive_1.root -f "''" -x nick0  --plot-m ExportHerafitter --x-bins '38,20,400' --header-file ../../qcd/sherivf/herafitter/herafitter_header.txt --filename CMS_Zee_HFinput -o ~/home/qcd/sherivf/herafitter/
 }
 
+
+# plotting
 make_allplots(){
-	merlin.py --py 
+	merlin.py --py pdfs_thesis --www pdfs
+	merlin.py --py pdf_correlations --www correlations
+
+	merlin.py --py z_hlt --www z_trigger
+	merlin.py --py electron_id --www electron_id
+	merlin.py --py electron_corr --www momentum_corrections
+	merlin.py --py z_corr --www momentum_corrections
+	merlin.py --py electron_trigger_sf --www electron_sf
+
+	merlin.py --py zee_bkgrs --www backgrounds
+	merlin.py --py emu --www emu
+
+	merlin.py --py different_iterations --www unfolding_iteration
+	merlin.py --py response_matrix --www unfolding_reponsematrices
+	merlin.py --py unfolding_comparison --www unfolding_comparisons
+
+	merlin.py --py sherpa --www sherpa
+	merlin.py --py sherpa_mc --www sherpa_mc
+
+	merlin.py --py fastnlo_pdfsets --www fastnlo_pdfsets
+	merlin.py --py fastnlo_pdfmember --www fastnlo_pdfmember
+	merlin.py --py sherpa_fastnlo --www fastnlo_sherpa
+
+	merlin.py --py nnpdf --www nnpdf
 }
 
+
+
+
+
+calculate_all_correlations(){
+	for i in pT m y; do
+		calculate_correlation.py -t latest_sherivf_output/fnlo_${i}Z.tab -o  correlations/fnlo_${i}Z.root
+	done
+}
+
+
+
+## Final PDF fitting
+
+nnpdf_analysis(){
+	hera_fit
+}
 hera_fit(){
 	export LHAPATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/lhapdf/6.1.5/share/LHAPDF/
 	cd $SHERIVFDIR/../herafitter-1.1.1
@@ -26,16 +69,3 @@ hera_fit(){
 	cd $SHERIVFDIR
 }
 
-nnpdf_analysis(){
-	qcd
-	make_herafile
-	hera_fit
-	merlin.py --py nnpdf --www nnpdf
-}
-
-
-calculate_all_correlations(){
-	for i in pT m y; do
-		calculate_correlation.py -t latest_sherivf_output/fnlo_${i}Z.tab -o  correlations/fnlo_${i}Z.root
-	done
-}
