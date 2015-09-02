@@ -80,7 +80,8 @@ alias newwarmup="rename _warm Z_warm fnlo_*_warmup.tab && mv fnlo_*_warmup.tab $
 make_analysis(){
 	merlin.py --py subtract_backgrounds --no-ybins
 	merlin.py --py unfold --no-ybins --no-mcs
-	merlin.py --py zee_divided
+	merlin.py --py zee_divide
+	make_herafile
 }
 
 make_herafile(){
