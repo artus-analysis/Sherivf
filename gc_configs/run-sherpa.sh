@@ -13,6 +13,7 @@ echo "SHERIVFDIR: "$SHERIVFDIR
 
 echo -e "\n\n"
 
-export SHERPACMD="@LOCAL@/bin/Sherpa -e @NEVENTS@ -R @SEED_0@"
+export SHERPACMD="@SHERPAPATH@/Sherpa -e @NEVENTS@ -R @SEED_0@"
+
 echo -e "Start Sherpa: $SHERPACMD\n"
 $SHERPACMD
