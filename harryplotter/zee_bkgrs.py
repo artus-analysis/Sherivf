@@ -59,7 +59,7 @@ def zee_bkgrs(args=None):
 								'files': ([path+'/work/data_ee.root', path+mc] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds])[(0 if signal else 2):],
 								"nicks": (['data','mc']+backgrounds_merged)[(0 if signal else 2):],
 								'folders': (['leptoncuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['leptoncuts_ak5PFJetsCHSL1L2L3/ntuple']*n_mcs)[(0 if signal else 2):],
-								'weights': (["(({}) && ({}))".format(ybin, njetweight)] + ["(hlt && && ({}) && ({}))".format(ybin, njetweight)]*n_mcs)[(0 if signal else 2):],
+								'weights': (["(({}) && ({}))".format(ybin, njetweight)] + ["(hlt && ({}) && ({}))".format(ybin, njetweight)]*n_mcs)[(0 if signal else 2):],
 								'scale_factors': [1. if signal else 19.712],
 								# formatting
 								'legend': None,
@@ -77,22 +77,7 @@ def zee_bkgrs(args=None):
 								'export_json': False,
 							}
 							plots.append(d)
-	"""
-							if bkgr_signal_ratio:
-								d.update({
-									"nicks": ['data','signal','bkgr','bkgr','bkgr','bkgr','bkgr','bkgr','bkgr'],
-									"labels": ["data", "signal", "back"],
-									'stacks': ["data", "mc", "mc"],
-									'markers': 	d['markers'][:3],
-									'y_ratio_label': "bkgr/signal",
-									'ratio_num': ['bkgr'],
-									'ratio_denom': ['signal'],
-									'y_ratio_lims': [0.0, 0.1],
-									'filename': d['filename'] + '_sig-bkgr',
-									'save_legend': d['save_legend'] + "_sig-bkgr",
-								})
-								plots.append(d)
-						"""
+
 	harryinterface.harry_interface(plots, args)
 
 

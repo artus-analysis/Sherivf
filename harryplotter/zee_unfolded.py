@@ -138,7 +138,7 @@ def unfolding_comparison(args=None):
 
 	for iterations in range(1, 4):
 		for quantity in ['zmass', 'zpt', 'zy']:
-			filename = unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, str(iterations)]) + '.root'
+			filename = common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, str(iterations)]) + '.root'
 			d = {
 				# input
 				'files': [filename],
