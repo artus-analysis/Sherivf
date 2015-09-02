@@ -9,7 +9,7 @@ def pdfs_thesis(args=None, additional_dictionary=None):
 	plots = []
 	flavours = ['gluon', 'd_valence_quark', 'u_valence_quark', 'strange', 'd_antiquark', 'u_antiquark']
 	labels = ["gluon/10", r"$d_v$", r"$u_v$", r"$s$", r"$\\bar{d}$", r"$\\bar{u}$"]
-	for q in [1, 1.9, 3, 10, 14, 91.2, 200]:
+	for q in [1.9, 3, 10, 14, 91.2, 200]:
 		d = {
 			"files": ["pdf_sets/pdfs_for_plotting_{}.root".format(str(q).replace(".", "_"))],
 			"folders": [""],
