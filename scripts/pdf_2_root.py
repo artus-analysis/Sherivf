@@ -14,19 +14,19 @@ partondict = {
 	21: 'gluon',
 	-1: 'd antiquark',
 	-2: 'u antiquark',
-	#            -3 : 'sbar',
-	#            -4 : 'cbar',
-	#            -5 : 'bbar',
-	#            -6 : 'tbar',
+	-3 : 'sbar',
+	-4 : 'cbar',
+	-5 : 'bbar',
+	-6 : 'tbar',
 	1: 'd quark',
 	2: 'u quark',
-	#            3 : 'strange',
-	#            4 : 'charm',
-	#            5 : 'bottom',
-	#            6 : 'top',
+	3 : 'strange',
+	4 : 'charm',
+	5 : 'bottom',
+	6 : 'top',
 	7: 'd valence quark',
 	8: 'u valence quark',
-	9: 'sea quarks',
+	#9: 'sea quarks',
 }
 
 
@@ -85,7 +85,13 @@ def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q):
 		p = pset.mkPDF(i_member)
 		pdf_values = []
 		for x in x_values:
-			pdf_values.append(p.xfxQ(flavour, x, Q))
+			if flavour == 7:
+				pdf = p.xfxQ(1, x, Q) - p.xfxQ(-1, x, Q)
+			elif flavour == 8:
+				pdf = p.xfxQ(2, x, Q) - p.xfxQ(-2, x, Q)
+			else:
+				pdf = p.xfxQ(flavour, x, Q)
+			pdf_values.append(pdf)
 		all_values.append(pdf_values)
 
 	# get min, max and mean for each point in x from all members
