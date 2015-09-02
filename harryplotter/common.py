@@ -49,3 +49,4 @@ data = excaliburpath + "/work/mc_ee.root"
 
 bkgr_backgrounds = ['zz', 'wz', 'tt', 'tw', 'ww', 'wjets', 'dytautau', 'qcd']
 
+lumi = 19.712

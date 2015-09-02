@@ -17,7 +17,6 @@ def unfold(args=None):
 
 	# some variables
 	ybins = np.arange(0, 2.8, 0.4)
-	lumi = 19.712
 	path = common.bkgr_path
 	max_iterations = 4
 
@@ -30,7 +29,7 @@ def unfold(args=None):
 			['Madgraph', 'Powheg'],
 			['mc_ee.root', 'mc_ee_powheg.root']
 		], known_args.no_mcs)):
-			for quantity in parsertools.get_list_slice(['zpt', 'zmass', 'zy'], known_args.no_quantities):
+			for quantity in parsertools.get_list_slice([['zpt', 'zmass', 'zy']], known_args.no_quantities)[0]:
 				for iteration in parsertools.get_list_slice([range(1, 1+max_iterations)], known_args.no_iterations)[0]:
 					d = {
 						'x_expressions': ['data']+[quantity.replace("z", "genz"), quantity, quantity.replace("z", "genz")],
@@ -42,9 +41,9 @@ def unfold(args=None):
 							'mc_reco',
 							'mc_gen',
 						],
-						'lumis': [lumi],
-						'folders': ['']+['leptoncuts_ak5PFJetsCHSL1L2L3/ntuple']*3,
-						'weights': "({}&&hlt)".format(ybin),
+						'lumis': [common.lumi],
+						'folders': ['']+['zcuts_ak5PFJetsCHSL1L2L3/ntuple']*3,
+						'weights': "weight*({}&&hlt)".format(ybin),
 						'x_bins': [common.bins[quantity]],
 						'y_bins': [common.bins[quantity]],
 						# analysis
@@ -153,7 +152,7 @@ def unfolding_comparison(args=None):
 				'marker_colors': ['black', 'red'],
 				'zorder': [10,10,2,10,10],
 				'energies': [8],
-				'lumis': [19.712],
+				#'lumis': [common.lumi],
 				'x_label': quantity,
 				'title': str(iterations) + " iteration" + ("s" if iterations != 1 else ""),
 				# output

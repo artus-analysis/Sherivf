@@ -189,6 +189,10 @@ def electron_trigger_sf(args=None, additional_dictionary=None):
 					1.442,
 					1.566
 				],
+				"rectangle_hatch": [
+					'\\'
+					'\\'
+				],
 				"x_expressions": ["vbft95_"+ID],
 				"x_label": "ept",
 				"x_lims": [10.0, 50.0],
