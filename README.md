@@ -32,6 +32,9 @@ Run herafitter
 Evaluate PDF sets and save as root files:
 * `pdf_2_root.py --folder pdf_sets -p NNPDF23_nlo_as_0118`
 
+Generate ROOT files for PDF plots:
+* `pdfs_for_plotting.py`
+
 ## Workflow Data Analysis
 make sure the Excalibur outputs are present
 
