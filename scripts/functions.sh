@@ -25,7 +25,7 @@ make_allplots(){
 	merlin.py --py z_corr --www ${WWWSUBDIR}momentum_corrections
 	merlin.py --py electron_trigger_sf --www ${WWWSUBDIR}electron_sf
 
-	merlin.py --py zee_bkgrs --www ${WWWSUBDIR}backgrounds
+	merlin.py --py zee_bkgrs --no-njets --no-ybins --no-mcs --www ${WWWSUBDIR}backgrounds
 	merlin.py --py emu --www ${WWWSUBDIR}emu
 
 	merlin.py --py different_iterations --www ${WWWSUBDIR}unfolding_iteration
