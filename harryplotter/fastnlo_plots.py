@@ -68,7 +68,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 
 	# configure fastNLO input
 	n_members = 1
-	pdf_sets = [#'NNPDF30_nlo_as_0118'cal
+	pdf_sets = [#'NNPDF30_nlo_as_0118'
 		'CT10.LHgrid', 'NNPDF21_100.LHgrid', 'abm11_3n_nlo.LHgrid',
 		'cteq65.LHgrid', 'MSTW2008nnlo90cl.LHgrid'
 		]
@@ -81,7 +81,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 			'input_modules': ['InputFastNLO'],
 			'pdf_sets': pdf_sets,
 			'members': len(pdf_sets),
-			'fastnlo_files': ["latest_sherivf_outpfnlo_{0}Z.tab".format(quantity)],
+			'fastnlo_files': ["latest_sherivf_output/fnlo_{0}Z.tab".format(quantity)],
 			
 			'input_modules': ['InputRootZJet', 'InputFastNLO'],
 			'files': [common.divided_path + '/' + '_'.join([qdict[quantity].replace("abs(zy)", "zy"), 'madgraph', 'inclusive', '1']) + '.root'],

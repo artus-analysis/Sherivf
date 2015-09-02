@@ -31,10 +31,13 @@ bkgr_colors = {
 
 bins = {
 	'zpt': "38,20,400",
-	'zy': "28,-2.4,2.4",
-	'abs(zy)': "24,0,2.4",
+	'zy': "50,-2.5,2.5",
+	'abs(zy)': "25,0,2.5",
 	'zmass': "20,81,101",
+	'zphi': '32,-3.2,3.2',
 	'njets30': "7,-0.5,6.5",
+	'eminuspt': "20,20,120",
+	'eminuseta': "48,-2.4,2.4",
 }
 
 excaliburpath = os.environ['EXCALIBURPATH']

@@ -5,7 +5,7 @@ import os
 
 import Excalibur.Plotting.harryinterface as harryinterface
 import parsertools
-
+import common
 
 def sherpa(args=None, additional_dictionary=None):
 	"""Comparisons for Sherpa and Data,Madgraph(Powheg)"""
@@ -82,10 +82,9 @@ def sherpa_mc(args=None, additional_dictionary=None):
 	known_args, args = parsertools.parser_list_tool(args, ['quantities'])
 	plots = []
 
-	for index, quantity, binning, label in zip(*parsertools.get_list_slice([
+	for index, quantity, label in zip(*parsertools.get_list_slice([
 		[0,1,2,3,6,7],
 		["genzpt", "abs(genzy)", "genzmass", "genzphi", "geneminuspt", "geneminuseta"],
-		["40,0,400", "25,0,2.5", "20,81,101", "20,-3.1416,3.1416", "20,20,120", "50,-2.5,2.5"],
 		["xsecpt", "xsecabsy", "xsecm", "xsecphi", "xsecpt", "xseceta"]
 	], known_args.no_quantities)):
 			d = {
@@ -103,14 +102,13 @@ def sherpa_mc(args=None, additional_dictionary=None):
 				"files": [
 					os.environ['EXCALIBURPATH'] + '/work/mc_ee_gen.root',
 				],
-				#"nicks": ["madg", "data"],
 				"folders": [
 					"nocuts_ak5PFJetsCHSL1L2L3/ntuple",
 				],
 				"input_modules": ["InputRootZJet", "InputYoda"],
 				'scale_factors': [1./1000.],
 				"x_expressions": [quantity],
-				"x_bins": [binning],
+				"x_bins": [common.bins[quantity.replace('gen', '')]],
 				# analysis
 				"analysis_modules": ["Ratio"],
 				"ratio_numerator_nicks": ["MCgrid_CMS_2015_Zeed{:02d}-x01-y01".format(index+1)],
