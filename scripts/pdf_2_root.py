@@ -67,7 +67,7 @@ def getopt():
 		default='NNPDF30_nlo_as_0118')
 	#	default='NNPDF23_nlo_as_0118')
 	parser.add_argument('-o', '--output-filename', default=None)
-	parser.add_argument('-f', '--flavours', nargs="*", default=[0, 1, 2])#, 7, 8, 9])
+	parser.add_argument('-f', '--flavours', type=int, nargs="*", default=[0, 1, 2])#, 7, 8, 9])
 	parser.add_argument('-n', '--n-points', default=100, type=int, help="points in x")
 	parser.add_argument('-q', '--q', default=91.2, type=float, help="Q")
 	parser.add_argument('--folder', type=str, default=None)
