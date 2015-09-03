@@ -42,6 +42,16 @@ bins = {
 	'eminuseta': "48,-2.4,2.4",
 }
 
+pdfsetdict = {
+	'NNPDF23_nlo_as_0118': 'NNPDF 2.3'
+}
+
+
+nmembersdict = {
+	'CT10.LHgrid': 51,
+	'NNPDF23_nlo_as_0118.LHgrid': 101,
+}
+
 excaliburpath = os.environ['EXCALIBURPATH']
 bkgr_path = excaliburpath
 

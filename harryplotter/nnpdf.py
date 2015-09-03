@@ -12,15 +12,15 @@ def pdf(args=None, additional_dictionary=None):
 		d = {
 			"folders": [""],
 			'x_expressions': [flavour],
-
+			# analysis
 			"analysis_modules": ["Divide", "ConvertToTGraphErrors"],
 			"convert_nicks": ['3', '4'],
 			"divide_denominator_nicks": ['1'],
 			"divide_numerator_nicks": ['1', '2'],
 			"divide_result_nicks": ['3', '4'],
-
-			"subplot_nicks": ['3', '4'],
+			#formatting
 			"nicks": ['1', '2', '3', '4'],
+			"subplot_nicks": ['3', '4'],
 			"line_styles": ["-"],
 			"markers": ["fill"],
 			"x_label": r"$\\mathit{x}$",
@@ -31,7 +31,6 @@ def pdf(args=None, additional_dictionary=None):
 			"y_subplot_label": "Ratio to NNPDF",
 			"texts": [r"NNPDF 2.3 NLO\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)"],
 			"texts_x": [0.05],
-			'x_expressions': [flavour],
 			'title': flavour.replace('_', ' '),
 		}
 	

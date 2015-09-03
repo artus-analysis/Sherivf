@@ -25,7 +25,7 @@ def zee_divide(args=None):
 
 			'plot_modules': ['ExportRoot'],
 			'output_dir': common.divided_path,
-			'filename': filename,
+			'filename': filename.replace('abs(zy)', 'zy'),
 			'export_json': False,
 			
 		}
