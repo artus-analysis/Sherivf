@@ -110,7 +110,7 @@ def response_matrix(args=None):
 	plots = []
 	ybin = 'inclusive'
 	for log in [True, False]:
-		for quantity, y_lims in zip(common.data_quantities, [[81, 101], [0, 400], [-2.5, 2.5]]):
+		for quantity, y_lims in zip(common.data_quantities, [[0, 400], [0, 2.5], [81, 101]]):
 			d = {
 				# input
 				'files': [common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '1']) + '.root'],
