@@ -13,8 +13,8 @@ def zee_divide(args=None):
 
 	#known_args, args = parsertools.parser_list_tool(args, ['ybins', 'mcs', 'quantities', 'iterations'])
 	plots = []
-	for quantity, name in zip(['pT', 'y', 'm'], ['pt', 'y', 'mass']):
-		filename = 'z{}_madgraph_inclusive_1'.format(name)
+	for quantity in common.data_quantities:
+		filename = '{}_madgraph_inclusive_{}'.format(quantity, common.iterations_to_use)
 		d = {
 			'files': ['2_unfolded/' + filename + '.root'],
 			'folders': [""],
@@ -26,6 +26,7 @@ def zee_divide(args=None):
 			'plot_modules': ['ExportRoot'],
 			'output_dir': common.divided_path,
 			'filename': filename,
+			'export_json': False,
 			
 		}
 

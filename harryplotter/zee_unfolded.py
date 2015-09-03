@@ -29,7 +29,7 @@ def unfold(args=None):
 			['Madgraph', 'Powheg'],
 			['mc_ee.root', 'mc_ee_powheg.root']
 		], known_args.no_mcs)):
-			for quantity in parsertools.get_list_slice([['zpt', 'zmass', 'zy']], known_args.no_quantities)[0]:
+			for quantity in parsertools.get_list_slice(common.data_quantities, known_args.no_quantities)[0]:
 				for iteration in parsertools.get_list_slice([range(1, 1+max_iterations)], known_args.no_iterations)[0]:
 					d = {
 						'x_expressions': ['data']+[quantity.replace("z", "genz"), quantity, quantity.replace("z", "genz")],
@@ -69,8 +69,8 @@ def different_iterations(args=None):
 	"""compare different unfolding iterations"""
 	plots = []
 	ybin = 'inclusive'
-	max_iteration = 3
-	for quantity in ['zmass', 'zpt', 'zy']:
+	max_iteration = 4
+	for quantity in common.data_quantities:
 		basename = common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '{}']) + '.root'
 		d = {
 			# input
@@ -108,7 +108,7 @@ def response_matrix(args=None):
 	plots = []
 	ybin = 'inclusive'
 	for log in [True, False]:
-		for quantity, y_lims in zip(['zmass', 'zpt', 'zy'], [[81, 101], [0, 400], [-2.5, 2.5]]):
+		for quantity, y_lims in zip(common.data_quantities, [[81, 101], [0, 400], [-2.5, 2.5]]):
 			d = {
 				# input
 				'files': [common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '1']) + '.root'],
@@ -135,8 +135,8 @@ def unfolding_comparison(args=None):
 	labels = ['Data Reco', 'MC Reco', 'MC Gen', 'Data Unfolded', 'MC Unfolded']
 	expressions = [label.lower().replace(" ", "_") for label in labels]
 
-	for iterations in range(1, 4):
-		for quantity in ['zmass', 'zpt', 'zy']:
+	for iterations in range(1, 5):
+		for quantity in common.data_quantities:
 			filename = common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, str(iterations)]) + '.root'
 			d = {
 				# input
@@ -178,7 +178,7 @@ def unfolded_to_hera(args=None):
 	""" take unfolded data and convert it into herafitter format"""
 	plots = []
 	d = {
-		'files': ['2_unfolded/zpt_madgraph_inclusive_3.root'],
+		'files': ['2_unfolded/zpt_madgraph_inclusive_{}.root'.format(iterations_to_use)],
 		'folders': [''],
 		'x_expressions': ['data_unfolded'],
 		# output

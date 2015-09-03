@@ -51,7 +51,7 @@ def zee_bkgrs(args=None):
 						[False, True], ['', '_log']
 					], known_args.no_logs)):
 						# different quantities
-						for quantity in parsertools.get_list_slice(['zpt', 'zy', 'zmass', 'njets30'], known_args.no_quantities):
+						for quantity in parsertools.get_list_slice(common.data_quantities + ['njets30'], known_args.no_quantities):
 							d = {
 								# input
 								'x_expressions': quantity,
@@ -90,14 +90,12 @@ def subtract_backgrounds(args=None):
 	ybins = np.arange(0, 2.4, 0.4)
 	backgrounds = common.bkgr_backgrounds
 	mc_scalefactor = -1
-	quantities = ['zpt', 'zy', 'zmass']
-	binnings = [common.bins[i] for i in quantities]
 
 	for ybin, ybinsuffix in zip(*parsertools.get_list_slice([
 		["1"] + ["abs(zy)<{1} && abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])],
 		["inclusive"] + ["{0:02d}y{1:02d}".format(int(10*low), int(10*up)) for low, up in zip(ybins[:-1], ybins[1:])]
 	], known_args.no_ybins)):
-		for quantity, bins in zip(*parsertools.get_list_slice([quantities, binnings], known_args.no_quantities)):
+		for quantity, bins in zip(*parsertools.get_list_slice([common.data_quantities, [common.bins[i] for i in common.data_quantities]], known_args.no_quantities)):
 			d = {
 				#input
 				'x_expressions': quantity,
@@ -123,7 +121,7 @@ def emu(args=None):
 	known_args, args = parsertools.parser_list_tool(args, ['quantities'])
 	path = common.bkgr_path
 
-	for quantity in parsertools.get_list_slice(['zpt', 'zy', 'zmass', 'njets30'], known_args.no_quantities):
+	for quantity in parsertools.get_list_slice(common.data_quantities + ['njets30'], known_args.no_quantities):
 		d = {
 			# input
 			'x_expressions': quantity,

@@ -29,6 +29,8 @@ bkgr_colors = {
 	'diboson': 'yellow',
 }
 
+data_quantities = ['zpt', 'abs(zy)', 'zmass']
+
 bins = {
 	'zpt': "38,20,400",
 	'zy': "50,-2.5,2.5",
@@ -45,6 +47,8 @@ bkgr_path = excaliburpath
 
 unfold_path = "2_unfolded"
 divided_path = "3_divided"
+
+iterations_to_use = 1
 
 mc = excaliburpath + "/work/mc_ee.root"
 mc_raw = excaliburpath + "/work/mc_ee_raw.root"
