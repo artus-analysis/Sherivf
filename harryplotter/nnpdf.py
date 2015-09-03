@@ -8,19 +8,19 @@ import Excalibur.Plotting.utility.colors as colors
 def pdf(args=None, additional_dictionary=None):
 	"""plot a PDF"""
 	plots = []
-	for flavour in ['gluon', 'd_quark', 'u_quark']:#, 'sea_quarks', 'd_valence_quark', 'u_valence_quark']:
+	for flavour in ['gluon', 'd_quark', 'u_quark', 'strange', 'charm', 'd_antiquark', 'u_antiquark']:
 		d = {
 			"folders": [""],
 			'x_expressions': [flavour],
 			# analysis
 			"analysis_modules": ["Divide", "ConvertToTGraphErrors"],
-			"convert_nicks": ['3', '4'],
-			"divide_denominator_nicks": ['1'],
-			"divide_numerator_nicks": ['1', '2'],
-			"divide_result_nicks": ['3', '4'],
-			#formatting
-			"nicks": ['1', '2', '3', '4'],
-			"subplot_nicks": ['3', '4'],
+			"divide_denominator_nicks": ['orig'],
+			"divide_numerator_nicks": ['orig', 'rew'],
+			"divide_result_nicks": ['origratio', 'rewratio'],
+			"convert_nicks": ['origratio', 'rewratio'],
+			# formatting
+			"nicks": ['orig', 'rew'],
+			"subplot_nicks": ['origratio', 'rewratio'],
 			"line_styles": ["-"],
 			"markers": ["fill"],
 			"x_label": r"$\\mathit{x}$",
