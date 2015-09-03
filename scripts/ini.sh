@@ -2,7 +2,7 @@
 
 export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
 
-if [-e $SHERIVFDIR/scripts/functions.sh ]
+if [ -e $SHERIVFDIR/scripts/functions.sh ]
 then
 . $SHERIVFDIR/scripts/functions.sh
 fi
