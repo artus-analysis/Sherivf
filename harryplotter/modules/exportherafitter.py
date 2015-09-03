@@ -40,6 +40,10 @@ class ExportHerafitter(plotbase.PlotBase):
 		    help="Name of the nick to be exported [Default: %(default)s].")
 		self.plotting_options.add_argument("--header-file", type=str,
 		    help="Location to the txt file containing the header of the Herafitter data file.")
+		self.plotting_options.add_argument("--hera-stat", type=float,
+		    help="multiplicator for stat uncertainties")
+		self.plotting_options.add_argument("--hera-sys", type=float,
+		    help="multiplicator for sys uncertainties")
 
 	def prepare_args(self, parser, plotData):
 		plotData.plotdict["formats"] = ["txt"]
@@ -65,8 +69,8 @@ class ExportHerafitter(plotbase.PlotBase):
 				root_object.GetBinLowEdge(i),
 				root_object.GetBinLowEdge(i) + root_object.GetBinWidth(i),
 				root_object.GetBinContent(i),
-				root_object.GetBinError(i),  # stat
-				2*root_object.GetBinError(i)  # sys
+				plotData.plotdict["hera_stat"]*root_object.GetBinError(i),  # stat
+				plotData.plotdict["hera_sys"]*root_object.GetBinError(i)  # sys
 			])
 		# now, format the values to strings with proper widths
 		list_of_max_len = [0]*len(lines[0])
