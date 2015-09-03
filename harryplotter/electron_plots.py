@@ -200,6 +200,8 @@ def electron_trigger_sf(args=None, additional_dictionary=None):
 				"z_label": "Trigger+ID Efficiency Scalefactor",
 				# Output
 				"filename": "_".join(['sf', typ.lower(), ID]),
+				'www_text': 'Electron POG scale-factors for loose/medium/tight ID for Data and MC. Red hatched are excluded by event selection.',
+				'www_title': 'Electron Scale Factors',
 			}
 			if additional_dictionary is not None:
 				d.update(additional_dictionary)

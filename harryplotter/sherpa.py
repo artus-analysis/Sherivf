@@ -61,6 +61,9 @@ def sherpa(args=None, additional_dictionary=None):
 				"y_errors": [True, False, True, False, False],
 				# output
 				"filename": ("norm_" if normalize else "") + quantity ,
+				'www_title': 'Data / Sherpa /Madgraph',
+				'www_text': 'Comparison of Data, CMS-Madgraph(reco-level) and self-produced Sherpa. \
+					Efficiency scale factors have been applied, but no unfolding'
 			}
 			if quantity == 'genzpt':
 				d['y_log'] = True

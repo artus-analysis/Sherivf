@@ -32,8 +32,10 @@ def pdf(args=None, additional_dictionary=None):
 			"texts": [r"NNPDF 2.3 NLO\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)"],
 			"texts_x": [0.05],
 			'title': flavour.replace('_', ' '),
+			# output
+			'www_title': 'NNPDF Reweighting',
+			'www_text': 'Result of NNPDF Reweighting: Comparison of original and reweighted PDF set. Dummy systematic errors have been used.',
 		}
-	
 		if additional_dictionary is not None:
 			d.update(additional_dictionary)
 		plots.append(d)

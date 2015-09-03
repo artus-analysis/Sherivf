@@ -87,6 +87,8 @@ def different_iterations(args=None):
 			'x_label': quantity,
 			# output
 			'filename': 'iterations_' + quantity,
+			'www_title': 'Unfolding: different iterations',
+			'www_text': "Different iterations for d'Agostini unfolding",
 		}
 		if quantity == 'zpt':
 			d['y_log'] = True
@@ -116,12 +118,15 @@ def response_matrix(args=None):
 				'x_expressions': ['responsematrix'],
 				# formatting
 				'y_lims': y_lims,
+				'x_lims': y_lims,
 				'x_label': 'gen' + quantity,
 				'y_label': 'reco' + quantity,
 				'energies': [8],
 				'z_log': log,
 				# output
 				'filename': 'responsematrix_' + quantity + ("_log" if log else ""),
+				'www_title': 'Response Matrices',
+				'www_text': r"Unfolding response matrices from d\'Agostini Unfolding for Z y,mass,pT with log and scalar z-axis",
 			}
 			plots.append(d)
 	harryinterface.harry_interface(plots, args)
@@ -157,6 +162,8 @@ def unfolding_comparison(args=None):
 				'title': str(iterations) + " iteration" + ("s" if iterations != 1 else ""),
 				# output
 				'filename': "_".join(['unfolded', quantity, str(iterations)]),
+				'www_title': 'Unfolding',
+				'www_text': 'Comparison of Data and MC at reco-, gen- and unfolded-level for different unfolding iterations',
 			}
 			if quantity == 'zpt':
 				d['y_log'] = True
