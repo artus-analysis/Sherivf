@@ -5,7 +5,7 @@ import Excalibur.Plotting.harryinterface as harryinterface
 import Excalibur.Plotting.utility.colors as colors
 
 
-def pdf(args=None, additional_dictionary=None):
+def pdf(args=None, additional_dictionary=None, pdfset=""):
 	"""plot a PDF"""
 	plots = []
 	for flavour in ['gluon', 'd_quark', 'u_quark', 'strange', 'charm', 'd_antiquark', 'u_antiquark']:
@@ -29,7 +29,7 @@ def pdf(args=None, additional_dictionary=None):
 			"y_label": "PDF xfx",
 			"y_subplot_lims": [0.75, 1.25],
 			"y_subplot_label": "Ratio to NNPDF",
-			"texts": [r"NNPDF 2.3 NLO\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)"],
+			"texts": [r"{}\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)".format(pdfset)],
 			"texts_x": [0.05],
 			'title': flavour.replace('_', ' '),
 			# output
@@ -42,11 +42,12 @@ def pdf(args=None, additional_dictionary=None):
 	harryinterface.harry_interface(plots, args)
 
 def nnpdf(args=None):
+	pdfset = 'NNPDF30_nlo_as_0118'
 	pdf(args, {
-		'files': ['pdf_sets/NNPDF23_nlo_as_0118.root', 'pdf_sets/NNPDF23_nlo_as_0118_HighStat_chi2_nRep100.root'],
+		'files': ['pdf_sets/{}.root'.format(pdfset), 'pdf_sets/{}_HighStat_chi2_nRep100.root'.format(pdfset)],
 		'labels': ['original', 'reweighted'],
 		'www': 'nnpdf'
-	})
+	}, pdfset=pdfset)
 
 
 if __name__ == '__main__':

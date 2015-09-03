@@ -15,7 +15,7 @@
 &reweighting
   FLAGRW	  = True                 ! Should reweighting be done?
   !RWPDFSET    = 'HERAPDF15NLO_EIG'    ! LHAPDF grid file 
-  RWPDFSET    = 'NNPDF23_nlo_as_0118'    ! LHAPDF grid file 
+  RWPDFSET    = 'NNPDF30_nlo_as_0118'    ! LHAPDF grid file
   RWDATA  	  = 'HighStat'            ! arbitrary name for new datasample to be put in 
   RWMETHOD    = 1                     ! either 1=chi2 or 2=data
   DORWONLY  	 = True               ! do / do not run usual HERA fit

@@ -47,7 +47,7 @@ def main(
 	## Version info, search paths, and metadata
 	print "LHAPDF version", lhapdf.version()
 	lhapdf.pathsPrepend("/storage/a/dhaitz/PDFsets")
-	lhapdf.pathsPrepend("/usr/users/dhaitz/home/qcd/herafitter-1.1.1/output/NNPDF23_nlo_as_0118_HighStat_chi2")
+	lhapdf.pathsPrepend("/usr/users/dhaitz/home/qcd/herafitter-1.1.1/output/"+pdfset.replace("_nRep100", ""))
 	lhapdf.setVerbosity(0)
 	print "LHAPDF paths",lhapdf.paths()
 	print "PDFset:", pdfset
@@ -63,9 +63,7 @@ def main(
 
 def getopt():
 	parser = argparse.ArgumentParser(description='evaluate PDF set')
-	parser.add_argument('-p', '--pdfset', help='LHAPDF PDF Filename', 
-		default='NNPDF30_nlo_as_0118')
-	#	default='NNPDF23_nlo_as_0118')
+	parser.add_argument('-p', '--pdfset', help='LHAPDF PDF Filename', default='NNPDF30_nlo_as_0118')
 	parser.add_argument('-o', '--output-filename', default=None)
 	parser.add_argument('-f', '--flavours', type=int, nargs="*", default=[0, 1, 2])#, 7, 8, 9])
 	parser.add_argument('-n', '--n-points', default=100, type=int, help="points in x")
