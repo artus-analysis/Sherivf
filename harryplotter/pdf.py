@@ -25,7 +25,7 @@ def pdfs_thesis(args=None, additional_dictionary=None):
 			"x_label": r"$\\mathit{x}$",
 			"x_log": True,
 			"labels": labels,
-			"y_label": r"$\\mathit{x}f(\\mathit{x}, \\mathit{Q})$",
+			"y_label": "pdf",
 			"x_lims": [1e-3, 1],
 			"y_lims": [0, 1],
 			"title": "NNPDF 3.0 NLO",

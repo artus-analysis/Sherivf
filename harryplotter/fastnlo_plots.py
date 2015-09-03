@@ -9,6 +9,7 @@ import Excalibur.Plotting.harryinterface as harryinterface
 
 
 qdict = {'pT': 'zpt', 'y': 'abs(zy)', 'm': 'zmass', 'phi': 'zphi'}
+xseclabels = {'pT': 'xsecpt', 'y': 'xsecabsy', 'm': 'xsecm', 'phi': 'xsecphi'}
 
 def sherpa_fastnlo(args=None):
 	"""Compare Sherpa directly with fastNLO"""
@@ -37,8 +38,8 @@ def sherpa_fastnlo(args=None):
 				'nicks_whitelist': ['fnlo', 'nick', 'ratio'],
 				"markers": ["o", "fill","."],
 				"x_label": qdict[quantity],
-				"y_label": r"$\\mathit{\\sigma}\\ / \\ GeV$",
-				"y_subplot_lims": [0, 2],
+				"y_label": xseclabels[quantity],
+				"y_subplot_lims": [0.75, 1.25],
 				"energies": [8],
 				"y_errors": [False],
 				"labels": ['Sherpa+fastNLO', 'Sherpa', 'ratio'],
@@ -101,7 +102,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 			'colors': ['black'] + colors*2,
 			'line_styles': [None] + ['-']*N*2,
 			'energies': [8],
-			'y_label': r'$\\sigma \\ / \\ pb$',
+			'y_label': xseclabels[quantity],
 			'step': [True],
 			'x_label': qdict[quantity],
 			'y_subplot_label': 'MC/Data',
@@ -147,7 +148,7 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			# formatting
 			'nicks_whitelist': ['nick', 'envelope', 'ratio'],
 			'labels': ['Data', common.pdfsetdict.get(pdfset.replace('.LHgrid', ''), pdfset.replace('.LHgrid', '')), 'ratio'],
-			'y_label': r'$\\sigma \\ / \\ pb$',
+			'y_label': xseclabels[quantity],
 			'line_styles': [None, '-', None],
 			'markers': ['o', 'fill', 'o'],
 			'energies': [8],

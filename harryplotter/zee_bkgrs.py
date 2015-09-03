@@ -20,7 +20,7 @@ def zee_bkgrs(args=None):
 	path = common.bkgr_path
 	backgrounds = common.bkgr_backgrounds
 
-	known_args, args = parsertools.parser_list_tool(args, ['njets', 'ybins', 'mcs', 'logs', 'quantities', 'signal'])
+	known_args, args = parsertools.parser_list_tool(args, ['njets', 'ybins', 'mcs', 'quantities', 'signal'])
 
 	n_mcs = 1 + len(backgrounds)
 	backgrounds_merged = ['diboson', 'diboson', 'tt', 'others', 'others', 'others', 'others', 'others']
@@ -46,37 +46,35 @@ def zee_bkgrs(args=None):
 					['/work/mc_ee.root', '/work/mc_ee_powheg.root'],
 					['Madgraph', 'Powheg']
 				], known_args.no_mcs)):
-					# log / linear scale
-					for log, suffix in zip(*parsertools.get_list_slice([
-						[False, True], ['', '_log']
-					], known_args.no_logs)):
-						# different quantities
-						for quantity in parsertools.get_list_slice(common.data_quantities + ['njets30'], known_args.no_quantities):
-							d = {
-								# input
-								'x_expressions': quantity,
-								'x_bins': [common.bins[quantity]],
-								'files': ([path+'/work/data_ee.root', path+mc] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds])[(0 if signal else 2):],
-								"nicks": (['data','mc']+backgrounds_merged)[(0 if signal else 2):],
-								'folders': (['leptoncuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['leptoncuts_ak5PFJetsCHSL1L2L3/ntuple']*n_mcs)[(0 if signal else 2):],
-								'weights': (["(({}) && ({}))".format(ybin, njetweight)] + ["(hlt && ({}) && ({}))".format(ybin, njetweight)]*n_mcs)[(0 if signal else 2):],
-								'scale_factors': [1. if signal else 19.712],
-								# formatting
-								'legend': None,
-								"labels": (["Data", r"DY$\\rightarrow ee$"]+[common.bkgr_labels[item] for item in backgrounds_merged_short])[(0 if signal else 2):],
-								"markers": (['o'] + ['fill']*n_mcs_merged_short)[(0 if signal else 2):],
-								'stacks': (['data'] + ['mc']*n_mcs_merged_short)[(0 if signal else 2):],
-								"bar_colors": [colors.histo_colors[color] for color in [common.bkgr_colors[item] for item in ['mc']+backgrounds_merged_short]][(0 if signal else 1):],
-								'y_log': log,
-								'texts': [ybinlabel, njetlabel],
-								'texts_x':[0.03],
-								'texts_y': [0.97, 0.87],
-								# output
-								'save_legend': "legend" + "_" + mc_label + ("" if signal else "_only-bkgrs"),
-								'filename': quantity + suffix + "_" + mc_label+ybinsuffix+njetsuffix + ("" if signal else "_only_bkgrs"),
-								'export_json': False,
-							}
-							plots.append(d)
+					# different quantities
+					for quantity in parsertools.get_list_slice(common.data_quantities + ['njets30'], known_args.no_quantities):
+						d = {
+							# input
+							'x_expressions': quantity,
+							'x_bins': [common.bins[quantity]],
+							'files': ([path+'/work/data_ee.root', path+mc] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds])[(0 if signal else 2):],
+							"nicks": (['data','mc']+backgrounds_merged)[(0 if signal else 2):],
+							'folders': (['leptoncuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['leptoncuts_ak5PFJetsCHSL1L2L3/ntuple']*n_mcs)[(0 if signal else 2):],
+							'weights': (["(({}) && ({}))".format(ybin, njetweight)] + ["(hlt && ({}) && ({}))".format(ybin, njetweight)]*n_mcs)[(0 if signal else 2):],
+							'scale_factors': [1. if signal else 19.712],
+							# formatting
+							'legend': None,
+							"labels": (["Data", r"DY$\\rightarrow ee$"]+[common.bkgr_labels[item] for item in backgrounds_merged_short])[(0 if signal else 2):],
+							"markers": (['o'] + ['fill']*n_mcs_merged_short)[(0 if signal else 2):],
+							'stacks': (['data'] + ['mc']*n_mcs_merged_short)[(0 if signal else 2):],
+							"bar_colors": [colors.histo_colors[color] for color in [common.bkgr_colors[item] for item in ['mc']+backgrounds_merged_short]][(0 if signal else 1):],
+							'y_log': (True if quantity == "zpt" else False),
+							'texts': [ybinlabel, njetlabel],
+							'texts_x':[0.03],
+							'texts_y': [0.97, 0.87],
+							# output
+							'save_legend': "legend" + "_" + mc_label + ("" if signal else "_only-bkgrs"),
+							'filename': quantity + "_" + mc_label+ybinsuffix+njetsuffix + ("" if signal else "_only_bkgrs"),
+							'export_json': False,
+							'www_text': "Backgrounds as a function of different quantities, with and without signal samples",
+							'www_title': "Background Contributions",
+						}
+						plots.append(d)
 
 	harryinterface.harry_interface(plots, args)
 
@@ -133,6 +131,9 @@ def emu(args=None):
 			'stacks': ['data'] + ['mc']*len(backgrounds),
 			"bar_colors": [colors.histo_colors[color] for color in ['blue', 'yellow', 'green', 'brown']],
 			"labels": [r"Data $e\\mu$"]+[common.bkgr_labels[item] for item in backgrounds],
+			# output
+			'www_title': "Background estimation with the e&mu; method",
+			'www_text': " ",
 		}
 		if quantity == 'zpt':
 			d['x_lims'] = [0, 200]

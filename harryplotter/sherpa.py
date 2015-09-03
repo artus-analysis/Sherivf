@@ -14,11 +14,10 @@ def sherpa(args=None, additional_dictionary=None):
 	known_args, args = parsertools.parser_list_tool(args, ['norm', 'quantities'])
 
 	for normalize in parsertools.get_list_slice([[False, True]], known_args.no_norm)[0]:
-		for index, quantity, binning, label in zip(*parsertools.get_list_slice([
+		for index, quantity, binning in zip(*parsertools.get_list_slice([
 			[0,1,2,3,6,7],
 			["genzpt", "abs(genzy)", "genzmass", "genzphi", "geneminuspt", "geneminuseta"],
 			["38,20,400", "25,0,2.5", "20,81,101", "32,-3.2,3.2", "20,20,120", "48,-2.4,2.4"],
-			["xsecpt", "xsecabsy", "xsecm", "xsecphi", "xsecpt", "xseceta"]
 		], known_args.no_quantities)):
 			d = {
 				# input
@@ -48,7 +47,7 @@ def sherpa(args=None, additional_dictionary=None):
 				# plotting
 				"nicks_whitelist": ["data", "d0"+str(index+1), "madg","powh", "ratio"],
 				"x_label": quantity.replace("gen", ""),
-				"y_label": label,
+				"y_label": "xsec",
 				"labels": [r"Data", "Sherpa", "Madgraph+Pythia", "ratio0", "ratio1"],
 				"legend": "lower center",
 				"marker_colors": ["black", "red", "red", "cornflowerblue"],
@@ -85,10 +84,9 @@ def sherpa_mc(args=None, additional_dictionary=None):
 	known_args, args = parsertools.parser_list_tool(args, ['quantities'])
 	plots = []
 
-	for index, quantity, label in zip(*parsertools.get_list_slice([
+	for index, quantity in zip(*parsertools.get_list_slice([
 		[0,1,2,3,6,7],
 		["genzpt", "abs(genzy)", "genzmass", "genzphi", "geneminuspt", "geneminuseta"],
-		["xsecpt", "xsecabsy", "xsecm", "xsecphi", "xsecpt", "xseceta"]
 	], known_args.no_quantities)):
 			d = {
 				# input
@@ -118,7 +116,7 @@ def sherpa_mc(args=None, additional_dictionary=None):
 				"ratio_denominator_nicks": ["nick0"],
 				# plotting
 				"nicks_whitelist": ["nick", "d0"+str(index+1), "madg", "ratio"],
-				"y_label": label,
+				"y_label": "xsec",
 				"y_subplot_lims": [0.9, 1.1],
 				"y_errors": [True, False, False],
 				"labels": ['Madgraph', 'ratio', 'Sherpa'],

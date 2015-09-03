@@ -26,10 +26,10 @@ def pdf(args=None, additional_dictionary=None, pdfset=""):
 			"x_label": r"$\\mathit{x}$",
 			"colors": [colors.histo_colors['blue'], colors.histo_colors['yellow']],
 			"x_log": True,
-			"y_label": "PDF xfx",
+			"y_label": "pdf",
 			"y_subplot_lims": [0.75, 1.25],
-			"y_subplot_label": "Ratio to NNPDF",
-			"texts": [r"{}\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)".format(pdfset)],
+			"y_subplot_label": "Ratio to Original",
+			"texts": [pdfset + r"\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)"],
 			"texts_x": [0.05],
 			'title': flavour.replace('_', ' '),
 			# output

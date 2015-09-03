@@ -88,7 +88,7 @@ def different_iterations(args=None):
 			# output
 			'filename': 'iterations_' + quantity,
 			'www_title': 'Unfolding: different iterations',
-			'www_text': "Different iterations for d'Agostini unfolding",
+			'www_text': r"Different iterations for d\'Agostini unfolding",
 		}
 		if quantity == 'zpt':
 			d['y_log'] = True

@@ -163,10 +163,10 @@ def electron_trigger_sf(args=None, additional_dictionary=None):
 	"""electron trigger scale factors"""
 	plots = []
 	for typ in ['Data', 'MC']:
-		for ID in ['tight', 'medium', 'loose', 'veto']:
+		for ID in ['Tight', 'Medium', 'Loose', 'Veto']:
 			d = {
 				# input
-				"files": [os.environ['EXCALIBURPATH'] + "/data/electron_scalefactors//Electron-DataScaleFactors.root"],
+				"files": [os.environ['EXCALIBURPATH'] + "/data/electron_scalefactors//Electron-{}ScaleFactors.root".format(typ)],
 				"folders": [""],
 				# plotting
 				"plot_modules": ["PlotMplZJet", "PlotMplRectangle"],
@@ -187,14 +187,15 @@ def electron_trigger_sf(args=None, additional_dictionary=None):
 					'\\'
 					'\\'
 				],
-				"x_expressions": ["vbft95_"+ID],
+				"x_expressions": ["vbft95_"+ID.lower()],
 				"x_label": "ept",
 				"x_lims": [10.0, 50.0],
 				"y_label": "eabseta",
 				"z_label": "Trigger+ID Efficiency Scale Factors",
 				"z_lims": [1, 2],
+				"title": ID + " ID in " + typ,
 				# output
-				"filename": "_".join(['sf', typ.lower(), ID]),
+				"filename": "_".join(['sf', typ.lower(), ID.lower()]),
 				'www_text': 'Electron POG scale-factors for loose/medium/tight ID for Data and MC. Red hatched areas are excluded by event selection.',
 				'www_title': 'Electron Scale Factors',
 			}
