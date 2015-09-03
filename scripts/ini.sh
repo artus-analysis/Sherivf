@@ -2,7 +2,11 @@
 
 export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
 
+if [-e $SHERIVFDIR/scripts/functions.sh ]
+then
 . $SHERIVFDIR/scripts/functions.sh
+fi
+
 
 if ( [[ $HOSTNAME == *"naf"* ]] || [[ $HOSTNAME == *"bird"* ]] ); then
 	export SHERIVFDIR=/afs/desy.de/user/d/dhaitz/qcd/sherivf
@@ -68,8 +72,8 @@ export LD_LIBRARY_PATH=$PWD:$LD_LIBRARY_PATH:$BOOSTPATH/lib:$HOME/local/lib64/:/
 
 #LHAPDF (6)
 export PATH=$SHERIVFDIR/../LHAPDF-6.1.5/bin/:$PATH
-#export LHAPATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/lhapdf/6.1.5/share/LHAPDF/:$LHAPATH
-export LHAPATH=/cvmfs/cms.cern.ch/lhapdf/pdfsets/5.9.1 # LHA 5
+export LHAPATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/lhapdf/6.1.5/share/LHAPDF/
+#export LHAPATH=/cvmfs/cms.cern.ch/lhapdf/pdfsets/5.9.1 # LHA 5
 #export LHAPATH=/storage/a/dhaitz/PDFsets:$LHAPATH
 
 # aliases
