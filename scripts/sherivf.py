@@ -8,8 +8,8 @@ import sys, os, glob, shutil, time, subprocess, argparse, socket
 class Sherivf(object):
 
 	def __init__(self):
-		quantities = ['y', 'pT', 'm']#, 'phi']
-		self.fastnlo_outputs = ['fnlo_{}Z.tab'.format(quantity) for quantity in quantities]
+		quantities = ['y', 'pT', 'm']
+		self.fastnlo_outputs = ['fnlo_{0}Z.tab'.format(quantity) for quantity in quantities]
 
 		if 'naf' in socket.gethostname().lower():
 			self.default_config = 'naf'
