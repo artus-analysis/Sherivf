@@ -9,7 +9,7 @@ make_analysis(){
 }
 
 make_herafile(){
-	merlin.py -i 3_divided/zpt_madgraph_inclusive_1.root -f "''" -x nick0  --plot-m ExportHerafitter --x-bins '38,20,400' --header-file ../../qcd/sherivf/herafitter/herafitter_header.txt --filename CMS_Zee_HFinput -o ~/home/qcd/sherivf/herafitter/
+	merlin.py --hera-sys 3 --hera-stat 1 -i 3_divided/zpt_madgraph_inclusive_1.root -f "''" -x nick0  --plot-m ExportHerafitter --x-bins '38,20,400' --header-file ../../qcd/sherivf/herafitter/herafitter_header.txt --filename CMS_Zee_HFinput -o ~/home/qcd/sherivf/herafitter/
 }
 
 calculate_all_correlations(){
@@ -29,7 +29,6 @@ make_allplots(){
 	merlin.py --py z_hlt --www ${WWWSUBDIR}z_trigger
 	merlin.py --py electron_id --www ${WWWSUBDIR}electron_id
 	merlin.py --py electron_corr --www ${WWWSUBDIR}momentum_corrections
-	merlin.py --py z_corr --www ${WWWSUBDIR}momentum_corrections
 	merlin.py --py electron_trigger_sf --www ${WWWSUBDIR}electron_sf
 
 	merlin.py --py zee_bkgrs --no-njets --no-ybins --no-mcs --www ${WWWSUBDIR}backgrounds
@@ -58,7 +57,7 @@ hera_fit(){
 	export LHAPATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/lhapdf/6.1.5/share/LHAPDF/
 	cd $SHERIVFDIR/../herafitter-1.1.1
 	rm $SHERIVFDIR/../herafitter-1.1.1/output/NNPDF*_HighStat_chi2/* $SHERIVFDIR/../herafitter-1.1.1/NNPDF/data/* -rf
-	mkdir output/${PDFSET}_HighStat_chi2
+	mkdir -p output/${PDFSET}_HighStat_chi2
 	FitPDF
 	cd output/${PDFSET}_HighStat_chi2
 	pdf_2_root.py -p ${PDFSET}_HighStat_chi2_nRep100 -f 0 1 2 3 4 -1 -2
@@ -66,3 +65,16 @@ hera_fit(){
 	cd $SHERIVFDIR
 }
 
+
+switch_lhapdf5(){
+	switch_lhapdf lhapdf-5.9.1
+}
+
+switch_lhapdf6(){
+	switch_lhapdf LHAPDF-6.1.5
+}
+
+switch_lhapdf(){
+	cd /usr/users/dhaitz/home/qcd/$1
+	make install -j 10
+}
