@@ -1,1 +1,1 @@
-fnlo-cfg/MCgrid_CMS_2015_Zee.cc
+rivet-cfg/MCgrid_CMS_2015_Zee.cc
