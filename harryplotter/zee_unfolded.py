@@ -85,6 +85,7 @@ def different_iterations(args=None):
 			'step': [True],
 			'marker_colors': ['black', 'red', 'blue', 'green'],
 			'x_label': quantity,
+			'legend': 'upper right',
 			# output
 			'filename': 'iterations_' + quantity,
 			'www_title': 'Unfolding: different iterations',
@@ -92,8 +93,6 @@ def different_iterations(args=None):
 		}
 		if quantity == 'zpt':
 			d['y_log'] = True
-		else:
-			d['legend'] = 'upper left'
 		# ratio to MC gen
 		d.update({
 			'analysis_modules': ['Ratio'],
@@ -110,7 +109,7 @@ def response_matrix(args=None):
 	plots = []
 	ybin = 'inclusive'
 	for log in [True, False]:
-		for quantity, y_lims in zip(common.data_quantities, [[0, 400], [0, 2.5], [81, 101]]):
+		for quantity, y_lims in zip(common.data_quantities, [[20, 400], [0, 2.5], [81, 101]]):
 			d = {
 				# input
 				'files': [common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '1']) + '.root'],

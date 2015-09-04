@@ -17,7 +17,7 @@ def pdf(args=None, additional_dictionary=None, pdflabel=""):
 			"rel_nicks": ['orig', 'rew'],
 			# formatting
 			"nicks": ['orig', 'rew'],
-			"subplot_nicks": ['orig_fract', 'rew_fract'],
+			"subplot_nicks": ['orig_rel', 'rew_rel'],
 			"line_styles": ["-"],
 			"markers": ["fill"],
 			"x_label": r"$\\mathit{x}$",

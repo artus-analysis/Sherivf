@@ -48,14 +48,13 @@ def sherpa_fastnlo(args=None):
 				# filename
 				'filename': quantity.lower() + ('_norm' if norm else ''),
 				'www_title': 'Sherpa vs fastNLO',
-				'www_text': 'fastNLO compared to Sherpa ({} used) Z y,mass,pT'.format(pdfset.replace('.LHgrid', '')),
+				'www_text': 'fastNLO ({} used) compared to Sherpa for Z y,mass,pT'.format(pdfset.replace('.LHgrid', '')),
 			}
 			if quantity == 'pT':
 				d['y_log'] = True
 				d['y_lims'] = [1e-4, 1e2]
-			elif quantity == 'y' and norm:
+			elif quantity == 'y':
 				d['y_lims'] = [0, 100]
-			plots.append(d)
 	harryinterface.harry_interface(plots, args)
 
 
