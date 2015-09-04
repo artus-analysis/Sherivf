@@ -70,11 +70,12 @@ export BOOSTPATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/boost/1.57.0-cflf
 export LD_LIBRARY_PATH=$PWD:$LD_LIBRARY_PATH:$BOOSTPATH/lib:$HOME/local/lib64/:/usr/users/dhaitz/local/lib/SHERPA-MC/
 # -L$(BOOSTPATH)/lib/
 
-#LHAPDF (6)
-export PATH=$SHERIVFDIR/../LHAPDF-6.1.5/bin/:$PATH
-export LHAPATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/lhapdf/6.1.5/share/LHAPDF/
-#export LHAPATH=/cvmfs/cms.cern.ch/lhapdf/pdfsets/5.9.1 # LHA 5
-#export LHAPATH=/storage/a/dhaitz/PDFsets:$LHAPATH
+#LHAPDF
+if [[ `lhapdf-config  --version` == 5.* ]]; then
+	export LHAPATH=/cvmfs/cms.cern.ch/lhapdf/pdfsets/5.9.1
+elif [[ `lhapdf-config  --version` == 6.* ]]; then
+	export LHAPATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/lhapdf/6.1.5/share/LHAPDF/
+fi
 
 # aliases
 alias rivbuild_nofastnlo="rivet-buildplugin RivetMyAnalyses.so MCgrid_CMS_2015_Zee.cc -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA"
