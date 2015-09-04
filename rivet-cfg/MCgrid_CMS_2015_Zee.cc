@@ -25,16 +25,13 @@ public:
 	/// Book histograms and initialise projections before the run
 	void init() {
 
-	m_n = 0;
-	m_eptmin = 25.;
-
 	/// Initialise and register projections here
 	Cut cut = (
 		#if USE_MUONS
 		(Cuts::pT >= 20.*GeV) &
 		(Cuts::etaIn(-2.3, 2.3))
 		#else
-		(Cuts::pT >= m_eptmin*GeV)
+		(Cuts::pT >= 25.*GeV)
 		& (Cuts::etaIn(-2.4, -1.566) | Cuts::etaIn(-1.442, 1.442) | Cuts::etaIn(1.566, 2.4))
 		#endif
 	);
@@ -55,7 +52,7 @@ public:
 	
 	/// Book histograms here
 	_h_pTZ = bookHisto1D("d01-x01-y01", 38, 20, 400);
-	_h_yZ = bookHisto1D("d02-x01-y01", 25, 0, 2.5);
+	_h_yZ = bookHisto1D("d02-x01-y01", 24, 0, 2.4);
 	_h_mZ = bookHisto1D("d03-x01-y01", 20, 81, 101);
 	_h_phiZ = bookHisto1D("d04-x01-y01", 32, -3.2, 3.2);
 
@@ -90,16 +87,12 @@ public:
 	/// Perform the per-event analysis
 	void analyze(const Event& event) {
 
-		// Handle APPL event
+		// Handle event
 		MCgrid::PDFHandler::HandleEvent(event);
-	
-		// Handle weights
 		const double weight = event.weight();
-		m_n += weight;
-
 		const Particles particles = applyProjection<FinalState>(event, "Electrons").particlesByPt(Cuts::pT>=0.5*GeV);
-
 		const ZFinder& zfinder = applyProjection<ZFinder>(event, "ZFinder");
+
 		if (zfinder.bosons().size() == 1) {
 
 			double yZ = fabs(zfinder.bosons()[0].momentum().rapidity());
@@ -138,13 +131,9 @@ public:
 		void finalize() {
 
 		double normfactor = crossSection()/sumOfWeights();
-	
-
-		MSG_INFO("weights manual " << m_n << " normfactor: " << normfactor);
 		MSG_INFO("xsec: " << crossSection() << " sumW: " << sumOfWeights() << " ratio: " << crossSection()/sumOfWeights());
-		MSG_INFO("weights auto:  " << sumOfWeights());
 
-
+		// scale rivet
 		scale(_h_yZ, normfactor);
 		scale(_h_pTZ, normfactor);
 		scale(_h_mZ, normfactor);
@@ -155,6 +144,7 @@ public:
 		scale(_h_phie, normfactor);
 
 		#if USE_FNLO
+		//scale fastnlo
 		_fnlo_pTZ->scale(normfactor);
 		_fnlo_yZ->scale(normfactor);
 		_fnlo_mZ->scale(normfactor);
@@ -169,8 +159,6 @@ public:
 	}
 
 private:
-	double m_eptmin;
-	double m_n;
 
 	/// @name Histograms
 	Histo1DPtr _h_pTZ;
