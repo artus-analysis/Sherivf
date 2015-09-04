@@ -26,7 +26,7 @@ make_allplots(){
 	merlin.py --py pdfs_thesis --www ${WWWSUBDIR}pdfs
 	merlin.py --py pdf_correlations --www ${WWWSUBDIR}correlations
 
-	merlin.py --py z_hlt --www ${WWWSUBDIR}z_trigger
+	#merlin.py --py z_hlt --www ${WWWSUBDIR}z_trigger
 	merlin.py --py electron_id --www ${WWWSUBDIR}electron_id
 	merlin.py --py electron_corr --www ${WWWSUBDIR}momentum_corrections
 	merlin.py --py electron_trigger_sf --www ${WWWSUBDIR}electron_sf
