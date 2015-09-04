@@ -14,7 +14,7 @@ xseclabels = {'pT': 'xsecpt', 'y': 'xsecabsy', 'm': 'xsecm', 'phi': 'xsecphi'}
 def sherpa_fastnlo(args=None):
 	"""Compare Sherpa directly with fastNLO"""
 	plots = []
-	pdfset = 'CT10.LHgrid'
+	pdfset = 'CT10nlo.LHgrid'
 	member = 0
 	# pT or y:
 	for norm in [True, False]:
@@ -48,7 +48,7 @@ def sherpa_fastnlo(args=None):
 				# filename
 				'filename': quantity.lower() + ('_norm' if norm else ''),
 				'www_title': 'Sherpa vs fastNLO',
-				'www_text': 'fastNLO compared to Sherpa (CT10 used) Z y,mass,pT',
+				'www_text': 'fastNLO compared to Sherpa ({} used) Z y,mass,pT'.format(pdfset.replace('.LHgrid', '')),
 			}
 			if quantity == 'pT':
 				d['y_log'] = True

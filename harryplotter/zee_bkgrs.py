@@ -58,7 +58,7 @@ def zee_bkgrs(args=None):
 							'weights': (["(({}) && ({}))".format(ybin, njetweight)] + ["(hlt && ({}) && ({}))".format(ybin, njetweight)]*n_mcs)[(0 if signal else 2):],
 							'scale_factors': [1. if signal else 19.712],
 							# formatting
-							'legend': None,
+							'legend': 'upper right',
 							"labels": (["Data", r"DY$\\rightarrow ee$"]+[common.bkgr_labels[item] for item in backgrounds_merged_short])[(0 if signal else 2):],
 							"markers": (['o'] + ['fill']*n_mcs_merged_short)[(0 if signal else 2):],
 							'stacks': (['data'] + ['mc']*n_mcs_merged_short)[(0 if signal else 2):],
@@ -68,7 +68,6 @@ def zee_bkgrs(args=None):
 							'texts_x':[0.03],
 							'texts_y': [0.97, 0.87],
 							# output
-							'save_legend': "legend" + "_" + mc_label + ("" if signal else "_only-bkgrs"),
 							'filename': quantity + "_" + mc_label+ybinsuffix+njetsuffix + ("" if signal else "_only_bkgrs"),
 							'export_json': False,
 							'www_text': "Backgrounds as a function of different quantities, with and without signal samples",

@@ -106,8 +106,10 @@ def electron_id(args=None, additional_dictionary=None):
 
 
 def electron_corr(args=None, additional_dictionary=None):
-	"""pT Reco/Gen for corrected/raw electrons as a function of electron |eta|"""
-	d = {
+	"""Effects of electron momentum corrections"""
+	# pT Reco/Gen for corrected/raw electrons as a function of electron |eta|
+	plots = []
+	plots.append({
 		# Input
 		"files": [common.mc, common.mc_raw],
 		"folders": ["zcuts_ak5PFJetsCHSL1L2L3/electrons"],
@@ -121,7 +123,7 @@ def electron_corr(args=None, additional_dictionary=None):
 		"x_label": "eabseta",
 		"y_label": "erecogen",
 		"labels": ["corrected","raw"],
-		"y_lims": [0.97, 1.03],
+		"y_lims": [0.975, 1.03],
 		"line_styles": ["-"],
 		"lines": [1.],
 		"colors": ['red', 'black'],
@@ -129,15 +131,9 @@ def electron_corr(args=None, additional_dictionary=None):
 		"legend": "upper left",
 		# Output
 		"filename": "electron_corr",
-	}
-	if additional_dictionary is not None:
-		d.update(additional_dictionary)
-	harryinterface.harry_interface([d], args)
-
-
-def z_corr(args=None, additional_dictionary=None):
-	"""Z mass as a function of |y| for corrected and uncorrected"""
-	d = {
+	})
+	# Z mass as a function of |y| for corrected and uncorrected
+	plots.append({
 		# Input
 		"files": [common.mc, common.mc_raw],
 		"folders": ["zcuts_ak5PFJetsCHSL1L2L3/ntuple"],
@@ -147,16 +143,21 @@ def z_corr(args=None, additional_dictionary=None):
 		"y_expressions": ["zmass"],
 		# Formatting
 		"labels": ["corrected", "raw"],
-		"y_lims": [90.0, 94.0],
+		"y_lims": [90.4, 94.0],
 		"markers": ['o', '.'],
 		"line_styles": ["-"],
 		"colors": ['red', 'black'],
 		# Output
 		"filename": "z_corr",
-	}
-	if additional_dictionary is not None:
-		d.update(additional_dictionary)
-	harryinterface.harry_interface([d], args)
+	})
+	for plot in plots:
+		plot.update({
+			"www_title": "Electron momentum corrections",
+			"www_text": "Difference between raw and corrected electrons for reconstructed electron pT and Z mass",
+		})
+		if additional_dictionary is not None:
+			plot.update(additional_dictionary)
+	harryinterface.harry_interface(plots, args)
 
 
 def electron_trigger_sf(args=None, additional_dictionary=None):

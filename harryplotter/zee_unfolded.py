@@ -157,6 +157,7 @@ def unfolding_comparison(args=None):
 				'marker_colors': ['black', 'red'],
 				'zorder': [10,10,2,10,10],
 				'energies': [8],
+				'legend': 'upper right',
 				#'lumis': [common.lumi],
 				'x_label': quantity,
 				'title': str(iterations) + " iteration" + ("s" if iterations != 1 else ""),
@@ -167,8 +168,6 @@ def unfolding_comparison(args=None):
 			}
 			if quantity == 'zpt':
 				d['y_log'] = True
-			else:
-				d['legend'] = 'upper left'
 			# ratio to MC gen
 			d.update({
 				'analysis_modules': ['Ratio'],

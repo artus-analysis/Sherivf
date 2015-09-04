@@ -55,14 +55,14 @@ def sherpa(args=None, additional_dictionary=None):
 				"step": [True],
 				"markers": [".", ".", "fill", ".", "."],
 				"title": ("Shape comparison" if normalize else ""),
-				"y_subplot_lims": [0, 2],
+				"y_subplot_lims": [0.5, 1.5],
 				"energies": [8],
 				"y_errors": [True, False, True, False, False],
 				# output
-				"filename": ("norm_" if normalize else "") + quantity ,
+				"filename": quantity + ("_norm" if normalize else ""),
 				'www_title': 'Data / Sherpa /Madgraph',
 				'www_text': 'Comparison of Data, CMS-Madgraph(reco-level) and self-produced Sherpa. \
-					Efficiency scale factors have been applied, but no unfolding'
+					Efficiency scale factors have been applied, but no unfolding has been performed.'
 			}
 			if quantity == 'genzpt':
 				d['y_log'] = True

@@ -5,7 +5,7 @@ import Excalibur.Plotting.harryinterface as harryinterface
 import Excalibur.Plotting.utility.colors as colors
 
 
-def pdf(args=None, additional_dictionary=None, pdfset=""):
+def pdf(args=None, additional_dictionary=None, pdflabel=""):
 	"""plot a PDF"""
 	plots = []
 	for flavour in ['gluon', 'd_quark', 'u_quark', 'strange', 'charm', 'd_antiquark', 'u_antiquark']:
@@ -13,23 +13,20 @@ def pdf(args=None, additional_dictionary=None, pdfset=""):
 			"folders": [""],
 			'x_expressions': [flavour],
 			# analysis
-			"analysis_modules": ["Divide", "ConvertToTGraphErrors"],
-			"divide_denominator_nicks": ['orig'],
-			"divide_numerator_nicks": ['orig', 'rew'],
-			"divide_result_nicks": ['origratio', 'rewratio'],
-			"convert_nicks": ['origratio', 'rewratio'],
+			"analysis_modules": ["RelUncertainty"],
+			"rel_nicks": ['orig', 'rew'],
 			# formatting
 			"nicks": ['orig', 'rew'],
-			"subplot_nicks": ['origratio', 'rewratio'],
+			"subplot_nicks": ['orig_fract', 'rew_fract'],
 			"line_styles": ["-"],
 			"markers": ["fill"],
 			"x_label": r"$\\mathit{x}$",
 			"colors": [colors.histo_colors['blue'], colors.histo_colors['yellow']],
 			"x_log": True,
 			"y_label": "pdf",
-			"y_subplot_lims": [0.75, 1.25],
-			"y_subplot_label": "Ratio to Original",
-			"texts": [pdfset + r"\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)"],
+			"y_subplot_lims": [-0.25, 0.25],
+			"y_subplot_label": "Rel. Uncert.",
+			"texts": [pdflabel + r"\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)"],
 			"texts_x": [0.05],
 			'title': flavour.replace('_', ' '),
 			# output
@@ -43,11 +40,14 @@ def pdf(args=None, additional_dictionary=None, pdfset=""):
 
 def nnpdf(args=None):
 	pdfset = 'NNPDF30_nlo_as_0118'
+	labels = {
+		'NNPDF30_nlo_as_0118': 'NNPDF 3.0',
+	}
 	pdf(args, {
 		'files': ['pdf_sets/{}.root'.format(pdfset), 'pdf_sets/{}_HighStat_chi2_nRep100.root'.format(pdfset)],
 		'labels': ['original', 'reweighted'],
 		'www': 'nnpdf'
-	}, pdfset=pdfset)
+	}, pdflabel=labels[pdfset])
 
 
 if __name__ == '__main__':

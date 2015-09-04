@@ -40,9 +40,9 @@ class ExportHerafitter(plotbase.PlotBase):
 		    help="Name of the nick to be exported [Default: %(default)s].")
 		self.plotting_options.add_argument("--header-file", type=str,
 		    help="Location to the txt file containing the header of the Herafitter data file.")
-		self.plotting_options.add_argument("--hera-stat", type=float,
+		self.plotting_options.add_argument("--hera-stat", type=float, default=1.,
 		    help="multiplicator for stat uncertainties")
-		self.plotting_options.add_argument("--hera-sys", type=float,
+		self.plotting_options.add_argument("--hera-sys", type=float, default=1.,
 		    help="multiplicator for sys uncertainties")
 
 	def prepare_args(self, parser, plotData):

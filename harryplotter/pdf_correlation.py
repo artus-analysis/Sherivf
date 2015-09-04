@@ -31,6 +31,9 @@ def pdf_correlations(args=None, additional_dictionary=None):
 				"title": flavour,
 				# output
 				"filename": flavour.replace(" ", "-")+"_"+quantity,
+				"www_title": "Correlations",
+				"www_text": "Correlations between PDF and cross section for different flavours and Z boson quantities",
+
 			}
 			try:
 				d['y_lims'] = lims[quantity]
