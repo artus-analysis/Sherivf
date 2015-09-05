@@ -29,7 +29,7 @@ def unfold(args=None):
 			['Madgraph', 'Powheg'],
 			['mc_ee.root', 'mc_ee_powheg.root']
 		], known_args.no_mcs)):
-			for quantity in parsertools.get_list_slice(common.data_quantities, known_args.no_quantities)[0]:
+			for quantity in parsertools.get_list_slice(common.data_quantities, known_args.no_quantities):
 				for iteration in parsertools.get_list_slice([range(1, 1+max_iterations)], known_args.no_iterations)[0]:
 					d = {
 						'x_expressions': ['data']+[quantity.replace("z", "genz"), quantity, quantity.replace("z", "genz")],
@@ -109,15 +109,16 @@ def response_matrix(args=None):
 	plots = []
 	ybin = 'inclusive'
 	for log in [True, False]:
-		for quantity, y_lims in zip(common.data_quantities, [[20, 400], [0, 2.5], [81, 101]]):
+		for quantity in common.data_quantities:
+			lims = common.bins[quantity].split(",")[1:]
 			d = {
 				# input
 				'files': [common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '1']) + '.root'],
 				'folders': [''],
 				'x_expressions': ['responsematrix'],
 				# formatting
-				'y_lims': y_lims,
-				'x_lims': y_lims,
+				'y_lims': lims,
+				'x_lims': lims,
 				'x_label': 'gen' + quantity,
 				'y_label': 'reco' + quantity,
 				'energies': [8],

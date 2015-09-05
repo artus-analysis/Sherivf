@@ -14,10 +14,9 @@ def sherpa(args=None, additional_dictionary=None):
 	known_args, args = parsertools.parser_list_tool(args, ['norm', 'quantities'])
 
 	for normalize in parsertools.get_list_slice([[False, True]], known_args.no_norm)[0]:
-		for index, quantity, binning in zip(*parsertools.get_list_slice([
+		for index, quantity in zip(*parsertools.get_list_slice([
 			[0,1,2,3,6,7],
 			["genzpt", "abs(genzy)", "genzmass", "genzphi", "geneminuspt", "geneminuseta"],
-			["38,20,400", "25,0,2.5", "20,81,101", "32,-3.2,3.2", "20,20,120", "48,-2.4,2.4"],
 		], known_args.no_quantities)):
 			d = {
 				# input
@@ -34,7 +33,7 @@ def sherpa(args=None, additional_dictionary=None):
 				"input_modules": ["InputRootZJet", "InputYoda"],
 				'scale_factors': [1./19712.], # MC: fb->pb
 				"x_expressions": [quantity.replace("gen", "")],
-				"x_bins": [binning],
+				"x_bins": common.bins[quantity],
 				# analysis
 				"analysis_modules": ["ScaleHistograms"]
 					+(["NormalizeToFirstHisto"] if normalize else [])

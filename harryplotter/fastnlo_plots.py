@@ -55,18 +55,13 @@ def sherpa_fastnlo(args=None):
 				d['y_lims'] = [1e-4, 1e2]
 			elif quantity == 'y':
 				d['y_lims'] = [0, 100]
+			plots.append(d)
 	harryinterface.harry_interface(plots, args)
 
 
 def fastnlo_pdfsets(args=None, additional_dictionary=None):
 	""" study fastnlo tables for different PDF sets"""
 	plots = []
-	bindict = {
-			'zmass': ['20,81,101'],
-			'abs(zy)': ['25,0,2.5'],
-			'zpt': ['38,20,400'],
-			'zphi': ['20,-3.14159,3.14159'],
-	}
 	# configure fastNLO input
 	n_members = 1
 	pdf_sets = [
@@ -161,11 +156,6 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 		if quantity == 'pT':
 			d['y_log'] = True
 			d['y_lims'] = [1e-4, 1e1]
-			d['x_lims'] = [20, 400]
-		elif quantity == 'y':
-			d['x_lims'] = [0, 2.5]
-		elif quantity == 'm':
-			d['x_lims'] = [81, 101]
 		plots.append(d)
 
 	harryinterface.harry_interface(plots, args)
