@@ -8,7 +8,7 @@ mkdir -p $SHERIVFDIR/test/$TESTDIR
 cd $SHERIVFDIR/test/$TESTDIR
 
 # copy all cfg files
-cp -r $SHERIVFDIR/sherpa-cfg/* .
+cp -r $SHERIVFDIR/sherpa-cfg/fo/* .
 cp $SHERIVFDIR/fnlo-cfg/fnlo_*_warmup.tab .
 cp $SHERIVFDIR/MCgrid_CMS_2015_Zee*.* .
 cp $SHERIVFDIR/RivetMyAnalyses.so .
