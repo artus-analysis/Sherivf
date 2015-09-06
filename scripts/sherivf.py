@@ -84,6 +84,8 @@ class Sherivf(object):
 			help="resume the grid-control run.")
 		parser.add_argument('--rivet-only', action='store_true',
 			help="only recover rivet outputs, not fastNLO.")
+		parser.add_argument('-s', '--sherpa', type=str, default='fo',
+			help="sherpa config")
 
 		parser.add_argument('-n', '--n-events', type=str, default='1',
 			help="n events")
@@ -134,6 +136,7 @@ class Sherivf(object):
 				'@OUTDIR@': self.args.output_dir+'/output',
 				'@WARMUP@': ("rm *warmup*.tab"if self.args.warmup else ""),
 				'@OUTPUT@': output,
+				'@CONFIG@': self.args.sherpa,
 			})
 
 
@@ -219,10 +222,10 @@ def get_env(variable):
 def format_time(seconds):
 	if seconds < 180.:
 		return "{0:.0f} seconds".format(seconds)
-	elif (seconds/60.) < 120:
+	elif (seconds/60.) < 120.:
 		return "{0:.0f} minutes".format(seconds/60.)
 	else:
-		return "{0:.0f} hours {1:.0f} minutes".format(int(seconds/3600), (seconds/60 % 60))
+		return "{0:.0f} hours {1:.0f} minutes".format(int(seconds/3600.), (seconds/60. % 60))
 
 if __name__ == "__main__":
 	start_time = time.time()
