@@ -2,7 +2,6 @@
 (run){
   EVENTS 1M;
   SF:=1;
-  NJET:=0;
   ANALYSIS Rivet;
   ANALYSIS_OUTPUT Rivet;
 }(run);
@@ -14,7 +13,7 @@
 }(beam);
 
 (integration){
-  ERROR 0.05;
+  ERROR 0.01;
 }(integration);
 
 (me){
@@ -31,26 +30,26 @@
 (processes){
 
   ### The Born, virtual, integrated and real-subtracted pieces
-  Process 93 93 -> 11 -11 93 93{NJET};
+  Process 93 93 -> 11 -11 93;
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part B;
   Order_EW 2;
   End process;
 
-  Process 93 93 -> 11 -11 93 93{NJET};
+  Process 93 93 -> 11 -11 93;
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part I;
   Order_EW 2;
   End process;
 
-  Process 93 93 -> 11 -11 93 93{NJET};
+  Process 93 93 -> 11 -11 93;
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part V;
   Loop_Generator BlackHat;
   Order_EW 2;
   End process;
 
-  Process 93 93 -> 11 -11 93 93{NJET};
+  Process 93 93 -> 11 -11 93;
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part RS;
   Order_EW 2;
