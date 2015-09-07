@@ -21,14 +21,20 @@ class GraphEnvelope(analysisbase.AnalysisBase):
 		super(GraphEnvelope, self).run(plotData)
 
 		center_histo = plotData.plotdict["root_objects"][plotData.plotdict["envelope_center_nick"]]
-		graph = ROOT.TGraphErrors(center_histo.GetNbinsX())
+		graph = ROOT.TGraphAsymmErrors(center_histo.GetNbinsX())
 
 		for i in range(1, center_histo.GetNbinsX()+1):
 			values = []
 			for nick in plotData.plotdict['envelope_nicks']:
 				values.append(plotData.plotdict["root_objects"][nick].GetBinContent(i))
+
 			graph.SetPoint(i-1, center_histo.GetBinCenter(i), center_histo.GetBinContent(i))
-			graph.SetPointError(i-1, max(values) - center_histo.GetBinContent(i), center_histo.GetBinContent(i) - min(values))
+			# y errors low/high as difference to the min/max values
+			graph.SetPointEYhigh(i-1, max(values) - center_histo.GetBinContent(i))
+			graph.SetPointEYlow(i-1, center_histo.GetBinContent(i) - min(values))
+			# x errors as half the bin width
+			graph.SetPointEXhigh(i-1, 0.5 * center_histo.GetBinWidth(i))
+			graph.SetPointEXlow(i-1, 0.5 * center_histo.GetBinWidth(i))
 
 		plotData.plotdict["root_objects"]['envelope'] = graph
 		plotData.plotdict['nicks'].append('envelope')
