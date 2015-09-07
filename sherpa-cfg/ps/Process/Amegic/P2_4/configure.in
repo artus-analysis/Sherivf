@@ -1,0 +1,278 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(P2_4,1.0)
+AM_INIT_AUTOMAKE
+AM_DISABLE_STATIC
+AC_PREFIX_DEFAULT(/portal/ekpcms6/home/dhaitz/qcd/sherivf/sherpa-cfg/ps/Process/Amegic)
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+dnl Checks for programs.
+AC_PROG_INSTALL
+AC_PROG_MAKE_SET
+AC_PROG_CXX
+AM_PROG_LIBTOOL
+AC_OUTPUT( \
+	P2_4_16_7_310_64_15_0/Makefile \
+	fsrchannels4/Makefile \
+	P2_4_16_7_310_64_15_1/Makefile \
+	P2_4_8_10_244_64_13_0/Makefile \
+	P2_4_8_7_244_64_13_0/Makefile \
+	P2_4_16_10_570_64_18_0/Makefile \
+	P2_4_8_10_244_64_13_1/Makefile \
+	P2_4_8_10_244_64_13_2/Makefile \
+	P2_4_8_7_244_64_13_1/Makefile \
+	P2_4_8_7_244_64_13_2/Makefile \
+	P2_4_16_10_560_64_18_0/Makefile \
+	P2_4_16_7_310_64_15_2/Makefile \
+	P2_4_8_10_244_64_13_3/Makefile \
+	P2_4_8_7_244_64_13_3/Makefile \
+	P2_4_16_10_570_64_18_1/Makefile \
+	P2_4_16_7_310_64_15_3/Makefile \
+	P2_4_8_10_244_64_13_4/Makefile \
+	P2_4_8_10_244_64_13_5/Makefile \
+	P2_4_8_7_244_64_13_4/Makefile \
+	P2_4_8_7_244_64_13_5/Makefile \
+	P2_4_16_10_560_64_18_1/Makefile \
+	P2_4_8_10_244_64_13_6/Makefile \
+	P2_4_8_10_244_64_13_7/Makefile \
+	P2_4_8_7_244_64_13_6/Makefile \
+	P2_4_8_7_244_64_13_7/Makefile \
+	P2_4_16_10_530_64_18_0/Makefile \
+	P2_4_16_10_530_64_18_1/Makefile \
+	P2_4_16_10_434_64_18_0/Makefile \
+	P2_4_16_7_310_64_15_4/Makefile \
+	P2_4_16_7_310_64_15_5/Makefile \
+	P2_4_8_10_244_64_13_8/Makefile \
+	P2_4_8_7_244_64_13_8/Makefile \
+	P2_4_16_10_570_64_18_2/Makefile \
+	P2_4_8_10_244_64_13_9/Makefile \
+	P2_4_8_10_244_64_13_10/Makefile \
+	P2_4_8_7_244_64_13_9/Makefile \
+	P2_4_8_7_244_64_13_10/Makefile \
+	P2_4_16_10_560_64_18_2/Makefile \
+	P2_4_16_7_310_64_15_6/Makefile \
+	P2_4_8_10_244_64_13_11/Makefile \
+	P2_4_8_7_244_64_13_11/Makefile \
+	P2_4_16_10_570_64_18_3/Makefile \
+	P2_4_16_7_310_64_15_7/Makefile \
+	P2_4_8_10_244_64_13_12/Makefile \
+	P2_4_8_10_244_64_13_13/Makefile \
+	P2_4_8_7_244_64_13_12/Makefile \
+	P2_4_8_7_244_64_13_13/Makefile \
+	P2_4_16_10_560_64_18_3/Makefile \
+	P2_4_8_10_244_64_13_14/Makefile \
+	P2_4_8_10_244_64_13_15/Makefile \
+	P2_4_8_7_244_64_13_14/Makefile \
+	P2_4_8_7_244_64_13_15/Makefile \
+	P2_4_16_10_530_64_18_2/Makefile \
+	P2_4_16_10_530_64_18_3/Makefile \
+	P2_4_16_10_434_64_18_1/Makefile \
+	P2_4_16_7_310_64_15_8/Makefile \
+	P2_4_16_7_212_64_15_0/Makefile \
+	P2_4_16_10_429_64_18_0/Makefile \
+	P2_4_16_10_564_64_18_0/Makefile \
+	P2_4_16_10_565_64_18_0/Makefile \
+	P2_4_16_10_578_64_18_0/Makefile \
+	P2_4_16_7_310_64_15_9/Makefile \
+	P2_4_16_7_212_64_15_1/Makefile \
+	P2_4_16_10_429_64_18_1/Makefile \
+	P2_4_16_10_565_64_18_1/Makefile \
+	P2_4_16_10_578_64_18_1/Makefile \
+	P2_4_16_10_390_64_18_0/Makefile \
+	P2_4_8_10_244_64_13_16/Makefile \
+	P2_4_8_10_174_64_13_0/Makefile \
+	P2_4_8_7_244_64_13_16/Makefile \
+	P2_4_8_7_174_64_13_0/Makefile \
+	P2_4_16_10_570_64_18_4/Makefile \
+	P2_4_16_10_384_64_18_0/Makefile \
+	P2_4_8_10_244_64_13_17/Makefile \
+	P2_4_8_10_174_64_13_1/Makefile \
+	P2_4_8_10_244_64_13_18/Makefile \
+	P2_4_8_10_174_64_13_2/Makefile \
+	P2_4_8_7_244_64_13_17/Makefile \
+	P2_4_8_7_174_64_13_1/Makefile \
+	P2_4_8_7_244_64_13_18/Makefile \
+	P2_4_8_7_174_64_13_2/Makefile \
+	P2_4_16_10_544_64_18_0/Makefile \
+	P2_4_16_10_406_64_18_0/Makefile \
+	P2_4_16_10_370_64_18_0/Makefile \
+	P2_4_16_10_568_64_18_0/Makefile \
+	P2_4_16_10_560_64_18_4/Makefile \
+	P2_4_16_10_364_64_18_0/Makefile \
+	P2_4_16_7_310_64_15_10/Makefile \
+	P2_4_16_7_212_64_15_2/Makefile \
+	P2_4_16_10_578_64_18_2/Makefile \
+	P2_4_16_10_578_64_18_3/Makefile \
+	P2_4_16_10_390_64_18_1/Makefile \
+	P2_4_8_10_244_64_13_19/Makefile \
+	P2_4_8_10_174_64_13_3/Makefile \
+	P2_4_8_7_244_64_13_19/Makefile \
+	P2_4_8_7_174_64_13_3/Makefile \
+	P2_4_16_10_570_64_18_5/Makefile \
+	P2_4_16_10_384_64_18_1/Makefile \
+	P2_4_16_7_310_64_15_11/Makefile \
+	P2_4_16_7_212_64_15_3/Makefile \
+	P2_4_8_10_244_64_13_20/Makefile \
+	P2_4_8_10_174_64_13_4/Makefile \
+	P2_4_8_10_244_64_13_21/Makefile \
+	P2_4_8_10_174_64_13_5/Makefile \
+	P2_4_8_7_244_64_13_20/Makefile \
+	P2_4_8_7_174_64_13_4/Makefile \
+	P2_4_8_7_244_64_13_21/Makefile \
+	P2_4_8_7_174_64_13_5/Makefile \
+	P2_4_16_10_568_64_18_1/Makefile \
+	P2_4_16_10_370_64_18_1/Makefile \
+	P2_4_16_10_560_64_18_5/Makefile \
+	P2_4_16_10_364_64_18_1/Makefile \
+	P2_4_8_10_244_64_13_22/Makefile \
+	P2_4_8_10_174_64_13_6/Makefile \
+	P2_4_8_10_244_64_13_23/Makefile \
+	P2_4_8_10_174_64_13_7/Makefile \
+	P2_4_8_7_244_64_13_22/Makefile \
+	P2_4_8_7_174_64_13_6/Makefile \
+	P2_4_8_7_244_64_13_23/Makefile \
+	P2_4_8_7_174_64_13_7/Makefile \
+	P2_4_16_10_406_64_18_1/Makefile \
+	P2_4_16_10_543_64_18_0/Makefile \
+	P2_4_16_10_544_64_18_1/Makefile \
+	P2_4_16_10_408_64_18_0/Makefile \
+	P2_4_16_10_534_64_18_0/Makefile \
+	P2_4_16_10_404_64_18_0/Makefile \
+	P2_4_16_10_530_64_18_4/Makefile \
+	P2_4_16_10_534_64_18_1/Makefile \
+	P2_4_16_10_408_64_18_1/Makefile \
+	P2_4_16_10_404_64_18_1/Makefile \
+	P2_4_16_10_530_64_18_5/Makefile \
+	P2_4_16_10_434_64_18_2/Makefile \
+	P2_4_16_10_306_64_18_0/Makefile \
+	Makefile )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
