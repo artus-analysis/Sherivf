@@ -76,14 +76,14 @@ def different_iterations(args=None):
 			# input
 			'files': [basename.format(str(1))]*2 + [basename.format(str(1+n)) for n in range(max_iteration)],
 			'folders': [''],
-			'nicks': [str(item) for item in range(max_iteration+2)],
+			'nicks': ['data', 'mc'] + [str(item) for item in range(max_iteration)],
 			'labels': ['Data', 'MC Gen'] + ["Unfolded ({} iter.)".format(str(item+1)) for item in range(max_iteration)],
 			'x_expressions': ['data_reco', 'mc_gen']+['data_unfolded']*max_iteration,
 			# formatting
 			'markers': ['o', 'fill'] + ['.']*(max_iteration*2+1),
 			'line_styles': ['None']*2 + ['-']*(max_iteration)+['None']*(max_iteration+1),
 			'step': [True],
-			'marker_colors': ['black', 'red', 'blue', 'green'],
+			'marker_colors': ['black', 'red', 'blue', 'green', 'purple']*2,
 			'x_label': quantity,
 			'legend': 'upper right',
 			# output
@@ -97,7 +97,7 @@ def different_iterations(args=None):
 		d.update({
 			'analysis_modules': ['Ratio'],
 			'ratio_numerator_nicks': [str(item) for item in ([0]+range(2,max_iteration+2))],
-			'ratio_denominator_nicks': ['1'],
+			'ratio_denominator_nicks': ['mc'],
 			'y_subplot_label': 'Ratio to MC Gen',
 			'y_subplot_lims': [0, 2],
 		})
@@ -110,7 +110,7 @@ def response_matrix(args=None):
 	ybin = 'inclusive'
 	for log in [True, False]:
 		for quantity in common.data_quantities:
-			lims = common.bins[quantity].split(",")[1:]
+			lims = map(float, common.bins[quantity].split(",")[1:])
 			d = {
 				# input
 				'files': [common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '1']) + '.root'],

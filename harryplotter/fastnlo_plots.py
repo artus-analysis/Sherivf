@@ -43,6 +43,7 @@ def sherpa_fastnlo(args=None):
 			"y_errors": [False],
 			"labels": ['Sherpa+fastNLO', 'Sherpa', 'ratio'],
 			"marker_colors": ['red'],
+			"y_subplot_label": "Ratio Sherpa/fastNLO",
 			# filename
 			'filename': quantity.lower(),
 			'www_title': 'Sherpa vs fastNLO',
