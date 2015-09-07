@@ -17,45 +17,43 @@ def sherpa_fastnlo(args=None):
 	pdfset = 'CT10nlo.LHgrid'
 	member = 0
 	# pT or y:
-	for norm in [True, False]:
-		for quantity, x in zip(['pT', 'y', 'm'], ["d01-x01-y01", "d02-x01-y01", "d03-x01-y01"]):
-			# all combinations of the 
-			d = {
-				# input
-				'input_modules': ['InputRootZJet', 'InputFastNLO'],
-				"files": ['latest_sherivf_output/Rivet.root'],
-				"folders": [""],
-				"x_expressions": x,
-				#"scale_factors": 19712.,
-				'pdf_sets': [pdfset],
-				'fastnlo_files': ["latest_sherivf_output/output/fnlo_{0}Z_10.tab".format(quantity)],
-				'members': [0],
-				# analysis
-				'analysis_modules': ['ScaleHistograms'] + (['NormalizeToFirstHisto'] if norm else []) + ['Ratio'],
-				'scale_nicks': ['latest_sherivf_output/fnlo_{}Z.tab_{}_{}'.format(quantity, pdfset, member)],
-				'scale': 1./1.,
-				# formatting
-				'nicks_whitelist': ['fnlo', 'nick', 'ratio'],
-				"markers": ["o", "fill","."],
-				"x_label": qdict[quantity],
-				"y_label": xseclabels[quantity],
-				"y_subplot_lims": [0.75, 1.25],
-				"energies": [8],
-				"y_errors": [False],
-				"labels": ['Sherpa+fastNLO', 'Sherpa', 'ratio'],
-				"marker_colors": ['red'],
-				"title": ('Shape comparison' if norm else ''),
-				# filename
-				'filename': quantity.lower() + ('_norm' if norm else ''),
-				'www_title': 'Sherpa vs fastNLO',
-				'www_text': 'fastNLO ({} used) compared to Sherpa for Z y,mass,pT'.format(pdfset.replace('.LHgrid', '')),
-			}
-			if quantity == 'pT':
-				d['y_log'] = True
-				d['y_lims'] = [1e-4, 1e2]
-			elif quantity == 'y':
-				d['y_lims'] = [0, 100]
-			plots.append(d)
+	for quantity, x in zip(['pT', 'y', 'm'], ["d01-x01-y01", "d02-x01-y01", "d03-x01-y01"]):
+		# all combinations of the 
+		d = {
+			# input
+			'input_modules': ['InputRootZJet', 'InputFastNLO'],
+			"files": ['latest_sherivf_output/Rivet.root'],
+			"folders": [""],
+			"x_expressions": x,
+			#"scale_factors": 19712.,
+			'pdf_sets': [pdfset],
+			'fastnlo_files': ["latest_sherivf_output/output/fnlo_{0}Z_10.tab".format(quantity)],
+			'members': [0],
+			# analysis
+			'analysis_modules': ['ScaleHistograms'] + ['Ratio'],
+			'scale_nicks': ['latest_sherivf_output/fnlo_{}Z.tab_{}_{}'.format(quantity, pdfset, member)],
+			'scale': 1./1.,
+			# formatting
+			'nicks_whitelist': ['fnlo', 'nick', 'ratio'],
+			"markers": ["o", "fill","."],
+			"x_label": qdict[quantity],
+			"y_label": xseclabels[quantity],
+			"y_subplot_lims": [0.75, 1.25],
+			"energies": [8],
+			"y_errors": [False],
+			"labels": ['Sherpa+fastNLO', 'Sherpa', 'ratio'],
+			"marker_colors": ['red'],
+			# filename
+			'filename': quantity.lower(),
+			'www_title': 'Sherpa vs fastNLO',
+			'www_text': 'fastNLO ({} used) compared to Sherpa for Z y,mass,pT'.format(pdfset.replace('.LHgrid', '')),
+		}
+		if quantity == 'pT':
+			d['y_log'] = True
+			d['y_lims'] = [1e-4, 1e2]
+		elif quantity == 'y':
+			d['y_lims'] = [0, 100]
+		plots.append(d)
 	harryinterface.harry_interface(plots, args)
 
 

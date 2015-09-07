@@ -33,7 +33,7 @@ def sherpa(args=None, additional_dictionary=None):
 				"input_modules": ["InputRootZJet", "InputYoda"],
 				'scale_factors': [1./19712.], # MC: fb->pb
 				"x_expressions": [quantity.replace("gen", "")],
-				"x_bins": common.bins[quantity],
+				"x_bins": common.bins[quantity.replace("gen", "")],
 				# analysis
 				"analysis_modules": ["ScaleHistograms"]
 					+(["NormalizeToFirstHisto"] if normalize else [])
