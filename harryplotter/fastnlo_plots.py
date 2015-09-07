@@ -102,7 +102,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 			# output
 			'filename': "fastnlo_"+qdict[quantity],
 			'www_title': 'Data and fastNLO for different PDF sets',
-			'www_text': 'Unfolded data compared to fastNLO table evaluated with different PDF sets for Z y,mass,pT. fastNLO scaled by factor 0.2',
+			'www_text': 'Unfolded data compared to fastNLO table evaluated with different PDF sets for Z y,mass,pT.',
 		}
 		if quantity == 'pT':
 			d['y_log'] = True
@@ -144,12 +144,13 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			'line_styles': [None, '-', None],
 			'markers': ['o', 'fill', 'o'],
 			'energies': [8],
+			'step': True,
 			'x_label': qdict[quantity],
 			'y_subplot_lims': [0, 2],
 			# output
 			'filename': qdict[quantity],
 			'www_title': 'Data and fastNLO with PDF Uncertainties',
-			'www_text': 'Unfolded data compared to fastNLO table evaluated with {}. fastNLO scaled by factor 0.2'.format(common.pdfsetdict.get(pdfset.replace('.LHgrid', ''))),
+			'www_text': 'Unfolded data compared to fastNLO table evaluated with {}.'.format(common.pdfsetdict.get(pdfset.replace('.LHgrid', ''))),
 		}
 		if quantity == 'pT':
 			d['y_log'] = True
