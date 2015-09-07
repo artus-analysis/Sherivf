@@ -117,6 +117,7 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 	plots = []
 
 	pdfset = 'NNPDF23_nlo_as_0118.LHgrid'
+	members = common.nmembersdict[pdfset]
 
 	for quantity in ['y', 'm', 'pT']:
 		d = {
@@ -124,7 +125,7 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			'input_modules': ['InputRootZJet', 'InputFastNLO'],
 			# input fastNLO
 			'pdf_sets': [pdfset],
-			'members': range(common.nmembersdict[pdfset]),
+			'members': range(members),
 			'fastnlo_files': ["latest_sherivf_output/fnlo_{0}Z.tab".format(quantity)],
 			# input root
 			'files': [common.divided_path + '/' + '_'.join([qdict[quantity].replace("abs(zy)", "zy"), 'madgraph', 'inclusive', '1']) + '.root'],
@@ -132,7 +133,7 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			'x_expressions': 'nick0',
 			# analysis
 			'analysis_modules': ['GraphEnvelope', 'Ratio'],
-			'envelope_nicks': ['latest_sherivf_output/fnlo_{}Z.tab_{}_{}'.format(quantity, pdfset, i) for i in range(common.nmembersdict[pdfset])],
+			'envelope_nicks': ['latest_sherivf_output/fnlo_{}Z.tab_{}_{}'.format(quantity, pdfset, i) for i in range(members)],
 			'envelope_center_nick': 'latest_sherivf_output/fnlo_{}Z.tab_{}_0'.format(quantity, pdfset),
 			'ratio_numerator_nicks': ['nick0'],
 			'ratio_denominator_nicks': ['envelope'],
@@ -142,11 +143,11 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			'labels': ['Data', common.pdfsetdict.get(pdfset.replace('.LHgrid', ''), pdfset.replace('.LHgrid', '')), 'ratio'],
 			'y_label': xseclabels[quantity],
 			'line_styles': [None, '-', None],
-			'markers': ['o', 'fill', 'o'],
+			'markers': ['.', 'fill', '.'],
 			'energies': [8],
 			'step': True,
 			'x_label': qdict[quantity],
-			'y_subplot_lims': [0, 2],
+			'y_subplot_lims': [0.5, 1.5],
 			# output
 			'filename': qdict[quantity],
 			'www_title': 'Data and fastNLO with PDF Uncertainties',
