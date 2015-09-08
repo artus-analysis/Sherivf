@@ -63,8 +63,8 @@ public:
 	#if USE_FNLO
 	MSG_INFO("Using fastnlo");
 	const string steeringFileName = "MCgrid_CMS_2015_Zee.str";
-	const string steeringFileName2 = "MCgrid_CMS_2015_Zee_2.str";
-	const string steeringFileName3 = "MCgrid_CMS_2015_Zee_3.str";
+	//const string steeringFileName2 = "MCgrid_CMS_2015_Zee_2.str";
+	//const string steeringFileName3 = "MCgrid_CMS_2015_Zee_3.str";
 
 	MCgrid::subprocessConfig subproc(steeringFileName, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON);
 
@@ -72,13 +72,13 @@ public:
 	MCgrid::fastnloGridArch arch_fnlo(50, 1, "Lagrange", "OneNode", "sqrtlog10", "linear");
 
 	MCgrid::fastnloConfig config_fnlo(1, subproc, arch_fnlo, 8000.);
-	//MCgrid::fastnloConfig config_fnlo_2(1, subproc, arch_fnlo, 8000.);
-	//MCgrid::fastnloConfig config_fnlo_3(1, subproc, arch_fnlo, 8000.);
+	MCgrid::fastnloConfig config_fnlo_2(1, subproc, arch_fnlo, 8000.);
+	MCgrid::fastnloConfig config_fnlo_3(1, subproc, arch_fnlo, 8000.);
 
 	MSG_INFO("bookGrid for yZ. histoDir: " << histoDir());
 	_fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo);
-	//_fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_2);
-	//_fnlo_mZ = MCgrid::bookGrid(_h_mZ, histoDir(), config_fnlo_3);
+	_fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_2);
+	_fnlo_mZ = MCgrid::bookGrid(_h_mZ, histoDir(), config_fnlo_3);
 
 	MSG_INFO("fastnlo init done");
 	#endif
@@ -117,8 +117,8 @@ public:
 				_h_phiZ->fill(phiZ, weight);
 			#if USE_FNLO
 				_fnlo_pTZ->fill(pTZ, event);
-				//_fnlo_yZ->fill(yZ, event);
-				//_fnlo_mZ->fill(mZ, event);
+				_fnlo_yZ->fill(yZ, event);
+				_fnlo_mZ->fill(mZ, event);
 			#endif
 		}
 		else {
@@ -147,12 +147,12 @@ public:
 		#if USE_FNLO
 		//scale fastnlo
 		_fnlo_pTZ->scale(normfactor);
-		//_fnlo_yZ->scale(normfactor);
-		//_fnlo_mZ->scale(normfactor);
+		_fnlo_yZ->scale(normfactor);
+		_fnlo_mZ->scale(normfactor);
 
 		_fnlo_pTZ->exportgrid();
-		//_fnlo_yZ->exportgrid();
-		//_fnlo_mZ->exportgrid();
+		_fnlo_yZ->exportgrid();
+		_fnlo_mZ->exportgrid();
 		#endif
 
 		// Clear event handler
@@ -174,8 +174,8 @@ private:
 	// Grids
 	#if USE_FNLO
 	MCgrid::gridPtr _fnlo_pTZ;
-	//MCgrid::gridPtr _fnlo_yZ;
-	//MCgrid::gridPtr _fnlo_mZ;
+	MCgrid::gridPtr _fnlo_yZ;
+	MCgrid::gridPtr _fnlo_mZ;
 	#endif
 };
 
