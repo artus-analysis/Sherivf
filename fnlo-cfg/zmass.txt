@@ -1,0 +1,71 @@
+# --- Use emacs in sh mode -*-sh-*- #
+# This is a automatically generated file by fastNLO and holds the values of the warmup run. 
+# The values are valid for the scenario zmass
+# and if calculated with the steerfile: /portal/ekpcms6/home/dhaitz/qcd/sherivf/test/2015-09-08_19-10-26/MCgrid_CMS_2015_Zee/phasespace/zmass.txt
+# but only if no serious changes have been performed since its creation.
+# 
+# Delete this file, if you want fastNLO to calculate a new one.
+# 
+# This file has been calculated using 1 contributions.
+#   ( Mind: contributions != events. And contributions are not necessarily in phase space region.
+# Please check by eye for reasonability of the values.
+ 
+Warmup.OrderInAlphasOfWarmupRunWas	1
+Warmup.CheckScaleLimitsAgainstBins	true
+Warmup.ScaleDescriptionScale1     	"Description_[GeV]"
+Warmup.DifferentialDimension      	1
+Warmup.DimensionLabels {
+  "Description_[GeV]"  
+} 
+Warmup.DimensionIsDifferential {
+  "2"  
+} 
+
+Warmup.Values {{
+   ObsBin       x_min      x_max  Description_[GeV]_min  Description_[GeV]_max
+      0      8.34e-04   9.84e-01             91.19             91.19
+      1      1.00e-03   9.93e-01             91.19             91.19
+      2      9.27e-04   9.76e-01             91.19             91.19
+      3      9.06e-04   9.95e-01             91.19             91.19
+      4      9.27e-04   1.00e+00             91.19             91.19
+      5      9.73e-04   9.90e-01             91.19             91.19
+      6      9.14e-04   9.99e-01             91.19             91.19
+      7      9.01e-04   1.00e+00             91.19             91.19
+      8      8.94e-04   9.99e-01             91.19             91.19
+      9      8.50e-04   1.00e+00             91.19             91.19
+     10      8.72e-04   1.00e+00             91.19             91.19
+     11      9.34e-04   1.00e+00             91.19             91.19
+     12      9.25e-04   9.99e-01             91.19             91.19
+     13      1.02e-03   9.95e-01             91.19             91.19
+     14      9.90e-04   9.95e-01             91.19             91.19
+     15      9.84e-04   9.99e-01             91.19             91.19
+     16      1.02e-03   9.99e-01             91.19             91.19
+     17      1.08e-03   9.97e-01             91.19             91.19
+     18      1.11e-03   1.00e+00             91.19             91.19
+     19      1.08e-03   9.97e-01             91.19             91.19
+}}
+
+
+Warmup.Binning {{
+    ObsBin  Description_[GeV]_Lo  Description_[GeV]_Up       BinSize
+       0       81.0000       82.0000       1.00000    
+       1       82.0000       83.0000       1.00000    
+       2       83.0000       84.0000       1.00000    
+       3       84.0000       85.0000       1.00000    
+       4       85.0000       86.0000       1.00000    
+       5       86.0000       87.0000       1.00000    
+       6       87.0000       88.0000       1.00000    
+       7       88.0000       89.0000       1.00000    
+       8       89.0000       90.0000       1.00000    
+       9       90.0000       91.0000       1.00000    
+      10       91.0000       92.0000       1.00000    
+      11       92.0000       93.0000       1.00000    
+      12       93.0000       94.0000       1.00000    
+      13       94.0000       95.0000       1.00000    
+      14       95.0000       96.0000       1.00000    
+      15       96.0000       97.0000       1.00000    
+      16       97.0000       98.0000       1.00000    
+      17       98.0000       99.0000       1.00000    
+      18       99.0000       100.000       1.00000    
+      19       100.000       101.000       1.00000    
+}}
