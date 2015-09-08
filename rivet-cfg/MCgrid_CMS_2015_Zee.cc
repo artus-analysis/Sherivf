@@ -49,35 +49,36 @@ public:
 	IdentifiedFinalState electrons;
 	electrons.acceptId(PID::ELECTRON);
 	addProjection(electrons, "Electrons");
-	
-	/// Book histograms here
-	_h_pTZ = bookHisto1D("d01-x01-y01", 38, 20, 400);
-	_h_yZ = bookHisto1D("d02-x01-y01", 24, 0, 2.4);
-	_h_mZ = bookHisto1D("d03-x01-y01", 20, 81, 101);
-	_h_phiZ = bookHisto1D("d04-x01-y01", 32, -3.2, 3.2);
 
-	_h_pTe = bookHisto1D("d07-x01-y01", 20, 20, 120);
-	_h_etae = bookHisto1D("d08-x01-y01", 48, -2.4, 2.4);
-	_h_phie = bookHisto1D("d10-x01-y01", 32, -3.2, 3.2);
+	/// Book histograms here
+	_h_pTZ = bookHisto1D("zpt", 38, 20, 400);
+	_h_yZ = bookHisto1D("abs(zy)", 24, 0, 2.4);
+	_h_mZ = bookHisto1D("zmass", 20, 81, 101);
+	_h_phiZ = bookHisto1D("zphi", 32, -3.2, 3.2);
+
+	_h_pTe = bookHisto1D("ept", 20, 20, 120);
+	_h_etae = bookHisto1D("eeta", 48, -2.4, 2.4);
+	_h_phie = bookHisto1D("ephi", 32, -3.2, 3.2);
 
 	#if USE_FNLO
 	MSG_INFO("Using fastnlo");
 	const string steeringFileName = "MCgrid_CMS_2015_Zee.str";
 	const string steeringFileName2 = "MCgrid_CMS_2015_Zee_2.str";
 	const string steeringFileName3 = "MCgrid_CMS_2015_Zee_3.str";
-	const string steeringFileName4 = "MCgrid_CMS_2015_Zee_4.str";
+
+	MCgrid::subprocessConfig subproc(steeringFileName, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON);
 
 	MSG_INFO("Creating fastnloGridArch and fastnloConfig");
 	MCgrid::fastnloGridArch arch_fnlo(50, 1, "Lagrange", "OneNode", "sqrtlog10", "linear");
-	MCgrid::fastnloConfig config_fnlo(1, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON, steeringFileName, arch_fnlo);
-	MCgrid::fastnloConfig config_fnlo_2(1, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON, steeringFileName2, arch_fnlo);
-	MCgrid::fastnloConfig config_fnlo_3(1, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON, steeringFileName3, arch_fnlo);
-	MCgrid::fastnloConfig config_fnlo_4(1, 8000.0, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON, steeringFileName4, arch_fnlo);
+
+	MCgrid::fastnloConfig config_fnlo(1, subproc, arch_fnlo, 8000.);
+	//MCgrid::fastnloConfig config_fnlo_2(1, subproc, arch_fnlo, 8000.);
+	//MCgrid::fastnloConfig config_fnlo_3(1, subproc, arch_fnlo, 8000.);
 
 	MSG_INFO("bookGrid for yZ. histoDir: " << histoDir());
-	_fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo, "fnlo_pTZ_warmup.tab");
-	_fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_2, "fnlo_yZ_warmup.tab");
-	_fnlo_mZ = MCgrid::bookGrid(_h_mZ, histoDir(), config_fnlo_3, "fnlo_mZ_warmup.tab");
+	_fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo);
+	//_fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_2);
+	//_fnlo_mZ = MCgrid::bookGrid(_h_mZ, histoDir(), config_fnlo_3);
 
 	MSG_INFO("fastnlo init done");
 	#endif
@@ -88,7 +89,7 @@ public:
 	void analyze(const Event& event) {
 
 		// Handle event
-		MCgrid::PDFHandler::HandleEvent(event);
+		MCgrid::PDFHandler::HandleEvent(event, histoDir());
 		const double weight = event.weight();
 		const Particles particles = applyProjection<FinalState>(event, "Electrons").particlesByPt(Cuts::pT>=0.5*GeV);
 		const ZFinder& zfinder = applyProjection<ZFinder>(event, "ZFinder");
@@ -115,20 +116,20 @@ public:
 				_h_mZ->fill(mZ, weight);
 				_h_phiZ->fill(phiZ, weight);
 			#if USE_FNLO
-				_fnlo_yZ->fill(yZ, event);
 				_fnlo_pTZ->fill(pTZ, event);
-				_fnlo_mZ->fill(mZ, event);
+				//_fnlo_yZ->fill(yZ, event);
+				//_fnlo_mZ->fill(mZ, event);
 			#endif
 		}
 		else {
 			MSG_DEBUG("no unique lepton pair found: " << zfinder.bosons().size() << " weight: " << weight);
 		}
 
-		}
+	}
 
 
-		/// Normalise histograms etc., after the run
-		void finalize() {
+	/// Normalise histograms etc., after the run
+	void finalize() {
 
 		double normfactor = crossSection()/sumOfWeights();
 		MSG_INFO("xsec: " << crossSection() << " sumW: " << sumOfWeights() << " ratio: " << crossSection()/sumOfWeights());
@@ -146,21 +147,21 @@ public:
 		#if USE_FNLO
 		//scale fastnlo
 		_fnlo_pTZ->scale(normfactor);
-		_fnlo_yZ->scale(normfactor);
-		_fnlo_mZ->scale(normfactor);
+		//_fnlo_yZ->scale(normfactor);
+		//_fnlo_mZ->scale(normfactor);
 
-		_fnlo_pTZ->exportgrid("fnlo_pTZ.tab");
-		_fnlo_yZ->exportgrid("fnlo_yZ.tab");
-		_fnlo_mZ->exportgrid("fnlo_mZ.tab");
+		_fnlo_pTZ->exportgrid();
+		//_fnlo_yZ->exportgrid();
+		//_fnlo_mZ->exportgrid();
 		#endif
 
 		// Clear event handler
-		MCgrid::PDFHandler::ClearHandler();
+		MCgrid::PDFHandler::CheckOutAnalysis(histoDir());
 	}
 
 private:
 
-	/// @name Histograms
+	/// Histograms
 	Histo1DPtr _h_pTZ;
 	Histo1DPtr _h_yZ;
 	Histo1DPtr _h_mZ;
@@ -173,8 +174,8 @@ private:
 	// Grids
 	#if USE_FNLO
 	MCgrid::gridPtr _fnlo_pTZ;
-	MCgrid::gridPtr _fnlo_yZ;
-	MCgrid::gridPtr _fnlo_mZ;
+	//MCgrid::gridPtr _fnlo_yZ;
+	//MCgrid::gridPtr _fnlo_mZ;
 	#endif
 };
 
