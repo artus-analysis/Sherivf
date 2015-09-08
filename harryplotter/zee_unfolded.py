@@ -96,7 +96,7 @@ def different_iterations(args=None):
 		# ratio to MC gen
 		d.update({
 			'analysis_modules': ['Ratio'],
-			'ratio_numerator_nicks': [str(item) for item in ([0]+range(2,max_iteration+2))],
+			'ratio_numerator_nicks': [str(item) for item in ([0]+range(max_iteration))],
 			'ratio_denominator_nicks': ['mc'],
 			'y_subplot_label': 'Ratio to MC Gen',
 			'y_subplot_lims': [0, 2],
