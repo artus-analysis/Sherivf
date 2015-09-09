@@ -25,63 +25,63 @@ public:
 	/// Book histograms and initialise projections before the run
 	void init() {
 
-	/// Initialise and register projections here
-	Cut cut = (
-		#if USE_MUONS
-		(Cuts::pT >= 20.*GeV) &
-		(Cuts::etaIn(-2.3, 2.3))
-		#else
-		(Cuts::pT >= 25.*GeV)
-		& (Cuts::etaIn(-2.4, -1.566) | Cuts::etaIn(-1.442, 1.442) | Cuts::etaIn(1.566, 2.4))
+		/// Initialise and register projections here
+		Cut cut = (
+			#if USE_MUONS
+			(Cuts::pT >= 20.*GeV) &
+			(Cuts::etaIn(-2.3, 2.3))
+			#else
+			(Cuts::pT >= 25.*GeV)
+			& (Cuts::etaIn(-2.4, -1.566) | Cuts::etaIn(-1.442, 1.442) | Cuts::etaIn(1.566, 2.4))
+			#endif
+		);
+
+		ZFinder zfinder(FinalState(), cut,
+			#if USE_MUONS
+			PID::MUON,
+			#else
+			PID::ELECTRON,
+			#endif
+			81*GeV, 111*GeV, 0.2, ZFinder::CLUSTERNODECAY, ZFinder::TRACK);
+		addProjection(zfinder, "ZFinder");
+
+		// electrons
+		IdentifiedFinalState electrons;
+		electrons.acceptId(PID::ELECTRON);
+		addProjection(electrons, "Electrons");
+
+		/// Book histograms here
+		_h_pTZ = bookHisto1D("zpt", 38, 20, 400);
+		_h_yZ = bookHisto1D("abszy", 24, 0, 2.4);
+		_h_mZ = bookHisto1D("zmass", 20, 81, 101);
+		_h_phiZ = bookHisto1D("zphi", 32, -3.2, 3.2);
+
+		_h_pTe = bookHisto1D("eminuspt", 20, 20, 120);
+		_h_etae = bookHisto1D("eminuseta", 48, -2.4, 2.4);
+		_h_phie = bookHisto1D("eminusphi", 32, -3.2, 3.2);
+
+		#if USE_FNLO
+		MSG_INFO("Using fastnlo");
+		const string steeringFileName = "MCgrid_CMS_2015_Zee.str";
+		//const string steeringFileName2 = "MCgrid_CMS_2015_Zee_2.str";
+		//const string steeringFileName3 = "MCgrid_CMS_2015_Zee_3.str";
+
+		MCgrid::subprocessConfig subproc(steeringFileName, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON);
+
+		MSG_INFO("Creating fastnloGridArch and fastnloConfig");
+		MCgrid::fastnloGridArch arch_fnlo(50, 1, "Lagrange", "OneNode", "sqrtlog10", "linear");
+
+		MCgrid::fastnloConfig config_fnlo(1, subproc, arch_fnlo, 8000.);
+		MCgrid::fastnloConfig config_fnlo_2(1, subproc, arch_fnlo, 8000.);
+		MCgrid::fastnloConfig config_fnlo_3(1, subproc, arch_fnlo, 8000.);
+
+		MSG_INFO("bookGrid for yZ. histoDir: " << histoDir());
+		_fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo);
+		_fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_2);
+		_fnlo_mZ = MCgrid::bookGrid(_h_mZ, histoDir(), config_fnlo_3);
+
+		MSG_INFO("fastnlo init done");
 		#endif
-	);
-
-	ZFinder zfinder(FinalState(), cut,
-		#if USE_MUONS
-		PID::MUON,
-		#else
-		PID::ELECTRON,
-		#endif
-		81*GeV, 111*GeV, 0.2, ZFinder::CLUSTERNODECAY, ZFinder::TRACK);
-	addProjection(zfinder, "ZFinder");
-
-	// electrons
-	IdentifiedFinalState electrons;
-	electrons.acceptId(PID::ELECTRON);
-	addProjection(electrons, "Electrons");
-
-	/// Book histograms here
-	_h_pTZ = bookHisto1D("zpt", 38, 20, 400);
-	_h_yZ = bookHisto1D("abs(zy)", 24, 0, 2.4);
-	_h_mZ = bookHisto1D("zmass", 20, 81, 101);
-	_h_phiZ = bookHisto1D("zphi", 32, -3.2, 3.2);
-
-	_h_pTe = bookHisto1D("ept", 20, 20, 120);
-	_h_etae = bookHisto1D("eeta", 48, -2.4, 2.4);
-	_h_phie = bookHisto1D("ephi", 32, -3.2, 3.2);
-
-	#if USE_FNLO
-	MSG_INFO("Using fastnlo");
-	const string steeringFileName = "MCgrid_CMS_2015_Zee.str";
-	//const string steeringFileName2 = "MCgrid_CMS_2015_Zee_2.str";
-	//const string steeringFileName3 = "MCgrid_CMS_2015_Zee_3.str";
-
-	MCgrid::subprocessConfig subproc(steeringFileName, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON);
-
-	MSG_INFO("Creating fastnloGridArch and fastnloConfig");
-	MCgrid::fastnloGridArch arch_fnlo(50, 1, "Lagrange", "OneNode", "sqrtlog10", "linear");
-
-	MCgrid::fastnloConfig config_fnlo(1, subproc, arch_fnlo, 8000.);
-	MCgrid::fastnloConfig config_fnlo_2(1, subproc, arch_fnlo, 8000.);
-	MCgrid::fastnloConfig config_fnlo_3(1, subproc, arch_fnlo, 8000.);
-
-	MSG_INFO("bookGrid for yZ. histoDir: " << histoDir());
-	_fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo);
-	_fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_2);
-	_fnlo_mZ = MCgrid::bookGrid(_h_mZ, histoDir(), config_fnlo_3);
-
-	MSG_INFO("fastnlo init done");
-	#endif
 	}
 
 
