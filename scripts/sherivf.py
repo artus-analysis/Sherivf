@@ -8,8 +8,7 @@ import sys, os, glob, shutil, time, subprocess, argparse, socket
 class Sherivf(object):
 
 	def __init__(self):
-		quantities = ['y', 'pT', 'm']
-		self.fastnlo_outputs = ['fnlo_{0}Z.tab'.format(quantity) for quantity in quantities]
+		quantities = ['abszy', 'zpt', 'zmass']
 
 		if 'naf' in socket.gethostname().lower():
 			self.default_config = 'naf'
@@ -18,6 +17,9 @@ class Sherivf(object):
 			self.default_config = 'ekpcluster'
 			self.default_storage_path = '/storage/a/dhaitz/sherivf/'
 		self.get_arguments()
+		suffix = (".txt" if self.args.warmup else ".tab")
+		self.fastnlo_outputs = [quantity + suffix for quantity in quantities]
+
 
 	def run(self):
 		"""Main function.
@@ -56,8 +58,8 @@ class Sherivf(object):
 				subprocess.call(['yoda_2_root.py', 'latest_sherivf_output/Rivet.yoda'])
 			else:
 				self.merge_warmup_files()
-				for warmupfile in [item.replace("Z.", "_warmup.") for item in self.fastnlo_outputs]:
-					subprocess.call(['mv', warmupfile, warmupfile.replace('_warmup', 'Z_warmup')])
+				for warmupfile in [item.replace(".", "_warmup.") for item in self.fastnlo_outputs]:
+					subprocess.call(['mv', warmupfile, warmupfile.replace('_warmup', '')])
 
 	def delete_latest_output_dir(self):
 		try:
@@ -129,12 +131,13 @@ class Sherivf(object):
 		else:
 			output = (' '.join(self.fastnlo_outputs) if self.args.warmup else "Rivet.yoda " + ' '.join(self.fastnlo_outputs))
 
+
 		for gcfile in self.args.list_of_gc_cfgs:
 			copyfile(gcfile, self.args.output_dir+'/'+os.path.basename(gcfile),{
 				'@NEVENTS@': self.args.n_events,
 				'@NJOBS@': self.args.n_jobs,
 				'@OUTDIR@': self.args.output_dir+'/output',
-				'@WARMUP@': ("rm *warmup*.tab"if self.args.warmup else ""),
+				'@WARMUP@': ("rm *.txt"if self.args.warmup else ""),
 				'@OUTPUT@': output,
 				'@CONFIG@': self.args.sherpa,
 			})
@@ -160,10 +163,10 @@ class Sherivf(object):
 
 		try:
 			#merge fastNLO files
-			for quantity in [item.split("_")[1].replace("Z.tab", "") for item in self.fastnlo_outputs]:
-				commands = ['fnlo-tk-merge'] + glob.glob(self.args.output_dir+'/output/'+'fnlo_{0}Z*.tab'.format(quantity)) + [self.args.output_dir+'/fnlo_{0}Z.tab'.format(quantity)]
+			for quantity in [item.replace(".tab", "") for item in self.fastnlo_outputs]:
+				commands = ['fnlo-tk-merge'] + glob.glob(self.args.output_dir+'/output/'+'{0}*.tab'.format(quantity)) + [self.args.output_dir+'/{0}.tab'.format(quantity)]
 				print_and_call(commands)
-				outputs.append(self.args.output_dir+'/fnlo_{0}Z.tab'.format(quantity))
+				outputs.append(self.args.output_dir+'/{0}.tab'.format(quantity))
 		except OSError as e:
 			print "Could not merge fastNLO outputs ({0}): {1}".format(e.errno, e.strerror)
 
@@ -171,7 +174,7 @@ class Sherivf(object):
 
 
 	def merge_warmup_files(self):
-		for scenario in [item.replace("Z.tab", "") for item in self.fastnlo_outputs]:
+		for scenario in [item.replace(".txt", "") for item in self.fastnlo_outputs]:
 			commands = [
 				"/usr/users/dhaitz/home/qcd/fastnlo_toolkit_fredpatches/fastNLO/trunk/tools/fnlo-add-warmup.pl",
 				"-w",
@@ -185,7 +188,8 @@ def run_gc(config):
 	try:
 		print_and_call(commands)
 	except KeyboardInterrupt:
-		exit(0)
+		print self.args.output_dir
+		exit(1)
 	except:
 		print "grid-control run failed"
 		exit(1)
