@@ -22,7 +22,7 @@ PublicationUnits              12
 UnitsOfCoefficients           12
 
 # Specify scale name and unit
-ScaleDescriptionScale1        "Q_[GeV]"
+ScaleDescriptionScale1        "Description_[GeV]"
 
 ScenarioDescription {
    "Description"
@@ -31,9 +31,10 @@ ScenarioDescription {
 
 # Labels (symbol and unit) for the measurement dimension
 DimensionLabels {
-   "pT_[GeV]"
+   "Description_[GeV]"
 }
 
+GlobalVerbosity   INFO
 
 # -------------------------------------------------------------------- #
 # PDF combination settings 
