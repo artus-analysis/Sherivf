@@ -43,13 +43,23 @@ bins = {
 }
 
 pdfsetdict = {
-	'NNPDF23_nlo_as_0118': 'NNPDF 2.3'
+	'NNPDF23_nlo_as_0118': 'NNPDF 2.3',
+	'NNPDF21_100': 'NNPDF 2.1',
+	'abm11_3n_nlo': 'ABM11',
+	'cteq65': 'CTEQ 6.5',
+	'MSTW2008nnlo90cl': 'MSTW 2008',
 }
 
 
 nmembersdict = {
 	'CT10.LHgrid': 51,
 	'NNPDF23_nlo_as_0118.LHgrid': 101,
+}
+
+qdict = {
+	'abs(zy)': 'abszy',
+	'eminuspt': 'ept',
+	'eminuseta': 'eeta',
 }
 
 excaliburpath = os.environ['EXCALIBURPATH']

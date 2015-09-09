@@ -11,15 +11,16 @@ def pdfs_thesis(args=None, additional_dictionary=None):
 	labels = ["gluon/10", r"$d_v$", r"$u_v$", r"$s$", r"$\\bar{d}$", r"$\\bar{u}$"]
 	for q in [1.9, 3, 10, 14, 91.2, 200]:
 		d = {
+			# input
 			"files": ["pdf_sets/pdfs_for_plotting_{}.root".format(str(q).replace(".", "_"))],
 			"folders": [""],
 			'x_expressions': flavours,
 			"nicks": flavours,
-			
+			# analysis
 			"analysis_modules": ["ScaleHistograms", "ConvertToTGraphErrors"],
 			"scale_nicks": ["gluon"],
 			"scale": 0.1,
-			
+			# formatting
 			"line_styles": ["-"],
 			"markers": ["fill"],
 			"x_label": r"$\\mathit{x}$",
@@ -31,7 +32,9 @@ def pdfs_thesis(args=None, additional_dictionary=None):
 			"title": "NNPDF 3.0 NLO",
 			"texts": [r"$\\mathit{Q}=$" + " {} GeV".format(q)],
 			"texts_x": [0.05],
-			
+			# output
+			"www_title": "PDFs at different Q values",
+			"www_text": " ",
 			"filename": "pdf_{}".format(("%03d" % q).replace(".", "_")),
 		}
 

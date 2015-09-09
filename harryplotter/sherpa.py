@@ -14,34 +14,36 @@ def sherpa(args=None, additional_dictionary=None):
 	known_args, args = parsertools.parser_list_tool(args, ['norm', 'quantities'])
 
 	for normalize in parsertools.get_list_slice([[False, True]], known_args.no_norm)[0]:
-		for quantity in parsertools.get_list_slice([["zpt", "abs(zy)",
-			"zmass", "zphi", "eminuspt", "eminuseta"],], known_args.no_quantities):
+		for quantity in parsertools.get_list_slice(["zpt", "abs(zy)",
+			"zmass", "zphi",
+			"eminuspt", "eminuseta"], known_args.no_quantities):
 			d = {
 				# input
-				"yoda_files": ["latest_sherivf_output/Rivet.yoda"],
 				"files": [
+					"latest_sherivf_output/Rivet.root",
 					os.environ['EXCALIBURPATH'] + '/work/mc_ee.root',
 					os.environ['EXCALIBURPATH'] + '/work/data_ee.root',
 				],
-				"nicks": ["madg", "data"],
+				"nicks": ["sherpa", "madg", "data"],
 				"folders": [
+					"",
 					"zcuts_ak5PFJetsCHSL1L2L3/ntuple",
 					"zcuts_ak5PFJetsCHSL1L2L3Res/ntuple",
 				],
-				"input_modules": ["InputRootZJet", "InputYoda"],
-				'scale_factors': [1./19712.],  # MC: fb->pb
-				"x_expressions": [quantity],
+				'weights': ['1', 'weight', 'weight'],
+				'scale_factors': [1., 1e-3/common.lumi, 1e-3/common.lumi],  # MC: fb->pb
+				"x_expressions": [common.qdict.get(quantity, quantity), quantity, quantity],
 				"x_bins": common.bins[quantity],
 				# analysis
 				"analysis_modules": (["NormalizeToFirstHisto"] if normalize else [])+["Ratio"],
-				"ratio_numerator_nicks": [quantity, "madg"],
+				"ratio_numerator_nicks": ["sherpa", "madg"],
 				"ratio_denominator_nicks": ["data"],
-				"ratio_result_nicks": ["ratio0", "ratio1"],
+				"ratio_result_nicks": ['ratio0', 'ratio1'],
 				# plotting
-				"nicks_whitelist": ["data", quantity, "madg","powh", "ratio"],
+				"nicks_whitelist": ['data', 'mad', 'sherpa', 'ratio'],
 				"x_label": quantity,
 				"y_label": "xsec",
-				"labels": [r"Data", "Sherpa", "Madgraph+Pythia", "ratio0", "ratio1"],
+				"labels": ["Data", "Madgraph+Pythia", "Sherpa",  "ratio0", "ratio1"],
 				"legend": "lower center",
 				"marker_colors": ["black", "red", "red", "cornflowerblue"],
 				"line_styles": [None, "-", None, None, None],
@@ -50,7 +52,7 @@ def sherpa(args=None, additional_dictionary=None):
 				"title": ("Shape comparison" if normalize else ""),
 				"y_subplot_lims": [0.5, 1.5],
 				"energies": [8],
-				"y_errors": [True, False, True, False, False],
+				"y_errors": [False, True, True, False, False],
 				# output
 				"filename": quantity + ("_norm" if normalize else ""),
 				'www_title': 'Data / Sherpa /Madgraph',

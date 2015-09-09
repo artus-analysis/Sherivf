@@ -8,8 +8,7 @@ import common
 import Excalibur.Plotting.harryinterface as harryinterface
 
 
-qdict = {'pT': 'zpt', 'y': 'abs(zy)', 'm': 'zmass', 'phi': 'zphi'}
-xseclabels = {'pT': 'xsecpt', 'y': 'xsecabsy', 'm': 'xsecm', 'phi': 'xsecphi'}
+xseclabels = {'zpt': 'xsecpt', 'abs(zy)': 'xsecabsy', 'zmass': 'xsecm', 'zphi': 'xsecphi'}
 
 def sherpa_fastnlo(args=None):
 	"""Compare Sherpa directly with fastNLO"""
@@ -18,31 +17,30 @@ def sherpa_fastnlo(args=None):
 	member = 0
 	# pT or y:
 	for quantity in ['zpt', 'abs(zy)', 'zmass']:
-		# all combinations of the 
+		replaced_quantity = common.qdict.get(quantity, quantity)
 		d = {
 			# input
 			'input_modules': ['InputRootZJet', 'InputFastNLO'],
 			"files": ['latest_sherivf_output/Rivet.root'],
 			"folders": [""],
-			"x_expressions": quantity,
+			"x_expressions": replaced_quantity,
 			#"scale_factors": 19712.,
 			'pdf_sets': [pdfset],
-			'fastnlo_files': ["latest_sherivf_output/{}.tab".format(quantity)],
+			'fastnlo_files': ["latest_sherivf_output/{}.tab".format(replaced_quantity)],
 			'members': [0],
 			# analysis
 			'analysis_modules': ['Ratio'],
 			# formatting
-			#'nicks_whitelist': ['fnlo', 'nick', 'ratio'],
 			"markers": ["o", "fill","."],
 			"x_label": quantity,
-			"y_label": "",#xseclabels[quantity],
+			"y_label": xseclabels[quantity],
 			"y_subplot_lims": [0.99, 1.01],
 			"energies": [8],
 			"y_errors": [False],
 			"labels": ['Sherpa+fastNLO', 'Sherpa', 'ratio'],
 			"marker_colors": ['red'],
-			"y_subplot_label": "Ratio Sherpa/fastNLO",
-			"texts": [pdfset],
+			"y_subplot_label": "Sherpa/fastNLO",
+			"texts": [pdfset.replace(".LHgrid", "")],
 			# filename
 			'filename': quantity.lower(),
 			'www_title': 'Sherpa vs fastNLO',
@@ -51,8 +49,10 @@ def sherpa_fastnlo(args=None):
 		if quantity == 'zpt':
 			d['y_log'] = True
 			d['y_lims'] = [1e-4, 1e2]
-		elif quantity == 'y':
-			d['y_lims'] = [0, 100]
+		elif quantity == 'abs(zy)':
+			d['y_lims'] = [0, 80]
+		elif quantity == 'zmass':
+			d['y_lims'] = [0, 40]
 		plots.append(d)
 	harryinterface.harry_interface(plots, args)
 
@@ -67,26 +67,27 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 		'CT10.LHgrid', 'NNPDF21_100.LHgrid', 'abm11_3n_nlo.LHgrid',
 		'cteq65.LHgrid', 'MSTW2008nnlo90cl.LHgrid'
 		]
-	labels = ['CT10', 'NNPDF21', 'ABM11', 'CTEQ6', 'MSTW2008']
+	labels = [common.pdfsetdict.get(i.replace(".LHgrid", "")) for i in pdf_sets]
 	N = len(pdf_sets)
 	colors = ['red', 'blue', 'green', 'purple', 'orange', 'cyan'][:N]
 
-	for quantity, s in zip(['y', 'm', 'pT'], [2*i for i in [0.1, 1, 10]]):
+	for quantity in ['abs(zy)', 'zmass', 'zpt']:
+		replaced_quantity = common.qdict.get(quantity, quantity)
 		d = {
 			# input
 			'input_modules': ['InputRootZJet', 'InputFastNLO'],
 				#fnlo
 			'pdf_sets': pdf_sets,
 			'members': len(pdf_sets),
-			'fastnlo_files': ["latest_sherivf_output/fnlo_{0}Z.tab".format(quantity)],
+			'fastnlo_files': ["latest_sherivf_output/{0}.tab".format(replaced_quantity)],
 				#root
-			'files': [common.divided_path + '/' + '_'.join([qdict[quantity].replace("abs(zy)", "zy"), 'madgraph', 'inclusive', '1']) + '.root'],
+			'files': [common.divided_path + '/' + '_'.join([quantity, 'madgraph', 'inclusive', '1']) + '.root'],
 			'folders': '',
 			'x_expressions': 'nick0',
 			# analysis
 			"analysis_modules": ["Ratio"],
 			'ratio_denominator_nicks': ['nick0'],
-			'ratio_numerator_nicks':["latest_sherivf_output/fnlo_{}Z.tab_{}_{}".format(quantity, i, N) for i in pdf_sets],
+			'ratio_numerator_nicks':["latest_sherivf_output/{}.tab_{}_{}".format(replaced_quantity, i, N) for i in pdf_sets],
 			# formatting
 			'labels': ['Data'] + labels,
 			'legend': 'upper right',
@@ -96,15 +97,15 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 			'energies': [8],
 			'y_label': xseclabels[quantity],
 			'step': [True],
-			'x_label': qdict[quantity],
+			'x_label': quantity,
 			'y_subplot_label': 'MC/Data',
 			'y_subplot_lims': [0, 2],
 			# output
-			'filename': "fastnlo_"+qdict[quantity],
+			'filename': "fastnlo_"+quantity,
 			'www_title': 'Data and fastNLO for different PDF sets',
 			'www_text': 'Unfolded data compared to fastNLO table evaluated with different PDF sets for Z y,mass,pT.',
 		}
-		if quantity == 'pT':
+		if quantity == 'zpt':
 			d['y_log'] = True
 			d['y_lims'] = [1e-4, 1e1]
 		plots.append(d)
@@ -119,22 +120,22 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 	pdfset = 'NNPDF23_nlo_as_0118.LHgrid'
 	members = common.nmembersdict[pdfset]
 
-	for quantity in ['y', 'm', 'pT']:
+	for quantity in ['abs(zy)', 'zmass', 'zpt']:
 		d = {
 			# input
 			'input_modules': ['InputRootZJet', 'InputFastNLO'],
 			# input fastNLO
 			'pdf_sets': [pdfset],
 			'members': range(members),
-			'fastnlo_files': ["latest_sherivf_output/fnlo_{0}Z.tab".format(quantity)],
+			'fastnlo_files': ["latest_sherivf_output/{0}.tab".format(quantity)],
 			# input root
-			'files': [common.divided_path + '/' + '_'.join([qdict[quantity].replace("abs(zy)", "zy"), 'madgraph', 'inclusive', '1']) + '.root'],
+			'files': [common.divided_path + '/' + '_'.join([quantity, 'madgraph', 'inclusive', '1']) + '.root'],
 			'folders': '',
 			'x_expressions': 'nick0',
 			# analysis
 			'analysis_modules': ['GraphEnvelope', 'Ratio'],
-			'envelope_nicks': ['latest_sherivf_output/fnlo_{}Z.tab_{}_{}'.format(quantity, pdfset, i) for i in range(members)],
-			'envelope_center_nick': 'latest_sherivf_output/fnlo_{}Z.tab_{}_0'.format(quantity, pdfset),
+			'envelope_nicks': ['latest_sherivf_output/{}.tab_{}_{}'.format(quantity, pdfset, i) for i in range(members)],
+			'envelope_center_nick': 'latest_sherivf_output/{}.tab_{}_0'.format(quantity, pdfset),
 			'ratio_numerator_nicks': ['nick0'],
 			'ratio_denominator_nicks': ['envelope'],
 			'ratio_result_nicks': ['ratio'],
@@ -146,14 +147,14 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			'markers': ['.', 'fill', '.'],
 			'energies': [8],
 			'step': True,
-			'x_label': qdict[quantity],
+			'x_label': quantity,
 			'y_subplot_lims': [0.5, 1.5],
 			# output
-			'filename': qdict[quantity],
+			'filename': quantity,
 			'www_title': 'Data and fastNLO with PDF Uncertainties',
 			'www_text': 'Unfolded data compared to fastNLO table evaluated with {}.'.format(common.pdfsetdict.get(pdfset.replace('.LHgrid', ''))),
 		}
-		if quantity == 'pT':
+		if quantity == 'zpt':
 			d['y_log'] = True
 			d['y_lims'] = [1e-4, 1e1]
 		plots.append(d)
