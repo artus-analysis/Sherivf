@@ -3,10 +3,10 @@ Sherpa,Rivet &amp; FastNLO configs
 
 
 ## Needed:
-* Sherpa
+* Sherpa 2.2.0
 * Rivet
-* MCgrid
-* fastNLO
+* MCgrid 2.0
+* fastNLO 2.3.1pre-2125
 
 
 ## Workflow MC
