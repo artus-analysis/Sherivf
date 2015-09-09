@@ -7,7 +7,9 @@
   
   HEPMC_USE_NAMED_WEIGHTS=1;
   HEPMC_EXTENDED_WEIGHTS=1;
-  
+
+  PDF_LIBRARY=CT10Sherpa;
+  PDF_SET=ct10;
 }(run);
 
 (beam){
