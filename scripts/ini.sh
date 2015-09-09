@@ -7,6 +7,8 @@ then
 . $SHERIVFDIR/scripts/functions.sh
 fi
 
+export MCGRID_OUTPUT_PATH=$PWD
+export MCGRID_PHASESPACE_PATH=$PWD
 
 if ( [[ $HOSTNAME == *"naf"* ]] || [[ $HOSTNAME == *"bird"* ]] ); then
 	export SHERIVFDIR=/afs/desy.de/user/d/dhaitz/qcd/sherivf
@@ -21,7 +23,7 @@ then
 	. $SHERIVFDIR/../Rivet-2.2.0/rivetenv.sh
 fi
 #harry plotter
-export PYTHONCONFIGS=$SHERIVFDIR/harryplotter:$PYTHONCONFIGS
+export PLOTCONFIGS=$SHERIVFDIR/harryplotter:$PYTHONCONFIGS
 export PYTHONPATH=$SHERIVFDIR/harryplotter:$PYTHONPATH
 export MODULES_SEARCH_PATH=$SHERIVFDIR/harryplotter/modules:$MODULES_SEARCH_PATH
 
