@@ -43,7 +43,7 @@ def nnpdf(args=None):
 	labels = {
 		'NNPDF30_nlo_as_0118': 'NNPDF 3.0',
 	}
-	pdf(args, {
+	return pdf(args, {
 		'files': ['pdf_sets/{}.root'.format(pdfset), 'pdf_sets/{}_HighStat_chi2_nRep100.root'.format(pdfset)],
 		'labels': ['original', 'reweighted'],
 		'www': 'nnpdf'

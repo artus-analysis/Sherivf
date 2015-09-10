@@ -79,8 +79,8 @@ def sherpa_mc(args=None, additional_dictionary=None):
 	known_args, args = parsertools.parser_list_tool(args, ['quantities'])
 	plots = []
 
-	for quantity in parsertools.get_list_slice([["zpt", "abs(genzy)",
-		"genzmass", "genzphi", "geneminuspt", "geneminuseta"]], known_args.no_quantities):
+	for quantity in parsertools.get_list_slice(["zpt", "abs(genzy)",
+		"genzmass", "genzphi", "geneminuspt", "geneminuseta"], known_args.no_quantities):
 		d = {
 			# input
 			"yoda_files": ["latest_sherivf_output/Rivet.yoda"],

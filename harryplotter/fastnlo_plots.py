@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
-from itertools import combinations
-
 import common
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
