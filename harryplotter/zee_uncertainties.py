@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import Excalibur.Plotting.harryZJet as harryZJet
-import Excalibur.Plotting.harryinterface as harryinterface
+from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
 
 def zee_unc(args=None):
@@ -243,7 +243,7 @@ def zee_unc(args=None):
 			5
 		]
 	}
-	harryinterface.harry_interface([d], args)
+	return [PlottingJob(plots, args)]
 
 
 if __name__ == '__main__':

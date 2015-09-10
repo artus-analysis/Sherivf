@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import Excalibur.Plotting.harryinterface as harryinterface
 import Excalibur.Plotting.utility.colors as colors
+from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
 
 def pdf(args=None, additional_dictionary=None, pdflabel=""):
@@ -36,7 +36,7 @@ def pdf(args=None, additional_dictionary=None, pdflabel=""):
 		if additional_dictionary is not None:
 			d.update(additional_dictionary)
 		plots.append(d)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 def nnpdf(args=None):
 	pdfset = 'NNPDF30_nlo_as_0118'

@@ -5,7 +5,7 @@ import os
 from itertools import combinations
 
 import common
-import Excalibur.Plotting.harryinterface as harryinterface
+from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
 
 xseclabels = {'zpt': 'xsecpt', 'abs(zy)': 'xsecabsy', 'zmass': 'xsecm', 'zphi': 'xsecphi'}
@@ -54,7 +54,7 @@ def sherpa_fastnlo(args=None):
 		elif quantity == 'zmass':
 			d['y_lims'] = [0, 40]
 		plots.append(d)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 
 def fastnlo_pdfsets(args=None, additional_dictionary=None):
@@ -110,7 +110,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 			d['y_lims'] = [1e-4, 1e1]
 		plots.append(d)
 
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 
 def fastnlo_pdfmember(args=None, additional_dictionary=None):
@@ -160,4 +160,4 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			d['y_lims'] = [1e-4, 1e1]
 		plots.append(d)
 
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]

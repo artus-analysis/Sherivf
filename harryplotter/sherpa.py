@@ -3,7 +3,7 @@
 
 import os
 
-import Excalibur.Plotting.harryinterface as harryinterface
+from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 import parsertools
 import common
 
@@ -71,7 +71,7 @@ def sherpa(args=None, additional_dictionary=None):
 				d['legend'] = 'upper right'
 
 			plots.append(d)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 
 def sherpa_mc(args=None, additional_dictionary=None):
@@ -125,7 +125,7 @@ def sherpa_mc(args=None, additional_dictionary=None):
 		elif quantity == 'genzy':
 			d['legend'] = 'upper right'
 		plots.append(d)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 
 if __name__ == '__main__':

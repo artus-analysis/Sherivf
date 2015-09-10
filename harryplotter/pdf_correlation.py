@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import Excalibur.Plotting.harryinterface as harryinterface
+from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
 
 def pdf_correlations(args=None, additional_dictionary=None):
@@ -41,7 +41,7 @@ def pdf_correlations(args=None, additional_dictionary=None):
 				pass
 
 			plots.append(d)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 
 if __name__ == '__main__':

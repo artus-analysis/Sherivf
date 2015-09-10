@@ -4,7 +4,7 @@
 import os
 
 import Artus.HarryPlotter.harry as harry
-import Excalibur.Plotting.harryinterface as harryinterface
+from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 import common
 
 def z_hlt(args=None, additional_dictionary=None):
@@ -48,7 +48,7 @@ def z_hlt(args=None, additional_dictionary=None):
 	if additional_dictionary is not None:
 		for d in plots:
 			d.update(additional_dictionary)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 
 def electron_id(args=None, additional_dictionary=None):
@@ -102,7 +102,7 @@ def electron_id(args=None, additional_dictionary=None):
 		if additional_dictionary is not None:
 			d.update(additional_dictionary)
 		plots.append(d)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 
 def electron_corr(args=None, additional_dictionary=None):
@@ -157,7 +157,7 @@ def electron_corr(args=None, additional_dictionary=None):
 		})
 		if additional_dictionary is not None:
 			plot.update(additional_dictionary)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 
 def electron_trigger_sf(args=None, additional_dictionary=None):
@@ -203,4 +203,4 @@ def electron_trigger_sf(args=None, additional_dictionary=None):
 			if additional_dictionary is not None:
 				d.update(additional_dictionary)
 			plots.append(d)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import Excalibur.Plotting.harryinterface as harryinterface
+from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
 
 def pdfs_thesis(args=None, additional_dictionary=None):
@@ -41,7 +41,7 @@ def pdfs_thesis(args=None, additional_dictionary=None):
 		if additional_dictionary is not None:
 			d.update(additional_dictionary)
 		plots.append(d)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 
 if __name__ == '__main__':

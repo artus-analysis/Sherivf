@@ -6,7 +6,7 @@ import parsertools
 import common
 
 import Artus.HarryPlotter.harry as harry
-import Excalibur.Plotting.harryinterface as harryinterface
+from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 import Excalibur.Plotting.utility.colors as colors
 
 
@@ -75,7 +75,7 @@ def zee_bkgrs(args=None):
 						}
 						plots.append(d)
 
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 
 def subtract_backgrounds(args=None):
@@ -108,7 +108,7 @@ def subtract_backgrounds(args=None):
 				'export_json': False,
 			}
 			plots.append(d)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 
 def emu(args=None):
@@ -137,7 +137,7 @@ def emu(args=None):
 		if quantity == 'zpt':
 			d['x_lims'] = [0, 200]
 		plots.append(d)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 
 if __name__ == '__main__':

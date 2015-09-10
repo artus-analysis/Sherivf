@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import Artus.HarryPlotter.harry as harry
-import Excalibur.Plotting.harryinterface as harryinterface
+from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 import Excalibur.Plotting.utility.colors as colors
 import parsertools
 
@@ -62,7 +62,7 @@ def unfold(args=None):
 						'export_json': False,
 					}
 					plots.append(d)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 
 def different_iterations(args=None):
@@ -102,7 +102,7 @@ def different_iterations(args=None):
 			'y_subplot_lims': [0, 2],
 		})
 		plots.append(d)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 def response_matrix(args=None):
 	""" plot response matrix"""
@@ -129,7 +129,7 @@ def response_matrix(args=None):
 				'www_text': r"Unfolding response matrices from d\'Agostini Unfolding for Z y,mass,pT with log and scalar z-axis",
 			}
 			plots.append(d)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 
 def unfolding_comparison(args=None):
@@ -177,7 +177,7 @@ def unfolding_comparison(args=None):
 				'y_subplot_lims': [0, 2],
 			})
 			plots.append(d)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 
 def unfolded_to_hera(args=None):
@@ -194,7 +194,7 @@ def unfolded_to_hera(args=None):
 		'output_dir': 'herafitter/',
 	}
 	plots.append(d)
-	harryinterface.harry_interface(plots, args)
+	return [PlottingJob(plots, args)]
 
 
 if __name__ == '__main__':
