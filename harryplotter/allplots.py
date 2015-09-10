@@ -66,6 +66,8 @@ def allplots(args=None):
 		plots = function(args)
 		for plot in plots[0].plots:
 			plot['www'] = os.path.join(wwwbase, wwwdir)
+		if function == zee_bkgrs.zee_bkgrs:
+			plots[0].args += ["--no-njets", "--no-ybins", "--no-mcs"]
 		plotting_jobs += plots
 
 	return plotting_jobs
