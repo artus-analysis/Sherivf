@@ -63,11 +63,12 @@ def allplots(args=None):
 	][plot_min:plot_max]
 
 	for function, wwwdir in zip(functions, wwwdirs):
-		plots = function(args)
+		if function == zee_bkgrs.zee_bkgrs:
+			plots = function(args + ["--no-njets", "--no-ybins", "--no-mcs"])
+		else:
+			plots = function(args)
 		for plot in plots[0].plots:
 			plot['www'] = os.path.join(wwwbase, wwwdir)
-		if function == zee_bkgrs.zee_bkgrs:
-			plots[0].args += ["--no-njets", "--no-ybins", "--no-mcs"]
 		plotting_jobs += plots
 
 	return plotting_jobs
