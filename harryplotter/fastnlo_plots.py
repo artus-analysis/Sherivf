@@ -64,10 +64,10 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 	n_members = 1
 	pdf_sets = [
 		#'NNPDF30_nlo_as_0118'
-		'CT10.LHgrid', 'NNPDF21_100.LHgrid', 'abm11_3n_nlo.LHgrid',
-		'cteq65.LHgrid', 'MSTW2008nnlo90cl.LHgrid'
+		'CT10nlo.LHgrid', 'NNPDF21_100.LHgrid', 'abm11_3n_nlo.LHgrid',
+		'cteq65.LHgrid', 'MSTW2008nlo68cl.LHgrid'
 		]
-	labels = [common.pdfsetdict.get(i.replace(".LHgrid", "")) for i in pdf_sets]
+	labels = [common.pdfsetdict.get(i.replace(".LHgrid", ""), i.replace(".LHgrid", "")) for i in pdf_sets]
 	N = len(pdf_sets)
 	colors = ['red', 'blue', 'green', 'purple', 'orange', 'cyan'][:N]
 
@@ -99,7 +99,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 			'step': [True],
 			'x_label': quantity,
 			'y_subplot_label': 'MC/Data',
-			'y_subplot_lims': [0, 2],
+			'y_subplot_lims': [0.75, 1.25],
 			# output
 			'filename': "fastnlo_"+quantity,
 			'www_title': 'Data and fastNLO for different PDF sets',
@@ -121,21 +121,22 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 	members = common.nmembersdict[pdfset]
 
 	for quantity in ['abs(zy)', 'zmass', 'zpt']:
+		replaced_quantity = common.qdict.get(quantity, quantity)
 		d = {
 			# input
 			'input_modules': ['InputRootZJet', 'InputFastNLO'],
 			# input fastNLO
 			'pdf_sets': [pdfset],
 			'members': range(members),
-			'fastnlo_files': ["latest_sherivf_output/{0}.tab".format(quantity)],
+			'fastnlo_files': ["latest_sherivf_output/{0}.tab".format(replaced_quantity)],
 			# input root
 			'files': [common.divided_path + '/' + '_'.join([quantity, 'madgraph', 'inclusive', '1']) + '.root'],
 			'folders': '',
 			'x_expressions': 'nick0',
 			# analysis
 			'analysis_modules': ['GraphEnvelope', 'Ratio'],
-			'envelope_nicks': ['latest_sherivf_output/{}.tab_{}_{}'.format(quantity, pdfset, i) for i in range(members)],
-			'envelope_center_nick': 'latest_sherivf_output/{}.tab_{}_0'.format(quantity, pdfset),
+			'envelope_nicks': ['latest_sherivf_output/{}.tab_{}_{}'.format(replaced_quantity, pdfset, i) for i in range(members)],
+			'envelope_center_nick': 'latest_sherivf_output/{}.tab_{}_0'.format(replaced_quantity, pdfset),
 			'ratio_numerator_nicks': ['nick0'],
 			'ratio_denominator_nicks': ['envelope'],
 			'ratio_result_nicks': ['ratio'],
@@ -148,7 +149,7 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			'energies': [8],
 			'step': True,
 			'x_label': quantity,
-			'y_subplot_lims': [0.5, 1.5],
+			'y_subplot_lims': [0.75, 1.25],
 			# output
 			'filename': quantity,
 			'www_title': 'Data and fastNLO with PDF Uncertainties',

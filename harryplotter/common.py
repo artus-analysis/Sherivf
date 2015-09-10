@@ -47,7 +47,8 @@ pdfsetdict = {
 	'NNPDF21_100': 'NNPDF 2.1',
 	'abm11_3n_nlo': 'ABM11',
 	'cteq65': 'CTEQ 6.5',
-	'MSTW2008nnlo90cl': 'MSTW 2008',
+	'MSTW2008nlo68cl': 'MSTW 2008',
+	'CT10nlo': 'CT10 NLO',
 }
 
 
