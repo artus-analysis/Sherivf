@@ -9,6 +9,7 @@ class Sherivf(object):
 
 	def __init__(self):
 		quantities = ['abszy', 'zpt', 'zmass']
+		self.analysis = "MCgrid_CMS_2015_Zee"
 
 		if 'naf' in socket.gethostname().lower():
 			self.default_config = 'naf'
@@ -60,6 +61,7 @@ class Sherivf(object):
 				self.merge_warmup_files()
 				for warmupfile in [item.replace(".", "_warmup.") for item in self.fastnlo_outputs]:
 					subprocess.call(['mv', warmupfile, warmupfile.replace('_warmup', '')])
+				subprocess.call(['mv', self.args.output_dir + "/" + self.analysis+".str.evtcount", "."])
 
 	def delete_latest_output_dir(self):
 		try:
@@ -130,7 +132,8 @@ class Sherivf(object):
 			output = (' '.join(self.fastnlo_outputs) if self.args.warmup else "Rivet.yoda")
 		else:
 			output = (' '.join(self.fastnlo_outputs) if self.args.warmup else "Rivet.yoda " + ' '.join(self.fastnlo_outputs))
-
+		if self.args.warmup:
+			output += " " + self.analysis + ".str.evtcount"
 
 		for gcfile in self.args.list_of_gc_cfgs:
 			copyfile(gcfile, self.args.output_dir+'/'+os.path.basename(gcfile),{
