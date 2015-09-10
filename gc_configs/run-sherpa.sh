@@ -27,5 +27,6 @@ $SHERPACMD
 mv MCgrid_CMS_2015_Zee/*.tab .
 mv MCgrid_CMS_2015_Zee/phasespace/*.txt .
 
+
 echo -e "\nafter sherpa:"
-ls
+ls -tl
