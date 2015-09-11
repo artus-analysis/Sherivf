@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
+import argparse, os
 
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
@@ -20,27 +20,33 @@ import zee_unfolded
 def allplots(args=None):
 	"""make allplots"""
 	plotting_jobs = []
-	wwwbase = 'zee'
-	plot_min = 0
-	plot_max = 99
+
+	parser = argparse.ArgumentParser()
+	parser.add_argument('--www-dir', type=str, default="zee", help="www dir")
+	parser.add_argument('--start', type=int, default=0, help="start")
+	parser.add_argument('--end', type=int, default=999, help="end")
+	known_args, args = parser.parse_known_args(**({'args':args} if args is not None else {}))
+
+	plot_min = known_args.start
+	plot_max = known_args.end
 
 	functions = [
-		pdf.pdfs_thesis,
+		pdf.pdfs_thesis,  # 0
 		pdf_correlation.pdf_correlations,
 		electron_plots.electron_id,
 		electron_plots.electron_corr,
 		electron_plots.electron_trigger_sf,
-		zee_bkgrs.zee_bkgrs,
+		zee_bkgrs.zee_bkgrs,  # 5
 		zee_bkgrs.emu,
 		zee_unfolded.different_iterations,
 		zee_unfolded.response_matrix,
 		zee_unfolded.unfolding_comparison,
-		sherpa.sherpa,
+		sherpa.sherpa,  # 10
 		sherpa.sherpa_mc,
 		fastnlo_plots.fastnlo_pdfsets,
 		fastnlo_plots.fastnlo_pdfmember,
 		fastnlo_plots.sherpa_fastnlo,
-		nnpdf.nnpdf,
+		nnpdf.nnpdf,  # 15
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -68,7 +74,7 @@ def allplots(args=None):
 		else:
 			plots = function(args)
 		for plot in plots[0].plots:
-			plot['www'] = os.path.join(wwwbase, wwwdir)
+			plot['www'] = os.path.join(known_args.www_dir, wwwdir)
 		plotting_jobs += plots
 
 	return plotting_jobs

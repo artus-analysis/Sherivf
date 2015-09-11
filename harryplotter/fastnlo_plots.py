@@ -31,7 +31,7 @@ def sherpa_fastnlo(args=None):
 			"markers": ["o", "fill","."],
 			"x_label": quantity,
 			"y_label": xseclabels[quantity],
-			"y_subplot_lims": [0.99, 1.01],
+			"y_subplot_lims": [0.999, 1.001],
 			"energies": [8],
 			"y_errors": [False],
 			"labels": ['Sherpa+fastNLO', 'Sherpa', 'ratio'],
