@@ -149,8 +149,9 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			'y_subplot_lims': [0.75, 1.25],
 			# output
 			'filename': quantity,
-			'www_title': 'Data and fastNLO with PDF Uncertainties',
-			'www_text': 'Unfolded data compared to fastNLO table evaluated with {}.'.format(common.pdfsetdict.get(pdfset.replace('.LHgrid', ''))),
+			'www_title': 'Data and fastNLO for different PDF set members',
+			'www_text': ('Unfolded data compared to fastNLO table evaluated with {}.'.format(common.pdfsetdict.get(pdfset.replace('.LHgrid', '')))
+				+ " Continuous line is member zero, shaded area is spanned by all members."),
 		}
 		if quantity == 'zpt':
 			d['y_log'] = True
