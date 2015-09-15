@@ -27,7 +27,6 @@ alias make_allplots="merlin.py --py allplots"
 
 hera_fit(){
 	PDFSET=NNPDF30_nlo_as_0118
-	export LHAPATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/lhapdf/6.1.5/share/LHAPDF/
 	cd $SHERIVFDIR/../herafitter-1.1.1
 	rm $SHERIVFDIR/../herafitter-1.1.1/output/NNPDF*_HighStat_chi2/* $SHERIVFDIR/../herafitter-1.1.1/NNPDF/data/* -rf
 	mkdir -p output/${PDFSET}_HighStat_chi2

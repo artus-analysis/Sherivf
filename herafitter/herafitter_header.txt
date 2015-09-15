@@ -16,7 +16,7 @@
 
    IndexDataset   = 784
 
-  TheoryInfoFile = '/usr/users/dhaitz/home/qcd/sherivf/latest_sherivf_output/fnlo_pTZ.tab'
+  TheoryInfoFile = '/usr/users/dhaitz/home/qcd/sherivf/latest_sherivf_output/zpt.tab'
    TheoryType     = 'FastNLO'
 
    Percent        = 2*False
