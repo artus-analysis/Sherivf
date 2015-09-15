@@ -37,17 +37,3 @@ hera_fit(){
 	cp ${PDFSET}_HighStat_chi2_nRep100.root $SHERIVFDIR/pdf_sets
 	cd $SHERIVFDIR
 }
-
-
-switch_lhapdf5(){
-	switch_lhapdf lhapdf-5.9.1
-}
-
-switch_lhapdf6(){
-	switch_lhapdf LHAPDF-6.1.5
-}
-
-switch_lhapdf(){
-	cd /usr/users/dhaitz/home/qcd/$1
-	make install -j 10
-}

@@ -44,17 +44,19 @@ bins = {
 
 pdfsetdict = {
 	'NNPDF23_nlo_as_0118': 'NNPDF 2.3',
+	'NNPDF30_nlo_as_0118': 'NNPDF 3.0',
 	'NNPDF21_100': 'NNPDF 2.1',
 	'abm11_3n_nlo': 'ABM11',
 	'cteq65': 'CTEQ 6.5',
+	'cteq66': 'CTEQ 6.6',
 	'MSTW2008nlo68cl': 'MSTW 2008',
 	'CT10nlo': 'CT10 NLO',
 }
 
-
 nmembersdict = {
-	'CT10.LHgrid': 51,
-	'NNPDF23_nlo_as_0118.LHgrid': 101,
+	'CT10': 51,
+	'NNPDF23_nlo_as_0118': 101,
+	'NNPDF30_nlo_as_0118': 101,
 }
 
 qdict = {

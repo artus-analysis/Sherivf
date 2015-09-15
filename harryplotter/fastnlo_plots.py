@@ -10,7 +10,7 @@ xseclabels = {'zpt': 'xsecpt', 'abs(zy)': 'xsecabsy', 'zmass': 'xsecm', 'zphi': 
 def sherpa_fastnlo(args=None):
 	"""Compare Sherpa directly with fastNLO"""
 	plots = []
-	pdfset = 'CT10.LHgrid'
+	pdfset = 'CT10'
 	member = 0
 	# pT or y:
 	for quantity in ['zpt', 'abs(zy)', 'zmass']:
@@ -37,11 +37,11 @@ def sherpa_fastnlo(args=None):
 			"labels": ['Sherpa+fastNLO', 'Sherpa', 'ratio'],
 			"marker_colors": ['red'],
 			"y_subplot_label": "Sherpa/fastNLO",
-			"texts": [pdfset.replace(".LHgrid", "")],
+			"texts": [pdfset],
 			# filename
 			'filename': quantity.lower(),
 			'www_title': 'Sherpa vs fastNLO',
-			'www_text': 'fastNLO ({} used) compared to Sherpa for Z y,mass,pT'.format(pdfset.replace('.LHgrid', '')),
+			'www_text': 'fastNLO ({} used) compared to Sherpa for Z y,mass,pT'.format(pdfset),
 		}
 		if quantity == 'zpt':
 			d['y_log'] = True
@@ -60,11 +60,10 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 	# configure fastNLO input
 	n_members = 1
 	pdf_sets = [
-		#'NNPDF30_nlo_as_0118'
-		'CT10nlo.LHgrid', 'NNPDF21_100.LHgrid', 'abm11_3n_nlo.LHgrid',
-		'cteq65.LHgrid', 'MSTW2008nlo68cl.LHgrid'
+		'CT10nlo', 'NNPDF30_nlo_as_0118', 'abm11_3n_nlo',
+		'cteq66', 'MSTW2008nlo68cl'
 		]
-	labels = [common.pdfsetdict.get(i.replace(".LHgrid", ""), i.replace(".LHgrid", "")) for i in pdf_sets]
+	labels = [common.pdfsetdict.get(i, i) for i in pdf_sets]
 	N = len(pdf_sets)
 	colors = ['red', 'blue', 'green', 'purple', 'orange', 'cyan'][:N]
 
@@ -114,7 +113,7 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 	"""Evaluate fastNLO table for n members of a PDF set."""
 	plots = []
 
-	pdfset = 'NNPDF23_nlo_as_0118.LHgrid'
+	pdfset = 'NNPDF30_nlo_as_0118'
 	members = common.nmembersdict[pdfset]
 
 	for quantity in ['abs(zy)', 'zmass', 'zpt']:
@@ -139,7 +138,7 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			'ratio_result_nicks': ['ratio'],
 			# formatting
 			'nicks_whitelist': ['nick', 'envelope', 'ratio'],
-			'labels': ['Data', common.pdfsetdict.get(pdfset.replace('.LHgrid', ''), pdfset.replace('.LHgrid', '')), 'ratio'],
+			'labels': ['Data', common.pdfsetdict.get(pdfset, pdfset), 'ratio'],
 			'y_label': xseclabels[quantity],
 			'line_styles': [None, '-', None],
 			'markers': ['.', 'fill', '.'],
@@ -150,7 +149,7 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			# output
 			'filename': quantity,
 			'www_title': 'Data and fastNLO for different PDF set members',
-			'www_text': ('Unfolded data compared to fastNLO table evaluated with {}.'.format(common.pdfsetdict.get(pdfset.replace('.LHgrid', '')))
+			'www_text': ('Unfolded data compared to fastNLO table evaluated with {}.'.format(common.pdfsetdict.get(pdfset))
 				+ " Continuous line is member zero, shaded area is spanned by all members."),
 		}
 		if quantity == 'zpt':
