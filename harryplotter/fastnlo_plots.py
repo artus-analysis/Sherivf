@@ -65,6 +65,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 		]
 	labels = [common.pdfsetdict.get(i, i) for i in pdf_sets]
 	N = len(pdf_sets)
+	member = 0
 	colors = ['red', 'blue', 'green', 'purple', 'orange', 'cyan'][:N]
 
 	for quantity in ['abs(zy)', 'zmass', 'zpt']:
@@ -74,7 +75,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 			'input_modules': ['InputRootZJet', 'InputFastNLO'],
 				#fnlo
 			'pdf_sets': pdf_sets,
-			'members': len(pdf_sets),
+			'members': [member],#len(pdf_sets),
 			'fastnlo_files': ["latest_sherivf_output/{0}.tab".format(replaced_quantity)],
 				#root
 			'files': [common.divided_path + '/' + '_'.join([quantity, 'madgraph', 'inclusive', '1']) + '.root'],
@@ -83,7 +84,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 			# analysis
 			"analysis_modules": ["Ratio"],
 			'ratio_denominator_nicks': ['nick0'],
-			'ratio_numerator_nicks':["latest_sherivf_output/{}.tab_{}_{}".format(replaced_quantity, i, N) for i in pdf_sets],
+			'ratio_numerator_nicks':["latest_sherivf_output/{}.tab_{}_{}".format(replaced_quantity, i, member) for i in pdf_sets],
 			# formatting
 			'labels': ['Data'] + labels,
 			'legend': 'upper right',
@@ -114,7 +115,7 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 	plots = []
 
 	pdfset = 'NNPDF30_nlo_as_0118'
-	members = common.nmembersdict[pdfset]
+	style = 'kMCSampling'
 
 	for quantity in ['abs(zy)', 'zmass', 'zpt']:
 		replaced_quantity = common.qdict.get(quantity, quantity)
@@ -123,21 +124,16 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			'input_modules': ['InputRootZJet', 'InputFastNLO'],
 			# input fastNLO
 			'pdf_sets': [pdfset],
-			'members': range(members),
+			'members': [0],
 			'fastnlo_files': ["latest_sherivf_output/{0}.tab".format(replaced_quantity)],
+			'pdf_uncertainty_style': style,
 			# input root
 			'files': [common.divided_path + '/' + '_'.join([quantity, 'madgraph', 'inclusive', '1']) + '.root'],
 			'folders': '',
 			'x_expressions': 'nick0',
 			# analysis
-			'analysis_modules': ['GraphEnvelope', 'Ratio'],
-			'envelope_nicks': ['latest_sherivf_output/{}.tab_{}_{}'.format(replaced_quantity, pdfset, i) for i in range(members)],
-			'envelope_center_nick': 'latest_sherivf_output/{}.tab_{}_0'.format(replaced_quantity, pdfset),
-			'ratio_numerator_nicks': ['nick0'],
-			'ratio_denominator_nicks': ['envelope'],
-			'ratio_result_nicks': ['ratio'],
+			'analysis_modules': ['Ratio'],
 			# formatting
-			'nicks_whitelist': ['nick', 'envelope', 'ratio'],
 			'labels': ['Data', common.pdfsetdict.get(pdfset, pdfset), 'ratio'],
 			'y_label': xseclabels[quantity],
 			'line_styles': [None, '-', None],
@@ -148,9 +144,9 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			'y_subplot_lims': [0.75, 1.25],
 			# output
 			'filename': quantity,
-			'www_title': 'Data and fastNLO for different PDF set members',
+			'www_title': 'Data and fastNLO with PDFUncertainties',
 			'www_text': ('Unfolded data compared to fastNLO table evaluated with {}.'.format(common.pdfsetdict.get(pdfset))
-				+ " Continuous line is member zero, shaded area is spanned by all members."),
+				+ r" \'{}\' uncertainty style is used.".format(style)),
 		}
 		if quantity == 'zpt':
 			d['y_log'] = True
