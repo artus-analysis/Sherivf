@@ -13,10 +13,11 @@ def sherpa(args=None, additional_dictionary=None):
 
 	known_args, args = parsertools.parser_list_tool(args, ['norm', 'quantities'])
 
-	for normalize in parsertools.get_list_slice([[False, True]], known_args.no_norm)[0]:
-		for quantity in parsertools.get_list_slice(["zpt", "abs(zy)",
+	for normalize in parsertools.get_list_slice([[True, False]], known_args.no_norm)[0]:
+		for quantity in parsertools.get_list_slice([["zpt", "abs(zy)",
 			"zmass", "zphi",
-			"eminuspt", "eminuseta"], known_args.no_quantities):
+			"eminuspt", "eminuseta"]], known_args.no_quantities)[0]:
+			factor = (float(common.bins[quantity].split(',')[2])-float(common.bins[quantity].split(',')[1])) / float(common.bins[quantity].split(',')[0])
 			d = {
 				# input
 				"files": [
@@ -31,11 +32,12 @@ def sherpa(args=None, additional_dictionary=None):
 					"zcuts_ak5PFJetsCHSL1L2L3Res/ntuple",
 				],
 				'weights': ['1', 'weight', 'weight'],
-				'scale_factors': [1., 1e-3/common.lumi, 1e-3/common.lumi],  # MC: fb->pb
+				'scale_factors': [factor] +[1e-3/common.lumi]*2,  # fb->pb
 				"x_expressions": [common.qdict.get(quantity, quantity), quantity, quantity],
-				"x_bins": common.bins[quantity],
+				"x_bins": [None]+[common.bins[quantity]]*2,
 				# analysis
 				"analysis_modules": (["NormalizeToFirstHisto"] if normalize else [])+["Ratio"],
+				#"scale_factors":[1.] + ,
 				"ratio_numerator_nicks": ["sherpa", "madg"],
 				"ratio_denominator_nicks": ["data"],
 				"ratio_result_nicks": ['ratio0', 'ratio1'],
@@ -52,9 +54,9 @@ def sherpa(args=None, additional_dictionary=None):
 				"title": ("Shape comparison" if normalize else ""),
 				"y_subplot_lims": [0.5, 1.5],
 				"energies": [8],
-				"y_errors": [False, True, True, False, False],
+				"y_errors": [False, False, False, False, False],
 				# output
-				"filename": quantity + ("_norm" if normalize else ""),
+				"filename": ("norm_" if normalize else "") + quantity,
 				'www_title': 'Data / Sherpa /Madgraph',
 				'www_text': 'Comparison of Data, CMS-Madgraph(reco-level) and self-produced Sherpa. \
 					Efficiency scale factors have been applied, but no unfolding has been performed.'
@@ -62,13 +64,22 @@ def sherpa(args=None, additional_dictionary=None):
 			if quantity == 'zpt':
 				d['y_log'] = True
 				d['legend'] = 'upper right'
-				d['y_lims'] = [0.001, 900]
+				d['y_lims'] = [0.001, 90]
 			elif quantity == 'zmass' or quantity == 'eminuseta':
 				d['legend'] = None
 			elif quantity == 'eminuspt':
 				d['legend'] = 'upper right'
-			elif quantity == 'zy':
+			elif quantity == 'abs(zy)':
 				d['legend'] = 'upper right'
+			limdict = {
+				"abs(zy)": 8,
+				"zmass": 30,
+				"zphi": 4,
+				"eminuspt": 20,
+				"eminuseta": 4,
+			}
+			if quantity in limdict:
+				d['y_lims'] = [0, limdict[quantity]]
 
 			plots.append(d)
 	return [PlottingJob(plots, args)]
