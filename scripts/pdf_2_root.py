@@ -46,7 +46,6 @@ def main(
 
 	## Version info, search paths, and metadata
 	print "LHAPDF version", lhapdf.version()
-	lhapdf.pathsPrepend("/storage/a/dhaitz/PDFsets")
 	lhapdf.pathsPrepend("/usr/users/dhaitz/home/qcd/herafitter-1.1.1/output/"+pdfset.replace("_nRep100", ""))
 	lhapdf.setVerbosity(0)
 	print "LHAPDF paths",lhapdf.paths()
