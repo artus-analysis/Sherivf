@@ -49,7 +49,7 @@ class Sherivf(object):
 				self.create_output_dir()
 				self.copy_gc_configs()
 			self.gctime = time.time()
-			run_gc(self.args.output_dir + "/" + self.args.configfile)
+			run_gc(self.args.output_dir + "/" + self.args.configfile, self.args.output_dir)
 			self.gctime = time.time() - self.gctime
 			if not self.args.warmup:
 				outputs = self.merge_outputs()
@@ -89,7 +89,7 @@ class Sherivf(object):
 		parser.add_argument('--rivet-only', action='store_true',
 			help="only recover rivet outputs, not fastNLO.")
 		parser.add_argument('-s', '--sherpa', type=str, default='fo',
-			help="sherpa config")
+			help="sherpa config in folder sherpa-cfg. [Default: %(default)s]")
 
 		parser.add_argument('-n', '--n-events', type=str, default='1',
 			help="n events")
@@ -186,12 +186,12 @@ class Sherivf(object):
 			]
 			print_and_call(commands)
 
-def run_gc(config):
+def run_gc(config, output_dir):
 	commands = ['go.py', config]
 	try:
 		print_and_call(commands)
 	except KeyboardInterrupt:
-		print self.args.output_dir
+		print output_dir
 		exit(1)
 	except:
 		print "grid-control run failed"
@@ -239,5 +239,5 @@ if __name__ == "__main__":
 	sherivf = Sherivf()
 	sherivf.run()
 	if hasattr(sherivf, "gctime"):
-		print "---     Sherivf took {} minutes ---".format(format_time(time.time() - start_time)))
+		print "---     Sherivf took {} minutes ---".format(format_time(time.time() - start_time))
 		print "--- GridControl took {} minutes ---".format(format_time(sherivf.gctime))
