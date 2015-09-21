@@ -60,6 +60,12 @@ public:
 		_h_etae = bookHisto1D("eminuseta", 48, -2.4, 2.4);
 		_h_phie = bookHisto1D("eminusphi", 32, -3.2, 3.2);
 
+		_h_pTZ_0 = bookHisto1D("zpt_0", 37, 30, 400);
+		_h_pTZ_1 = bookHisto1D("zpt_1", 37, 30, 400);
+		_h_pTZ_2 = bookHisto1D("zpt_2", 37, 30, 400);
+		_h_pTZ_3 = bookHisto1D("zpt_3", 37, 30, 400);
+		_h_pTZ_4 = bookHisto1D("zpt_4", 37, 30, 400);
+
 		#if USE_FNLO
 		MSG_INFO("Using fastnlo");
 		const string steeringFileName = "MCgrid_CMS_2015_Zee.str";
@@ -74,12 +80,23 @@ public:
 		MCgrid::fastnloConfig config_fnlo(1, subproc, arch_fnlo, 8000.);
 		MCgrid::fastnloConfig config_fnlo_2(1, subproc, arch_fnlo, 8000.);
 		MCgrid::fastnloConfig config_fnlo_3(1, subproc, arch_fnlo, 8000.);
+		// in bins
+		MCgrid::fastnloConfig config_fnlo_4(1, subproc, arch_fnlo, 8000.);
+		MCgrid::fastnloConfig config_fnlo_5(1, subproc, arch_fnlo, 8000.);
+		MCgrid::fastnloConfig config_fnlo_6(1, subproc, arch_fnlo, 8000.);
+		MCgrid::fastnloConfig config_fnlo_7(1, subproc, arch_fnlo, 8000.);
+		MCgrid::fastnloConfig config_fnlo_8(1, subproc, arch_fnlo, 8000.);
 
 		MSG_INFO("bookGrid for yZ. histoDir: " << histoDir());
 		_fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo);
 		_fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_2);
 		_fnlo_mZ = MCgrid::bookGrid(_h_mZ, histoDir(), config_fnlo_3);
 
+		_fnlo_pTZ_0 = MCgrid::bookGrid(_h_pTZ_0, histoDir(), config_fnlo_4);
+		_fnlo_pTZ_1 = MCgrid::bookGrid(_h_pTZ_1, histoDir(), config_fnlo_5);
+		_fnlo_pTZ_2 = MCgrid::bookGrid(_h_pTZ_2, histoDir(), config_fnlo_6);
+		_fnlo_pTZ_3 = MCgrid::bookGrid(_h_pTZ_3, histoDir(), config_fnlo_7);
+		_fnlo_pTZ_4 = MCgrid::bookGrid(_h_pTZ_4, histoDir(), config_fnlo_8);
 		MSG_INFO("fastnlo init done");
 		#endif
 	}
@@ -115,10 +132,43 @@ public:
 				_h_yZ->fill(yZ, weight);
 				_h_mZ->fill(mZ, weight);
 				_h_phiZ->fill(phiZ, weight);
+
+				// Z y bins
+				if (std::abs(yZ) < 0.5){
+					_h_pTZ_0->fill(pTZ, weight);
+					#if USE_FNLO
+						_fnlo_pTZ_0->fill(pTZ, event);
+					#endif
+				}
+				else if (std::abs(yZ) < 1){
+					_h_pTZ_1->fill(pTZ, weight);
+					#if USE_FNLO
+						_fnlo_pTZ_1->fill(pTZ, event);
+					#endif
+				}
+				else if (std::abs(yZ) < 1.5){
+					_h_pTZ_2->fill(pTZ, weight);
+					#if USE_FNLO
+						_fnlo_pTZ_2->fill(pTZ, event);
+					#endif
+				}
+				else if (std::abs(yZ) < 2){
+					_h_pTZ_3->fill(pTZ, weight);
+					#if USE_FNLO
+						_fnlo_pTZ_3->fill(pTZ, event);
+					#endif
+				}
+				else if (std::abs(yZ) < 2.5){
+					_h_pTZ_4->fill(pTZ, weight);
+					#if USE_FNLO
+						_fnlo_pTZ_4->fill(pTZ, event);
+					#endif
+				}
 			#if USE_FNLO
 				_fnlo_pTZ->fill(pTZ, event);
 				_fnlo_yZ->fill(yZ, event);
 				_fnlo_mZ->fill(mZ, event);
+
 			#endif
 		}
 		else {
@@ -139,6 +189,12 @@ public:
 		scale(_h_pTZ, normfactor);
 		scale(_h_mZ, normfactor);
 		scale(_h_phiZ, normfactor);
+		
+		scale(_h_pTZ_0, normfactor);
+		scale(_h_pTZ_1, normfactor);
+		scale(_h_pTZ_2, normfactor);
+		scale(_h_pTZ_3, normfactor);
+		scale(_h_pTZ_4, normfactor);
 
 		scale(_h_pTe, normfactor);
 		scale(_h_etae, normfactor);
@@ -150,9 +206,21 @@ public:
 		_fnlo_yZ->scale(normfactor);
 		_fnlo_mZ->scale(normfactor);
 
+		_fnlo_pTZ_0->scale(normfactor);
+		_fnlo_pTZ_1->scale(normfactor);
+		_fnlo_pTZ_2->scale(normfactor);
+		_fnlo_pTZ_3->scale(normfactor);
+		_fnlo_pTZ_4->scale(normfactor);
+
 		_fnlo_pTZ->exportgrid();
 		_fnlo_yZ->exportgrid();
 		_fnlo_mZ->exportgrid();
+
+		_fnlo_pTZ_0->exportgrid();
+		_fnlo_pTZ_1->exportgrid();
+		_fnlo_pTZ_2->exportgrid();
+		_fnlo_pTZ_3->exportgrid();
+		_fnlo_pTZ_4->exportgrid();
 		#endif
 
 		// Clear event handler
@@ -167,6 +235,13 @@ private:
 	Histo1DPtr _h_mZ;
 	Histo1DPtr _h_phiZ;
 
+	// in y bins
+	Histo1DPtr _h_pTZ_0;
+	Histo1DPtr _h_pTZ_1;
+	Histo1DPtr _h_pTZ_2;
+	Histo1DPtr _h_pTZ_3;
+	Histo1DPtr _h_pTZ_4;
+
 	Histo1DPtr _h_pTe;
 	Histo1DPtr _h_etae;
 	Histo1DPtr _h_phie;
@@ -176,6 +251,12 @@ private:
 	MCgrid::gridPtr _fnlo_pTZ;
 	MCgrid::gridPtr _fnlo_yZ;
 	MCgrid::gridPtr _fnlo_mZ;
+	
+	MCgrid::gridPtr _fnlo_pTZ_0;
+	MCgrid::gridPtr _fnlo_pTZ_1;
+	MCgrid::gridPtr _fnlo_pTZ_2;
+	MCgrid::gridPtr _fnlo_pTZ_3;
+	MCgrid::gridPtr _fnlo_pTZ_4;
 	#endif
 };
 
