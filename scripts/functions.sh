@@ -5,11 +5,7 @@ make_analysis(){
 	merlin.py --py subtract_backgrounds --no-ybins
 	merlin.py --py unfold --no-ybins --no-mcs
 	merlin.py --py zee_divide
-	make_herafile
-}
-
-make_herafile(){
-	merlin.py --hera-sys 3 --hera-stat 1 -i 3_divided/zpt_madgraph_inclusive_1.root -f "''" -x nick0  --plot-m ExportHerafitter --x-bins '37,30,400' --header-file ../../qcd/sherivf/herafitter/herafitter_header.txt --filename CMS_Zee_HFinput -o ~/home/qcd/sherivf/herafitter/
+	merlin.py --py herafile
 }
 
 calculate_all_correlations(){
@@ -17,7 +13,6 @@ calculate_all_correlations(){
 		calculate_correlation.py -t latest_sherivf_output/fnlo_${i}Z.tab -o  correlations/fnlo_${i}Z.root
 	done
 }
-
 
 
 # plotting

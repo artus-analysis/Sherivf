@@ -44,6 +44,8 @@ class ExportHerafitter(plotbase.PlotBase):
 		    help="multiplicator for stat uncertainties")
 		self.plotting_options.add_argument("--hera-sys", type=float, default=1.,
 		    help="multiplicator for sys uncertainties")
+		self.plotting_options.add_argument("--hera-quantity", type=str,
+		    help="quantity")
 
 	def prepare_args(self, parser, plotData):
 		plotData.plotdict["formats"] = ["txt"]
@@ -57,6 +59,7 @@ class ExportHerafitter(plotbase.PlotBase):
 		else:
 			with open(plotData.plotdict["header_file"]) as f:
 				plotData.plot.header = f.read()
+			plotData.plot.header = plotData.plot.header.replace("@QUANTITY@", plotData.plotdict["hera_quantity"])
 
 
 	def make_plots(self, plotData):
