@@ -8,11 +8,11 @@ def herafile(args=None, additional_dictionary=None, pdflabel=""):
 	"""make herafile"""
 	quantity = "abs(zy)"
 	d = {
+		# input
 		"x_expressions": ['nick0'],
 		"files": ['3_divided/{}_madgraph_inclusive_1.root'.format(quantity)],
 		"folders": [""],
-		#"x_bins": ['37,30,400'],
-		# 
+		# output
 		"plot_modules": ['ExportHerafitter'],
 		"header_file": "herafitter/herafitter_header.txt",
 		"hera_sys": 3,
