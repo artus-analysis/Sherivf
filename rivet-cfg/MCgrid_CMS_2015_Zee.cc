@@ -51,7 +51,7 @@ public:
 		addProjection(electrons, "Electrons");
 
 		/// Book histograms here
-		_h_pTZ = bookHisto1D("zpt", 38, 20, 400);
+		_h_pTZ = bookHisto1D("zpt", 37, 30, 400);
 		_h_yZ = bookHisto1D("abszy", 24, 0, 2.4);
 		_h_mZ = bookHisto1D("zmass", 20, 81, 101);
 		_h_phiZ = bookHisto1D("zphi", 32, -3.2, 3.2);

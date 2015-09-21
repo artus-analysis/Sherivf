@@ -101,7 +101,7 @@ def sherpa_mc(args=None, additional_dictionary=None):
 				"(abs(geneminuseta)<2.4&&abs(genepluseta)<2.4)",
 				"(abs(geneminuseta)<1.442||abs(geneminuseta)>1.566)",
 				"(abs(genepluseta)<1.442||abs(genepluseta)>1.566)",
-				"(genzpt>20)",
+				"(genzpt>{})".format(common.bins['zpt'].split(",")[1]),
 				"(genzmass>81&&genzmass<101)",
 			]))],
 			"files": [

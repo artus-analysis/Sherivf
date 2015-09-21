@@ -9,7 +9,7 @@ make_analysis(){
 }
 
 make_herafile(){
-	merlin.py --hera-sys 3 --hera-stat 1 -i 3_divided/zpt_madgraph_inclusive_1.root -f "''" -x nick0  --plot-m ExportHerafitter --x-bins '38,20,400' --header-file ../../qcd/sherivf/herafitter/herafitter_header.txt --filename CMS_Zee_HFinput -o ~/home/qcd/sherivf/herafitter/
+	merlin.py --hera-sys 3 --hera-stat 1 -i 3_divided/zpt_madgraph_inclusive_1.root -f "''" -x nick0  --plot-m ExportHerafitter --x-bins '37,30,400' --header-file ../../qcd/sherivf/herafitter/herafitter_header.txt --filename CMS_Zee_HFinput -o ~/home/qcd/sherivf/herafitter/
 }
 
 calculate_all_correlations(){
