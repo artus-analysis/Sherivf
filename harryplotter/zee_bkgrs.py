@@ -87,6 +87,7 @@ def subtract_backgrounds(args=None):
 	ybins = np.arange(0, 2.4, 0.4)
 	backgrounds = common.bkgr_backgrounds
 	mc_scalefactor = -1
+	testweight = "1" ## zpt>30
 
 	for ybin, ybinsuffix in zip(*parsertools.get_list_slice([
 		["1"] + ["abs(zy)<{1} && abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])],
@@ -99,7 +100,7 @@ def subtract_backgrounds(args=None):
 				'x_bins': [bins],
 				'files': [path+'/work/data_ee.root'] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds],
 				'nicks': ['data'],
-				'weights': [ybin] + ["({scalefactor}*(hlt && ({ybin})))".format(ybin=ybin, scalefactor=mc_scalefactor)]*len(backgrounds),
+				'weights': ["(({})&&({}))".format(testweight, ybin)] + ["({scalefactor}*(({testweight})&&hlt&&({ybin})))".format(ybin=ybin, scalefactor=mc_scalefactor, testweight=testweight)]*len(backgrounds),
 				'folders': ['zcuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['zcuts_ak5PFJetsCHSL1L2L3/ntuple']*len(backgrounds),
 				#output
 				'plot_modules': ['ExportRoot'],
