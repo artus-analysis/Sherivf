@@ -9,6 +9,7 @@ class Sherivf(object):
 
 	def __init__(self):
 		quantities = ['abszy', 'zpt', 'zmass']
+		quantities += ['y0_zpt', 'y1_zpt', 'y2_zpt', 'y3_zpt', 'y4_zpt']
 		self.analysis = "MCgrid_CMS_2015_Zee"
 
 		if 'naf' in socket.gethostname().lower():

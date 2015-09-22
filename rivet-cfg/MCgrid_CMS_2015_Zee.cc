@@ -60,11 +60,11 @@ public:
 		_h_etae = bookHisto1D("eminuseta", 48, -2.4, 2.4);
 		_h_phie = bookHisto1D("eminusphi", 32, -3.2, 3.2);
 
-		_h_pTZ_0 = bookHisto1D("zpt_0", 37, 30, 400);
-		_h_pTZ_1 = bookHisto1D("zpt_1", 37, 30, 400);
-		_h_pTZ_2 = bookHisto1D("zpt_2", 37, 30, 400);
-		_h_pTZ_3 = bookHisto1D("zpt_3", 37, 30, 400);
-		_h_pTZ_4 = bookHisto1D("zpt_4", 37, 30, 400);
+		_h_pTZ_0 = bookHisto1D("y0_zpt", 37, 30, 400);
+		_h_pTZ_1 = bookHisto1D("y1_zpt", 37, 30, 400);
+		_h_pTZ_2 = bookHisto1D("y2_zpt", 37, 30, 400);
+		_h_pTZ_3 = bookHisto1D("y3_zpt", 37, 30, 400);
+		_h_pTZ_4 = bookHisto1D("y4_zpt", 37, 30, 400);
 
 		#if USE_FNLO
 		MSG_INFO("Using fastnlo");
