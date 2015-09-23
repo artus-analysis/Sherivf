@@ -2,8 +2,8 @@
 
 # CMS data analysis steps
 make_analysis(){
-	merlin.py --py subtract_backgrounds --no-ybins
-	merlin.py --py unfold --no-ybins --no-mcs
+	merlin.py --py subtract_backgrounds
+	merlin.py --py unfold --no-mcs
 	merlin.py --py zee_divide
 	merlin.py --py herafile
 }

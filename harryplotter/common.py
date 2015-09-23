@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import numpy as np
 import os
 
 bkgr_labels = {
@@ -64,6 +65,9 @@ qdict = {
 	'eminuspt': 'ept',
 	'eminuseta': 'eeta',
 }
+
+
+ybins = np.arange(0, 2.5, 0.5)
 
 excaliburpath = os.environ['EXCALIBURPATH']
 bkgr_path = excaliburpath

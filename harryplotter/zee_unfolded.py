@@ -16,7 +16,7 @@ def unfold(args=None):
 	known_args, args = parsertools.parser_list_tool(args, ['ybins', 'mcs', 'quantities', 'iterations'])
 
 	# some variables
-	ybins = np.arange(0, 2.8, 0.4)
+	ybins = common.ybins
 	path = common.bkgr_path
 	max_iterations = 4
 

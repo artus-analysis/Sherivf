@@ -15,7 +15,7 @@ def zee_bkgrs(args=None):
 	rapidity bins, mc samples, log/linear scale, ZpT/y/mass/ Njets as x-quantity."""
 
 	plots = []
-	ybins = np.arange(0, 2.4, 0.4)
+	ybins = common.ybins
 	bkgr_signal_ratio = False
 	path = common.bkgr_path
 	backgrounds = common.bkgr_backgrounds
@@ -84,7 +84,7 @@ def subtract_backgrounds(args=None):
 	known_args, args = parsertools.parser_list_tool(args, ['ybins', 'mcs', 'quantities'])
 
 	path = common.bkgr_path
-	ybins = np.arange(0, 2.4, 0.4)
+	ybins = common.ybins
 	backgrounds = common.bkgr_backgrounds
 	mc_scalefactor = -1
 	testweight = "1" ## zpt>30

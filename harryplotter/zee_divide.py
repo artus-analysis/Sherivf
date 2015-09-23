@@ -11,26 +11,32 @@ import common
 def zee_divide(args=None):
 	"""Divide unfolded Zee data by lumi and bin width"""
 
-	#known_args, args = parsertools.parser_list_tool(args, ['ybins', 'mcs', 'quantities', 'iterations'])
+	known_args, args = parsertools.parser_list_tool(args, ['ybins', 'quantities'])
+	ybins = common.ybins
+
 	plots = []
 	for quantity in common.data_quantities:
-		filename = '{}_madgraph_inclusive_{}'.format(quantity, common.iterations_to_use)
-		d = {
-			'files': ['2_unfolded/' + filename + '.root'],
-			'folders': [""],
-			'x_expressions': ['data_unfolded'],
-			'scale_factors': 1./19712.,
+		for ybin, ybinsuffix in zip(*parsertools.get_list_slice([
+				["1"] + ["abs(zy)<{1} && abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])],
+				["inclusive"] + ["{0:02d}y{1:02d}".format(int(10*low), int(10*up)) for low, up in zip(ybins[:-1], ybins[1:])]
+	], known_args.no_ybins)):
+			filename = '{}_madgraph_{}_{}'.format(quantity, ybinsuffix, common.iterations_to_use)
+			d = {
+				'files': ['2_unfolded/' + filename + '.root'],
+				'folders': [""],
+				'x_expressions': ['data_unfolded'],
+				'scale_factors': 1./19712.,
 
-			'analysis_modules': ['NormalizeByBinWidth'],
+				'analysis_modules': ['NormalizeByBinWidth'],
 
-			'plot_modules': ['ExportRoot'],
-			'output_dir': common.divided_path,
-			'filename': filename,
-			'export_json': False,
+				'plot_modules': ['ExportRoot'],
+				'output_dir': common.divided_path,
+				'filename': filename,
+				'export_json': False,
 			
-		}
+			}
 
-		plots.append(d)
+			plots.append(d)
 	return [PlottingJob(plots, args)]
 
 
