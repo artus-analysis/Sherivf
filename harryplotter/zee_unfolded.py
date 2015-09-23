@@ -16,14 +16,13 @@ def unfold(args=None):
 	known_args, args = parsertools.parser_list_tool(args, ['ybins', 'mcs', 'quantities', 'iterations'])
 
 	# some variables
-	ybins = common.ybins
 	path = common.bkgr_path
 	max_iterations = 4
 
 	plots = []
 	for ybin, ybinsuffix in zip(*parsertools.get_list_slice([
-				["1"] + ["abs(zy)<{1} && abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])],
-				["inclusive"] + ["{0:02d}y{1:02d}".format(int(10*low), int(10*up)) for low, up in zip(ybins[:-1], ybins[1:])]
+				["1"] + common.ybin_weights,
+				["inclusive"] + common.ybin_labels,
 	], known_args.no_ybins)):
 		for mc_label, mc in zip(*parsertools.get_list_slice([
 			['Madgraph', 'Powheg'],

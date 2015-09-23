@@ -37,9 +37,9 @@ def zee_bkgrs(args=None):
 		], known_args.no_njets)):
 			# iterate over rapidity bins
 			for ybin, ybinlabel, ybinsuffix in zip(*parsertools.get_list_slice([
-						["1"] + ["abs(zy)<{1} && abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])],
+						["1"] + common.ybin_weights,
 						["", "$|y|<0.4$"] + ["${0}<|y|<{1}$".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])][1:],
-						["_inclusive"] + ["_{0:02d}y{1:02d}".format(int(10*low), int(10*up)) for low, up in zip(ybins[:-1], ybins[1:])]
+						["_inclusive"] + common.ybin_labels
 			], known_args.no_ybins)):
 			# iterate over MC samples
 				for mc, mc_label in zip(*parsertools.get_list_slice([
@@ -84,14 +84,15 @@ def subtract_backgrounds(args=None):
 	known_args, args = parsertools.parser_list_tool(args, ['ybins', 'mcs', 'quantities'])
 
 	path = common.bkgr_path
-	ybins = common.ybins
 	backgrounds = common.bkgr_backgrounds
 	mc_scalefactor = -1
 	testweight = "1" ## zpt>30
 
+	print ["1"] + common.ybin_weights
+	print ["inclusive"] + common.ybin_labels
 	for ybin, ybinsuffix in zip(*parsertools.get_list_slice([
-		["1"] + ["abs(zy)<{1} && abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])],
-		["inclusive"] + ["{0:02d}y{1:02d}".format(int(10*low), int(10*up)) for low, up in zip(ybins[:-1], ybins[1:])]
+		["1"] + common.ybin_weights,
+		["inclusive"] + common.ybin_labels
 	], known_args.no_ybins)):
 		for quantity, bins in zip(*parsertools.get_list_slice([common.data_quantities, [common.bins[i] for i in common.data_quantities]], known_args.no_quantities)):
 			d = {

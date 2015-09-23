@@ -12,13 +12,12 @@ def zee_divide(args=None):
 	"""Divide unfolded Zee data by lumi and bin width"""
 
 	known_args, args = parsertools.parser_list_tool(args, ['ybins', 'quantities'])
-	ybins = common.ybins
 
 	plots = []
 	for quantity in common.data_quantities:
 		for ybin, ybinsuffix in zip(*parsertools.get_list_slice([
-				["1"] + ["abs(zy)<{1} && abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])],
-				["inclusive"] + ["{0:02d}y{1:02d}".format(int(10*low), int(10*up)) for low, up in zip(ybins[:-1], ybins[1:])]
+				["1"] + common.ybin_weights,
+				["inclusive"] + common.ybin_labels
 	], known_args.no_ybins)):
 			filename = '{}_madgraph_{}_{}'.format(quantity, ybinsuffix, common.iterations_to_use)
 			d = {
