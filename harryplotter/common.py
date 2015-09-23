@@ -45,8 +45,8 @@ bins = {
 bins['abszy'] = bins['abs(zy)']
 
 pdfsetdict = {
-	'NNPDF23_nlo_as_0118': 'NNPDF 2.3',
-	'NNPDF30_nlo_as_0118': 'NNPDF 3.0',
+	'NNPDF23_nlo_as_0118': 'NNPDF 2.3 NLO',
+	'NNPDF30_nlo_as_0118': 'NNPDF 3.0 NLO',
 	'NNPDF21_100': 'NNPDF 2.1',
 	'abm11_3n_nlo': 'ABM11',
 	'cteq65': 'CTEQ 6.5',

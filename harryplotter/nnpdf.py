@@ -39,6 +39,7 @@ def pdf(args=None, additional_dictionary=None, pdflabel=""):
 		plots.append(d)
 	return [PlottingJob(plots, args)]
 
+
 def nnpdf(args=None):
 	pdfset = 'NNPDF30_nlo_as_0118'
 	labels = {

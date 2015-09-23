@@ -7,12 +7,13 @@ from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 def pdfs_thesis(args=None, additional_dictionary=None):
 	"""PDF plots for thesis"""
 	plots = []
+	pdfset = "NNPDF30_nlo_as_0118"
 	flavours = ['gluon', 'd_valence_quark', 'u_valence_quark', 'strange', 'd_antiquark', 'u_antiquark']
 	labels = ["gluon/10", r"$d_v$", r"$u_v$", r"$s$", r"$\\bar{d}$", r"$\\bar{u}$"]
 	for q in [1.9, 3, 10, 14, 91.2, 200]:
 		d = {
 			# input
-			"files": ["pdf_sets/pdfs_for_plotting_{}.root".format(str(q).replace(".", "_"))],
+			"files": ["pdf_sets/{}/Q_{}.root".format(pdfset, str(q).replace(".", "_"))],
 			"folders": [""],
 			'x_expressions': flavours,
 			"nicks": flavours,
@@ -29,7 +30,7 @@ def pdfs_thesis(args=None, additional_dictionary=None):
 			"y_label": "pdf",
 			"x_lims": [1e-3, 1],
 			"y_lims": [0, 1],
-			"title": "NNPDF 3.0 NLO",
+			"title": common.pdfsetdict[pdfset],
 			"texts": [r"$\\mathit{Q}=$" + " {} GeV".format(q)],
 			"texts_x": [0.05],
 			# output
