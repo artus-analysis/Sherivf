@@ -42,6 +42,7 @@ bins = {
 	'eminuspt': "20,20,120",
 	'eminuseta': "48,-2.4,2.4",
 }
+bins['abszy'] = bins['abs(zy)']
 
 pdfsetdict = {
 	'NNPDF23_nlo_as_0118': 'NNPDF 2.3',

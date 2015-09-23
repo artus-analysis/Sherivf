@@ -43,7 +43,7 @@ def main():
 	#Parse Args
 	parser = argparse.ArgumentParser(description='Calculates the correlation coefficient between PDFs and xs')
 	parser.add_argument('-t', '--table', help='fastNLO table')
-	parser.add_argument('-p', '--pdfset', help='LHAPDF PDF Filename', default='NNPDF23_nlo_as_0118.LHgrid')
+	parser.add_argument('-p', '--pdfset', help='LHAPDF PDF Filename', default='NNPDF30_nlo_as_0118')
 	parser.add_argument('-o', '--output-filename', help='corr.root')
 	kwargs = vars(parser.parse_args())
 	if kwargs['output_filename'] == None:
@@ -66,7 +66,7 @@ def get_corr(table, pdfset, output_filename, **kwargs):
 			pdf = get_pdf(pdfset, parton, storage['scale'][nobbin], x)
 			for xi in range(0, len(x)):
 				corr[nobbin][xi] = np.corrcoef([pdf.transpose()[xi], storage['xsnlo'][obbin]])[0][1]
-		y = np.array(list(storage['y_low']) + [storage['y_high'][len(storage['y_high']) -1]])
+		y = np.array(list(storage['y_low']) + [storage['y_high'][-1]])
 		np_to_root(x, y, corr, partons[parton], output_filename)
 
 
@@ -82,38 +82,26 @@ def np_to_root(x, y, corr, name, output_filename):
 
 	tprof.Write()
 	out.Close()
+	print "written to", output_filename
 
 
 def get_fnlo(table, pdfset):
-	""" """
+	""" Get the cross section values from the table for a certain pdfset"""
 	xs_nlo = {}
 
 	fnlo = fastNLOLHAPDF(table)
 	fnlo.SetLHAPDFFilename(pdfset)
-
 	fnlo.SetLHAPDFMember(0)
 	fnlo.CalcCrossSection()
-
 	npdfmember = fnlo.GetNPDFMembers()
-	xs_nlo['xsnlo'] = np.zeros((npdfmember - 1, fnlo.GetNObsBin(),))
+
+	xs_nlo['xsnlo'] = np.zeros((npdfmember, fnlo.GetNObsBin()))
 	xs_nlo['scale'] = np.array(fnlo.GetQScales(1))
-	# xs_nlo['bi_lo'] = np.array([fnlo.GetObsBin(i)[1] for i in range(0,fnlo.GetNObsBin())]).transpose()[0]
-	# xs_nlo['bi_hi'] = np.array([fnlo.GetObsBin(i)[1] for i in range(0,fnlo.GetNObsBin())]).transpose()[1]
 
-	#########################
+	xs_nlo['y_low'] = [_bin[0] for _bin in fnlo.GetObsBinsBounds(0)]
+	xs_nlo['y_high'] = [_bin[1] for _bin in fnlo.GetObsBinsBounds(0)]
 
-	#xs_nlo['pt_low'], xs_nlo['y_low'] = np.array(fnlo.GetLowBinEdge()).transpose()
-	#xs_nlo['pt_high'], xs_nlo['y_high'] = np.array(fnlo.GetUpBinEdge()).transpose()
-
-	xs_nlo['y_low'] = np.array(fnlo.GetLoBin(0))
-	xs_nlo['y_high'] = np.array(fnlo.GetUpBin(0))
-
-	xs_nlo['pt_low'] = xs_nlo['y_low']
-	xs_nlo['pt_high'] = xs_nlo['y_high']
-
-	#######################
-
-	for i in range(1, npdfmember):
+	for i in range(npdfmember):
 		fnlo.SetLHAPDFMember(i)
 		fnlo.CalcCrossSection()
 		xs_nlo['xsnlo'][i - 1] = fnlo.GetCrossSection()
@@ -125,28 +113,27 @@ def get_fnlo(table, pdfset):
 def get_pdf(pdfset, parton, q, xs):
 	"""get the PDF (xfx) for a certain set, parton, x and Q"""
 
-	lhapdf.initPDFSetByName(pdfset)
-	npdfs = lhapdf.numberPDF()
-	pdf = np.zeros((npdfs, len(xs)))
+	pdfs = lhapdf.mkPDFs(pdfset)
+	pdf = np.zeros((len(pdfs), len(xs)))
+	
 
-	for member in range(1, npdfs + 1):
-		lhapdf.initPDF(member)
+	for i_member, pdfmember in enumerate(pdfs):
 		for (i, xi) in enumerate(xs):
 			if parton < 7:
-				pdf[member - 1][i] = lhapdf.xfx(xi, q, parton)
+				pdf[i_member - 1][i] = pdfmember.xfxQ(parton, xi, q)
 			elif parton == 7:
 				#DVAL 1-(-1)
-				pdf[member - 1][i] = lhapdf.xfx(xi, q, 1) - \
-								 lhapdf.xfx(xi, q, -1)
+				pdf[i_member - 1][i] = pdfmember.xfxQ(1, xi, q) - \
+								 pdfmember.xfxQ(-1, xi, q)
 			elif parton == 8:
 				#UVAL 2-(-2)
-				pdf[member - 1][i] = lhapdf.xfx(xi, q, 2) - \
-								 lhapdf.xfx(xi, q, -2)
+				pdf[i_member - 1][i] = pdfmember.xfxQ(2, xi, q) - \
+								 pdfmember.xfxQ(-2, xi, q)
 			elif parton == 9:
 				#Light sea: xS=2(xubar + xdbar + xsbar)
-				pdf[member - 1][i] = 2*(lhapdf.xfx(xi, q, -1) + \
-								 lhapdf.xfx(xi, q, -2) + \
-								 lhapdf.xfx(xi, q, -3))
+				pdf[i_member - 1][i] = 2*(pdfmember.xfxQ(-1, xi, q) + \
+								 pdfmember.xfxQ(-2, xi, q) + \
+								 pdfmember.xfxQ(-3, xi, q))
 			else:
 				raise ValueError('Parton id not in range 0...9')
 	return pdf

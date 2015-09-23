@@ -24,7 +24,7 @@ then
 fi
 #harry plotter
 export PLOTCONFIGS=$SHERIVFDIR/harryplotter:$PYTHONCONFIGS
-export PYTHONPATH=$SHERIVFDIR/harryplotter:$PYTHONPATH
+export PYTHONPATH=$SHERIVFDIR/harryplotter:$SHERIVFDIR/scripts:$PYTHONPATH
 export MODULES_SEARCH_PATH=$SHERIVFDIR/harryplotter/modules:$MODULES_SEARCH_PATH
 
 export PKG_CONFIG_PATH=$SHERIVFDIR/../enrico/mcgrid/mcgrid/:$PKG_CONFIG_PATH

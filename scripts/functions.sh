@@ -9,8 +9,8 @@ make_analysis(){
 }
 
 calculate_all_correlations(){
-	for i in pT m y; do
-		calculate_correlation.py -t latest_sherivf_output/fnlo_${i}Z.tab -o  correlations/fnlo_${i}Z.root
+	for i in zpt abszy zmass; do
+		calculate_correlation.py -t latest_sherivf_output/${i}.tab -o  correlations/${i}.root &
 	done
 }
 
