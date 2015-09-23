@@ -3,7 +3,7 @@
 
 """This is the GC wrapper"""
 
-import sys, os, glob, shutil, time, subprocess, argparse, socket
+import sys, os, glob, shutil, time, subprocess, argparse, socket, multiprocessing
 
 class Sherivf(object):
 
@@ -166,11 +166,16 @@ class Sherivf(object):
 			return outputs
 
 		try:
-			#merge fastNLO files
+			#merge fastNLO files: gather commands
+			commands_list = []
 			for quantity in [item.replace(".tab", "") for item in self.fastnlo_outputs]:
 				commands = ['fnlo-tk-merge'] + glob.glob(self.args.output_dir+'/output/'+'{0}*.tab'.format(quantity)) + [self.args.output_dir+'/{0}.tab'.format(quantity)]
-				print_and_call(commands)
+				commands_list.append(commands)
 				outputs.append(self.args.output_dir+'/{0}.tab'.format(quantity))
+			# merge in parallel
+			pool = multiprocessing.Pool(processes=len(commands_list))
+			results = pool.map_async(print_and_call, commands_list)
+			res = results.get(9999999) # 9999999 is needed for KeyboardInterrupt to work: http://stackoverflow.com/questions/1408356/keyboard-interrupts-with-pythons-multiprocessing-pool
 		except OSError as e:
 			print "Could not merge fastNLO outputs ({0}): {1}".format(e.errno, e.strerror)
 
