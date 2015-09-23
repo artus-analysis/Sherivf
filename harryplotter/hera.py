@@ -15,11 +15,12 @@ def herafile(args=None, additional_dictionary=None, pdflabel=""):
 		# output
 		"plot_modules": ['ExportHerafitter'],
 		"header_file": "herafitter/herafitter_header.txt",
-		"hera_sys": 3,
-		"hera_stat": 1,
+		"hera_sys": 10,
 		"hera_quantity": quantity.replace("(","").replace(")",""),
 		"filename": 'CMS_Zee_HFinput',
 		"output_dir": "/usr/users/dhaitz/home/qcd/sherivf/herafitter",
+		# output
+		"export_json": False,
 	}
 	if additional_dictionary is not None:
 		d.update(additional_dictionary)

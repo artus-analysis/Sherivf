@@ -8,8 +8,8 @@
 
    NDATA          = @NDATA@
    NColumn        = 5
-   ColumnType     = 'Bin'   , 'Bin'    , 'Sigma' , 'Error' , 'Error'
-   ColumnName     = 'ptlow' , 'pthigh' , 'Sigma' , 'stat'  , 'uncor'
+   ColumnType     = 'Bin'   , 'Bin'    , 'Sigma' , 'Error' , 'Error' , 'Error'
+   ColumnName     = 'ptlow' , 'pthigh' , 'Sigma' , 'stat'  , 'uncor' , 'lumi'
    NInfo          = 4
    DataInfo       = 8000.     , 1.                 , -1.      , -1.
    CInfo          = 'sqrt(S)' , 'PublicationUnits' , 'MurDef' , 'MufDef'
@@ -19,5 +19,5 @@
   TheoryInfoFile = '/usr/users/dhaitz/home/qcd/sherivf/latest_sherivf_output/@QUANTITY@.tab'
    TheoryType     = 'FastNLO'
 
-   Percent        = 2*False
+   Percent        = True*3
 &End

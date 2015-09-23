@@ -42,8 +42,8 @@ class ExportHerafitter(plotbase.PlotBase):
 		    help="Location to the txt file containing the header of the Herafitter data file.")
 		self.plotting_options.add_argument("--hera-stat", type=float, default=1.,
 		    help="multiplicator for stat uncertainties")
-		self.plotting_options.add_argument("--hera-sys", type=float, default=1.,
-		    help="multiplicator for sys uncertainties")
+		self.plotting_options.add_argument("--hera-sys", type=float, default=10.,
+		    help="sys uncertainty")
 		self.plotting_options.add_argument("--hera-quantity", type=str,
 		    help="quantity")
 
@@ -72,8 +72,9 @@ class ExportHerafitter(plotbase.PlotBase):
 				root_object.GetBinLowEdge(i),
 				root_object.GetBinLowEdge(i) + root_object.GetBinWidth(i),
 				root_object.GetBinContent(i),
-				plotData.plotdict["hera_stat"]*root_object.GetBinError(i),  # stat
-				plotData.plotdict["hera_sys"]*root_object.GetBinError(i)  # sys
+				plotData.plotdict["hera_stat"]*(100*root_object.GetBinError(i)/root_object.GetBinContent(i)),  # stat
+				plotData.plotdict["hera_sys"],  # sys
+				2.6,  # lumi
 			])
 		# now, format the values to strings with proper widths
 		list_of_max_len = [0]*len(lines[0])
@@ -89,5 +90,6 @@ class ExportHerafitter(plotbase.PlotBase):
 				"{:{width}.4f}".format(line[2], width=list_of_max_len[2]+3),
 				"{:{width}.6f}".format(line[3], width=list_of_max_len[3]+3),
 				"{:{width}.6f}".format(line[4], width=list_of_max_len[4]+3),
+				"{:{width}.6f}".format(line[5], width=list_of_max_len[5]+3),
 			]))
 		plotData.plot.values = "\n".join(str_lines)
