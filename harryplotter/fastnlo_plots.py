@@ -15,7 +15,7 @@ def sherpa_fastnlo(args=None):
 	# pT or y:
 	for quantity in ['zpt', 'abs(zy)', 'zmass']:
 		for ybin, ybinsuffix in zip(
-				[""] + ["y{}_".format(i) for i in range(len(ybins))],
+				[""] + ["y{}_".format(i) for i in range(len(common.ybins))],
 				["inclusive"] + common.ybin_labels
 		):
 			if (quantity is not 'zpt') and (ybin is not ""):

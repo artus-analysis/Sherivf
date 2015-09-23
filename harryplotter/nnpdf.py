@@ -21,7 +21,7 @@ def pdf(args=None, additional_dictionary=None, pdflabel=""):
 			"line_styles": ["-"],
 			"markers": ["fill"],
 			"x_label": r"$\\mathit{x}$",
-			"colors": [colors.histo_colors['blue'], colors.histo_colors['yellow']],
+			"colors": [colors.histo_colors['blue'], colors.histo_colors['yellow']]*2,
 			"x_log": True,
 			"y_label": "pdf",
 			"y_subplot_lims": [-0.25, 0.25],
@@ -29,6 +29,7 @@ def pdf(args=None, additional_dictionary=None, pdflabel=""):
 			"texts": [pdflabel + r"\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)"],
 			"texts_x": [0.05],
 			'title': flavour.replace('_', ' '),
+			'subplot_fraction': 50,
 			# output
 			'www_title': 'NNPDF Reweighting',
 			'www_text': 'Result of NNPDF Reweighting: Comparison of original and reweighted PDF set. Dummy systematic errors have been used.',
@@ -45,7 +46,7 @@ def nnpdf(args=None):
 	}
 	return pdf(args, {
 		'files': ['pdf_sets/{}.root'.format(pdfset), 'pdf_sets/{}_HighStat_chi2_nRep100.root'.format(pdfset)],
-		'labels': ['original', 'reweighted'],
+		'labels': ['original', 'reweighted']*2,
 		'www': 'nnpdf'
 	}, pdflabel=labels[pdfset])
 
