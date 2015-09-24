@@ -22,8 +22,8 @@ alias make_allplots="merlin.py --py allplots"
 ## Final PDF fitting
 nnpdf_fit(){
 	PDFSET=NNPDF30_nlo_as_0118
-	cd $SHERIVFDIR/../herafitter-1.1.1
-	rm $SHERIVFDIR/../herafitter-1.1.1/output/NNPDF*_HighStat_chi2/* $SHERIVFDIR/../herafitter-1.1.1/NNPDF/data/* -rf
+	cd $HERADIR
+	rm $HERADIR/output/NNPDF*_HighStat_chi2/* $HERADIR/NNPDF/data/* -rf
 	mkdir -p output/${PDFSET}_HighStat_chi2
 	FitPDF
 	cd output/${PDFSET}_HighStat_chi2
@@ -33,22 +33,23 @@ nnpdf_fit(){
 }
 
 hera_fit(){
-	cd $SHERIVFDIR/../herafitter-1.1.1
+	cd $HERADIR
 	FitPDF
 	migrate
 }
 
 migrate(){
 	install_lhapdf5
-	cd $SHERIVFDIR/../herafitter-1.1.1
+	cd $HERADIR
+	tools/tolhapdf.cmd  # create LHAPDF5 .LHgrid file
 	export LHAPATH=$PWD
-	../creategrids PDFs.LHgrid
+	../creategrids PDFs.LHgrid  # convert to LHAPDF6
 	install_lhapdf6
-	pdf_2_root.py -p PDFs  -f 0 1 2 3 4 -1 -2
+	pdf_2_root.py -p PDFs  -f 0 1 2 3 4 -1 -2  # convert to ROOT
 	mv PDFs.root $SHERIVFDIR
 }
 
-
+## for switching LHAPDF versions
 install_lhapdf(){
 	rm /usr/users/dhaitz/local/lib64/python2.6/site-packages/lhapdf.*
 	cd $SHERIVFDIR/../$1

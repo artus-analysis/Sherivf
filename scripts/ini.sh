@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
+export HERADIR=$SHERIVFDIR/../herafitter-1.1.1
 
 if [ -e $SHERIVFDIR/scripts/functions.sh ]
 then
