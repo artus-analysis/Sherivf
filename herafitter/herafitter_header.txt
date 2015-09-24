@@ -9,7 +9,7 @@
    NDATA          = @NDATA@
    NColumn        = 5
    ColumnType     = 'Bin'   , 'Bin'    , 'Sigma' , 'Error' , 'Error' , 'Error'
-   ColumnName     = 'ptlow' , 'pthigh' , 'Sigma' , 'stat'  , 'uncor' , 'lumi'
+   ColumnName     = 'ylow' , 'yhigh' , 'Sigma' , 'stat'  , 'sysasdf' , 'lumi'
    NInfo          = 4
    DataInfo       = 8000.     , 1.                 , -1.      , -1.
    CInfo          = 'sqrt(S)' , 'PublicationUnits' , 'MurDef' , 'MufDef'
