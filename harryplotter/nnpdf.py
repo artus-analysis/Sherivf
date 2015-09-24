@@ -52,5 +52,21 @@ def nnpdf(args=None):
 	}, pdflabel=labels[pdfset])
 
 
+def herapdf(args=None):
+	"""plot hera pdf reweighted pdf"""
+	pdfset = 'NNPDF30_nlo_as_0118'
+	labels = {
+		'NNPDF30_nlo_as_0118': 'NNPDF 3.0',
+	}
+	return pdf(args, {
+		'files': ['pdf_sets/{}.root'.format(pdfset), 'PDFs.root'],
+		'labels': ['NNPDF 3.0', 'DHPDF 1.0']*2,
+		'www': 'herapdf',
+		'www_title': 'PDF Fit',
+		'www_text': '',
+
+	})#, pdflabel=labels[pdfset])
+
+
 if __name__ == '__main__':
 	nnpdf()
