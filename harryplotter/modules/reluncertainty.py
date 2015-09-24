@@ -26,7 +26,10 @@ class RelUncertainty(analysisbase.AnalysisBase):
 
 			for i in range(1, orig.GetNbinsX()+1):
 				graph.SetPoint(i-1, orig.GetBinCenter(i), 0)
-				graph.SetPointError(i-1, 0, orig.GetBinError(i)/orig.GetBinContent(i))
+				try:
+					graph.SetPointError(i-1, 0, orig.GetBinError(i)/orig.GetBinContent(i))
+				except ZeroDivisionError:
+					graph.SetPointError(i-1, 0, 0)
 
 			new_nick = nick+"_rel"
 			plotData.plotdict["root_objects"][new_nick] = graph
