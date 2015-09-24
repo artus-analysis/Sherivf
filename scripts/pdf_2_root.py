@@ -41,16 +41,17 @@ def main(
 
 	
 	out = ROOT.TFile((folder+"/" if folder is not None else "") + output_filename, "RECREATE")
-	n_members = 101
 	x_values = np.logspace(-4, -0.0001, n_points)
 
 	## Version info, search paths, and metadata
 	print "LHAPDF version", lhapdf.version()
 	lhapdf.pathsPrepend("/usr/users/dhaitz/home/qcd/herafitter-1.1.1/output/"+pdfset.replace("_nRep100", ""))
+	lhapdf.pathsPrepend("/usr/users/dhaitz/home/qcd/herafitter-1.1.1/")
 	lhapdf.setVerbosity(0)
 	print "LHAPDF paths",lhapdf.paths()
 	print "PDFset:", pdfset
 	pset = lhapdf.getPDFSet(pdfset)
+	n_members = pset.size
 
 	# iterate over flavours, get pdfgraph, write
 	for flavour in flavours:
