@@ -75,7 +75,7 @@ def getopt():
 
 	opt = parser.parse_args()
 	if opt.output_filename is None:
-		opt.output_filename = opt.pdfset + ".root"
+		opt.output_filename = "{}__{}.root".format(opt.pdfset, str(opt.q).replace('.', '_'))
 	else:
 		opt.output_filename += ".root"
 	return opt
