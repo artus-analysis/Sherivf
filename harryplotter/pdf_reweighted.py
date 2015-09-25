@@ -55,7 +55,7 @@ def nnpdf(args=None):
 		'NNPDF30_nlo_as_0118': 'NNPDF 3.0',
 	}
 	return pdf(args, {
-		'files': ['pdf_sets/{}.root'.format(pdfset), 'pdf_sets/{}_HighStat_chi2_nRep100.root'.format(pdfset)],
+		'files': ['pdf_sets/{}.root'.format(pdfset), 'pdf_sets/{}_HighStat_chi2_nRep100__91_2.root'.format(pdfset)],
 		'labels': ['original', 'reweighted']*2,
 	}, pdflabel=labels[pdfset])
 
