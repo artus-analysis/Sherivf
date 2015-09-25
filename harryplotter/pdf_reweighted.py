@@ -70,8 +70,8 @@ def herapdf(args=None, q_value='91_2'):
 		'www_text': 'No model or parametrisation uncertainties',
 	})
 
-def herapdf_13(args=None):
-	return herapdf(args, '1_3')
+def herapdf_14(args=None):
+	return herapdf(args, '1_4')
 
 def herapdf_912(args=None):
 	return herapdf(args, '91_2')

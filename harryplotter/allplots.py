@@ -47,7 +47,7 @@ def allplots(args=None):
 		fastnlo_plots.fastnlo_pdfmember,
 		fastnlo_plots.sherpa_fastnlo,
 		pdf_reweighted.nnpdf,  # 15
-		pdf_reweighted.herapdf_13,
+		pdf_reweighted.herapdf_14,
 		pdf_reweighted.herapdf_912,
 		zee_uncertainties.plot_uncertainties,
 	][plot_min:plot_max]
@@ -69,7 +69,7 @@ def allplots(args=None):
 		"fastnlo_pdfmember",
 		"fastnlo_sherpa",
 		"nnpdf",
-		"herapdf_13",
+		"herapdf_14",
 		"herapdf_912",
 		"uncertainties",
 	][plot_min:plot_max]

@@ -25,7 +25,7 @@ def herafile(args=None, additional_dictionary=None, pdflabel=""):
 		# output
 		"plot_modules": ['ExportHerafitter'],
 		"header_file": "herafitter/herafitter_header.txt",
-		"hera_sys": 5,
+		"hera_sys": 10,
 		"hera_quantity": quantity.replace("(","").replace(")",""),
 		"filename": 'CMS_Zee_HFinput',
 		"output_dir": "/usr/users/dhaitz/home/qcd/sherivf/herafitter",

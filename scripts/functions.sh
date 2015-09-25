@@ -49,7 +49,7 @@ _hera_fit(){
 	FitPDF
 	NAME=herapdf
 	cd $1/
-	for q in 1.3 91.2;
+	for q in 1.4 91.2;
 		do pdf_2_root.py -p $NAME -q ${q}
 	done
 	rename $NAME $1 *.root
