@@ -85,31 +85,30 @@ def subtract_backgrounds(args=None):
 
 	path = common.bkgr_path
 	backgrounds = common.bkgr_backgrounds
-	mc_scalefactor = -1
-	testweight = "1" ## zpt>30
 
-	print ["1"] + common.ybin_weights
-	print ["inclusive"] + common.ybin_labels
 	for ybin, ybinsuffix in zip(*parsertools.get_list_slice([
 		["1"] + common.ybin_weights,
 		["inclusive"] + common.ybin_labels
 	], known_args.no_ybins)):
 		for quantity, bins in zip(*parsertools.get_list_slice([common.data_quantities, [common.bins[i] for i in common.data_quantities]], known_args.no_quantities)):
-			d = {
-				#input
-				'x_expressions': quantity,
-				'x_bins': [bins],
-				'files': [path+'/work/data_ee.root'] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds],
-				'nicks': ['data'],
-				'weights': ["(({})&&({}))".format(testweight, ybin)] + ["({scalefactor}*(({testweight})&&hlt&&({ybin})))".format(ybin=ybin, scalefactor=mc_scalefactor, testweight=testweight)]*len(backgrounds),
-				'folders': ['zcuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['zcuts_ak5PFJetsCHSL1L2L3/ntuple']*len(backgrounds),
-				#output
-				'plot_modules': ['ExportRoot'],
-				'filename': "_".join([quantity, ybinsuffix]),
-				'output_dir': "1_background-subtracted",
-				'export_json': False,
-			}
-			plots.append(d)
+			for variation in ["", "_edown", "_eup", "_bkgrup", "_bkgrdown"]:  # for sys uncert estimation
+				datasuffix = (variation if ('_e' in variation) else "")  # Trigger/ID SF
+				mc_scalefactor = -1 + (-0.5*(variation=="_bkgrdown")) + (0.5*(variation=="_bkgrup"))  # for bkgr estimation
+				d = {
+					#input
+					'x_expressions': quantity,
+					'x_bins': [bins],
+					'files': [path+'/work/data_ee{}.root'.format(datasuffix)] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds],
+					'nicks': ['data'],
+					'weights': ["({})".format(ybin)] + ["({scalefactor}*(hlt&&({ybin})))".format(ybin=ybin, scalefactor=mc_scalefactor)]*len(backgrounds),
+					'folders': ['zcuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['zcuts_ak5PFJetsCHSL1L2L3/ntuple']*len(backgrounds),
+					#output
+					'plot_modules': ['ExportRoot'],
+					'filename': quantity + "_" + ybinsuffix + variation,
+					'output_dir': "1_background-subtracted",
+					'export_json': False,
+				}
+				plots.append(d)
 	return [PlottingJob(plots, args)]
 
 
