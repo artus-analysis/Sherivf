@@ -1,0 +1,84 @@
+
+(run){
+  EVENTS 1M;
+  SF:=1;
+  ANALYSIS Rivet;
+  ANALYSIS_OUTPUT Rivet;
+  
+  HEPMC_USE_NAMED_WEIGHTS=1;
+  HEPMC_EXTENDED_WEIGHTS=1;
+
+  PDF_LIBRARY=CT10Sherpa;
+  PDF_SET=ct10;
+}(run);
+
+(beam){
+  % LHC collider setup
+  BEAM_1 2212; BEAM_ENERGY_1 4000;
+  BEAM_2 2212; BEAM_ENERGY_2 4000;
+}(beam);
+
+(integration){
+  ERROR 0.01;
+}(integration);
+
+(me){
+  ME_SIGNAL_GENERATOR BlackHat Comix Internal;
+  EVENT_GENERATION_MODE Weighted;
+  SCALES VAR{SF*8315.18};
+  RESULT_DIRECTORY Results_NLO; 
+}(me);
+
+(model){
+  MASS[6] = 1e20
+}(model)
+
+(processes){
+
+  ### The Born, virtual, integrated and real-subtracted pieces
+  Process 93 93 -> 11 -11 93;
+  NLO_QCD_Mode Fixed_Order;
+  NLO_QCD_Part B;
+  Order (*,2);
+  End process;
+
+  Process 93 93 -> 11 -11 93;
+  NLO_QCD_Mode Fixed_Order;
+  NLO_QCD_Part I;
+  Order (*,2);
+  End process;
+
+  Process 93 93 -> 11 -11 93;
+  NLO_QCD_Mode Fixed_Order;
+  NLO_QCD_Part V;
+  Loop_Generator BlackHat;
+  Order (*,2);
+  End process;
+
+  Process 93 93 -> 11 -11 93;
+  NLO_QCD_Mode Fixed_Order;
+  NLO_QCD_Part RS;
+  Order (*,2);
+  End process;
+
+}(processes);
+
+
+(selector){
+  Mass 11 -11 81. 101.
+  PTNLO 11 25 E_CMS
+  PTNLO -11 25 E_CMS
+  PseudoRapidityNLO 11 -2.4 2.4
+  PseudoRapidityNLO -11 -2.4 2.4
+  PT2NLO 11 -11 30 E_CMS
+}(selector)
+
+
+(analysis){
+  BEGIN_RIVET {
+    -a MCgrid_CMS_2015_Zee;
+    USE_HEPMC_SHORT 1;
+    USE_HEPMC_EXTENDED_WEIGHTS 1;
+    IGNOREBEAMS 1;
+  } END_RIVET;
+}(analysis);
