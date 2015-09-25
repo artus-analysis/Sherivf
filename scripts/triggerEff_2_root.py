@@ -32,6 +32,8 @@ def main(
 		ybins += values[2:4]
 	xbins = sorted(list(set(xbins)))
 	ybins = sorted(list(set(ybins)))
+	print "xbins", xbins
+	print "ybins", ybins
 
 	#create histo
 	histo = ROOT.TH2D(idname, idname,
@@ -46,7 +48,11 @@ def main(
 		x = 0.5 * (values[1] + values[0])
 		y = 0.5 * (values[3] + values[2])
 		eff = 1./values[4]
-		histo.Fill(x, y, eff)
+		error = 0.5 * (abs(values[5]) + abs(values[6]))
+		i_x = xbins.index(values[1])
+		i_y = ybins.index(values[3])
+		histo.SetBinContent(i_x, i_y, eff)
+		histo.SetBinError(i_x, i_y, error)
 
 	# write
 	out_file = ROOT.TFile(output_filename, "UPDATE")
