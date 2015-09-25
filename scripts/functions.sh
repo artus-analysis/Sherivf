@@ -45,10 +45,10 @@ fit_heraZ(){
 _hera_fit(){
 	cd $HERADIR
 	copy_herafitter_steering.py -m $1
-	rm -rf $HERADIR/output/*
+	rm -rf $HERADIR/$1/*
 	FitPDF
 	NAME=herapdf
-	cd output/
+	cd $1/
 	for q in 1.3 91.2;
 		do pdf_2_root.py -p $NAME -q ${q}
 	done
