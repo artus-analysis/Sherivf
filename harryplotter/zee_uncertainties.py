@@ -69,21 +69,34 @@ def plot_uncertainties(args=None):
 	""" Plot all systematic uncertainties."""
 	plots = []
 	for quantity in common.data_quantities:
-		files = []
+		files = [common.divided_path + "/" + quantity+'_madgraph_inclusive_1.root']
+		types = ['_eup', '_bkgrup', '_unfup', '_lumi']
 		for unc in ['_eup', '_bkgrup', '_unfup', '_lumi']:
 			files += [common.systematic_path + "/" + quantity+'_madgraph_inclusive{}_1.root'.format(unc)]
-		labels = ['eEff', 'bkgr', 'Unfold', 'Lumi']
+		n_source = 4
+		labels = ['Statistical', 'Electron ID/Trigger Efficiency', 'Background', 'Unfolding', 'Luminosity']
 		d = {
 			'files': files,
 			'folders': [""],
-			'x_expressions': ['ratio'],
+			'x_expressions': ['nick0'] + ['ratio']*n_source,
 			'filename': '_'.join(['unc', quantity]),
+			'scale_factors': [100.],
+			'nicks': ['nick0'] + types,
 			
+			'analysis_modules': ['StatisticalErrors'],
+			'stat_error_nicks': ['nick0'],
+			'stat_error_relative': True,
+			'stat_error_relative_percent': True,
+			
+			'y_label': 'Uncertainty / %',
+			'x_label': quantity,
 			'labels': labels,
-			'markers': ['o'],
+			'markers': ['o', 'd', '*', '.', 'D'],
 			'line_styles': ['-'],
 			'step': [True],
 			'y_errors': [False],
 		}
+		if quantity == 'zpt':
+			d['y_lims'] = [0, 10]
 		plots.append(d)
 	return [PlottingJob(plots, args)]
