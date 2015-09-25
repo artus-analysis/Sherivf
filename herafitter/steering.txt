@@ -2,20 +2,16 @@
 *
 &InFiles
   ! Number of input files
-    NInputFiles = 1
+    NInputFiles = @NFILES@
   ! Input files:
     InputFileNames =
-  !'datafiles/hera/H1ZEUS_NC_e-p_HERA1.0.dat',
-  !'datafiles/hera/H1ZEUS_NC_e+p_HERA1.0.dat'
-  !'datafiles/hera/H1ZEUS_CC_e-p_HERA1.0.dat'
-  !'datafiles/hera/H1ZEUS_CC_e+p_HERA1.0.dat'
-  '/usr/users/dhaitz/home/qcd/sherivf/herafitter/CMS_Zee_HFinput.txt'
+      @FILES@
 &End
 
 
 
 &reweighting
-  FLAGRW	  = True                 ! Should reweighting be done?
+  FLAGRW	  = @DOREWEIGHTING@                 ! Should reweighting be done?
   !RWPDFSET    = 'HERAPDF15NLO_EIG'    ! LHAPDF grid file 
   RWPDFSET    = 'NNPDF30_nlo_as_0118'    ! LHAPDF grid file
   RWDATA  	  = 'HighStat'            ! arbitrary name for new datasample to be put in 
