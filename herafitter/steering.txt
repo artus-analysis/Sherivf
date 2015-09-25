@@ -51,7 +51,7 @@
 
 &OutDir
   ! Name of the directory where output will be stored (max 22 characters)
-    OutDirName = 'output'
+    OutDirName = '@OUTDIRNAME@'
 &End
 *
 * (Optional) Modify renormalisation/factorisation scales, dataset

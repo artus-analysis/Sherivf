@@ -45,6 +45,7 @@ def main():
 				'@NFILES@': str(values[0]),
 				'@FILES@': values[1],
 				'@DOREWEIGHTING@': values[2],
+				'@OUTDIRNAME@': args.mode,
 			})
 
 
