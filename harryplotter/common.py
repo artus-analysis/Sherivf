@@ -79,6 +79,7 @@ variations = ["", "_edown", "_eup", "_bkgrup", "_bkgrdown"]  # for sys uncert es
 
 unfold_path = "2_unfolded"
 divided_path = "3_divided"
+systematic_path = "4_systematic"
 
 iterations_to_use = 1
 
