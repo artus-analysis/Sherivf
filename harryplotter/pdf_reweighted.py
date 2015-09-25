@@ -8,6 +8,14 @@ from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 def pdf(args=None, additional_dictionary=None, pdflabel=""):
 	"""plot a PDF"""
 	plots = []
+	# determine q from file name:
+	try:
+		q_values = [f.split('.')[0].split('__')[-1].replace('_', '.') for f in additional_dictionary['files']]
+		if len(list(set(q_values))) == 1:
+			q_value = q_values[0]
+	except KeyError, IndexError:
+		q_value = 91.2
+
 	for flavour in ['gluon', 'd_quark', 'u_quark', 'strange', 'charm', 'd_antiquark', 'u_antiquark']:
 		d = {
 			"folders": [""],
@@ -26,7 +34,7 @@ def pdf(args=None, additional_dictionary=None, pdflabel=""):
 			"y_label": "pdf",
 			"y_subplot_lims": [-0.25, 0.25],
 			"y_subplot_label": "Rel. Uncert.",
-			"texts": [pdflabel + r"\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)"],
+			"texts": [pdflabel + r"\n$\\mathit{{Q}}={} \\ GeV$".format(q_value)],
 			"texts_x": [0.05],
 			'title': flavour.replace('_', ' '),
 			'subplot_fraction': 50,
@@ -52,21 +60,25 @@ def nnpdf(args=None):
 	}, pdflabel=labels[pdfset])
 
 
-def herapdf(args=None):
+def herapdf_13(args=None):
 	"""plot hera pdf reweighted pdf"""
-	pdfset = 'NNPDF30_nlo_as_0118'
-	labels = {
-		'NNPDF30_nlo_as_0118': 'NNPDF 3.0',
-	}
 	return pdf(args, {
-		'files': ['hera.root', 'heraZ.root'],
-		'labels': ['HERA DIS', r'HERA DIS + CMS Z($\\rightarrow$ee)+jet']*2,
-		'texts': [''],
-		'www': 'herapdf',
+		'files':  ['hera{}__1_3.root'.format(a) for a in ['', 'Z']],
+		'labels': ['HERA', r'HERA+CMS']*2,
+		'www': 'herapdf_1_3',
 		'www_title': 'PDF Fit',
 		'www_text': 'No model or parametrisation uncertainties',
+	})
 
-	})#, pdflabel=labels[pdfset])
+def herapdf_912(args=None):
+	"""plot hera pdf reweighted pdf"""
+	return pdf(args, {
+		'files':  ['hera{}__91_2.root'.format(a) for a in ['', 'Z']],
+		'labels': ['HERA', r'HERA+CMS']*2,
+		'www': 'herapdf_91_2',
+		'www_title': 'PDF Fit',
+		'www_text': 'No model or parametrisation uncertainties',
+	})
 
 
 if __name__ == '__main__':
