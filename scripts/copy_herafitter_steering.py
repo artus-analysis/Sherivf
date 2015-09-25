@@ -12,7 +12,7 @@ import sherivf
 def main():
 	"""main"""
 	heradir = os.environ['HERADIR']
-	steeringfile = "herafitter/steering.txt"
+	steeringfile = os.path.join(os.environ['SHERIVFDIR'], "herafitter/steering.txt")
 
 	heradict = {
 		'nnpdf': [1, "'/usr/users/dhaitz/home/qcd/sherivf/herafitter/CMS_Zee_HFinput.txt'", 'True'],
