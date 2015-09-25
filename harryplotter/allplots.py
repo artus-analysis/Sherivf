@@ -49,6 +49,7 @@ def allplots(args=None):
 		pdf_reweighted.nnpdf,  # 15
 		pdf_reweighted.herapdf_13,
 		pdf_reweighted.herapdf_912,
+		zee_uncertainties.plot_uncertainties,
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -70,6 +71,7 @@ def allplots(args=None):
 		"nnpdf",
 		"herapdf_13",
 		"herapdf_912",
+		"uncertainties",
 	][plot_min:plot_max]
 
 	for function, wwwdir in zip(functions, wwwdirs):
