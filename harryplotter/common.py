@@ -63,8 +63,8 @@ nmembersdict = {
 
 qdict = {
 	'abs(zy)': 'abszy',
-	'eminuspt': 'ept',
-	'eminuseta': 'eeta',
+	'eminuspt': 'eminuspt',
+	'eminuseta': 'eminuseta',
 }
 
 
