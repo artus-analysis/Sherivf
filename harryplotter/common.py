@@ -75,6 +75,8 @@ ybin_weights = ["abs(zy)<{1} && abs(zy)>{0}".format(low, up) for low, up in zip(
 excaliburpath = os.environ['EXCALIBURPATH']
 bkgr_path = excaliburpath
 
+variations = ["", "_edown", "_eup", "_bkgrup", "_bkgrdown"]  # for sys uncert estimation
+
 unfold_path = "2_unfolded"
 divided_path = "3_divided"
 

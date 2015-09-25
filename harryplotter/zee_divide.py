@@ -19,23 +19,22 @@ def zee_divide(args=None):
 				["1"] + common.ybin_weights,
 				["inclusive"] + common.ybin_labels
 	], known_args.no_ybins)):
-			filename = '{}_madgraph_{}_{}'.format(quantity, ybinsuffix, common.iterations_to_use)
-			d = {
-				'files': ['2_unfolded/' + filename + '.root'],
-				'folders': [""],
-				'x_expressions': ['data_unfolded'],
-				'scale_factors': 1./19712.,
+			for variation in common.variations:
+				filename = '{}_madgraph_{}_{}'.format(quantity, ybinsuffix+variation, common.iterations_to_use)
+				d = {
+					'files': ['2_unfolded/' + filename + '.root'],
+					'folders': [""],
+					'x_expressions': ['data_unfolded'],
+					'scale_factors': 1./19712.,
 
-				'analysis_modules': ['NormalizeByBinWidth'],
+					'analysis_modules': ['NormalizeByBinWidth'],
 
-				'plot_modules': ['ExportRoot'],
-				'output_dir': common.divided_path,
-				'filename': filename,
-				'export_json': False,
-			
-			}
-
-			plots.append(d)
+					'plot_modules': ['ExportRoot'],
+					'output_dir': common.divided_path,
+					'filename': filename,
+					'export_json': False,
+				}
+				plots.append(d)
 	return [PlottingJob(plots, args)]
 
 

@@ -30,37 +30,38 @@ def unfold(args=None):
 		], known_args.no_mcs)):
 			for quantity in parsertools.get_list_slice([common.data_quantities], known_args.no_quantities)[0]:
 				for iteration in parsertools.get_list_slice([range(1, 1+max_iterations)], known_args.no_iterations)[0]:
-					d = {
-						'x_expressions': ['data']+[quantity.replace("z", "genz"), quantity, quantity.replace("z", "genz")],
-						'y_expressions': [None, quantity, None, None],
-						'files': ["1_background-subtracted/" + quantity + "_" + ybinsuffix + ".root"]+[path + "/work/" + mc]*3,
-						'nicks': [
-							'data_reco',
-							'responsematrix',
-							'mc_reco',
-							'mc_gen',
-						],
-						'lumis': [common.lumi],
-						'folders': ['']+['zcuts_ak5PFJetsCHSL1L2L3/ntuple']*3,
-						'weights': "weight*({}&&hlt)".format(ybin),
-						'x_bins': [common.bins[quantity]],
-						'y_bins': [None, common.bins[quantity], None, None],
-						# analysis
-						'analysis_modules': ['Unfolding'],
-						'unfolding': ['data_reco', 'mc_reco'],
-						'unfolding_responsematrix': 'responsematrix',
-						'unfolding_mc_gen': 'mc_gen',
-						'unfolding_mc_reco': 'mc_reco',
-						'unfolding_new_nicks': ['data_unfolded', 'mc_unfolded'],
-						'unfolding_iterations': iteration,
-						'libRooUnfold': '~/home/RooUnfold/libRooUnfold.so',
-						#output
-						'plot_modules': ['ExportRoot'],
-						'filename': "_".join([quantity, mc_label.lower(), ybinsuffix, str(iteration)]),
-						'output_dir': common.unfold_path,
-						'export_json': False,
-					}
-					plots.append(d)
+					for variation in common.variations:
+						d = {
+							'x_expressions': ['data']+[quantity.replace("z", "genz"), quantity, quantity.replace("z", "genz")],
+							'y_expressions': [None, quantity, None, None],
+							'files': ["1_background-subtracted/" + quantity + "_" + ybinsuffix + variation + ".root"]+[path + "/work/" + mc]*3,
+							'nicks': [
+								'data_reco',
+								'responsematrix',
+								'mc_reco',
+								'mc_gen',
+							],
+							'lumis': [common.lumi],
+							'folders': ['']+['zcuts_ak5PFJetsCHSL1L2L3/ntuple']*3,
+							'weights': "weight*({}&&hlt)".format(ybin),
+							'x_bins': [common.bins[quantity]],
+							'y_bins': [None, common.bins[quantity], None, None],
+							# analysis
+							'analysis_modules': ['Unfolding'],
+							'unfolding': ['data_reco', 'mc_reco'],
+							'unfolding_responsematrix': 'responsematrix',
+							'unfolding_mc_gen': 'mc_gen',
+							'unfolding_mc_reco': 'mc_reco',
+							'unfolding_new_nicks': ['data_unfolded', 'mc_unfolded'],
+							'unfolding_iterations': iteration,
+							'libRooUnfold': '~/home/RooUnfold/libRooUnfold.so',
+							#output
+							'plot_modules': ['ExportRoot'],
+							'filename': "_".join([quantity, mc_label.lower(), ybinsuffix]) + variation + "_" + str(iteration),
+							'output_dir': common.unfold_path,
+							'export_json': False,
+						}
+						plots.append(d)
 	return [PlottingJob(plots, args)]
 
 
