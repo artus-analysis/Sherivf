@@ -56,29 +56,24 @@ def nnpdf(args=None):
 	return pdf(args, {
 		'files': ['pdf_sets/{}.root'.format(pdfset), 'pdf_sets/{}_HighStat_chi2_nRep100.root'.format(pdfset)],
 		'labels': ['original', 'reweighted']*2,
-		'www': 'nnpdf'
 	}, pdflabel=labels[pdfset])
 
 
-def herapdf_13(args=None):
+def herapdf(args=None, q_value='91_2'):
 	"""plot hera pdf reweighted pdf"""
 	return pdf(args, {
-		'files':  ['hera{}__1_3.root'.format(a) for a in ['', 'Z']],
+		'files':  ['pdf_sets/hera{}__{}.root'.format(a, q_value) for a in ['', 'Z']],
 		'labels': ['HERA', r'HERA+CMS']*2,
-		'www': 'herapdf_1_3',
 		'www_title': 'PDF Fit',
 		'www_text': 'No model or parametrisation uncertainties',
 	})
 
+
+def herapdf_13(args=None):
+	herapdf(args, '1_3')
+
 def herapdf_912(args=None):
-	"""plot hera pdf reweighted pdf"""
-	return pdf(args, {
-		'files':  ['hera{}__91_2.root'.format(a) for a in ['', 'Z']],
-		'labels': ['HERA', r'HERA+CMS']*2,
-		'www': 'herapdf_91_2',
-		'www_title': 'PDF Fit',
-		'www_text': 'No model or parametrisation uncertainties',
-	})
+	herapdf(args, '91_2')
 
 
 if __name__ == '__main__':
