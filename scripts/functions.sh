@@ -35,19 +35,19 @@ nnpdf_fit(){
 hera_fit(){
 	cd $HERADIR
 	FitPDF
-	migrate
+	NAME=herapdf
+	OUTPUTNAME=hera
+	cd output/
+	for q in 1.3 91.2;
+		do pdf_2_root.py -p $NAME -f 0 1 2 3 4 -1 -2 -q ${q}
+	done
+	rename $NAME $OUTPUTNAME *.root
+	mv ${OUTPUTNAME}__*.root $SHERIVFDIR/pdf_sets
+	cd $SHERIVFDIR
 }
 
-migrate(){
-	install_lhapdf5
-	cd $HERADIR
-	tools/tolhapdf.cmd  # create LHAPDF5 .LHgrid file
-	export LHAPATH=$PWD
-	../creategrids PDFs.LHgrid  # convert to LHAPDF6
-	install_lhapdf6
-	pdf_2_root.py -p PDFs  -f 0 1 2 3 4 -1 -2  # convert to ROOT
-	mv PDFs.root $SHERIVFDIR
-}
+
+
 
 ## for switching LHAPDF versions
 install_lhapdf(){
