@@ -6,8 +6,10 @@
 import argparse
 import lhapdf
 import numpy as np
+import os
 import ROOT
 
+import tools
 
 partondict = {
 	0: 'gluon',
@@ -39,19 +41,20 @@ def main(
 		folder):
 	"""evaluate a PDF set and write the resuling TGraph to disk"""
 
-	
 	out = ROOT.TFile((folder+"/" if folder is not None else "") + output_filename, "RECREATE")
-	x_values = np.logspace(-4, -0.0001, n_points)
+	x_values = np.logspace(-4, -0.01, n_points)  # TODO get min, max x from PDF set
 
 	## Version info, search paths, and metadata
 	print "LHAPDF version", lhapdf.version()
 	lhapdf.pathsPrepend("/usr/users/dhaitz/home/qcd/herafitter-1.1.1/output/"+pdfset.replace("_nRep100", ""))
+	lhapdf.pathsPrepend(os.getcwd())
 	lhapdf.pathsPrepend("/usr/users/dhaitz/home/qcd/herafitter-1.1.1/")
 	lhapdf.setVerbosity(0)
 	print "LHAPDF paths",lhapdf.paths()
 	print "PDFset:", pdfset
 	pset = lhapdf.getPDFSet(pdfset)
 	n_members = pset.size
+	print n_members, "members in PDF set"
 
 	# iterate over flavours, get pdfgraph, write
 	for flavour in flavours:
@@ -79,6 +82,7 @@ def getopt():
 
 def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q): 
 	all_values = []
+	# load each member only once
 	for i_member in range(n_members):
 		p = pset.mkPDF(i_member)
 		pdf_values = []
@@ -92,19 +96,16 @@ def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q):
 			pdf_values.append(pdf)
 		all_values.append(pdf_values)
 
-	# get min, max and mean for each point in x from all members
-	max_values, mean_values, min_values = [], [], []
-	for i in range(n_points):
-		max_values.append(max([pdf_values[i] for pdf_values in all_values]))
-		min_values.append(min([pdf_values[i] for pdf_values in all_values]))
-		mean_values.append(0.5*(max_values[-1] + min_values[-1]))
-		#print min_values[-1], max_values[-1], mean_values[-1]
+	# construct tgraph from central value and uncertainties
+	tgraph = ROOT.TGraphAsymmErrors()
+	for index, x_value in enumerate(x_values):
+		values = [pdf_values[index] for pdf_values in all_values]
+		central_value = values[0]
+		lower_error, upper_error = tools.get_pdf_uncertainty_for_bin(central_value, values[1:])
+		tgraph.SetPoint(index, x_value, central_value)
+		tgraph.SetPointEYlow(index, lower_error)
+		tgraph.SetPointEYhigh(index, upper_error)
 
-	# put the python lists into a TGraph
-	tgraph = ROOT.TGraphErrors()
-	for i, (x, mean_value, min_value) in enumerate(zip(x_values, mean_values, min_values)):
-		tgraph.SetPoint(i, x, mean_value)
-		tgraph.SetPointError(i,0, mean_value-min_value)
 	return tgraph
 
 if __name__ == '__main__':
