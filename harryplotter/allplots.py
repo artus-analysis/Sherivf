@@ -67,6 +67,7 @@ def allplots(args=None):
 		"fastnlo_pdfmember",
 		"fastnlo_sherpa",
 		"nnpdf",
+		"herapdf",
 	][plot_min:plot_max]
 
 	for function, wwwdir in zip(functions, wwwdirs):
