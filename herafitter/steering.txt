@@ -3,11 +3,13 @@
 &InFiles
   ! Number of input files
     NInputFiles = 1
- 
   ! Input files:
-    !InputFileNames = 'datafiles/hera/H1ZEUS_NC_e-p_HERA1.0.dat'
-    !InputFileNames = 'datafiles/lhc/cms/Jets2011_7TeV/CMS_IncJets2011_QCD_11_004.dat'
-    InputFileNames = '/usr/users/dhaitz/home/qcd/sherivf/herafitter/CMS_Zee_HFinput.txt'
+    InputFileNames =
+  !'datafiles/hera/H1ZEUS_NC_e-p_HERA1.0.dat',
+  !'datafiles/hera/H1ZEUS_NC_e+p_HERA1.0.dat'
+  !'datafiles/hera/H1ZEUS_CC_e-p_HERA1.0.dat'
+  !'datafiles/hera/H1ZEUS_CC_e+p_HERA1.0.dat'
+  '/usr/users/dhaitz/home/qcd/sherivf/herafitter/CMS_Zee_HFinput.txt'
 &End
 
 
