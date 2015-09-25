@@ -14,10 +14,10 @@ def pdf(args=None, additional_dictionary=None, pdflabel=""):
 			'x_expressions': [flavour],
 			# analysis
 			"analysis_modules": ["RelUncertainty"],
-			"rel_nicks": ['orig', 'rew'],
+			"rel_nicks": ['orig', 'new'],
 			# formatting
-			"nicks": ['orig', 'rew'],
-			"subplot_nicks": ['orig_rel', 'rew_rel'],
+			"nicks": ['orig', 'new'],
+			"subplot_nicks": ['orig_rel', 'new_rel'],
 			"line_styles": ["-"],
 			"markers": ["fill"],
 			"x_label": r"$\\mathit{x}$",
@@ -59,11 +59,12 @@ def herapdf(args=None):
 		'NNPDF30_nlo_as_0118': 'NNPDF 3.0',
 	}
 	return pdf(args, {
-		'files': ['pdf_sets/{}.root'.format(pdfset), 'PDFs.root'],
-		'labels': ['NNPDF 3.0', 'DHPDF 1.0']*2,
+		'files': ['hera.root', 'heraZ.root'],
+		'labels': ['HERA DIS', r'HERA DIS + CMS Z($\\rightarrow$ee)+jet']*2,
+		'texts': [''],
 		'www': 'herapdf',
 		'www_title': 'PDF Fit',
-		'www_text': '',
+		'www_text': 'No model or parametrisation uncertainties',
 
 	})#, pdflabel=labels[pdfset])
 
