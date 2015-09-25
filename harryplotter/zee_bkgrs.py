@@ -56,7 +56,7 @@ def zee_bkgrs(args=None):
 							"nicks": (['data','mc']+backgrounds_merged)[(0 if signal else 2):],
 							'folders': (['zcuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['zcuts_ak5PFJetsCHSL1L2L3/ntuple']*n_mcs)[(0 if signal else 2):],
 							'weights': (["(({}) && ({}))".format(ybin, njetweight)] + ["(hlt && ({}) && ({}))".format(ybin, njetweight)]*n_mcs)[(0 if signal else 2):],
-							'scale_factors': [1. if signal else 19.712],
+							'scale_factors': [1. if signal else common.lumi],
 							# formatting
 							'legend': 'upper right',
 							"labels": (["Data", r"DY$\\rightarrow ee$"]+[common.bkgr_labels[item] for item in backgrounds_merged_short])[(0 if signal else 2):],

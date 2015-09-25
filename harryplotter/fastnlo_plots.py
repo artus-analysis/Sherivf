@@ -27,7 +27,6 @@ def sherpa_fastnlo(args=None):
 				"files": ['latest_sherivf_output/Rivet.root'],
 				"folders": [""],
 				"x_expressions": ybin+replaced_quantity,
-				#"scale_factors": 19712.,
 				'pdf_sets': [pdfset],
 				'fastnlo_files': ["latest_sherivf_output/{}.tab".format(ybin+replaced_quantity)],
 				'members': [0],
