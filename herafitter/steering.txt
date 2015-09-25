@@ -246,7 +246,11 @@
    CutValueMin(10)     = 0.000001 
    CutValueMax(10)     = 1.0
 
-   
+
+   ProcessName(11)     = 'FastNLO jets'
+   Variable(11)        = 'yhigh'
+   CutValueMin(11)     = 0.0
+   CutValueMax(11)     = 9999999999.0
 &End
 
 
