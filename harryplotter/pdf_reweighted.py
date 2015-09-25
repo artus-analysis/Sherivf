@@ -9,12 +9,13 @@ def pdf(args=None, additional_dictionary=None, pdflabel=""):
 	"""plot a PDF"""
 	plots = []
 	# determine q from file name:
+	q_value = "91.2"
 	try:
 		q_values = [f.split('.')[0].split('__')[-1].replace('_', '.') for f in additional_dictionary['files']]
 		if len(list(set(q_values))) == 1:
 			q_value = q_values[0]
-	except KeyError, IndexError:
-		q_value = 91.2
+	except:
+		pass
 
 	for flavour in ['gluon', 'd_quark', 'u_quark', 'strange', 'charm', 'd_antiquark', 'u_antiquark']:
 		d = {
@@ -68,12 +69,11 @@ def herapdf(args=None, q_value='91_2'):
 		'www_text': 'No model or parametrisation uncertainties',
 	})
 
-
 def herapdf_13(args=None):
-	herapdf(args, '1_3')
+	return herapdf(args, '1_3')
 
 def herapdf_912(args=None):
-	herapdf(args, '91_2')
+	return herapdf(args, '91_2')
 
 
 if __name__ == '__main__':

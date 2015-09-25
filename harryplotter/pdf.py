@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
-
+import common
 
 def pdfs_thesis(args=None, additional_dictionary=None):
 	"""PDF plots for thesis"""
