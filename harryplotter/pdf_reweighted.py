@@ -17,7 +17,8 @@ def pdf(args=None, additional_dictionary=None, pdflabel=""):
 	except:
 		pass
 
-	for flavour in ['gluon', 'd_quark', 'u_quark', 'strange', 'charm', 'd_antiquark', 'u_antiquark']:
+	for flavour in ['gluon', 'd_quark', 'u_quark', 'strange', 'charm', 'd_antiquark',
+					'u_antiquark', 'u_valence_quark', 'd_valence_quark', 'sea_quarks']:
 		d = {
 			"folders": [""],
 			'x_expressions': [flavour],
