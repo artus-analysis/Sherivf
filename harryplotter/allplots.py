@@ -7,7 +7,7 @@ from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
 import electron_plots
 import fastnlo_plots
-import nnpdf
+import pdf_reweighted
 import pdf
 import pdf_correlation
 import sherpa
@@ -46,7 +46,8 @@ def allplots(args=None):
 		fastnlo_plots.fastnlo_pdfsets,
 		fastnlo_plots.fastnlo_pdfmember,
 		fastnlo_plots.sherpa_fastnlo,
-		nnpdf.nnpdf,  # 15
+		pdf_reweighted.nnpdf,  # 15
+		pdf_reweighted.herapdf,
 	][plot_min:plot_max]
 	
 	wwwdirs = [
