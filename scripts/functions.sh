@@ -20,7 +20,7 @@ alias make_allplots="merlin.py --py allplots"
 
 
 ## Final PDF fitting
-nnpdf_fit(){
+fit_nnpdf(){
 	PDFSET=NNPDF30_nlo_as_0118
 	copy_herafitter_steering.py -m nnpdf
 	cd $HERADIR
@@ -28,25 +28,34 @@ nnpdf_fit(){
 	mkdir -p output/${PDFSET}_HighStat_chi2
 	FitPDF
 	cd output/${PDFSET}_HighStat_chi2
-	pdf_2_root.py -p ${PDFSET}_HighStat_chi2_nRep100 -f 0 1 2 3 4 -1 -2
+	pdf_2_root.py -p ${PDFSET}_HighStat_chi2_nRep100
 	cp ${PDFSET}_HighStat_chi2_nRep100*.root $SHERIVFDIR/pdf_sets
 	cd $SHERIVFDIR
 }
 
-hera_fit(){
-	cd $HERADIR
-	FitPDF
-	NAME=herapdf
-	OUTPUTNAME=hera
-	cd output/
-	for q in 1.3 91.2;
-		do pdf_2_root.py -p $NAME -f 0 1 2 3 4 -1 -2 -q ${q}
-	done
-	rename $NAME $OUTPUTNAME *.root
-	mv ${OUTPUTNAME}__*.root $SHERIVFDIR/pdf_sets
-	cd $SHERIVFDIR
+
+fit_hera(){
+	_hera_fit hera
+}
+fit_heraZ(){
+	_hera_fit heraZ
 }
 
+#base function:
+_hera_fit(){
+	cd $HERADIR
+	copy_herafitter_steering.py -m $1
+	rm -rf $HERADIR/output/*
+	FitPDF
+	NAME=herapdf
+	cd output/
+	for q in 1.3 91.2;
+		do pdf_2_root.py -p $NAME -q ${q}
+	done
+	rename $NAME $1 *.root
+	mv ${1}__*.root $SHERIVFDIR/pdf_sets
+	cd $SHERIVFDIR
+}
 
 
 

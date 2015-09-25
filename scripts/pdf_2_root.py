@@ -28,7 +28,7 @@ partondict = {
 	6 : 'top',
 	7: 'd valence quark',
 	8: 'u valence quark',
-	#9: 'sea quarks',
+	9: 'sea quarks',
 }
 
 
@@ -46,9 +46,7 @@ def main(
 
 	## Version info, search paths, and metadata
 	print "LHAPDF version", lhapdf.version()
-	lhapdf.pathsPrepend("/usr/users/dhaitz/home/qcd/herafitter-1.1.1/output/"+pdfset.replace("_nRep100", ""))
 	lhapdf.pathsPrepend(os.getcwd())
-	lhapdf.pathsPrepend("/usr/users/dhaitz/home/qcd/herafitter-1.1.1/")
 	lhapdf.setVerbosity(0)
 	print "LHAPDF paths",lhapdf.paths()
 	print "PDFset:", pdfset
@@ -68,7 +66,7 @@ def getopt():
 	parser = argparse.ArgumentParser(description='evaluate PDF set')
 	parser.add_argument('-p', '--pdfset', help='LHAPDF PDF Filename', default='NNPDF30_nlo_as_0118')
 	parser.add_argument('-o', '--output-filename', default=None)
-	parser.add_argument('-f', '--flavours', type=int, nargs="*", default=[0, 1, 2])#, 7, 8, 9])
+	parser.add_argument('-f', '--flavours', type=int, nargs="*", default=[21, 1, 2, 3, 4, -1, -2, 7, 8, 9])
 	parser.add_argument('-n', '--n-points', default=100, type=int, help="points in x")
 	parser.add_argument('-q', '--q', default=91.2, type=float, help="Q")
 	parser.add_argument('--folder', type=str, default=None)
@@ -91,6 +89,8 @@ def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q):
 				pdf = p.xfxQ(1, x, Q) - p.xfxQ(-1, x, Q)
 			elif flavour == 8:
 				pdf = p.xfxQ(2, x, Q) - p.xfxQ(-2, x, Q)
+			elif flavour == 9:
+				pdf = 2*(p.xfxQ(-1, x, Q) + p.xfxQ(-2, x, Q) + p.xfxQ(-3, x, Q))
 			else:
 				pdf = p.xfxQ(flavour, x, Q)
 			pdf_values.append(pdf)
