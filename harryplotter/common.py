@@ -90,3 +90,7 @@ data = excaliburpath + "/work/mc_ee.root"
 bkgr_backgrounds = ['zz', 'wz', 'tt', 'tw', 'ww', 'wjets', 'dytautau', 'qcd']
 
 lumi = 19.712
+lumi_uncertainty = 0.026
+
+#unfolding_variations = [0, -1, 1]
+unfolding_variations = ['_unfdown', '_unfup']

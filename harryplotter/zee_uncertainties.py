@@ -20,7 +20,7 @@ def uncertainties(args=None):
 				["1"] + common.ybin_weights,
 				["inclusive"] + common.ybin_labels
 	], known_args.no_ybins)):
-			for variation in ['_eup', '_bkgrup']:
+			for variation in ['_eup', '_bkgrup', '_unfup']:
 				filename1 = '{}_madgraph_{}_{}.root'.format(quantity, ybinsuffix, common.iterations_to_use)
 				filename2 = '{}_madgraph_{}_{}.root'.format(quantity, ybinsuffix+variation, common.iterations_to_use)
 				d = {
@@ -41,10 +41,27 @@ def uncertainties(args=None):
 					'nicks_whitelist': ['ratio'],
 					'plot_modules': ['ExportRoot'],
 					'output_dir': common.systematic_path,
-					'filename': filename2,
+					'filename': filename2.replace('.root', ''),
 					'export_json': False,
 				}
 				plots.append(d)
+			#lumi
+			filename = '{}_madgraph_{}_{}'.format(quantity, ybinsuffix+'_lumi', common.iterations_to_use)
+			d = {
+				'files': [common.divided_path + "/" + filename1]*2,
+				'folders': [""],
+				'x_expressions': ['nick0'],
+				'scale_factors': [common.lumi_uncertainty, 1],
+
+				'analysis_modules': ['Ratio'],
+
+				'nicks_whitelist': ['ratio'],
+				'plot_modules': ['ExportRoot'],
+				'output_dir': common.systematic_path,
+				'filename': filename,
+				'export_json': False,
+			}
+			plots.append(d)
 	return [PlottingJob(plots, args)]
 
 
@@ -52,5 +69,21 @@ def plot_uncertainties(args=None):
 	""" Plot all systematic uncertainties."""
 	plots = []
 	for quantity in common.data_quantities:
-		pass  # TODO
+		files = []
+		for unc in ['_eup', '_bkgrup', '_unfup', '_lumi']:
+			files += [common.systematic_path + "/" + quantity+'_madgraph_inclusive{}_1.root'.format(unc)]
+		labels = ['eEff', 'bkgr', 'Unfold', 'Lumi']
+		d = {
+			'files': files,
+			'folders': [""],
+			'x_expressions': ['ratio'],
+			'filename': '_'.join(['unc', quantity]),
+			
+			'labels': labels,
+			'markers': ['o'],
+			'line_styles': ['-'],
+			'step': [True],
+			'y_errors': [False],
+		}
+		plots.append(d)
 	return [PlottingJob(plots, args)]

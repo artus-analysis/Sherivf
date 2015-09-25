@@ -30,11 +30,20 @@ def unfold(args=None):
 		], known_args.no_mcs)):
 			for quantity in parsertools.get_list_slice([common.data_quantities], known_args.no_quantities)[0]:
 				for iteration in parsertools.get_list_slice([range(1, 1+max_iterations)], known_args.no_iterations)[0]:
-					for variation in common.variations:
+					for variation in common.variations + common.unfolding_variations:
+						if variation == '_unfdown':
+							unfolding_variation = -1
+							input_var = ""
+						elif variation == '_unfup':
+							unfolding_variation = 1
+							input_var = ""
+						else:
+							unfolding_variation = 0
+							input_var = variation
 						d = {
 							'x_expressions': ['data']+[quantity.replace("z", "genz"), quantity, quantity.replace("z", "genz")],
 							'y_expressions': [None, quantity, None, None],
-							'files': ["1_background-subtracted/" + quantity + "_" + ybinsuffix + variation + ".root"]+[path + "/work/" + mc]*3,
+							'files': ["1_background-subtracted/" + quantity + "_" + ybinsuffix + input_var + ".root"]+[path + "/work/" + mc]*3,
 							'nicks': [
 								'data_reco',
 								'responsematrix',
@@ -54,6 +63,7 @@ def unfold(args=None):
 							'unfolding_mc_reco': 'mc_reco',
 							'unfolding_new_nicks': ['data_unfolded', 'mc_unfolded'],
 							'unfolding_iterations': iteration,
+							'unfolding_variation': unfolding_variation,
 							'libRooUnfold': '~/home/RooUnfold/libRooUnfold.so',
 							#output
 							'plot_modules': ['ExportRoot'],

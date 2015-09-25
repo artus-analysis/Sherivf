@@ -19,7 +19,7 @@ def zee_divide(args=None):
 				["1"] + common.ybin_weights,
 				["inclusive"] + common.ybin_labels
 	], known_args.no_ybins)):
-			for variation in common.variations:
+			for variation in common.variations+common.unfolding_variations:
 				filename = '{}_madgraph_{}_{}'.format(quantity, ybinsuffix+variation, common.iterations_to_use)
 				d = {
 					'files': ['2_unfolded/' + filename + '.root'],
