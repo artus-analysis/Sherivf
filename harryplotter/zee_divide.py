@@ -25,7 +25,7 @@ def zee_divide(args=None):
 					'files': ['2_unfolded/' + filename + '.root'],
 					'folders': [""],
 					'x_expressions': ['data_unfolded'],
-					'scale_factors': 1./common.lumi,
+					'scale_factors': 1./(1e3*common.lumi),
 
 					'analysis_modules': ['NormalizeByBinWidth'],
 
