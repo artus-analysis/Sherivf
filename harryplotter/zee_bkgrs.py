@@ -38,7 +38,7 @@ def zee_bkgrs(args=None):
 			# iterate over rapidity bins
 			for ybin, ybinlabel, ybinsuffix in zip(*parsertools.get_list_slice([
 						["1"] + common.ybin_weights,
-						["", "$|y|<0.4$"] + ["${0}<|y|<{1}$".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])][1:],
+						[""] + common.ybin_plotlabels,
 						["_inclusive"] + common.ybin_labels
 			], known_args.no_ybins)):
 			# iterate over MC samples

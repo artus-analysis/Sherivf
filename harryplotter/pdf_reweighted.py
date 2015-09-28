@@ -34,7 +34,7 @@ def pdf(args=None, additional_dictionary=None, pdflabel=""):
 			"colors": [colors.histo_colors['blue'], colors.histo_colors['yellow']]*2,
 			"x_log": True,
 			"y_label": "pdf",
-			"y_subplot_lims": [-0.25, 0.25],
+			"y_subplot_lims": [-0.1, 0.1],
 			"y_subplot_label": "Rel. Uncert.",
 			"texts": [pdflabel + r"\n$\\mathit{{Q}}={} \\ GeV$".format(q_value)],
 			"texts_x": [0.05],

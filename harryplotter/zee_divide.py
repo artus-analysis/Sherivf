@@ -22,7 +22,7 @@ def zee_divide(args=None):
 			for variation in common.variations+common.unfolding_variations:
 				filename = '{}_madgraph_{}_{}'.format(quantity, ybinsuffix+variation, common.iterations_to_use)
 				d = {
-					'files': ['2_unfolded/' + filename + '.root'],
+					'files': [common.unfold_path + '/' + filename + '.root'],
 					'folders': [""],
 					'x_expressions': ['data_unfolded'],
 					'scale_factors': 1./(1e3*common.lumi),
@@ -35,6 +35,29 @@ def zee_divide(args=None):
 					'export_json': False,
 				}
 				plots.append(d)
+	return [PlottingJob(plots, args)]
+
+
+def divided_ptspectrum(args=None):
+	""" """
+	plots = []
+	for quantity in common.data_quantities:
+		filenames = []
+		for ybin in common.ybin_labels:
+			filenames.append('{}/{}_madgraph_{}_{}.root'.format(common.divided_path, quantity, ybin, common.iterations_to_use))
+		d = {
+			'files': filenames,
+			'folders': [""],
+			'x_expressions': ['nick0'],
+			
+			'x_label': quantity,
+			'labels': common.ybin_plotlabels,
+			'markers': ['o', 'D', '.', '*', 'd'],
+			'filename': quantity,
+		}
+		if quantity == 'zpt':
+			d['y_log'] = True
+		plots.append(d)
 	return [PlottingJob(plots, args)]
 
 
