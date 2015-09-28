@@ -51,6 +51,7 @@ def divided_ptspectrum(args=None):
 			'x_expressions': ['nick0'],
 			
 			'x_label': quantity,
+			'lumis': [common.lumi],
 			'labels': common.ybin_plotlabels,
 			'markers': ['o', 'D', '.', '*', 'd'],
 			'filename': quantity,
