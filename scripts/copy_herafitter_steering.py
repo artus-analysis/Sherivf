@@ -14,19 +14,15 @@ def main():
 	heradir = os.environ['HERADIR']
 	steeringfile = os.path.join(os.environ['SHERIVFDIR'], "herafitter/steering.txt")
 
+	herafiles = ["'{}/datafiles/hera/H1ZEUS_{}_HERA1.0.dat'".format(heradir, i) for i in ["NC_e-p", "NC_e+p", "CC_e-p", "CC_e+p"]]
+	datafiles = ["'{}/herafitter/CMS_Zee_HFinput.txt'".format(os.environ['SHERIVFDIR'])]
+
 	heradict = {
-		'nnpdf': [1, "'{}/herafitter/CMS_Zee_HFinput.txt'".format(os.environ['SHERIVFDIR']), 'True'],
+		'nnpdf': [len(datafiles), datafiles, 'True'],
 
-		'hera': [4, """'{hera}/datafiles/hera/H1ZEUS_NC_e-p_HERA1.0.dat',
-      '{hera}/datafiles/hera/H1ZEUS_NC_e+p_HERA1.0.dat'
-      '{hera}/datafiles/hera/H1ZEUS_CC_e-p_HERA1.0.dat'
-      '{hera}/datafiles/hera/H1ZEUS_CC_e+p_HERA1.0.dat'""".format(hera=heradir),'False'],
+		'hera': [len(herafiles), herafiles, 'False'],
 
-		'heraZ': [5, """'{hera}/datafiles/hera/H1ZEUS_NC_e-p_HERA1.0.dat',
-      '{hera}/datafiles/hera/H1ZEUS_NC_e+p_HERA1.0.dat'
-      '{hera}/datafiles/hera/H1ZEUS_CC_e-p_HERA1.0.dat'
-      '{hera}/datafiles/hera/H1ZEUS_CC_e+p_HERA1.0.dat'
-      '{sh}/herafitter/CMS_Zee_HFinput.txt'""".format(hera=heradir, sh=os.environ['SHERIVFDIR']), 'False'],
+		'heraZ': [len(datafiles)+len(herafiles), datafiles+herafiles, 'False'],
 	}
 
 	parser = argparse.ArgumentParser()
@@ -44,7 +40,7 @@ def main():
 	print "Copy steering file to", target
 	sherivf.copyfile(steeringfile, target, {
 				'@NFILES@': str(values[0]),
-				'@FILES@': values[1],
+				'@FILES@': ",\n   ".join(values[1]),
 				'@DOREWEIGHTING@': values[2],
 				'@OUTDIRNAME@': args.mode,
 			})
