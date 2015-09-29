@@ -58,8 +58,8 @@
 * dependently. The numbering follows sequential numbering of input files
 *
 &Scales 
-    DataSetMuR  = 4*1.0     ! Set muR scale to 1 for all 4 datasets
-    DataSetMuF  = 4*1.0     ! Set muF scale to 1 for all 4 datasets
+    DataSetMuR  = @NFILES@*1.0     ! Set muR scale to 1 for all datasets
+    DataSetMuF  = @NFILES@*1.0     ! Set muF scale to 1 for all datasets
 &End
 
 
@@ -136,7 +136,7 @@
  !  Chi2ExtraParam = 'PoissonCorr'
 
  ! Flag to define if native APPLgrid CKM values should be kept.
- LUseAPPLgridCKM = True
+ !LUseAPPLgridCKM = True
 
  ! Debug flag
   LDEBUG     = False
@@ -159,10 +159,10 @@
 *
 &Output 
   ! -- Error bands on parton distributions
-  DoBands = True
+  DoBands = False
 
   ! -- Q2 values at which the pdfs & errors are done (up to 20)
-  Q2VAL = 1.9, 4., 10., 100., 6464, 8317 
+  Q2VAL = 1.9, 4., 10., 100., 8317 
 
   ! How many x points to write (standard = 101)
   OUTNX = 101
