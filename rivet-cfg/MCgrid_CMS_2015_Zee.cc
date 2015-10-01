@@ -51,7 +51,9 @@ public:
 		addProjection(electrons, "Electrons");
 
 		/// Book histograms here
-		_h_pTZ = bookHisto1D("zpt", 37, 30, 400);
+		std::vector<double> bin_edges = {30, 40, 60, 80, 100, 120, 140, 170, 200, 1000};
+		m_ybins = {0., 0.4, 0.8, 1.2, 1.6, 2.0, 2.4};
+		_h_pTZ = bookHisto1D("zpt", bin_edges);
 		_h_yZ = bookHisto1D("abszy", 24, 0, 2.4);
 		_h_mZ = bookHisto1D("zmass", 20, 81, 101);
 		_h_phiZ = bookHisto1D("zphi", 32, -3.2, 3.2);
@@ -60,11 +62,12 @@ public:
 		_h_etae = bookHisto1D("eminuseta", 48, -2.4, 2.4);
 		_h_phie = bookHisto1D("eminusphi", 32, -3.2, 3.2);
 
-		_h_pTZ_0 = bookHisto1D("y0_zpt", 37, 30, 400);
-		_h_pTZ_1 = bookHisto1D("y1_zpt", 37, 30, 400);
-		_h_pTZ_2 = bookHisto1D("y2_zpt", 37, 30, 400);
-		_h_pTZ_3 = bookHisto1D("y3_zpt", 37, 30, 400);
-		_h_pTZ_4 = bookHisto1D("y4_zpt", 37, 30, 400);
+		_h_pTZ_0 = bookHisto1D("y0_zpt", bin_edges);
+		_h_pTZ_1 = bookHisto1D("y1_zpt", bin_edges);
+		_h_pTZ_2 = bookHisto1D("y2_zpt", bin_edges);
+		_h_pTZ_3 = bookHisto1D("y3_zpt", bin_edges);
+		_h_pTZ_4 = bookHisto1D("y4_zpt", bin_edges);
+		_h_pTZ_5 = bookHisto1D("y5_zpt", bin_edges);
 
 		#if USE_FNLO
 		MSG_INFO("Using fastnlo");
@@ -86,6 +89,7 @@ public:
 		MCgrid::fastnloConfig config_fnlo_6(1, subproc, arch_fnlo, 8000.);
 		MCgrid::fastnloConfig config_fnlo_7(1, subproc, arch_fnlo, 8000.);
 		MCgrid::fastnloConfig config_fnlo_8(1, subproc, arch_fnlo, 8000.);
+		MCgrid::fastnloConfig config_fnlo_9(1, subproc, arch_fnlo, 8000.);
 
 		MSG_INFO("bookGrid for yZ. histoDir: " << histoDir());
 		_fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo);
@@ -97,6 +101,7 @@ public:
 		_fnlo_pTZ_2 = MCgrid::bookGrid(_h_pTZ_2, histoDir(), config_fnlo_6);
 		_fnlo_pTZ_3 = MCgrid::bookGrid(_h_pTZ_3, histoDir(), config_fnlo_7);
 		_fnlo_pTZ_4 = MCgrid::bookGrid(_h_pTZ_4, histoDir(), config_fnlo_8);
+		_fnlo_pTZ_5 = MCgrid::bookGrid(_h_pTZ_5, histoDir(), config_fnlo_9);
 		MSG_INFO("fastnlo init done");
 		#endif
 	}
@@ -134,34 +139,40 @@ public:
 				_h_phiZ->fill(phiZ, weight);
 
 				// Z y bins
-				if (std::abs(yZ) < 0.5){
+				if (std::abs(yZ) < m_ybins[0]){
 					_h_pTZ_0->fill(pTZ, weight);
 					#if USE_FNLO
 						_fnlo_pTZ_0->fill(pTZ, event);
 					#endif
 				}
-				else if (std::abs(yZ) < 1){
+				else if (std::abs(yZ) < m_ybins[1]){
 					_h_pTZ_1->fill(pTZ, weight);
 					#if USE_FNLO
 						_fnlo_pTZ_1->fill(pTZ, event);
 					#endif
 				}
-				else if (std::abs(yZ) < 1.5){
+				else if (std::abs(yZ) < m_ybins[2]){
 					_h_pTZ_2->fill(pTZ, weight);
 					#if USE_FNLO
 						_fnlo_pTZ_2->fill(pTZ, event);
 					#endif
 				}
-				else if (std::abs(yZ) < 2){
+				else if (std::abs(yZ) < m_ybins[3]){
 					_h_pTZ_3->fill(pTZ, weight);
 					#if USE_FNLO
 						_fnlo_pTZ_3->fill(pTZ, event);
 					#endif
 				}
-				else if (std::abs(yZ) < 2.5){
+				else if (std::abs(yZ) < m_ybins[4]){
 					_h_pTZ_4->fill(pTZ, weight);
 					#if USE_FNLO
 						_fnlo_pTZ_4->fill(pTZ, event);
+					#endif
+				}
+				else if (std::abs(yZ) < m_ybins[5]){
+					_h_pTZ_5->fill(pTZ, weight);
+					#if USE_FNLO
+						_fnlo_pTZ_5->fill(pTZ, event);
 					#endif
 				}
 			#if USE_FNLO
@@ -229,6 +240,8 @@ public:
 
 private:
 
+	std::vector<double> m_ybins;
+
 	/// Histograms
 	Histo1DPtr _h_pTZ;
 	Histo1DPtr _h_yZ;
@@ -241,6 +254,7 @@ private:
 	Histo1DPtr _h_pTZ_2;
 	Histo1DPtr _h_pTZ_3;
 	Histo1DPtr _h_pTZ_4;
+	Histo1DPtr _h_pTZ_5;
 
 	Histo1DPtr _h_pTe;
 	Histo1DPtr _h_etae;
@@ -257,6 +271,7 @@ private:
 	MCgrid::gridPtr _fnlo_pTZ_2;
 	MCgrid::gridPtr _fnlo_pTZ_3;
 	MCgrid::gridPtr _fnlo_pTZ_4;
+	MCgrid::gridPtr _fnlo_pTZ_5;
 	#endif
 };
 
