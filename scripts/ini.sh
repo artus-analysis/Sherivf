@@ -63,7 +63,7 @@ elif [[ `lhapdf-config  --version` == 6.* ]]; then
 fi
 
 # aliases
-alias rivbuild_nofastnlo="rivet-buildplugin RivetMyAnalyses.so MCgrid_CMS_2015_Zee.cc -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA"
+alias rivbuild_nofastnlo="rivet-buildplugin -std=c++0x RivetMyAnalyses.so MCgrid_CMS_2015_Zee.cc -std=c++0x -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA"
 alias rivbuild="rivbuild_nofastnlo -DUSE_FNLO=1"
 
 
