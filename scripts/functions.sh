@@ -9,6 +9,12 @@ make_analysis(){
 	merlin.py --py herafile
 }
 
+clear_analysis(){
+for i in 1_background-subtracted 2_unfolded 3_divided 4_systematic; do
+	rm $SHERIVFDIR/${i}/*.root
+done
+}
+
 calculate_all_correlations(){
 	for i in zpt abszy zmass; do
 		calculate_correlation.py -t latest_sherivf_output/${i}.tab -o  correlations/${i}.root &
