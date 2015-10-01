@@ -66,34 +66,45 @@ def plot_uncertainties(args=None):
 	""" Plot all systematic uncertainties."""
 	plots = []
 	for quantity in common.quantities:
-		files = [common.divided_path + "/" + quantity+'_madgraph_inclusive_1.root']
-		types = ['_eup', '_bkgrup', '_unfup', '_lumi']
-		for unc in ['_eup', '_bkgrup', '_unfup', '_lumi']:
-			files += [common.systematic_path + "/" + quantity+'_madgraph_inclusive{}_1.root'.format(unc)]
-		n_source = 4
-		labels = ['Statistical', 'Electron ID/Trigger Efficiency', 'Background', 'Unfolding', 'Luminosity']
-		d = {
-			'files': files,
-			'folders': [""],
-			'x_expressions': ['nick0'] + ['ratio']*n_source,
-			'filename': '_'.join(['unc', quantity]),
-			'scale_factors': [100.],
-			'nicks': ['nick0'] + types,
+		for ybin, ybinsuffix, ybinplotlabel in zip(
+				[""] + ["y{}_".format(i) for i in range(len(common.ybins))],
+				["inclusive"] + common.ybin_labels,
+				[""] + common.ybin_plotlabels
+		):
+			if (quantity is not 'zpt') and (ybin is not ""):
+				continue
+
+			files = [common.divided_path + "/" + quantity+'_madgraph_{}_1.root'.format(ybinsuffix)]
+			types = ['_eup', '_bkgrup', '_unfup', '_lumi']
+			for unc in ['_eup', '_bkgrup', '_unfup', '_lumi']:
+				files += [common.systematic_path + "/" + quantity+'_madgraph_{}{}_1.root'.format(ybinsuffix, unc)]
+			n_source = 4
+			labels = ['Statistical', 'Electron ID/Trigger Efficiency', 'Background', 'Unfolding', 'Luminosity']
+			d = {
+				'files': files,
+				'folders': [""],
+				'x_expressions': ['nick0'] + ['ratio']*n_source,
+				'filename': '_'.join(['unc', quantity])+ybinsuffix,
+				'scale_factors': [100.],
+				'nicks': ['nick0'] + types,
 			
-			'analysis_modules': ['StatisticalErrors'],
-			'stat_error_nicks': ['nick0'],
-			'stat_error_relative': True,
-			'stat_error_relative_percent': True,
+				'analysis_modules': ['StatisticalErrors'],
+				'stat_error_nicks': ['nick0'],
+				'stat_error_relative': True,
+				'stat_error_relative_percent': True,
 			
-			'y_label': 'Uncertainty / %',
-			'x_label': quantity,
-			'labels': labels,
-			'markers': ['o', 'd', '*', '.', 'D'],
-			'line_styles': ['-'],
-			'step': [True],
-			'y_errors': [False],
-		}
-		if quantity == 'zpt':
-			d['y_lims'] = [0, 10]
-		plots.append(d)
+				'texts': [ybinplotlabel],
+				'y_label': 'Uncertainty / %',
+				'x_label': quantity,
+				'labels': labels,
+				'markers': ['o', 'd', '*', '.', 'D'],
+				'line_styles': ['-'],
+				'step': [True],
+				'y_errors': [False],
+			}
+			if quantity == 'zpt':
+				d['y_lims'] = [0, 10]
+				d['x_log'] = common.zpt_xlog
+				d['x_ticks'] = common.zpt_ticks
+			plots.append(d)
 	return [PlottingJob(plots, args)]

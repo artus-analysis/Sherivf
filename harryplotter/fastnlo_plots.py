@@ -50,6 +50,8 @@ def sherpa_fastnlo(args=None):
 			}
 			if quantity == 'zpt':
 				d['y_log'] = True
+				d['x_log'] = common.zpt_xlog
+				d['x_ticks'] = common.zpt_ticks
 				d['y_lims'] = [1e-4, 1e2]
 			elif quantity == 'abszy':
 				d['y_lims'] = [0, 80]
@@ -76,9 +78,10 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 	colors = ['red', 'blue', 'green', 'purple', 'orange', 'cyan'][:N]
 
 	for quantity in common.quantities:
-		for ybin, ybinsuffix in zip(
+		for ybin, ybinsuffix, ybinplotlabel in zip(
 				[""] + ["y{}_".format(i) for i in range(len(common.ybins))],
-				["inclusive"] + common.ybin_labels
+				["inclusive"] + common.ybin_labels,
+				[""] + common.ybin_plotlabels
 		):
 			if (quantity is not 'zpt') and (ybin is not ""):
 				continue
@@ -110,6 +113,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				'x_label': quantity,
 				'y_subplot_label': 'MC/Data',
 				'y_subplot_lims': [0.75, 1.25],
+				'texts': [ybinplotlabel],
 				# output
 				'filename': ybin + "fastnlo_"+quantity,
 				'www_title': 'Data and fastNLO for different PDF sets',
@@ -117,6 +121,8 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 			}
 			if quantity == 'zpt':
 				d['y_log'] = True
+				d['x_log'] = common.zpt_xlog
+				d['x_ticks'] = common.zpt_ticks
 				d['y_lims'] = [1e-4, 1e1]
 			plots.append(d)
 
@@ -129,12 +135,12 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 
 	pdfset = 'NNPDF30_nlo_as_0118'
 	style = 'kMCSampling'
-	ybins = common.ybins
 
 	for quantity in common.quantities:
-		for ybin, ybinsuffix in zip(
-				[""] + ["y{}_".format(i) for i in range(len(ybins))],
-				["inclusive"] + common.ybin_labels
+		for ybin, ybinsuffix, ybinplotlabel in zip(
+				[""] + ["y{}_".format(i) for i in range(len(common.ybins))],
+				["inclusive"] + common.ybin_labels,
+				[""] + common.ybin_plotlabels
 		):
 			if (quantity is not 'zpt') and (ybin is not ""):
 				continue
@@ -162,6 +168,7 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 				'step': True,
 				'x_label': quantity,
 				'y_subplot_lims': [0.75, 1.25],
+				'texts': [ybinplotlabel],
 				# output
 				'filename': ybin+quantity,
 				'www_title': 'Data and fastNLO with PDFUncertainties',
@@ -170,6 +177,8 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			}
 			if quantity == 'zpt':
 				d['y_log'] = True
+				d['x_log'] = common.zpt_xlog
+				d['x_ticks'] = common.zpt_ticks
 				d['y_lims'] = [1e-4, 1e1]
 			plots.append(d)
 

@@ -46,6 +46,9 @@ bins = {
 	'eminuseta': "48,-2.4,2.4",
 }
 bins['abszy'] = bins['abs(zy)']
+#zpt_ticks = [int(i) for i in bins['zpt'].split(" ")]
+zpt_ticks = [30, 40, 60, 100, 140, 200, 1000]
+zpt_xlog = True
 
 pdfsetdict = {
 	'NNPDF23_nlo_as_0118': 'NNPDF 2.3 NLO',
