@@ -41,6 +41,9 @@ fit_hera(){
 fit_heraZ(){
 	_hera_fit heraZ
 }
+fit_heraZ_bins(){
+	_hera_fit heraZ_bins
+}
 
 #base function:
 _hera_fit(){
