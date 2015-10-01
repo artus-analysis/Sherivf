@@ -30,7 +30,7 @@ def herafile(args=None, additional_dictionary=None, pdflabel=""):
 				],
 				#hera
 				"hera_theoryfile": ybin+quantity,
-				"hera_sys": 10,
+				"hera_sys": 5,
 				"hera_quantity": quantity.replace("(","").replace(")",""),
 				"header_file": "herafitter/herafitter_header.txt",
 				# output
