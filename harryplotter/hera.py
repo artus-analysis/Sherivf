@@ -7,7 +7,6 @@ import common
 def herafile(args=None, additional_dictionary=None, pdflabel=""):
 	"""make herafile"""
 	plots = []
-	#TODO in y bins
 	for quantity in common.data_quantities:
 		for ybin, ybinsuffix in zip(
 			[""] + ["y{}_".format(i) for i in range(len(common.ybins))],
@@ -29,12 +28,13 @@ def herafile(args=None, additional_dictionary=None, pdflabel=""):
 					uncfile.format(quantity, ybinsuffix, 'unfup'),
 					uncfile.format(quantity, ybinsuffix, 'eup'),
 				],
+				#hera
 				"hera_theoryfile": ybin+quantity,
-				# output
-				"plot_modules": ['ExportHerafitter'],
-				"header_file": "herafitter/herafitter_header.txt",
 				"hera_sys": 10,
 				"hera_quantity": quantity.replace("(","").replace(")",""),
+				"header_file": "herafitter/herafitter_header.txt",
+				# output
+				"plot_modules": ['ExportHerafitter'],
 				"filename": 'CMS_Zee_HFinput_{}_{}'.format(quantity, ybinsuffix),
 				"output_dir": "/usr/users/dhaitz/home/qcd/sherivf/herafitter",
 
