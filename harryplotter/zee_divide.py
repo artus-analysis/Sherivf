@@ -39,7 +39,7 @@ def zee_divide(args=None):
 
 
 def divided_ptspectrum(args=None):
-	""" """
+	""" pT spectrum in y bins"""
 	plots = []
 	for quantity in common.data_quantities:
 		filenames = []
@@ -51,6 +51,8 @@ def divided_ptspectrum(args=None):
 			'x_expressions': ['nick0'],
 			
 			'x_label': quantity,
+			#'line_styles': ['-'],
+			#'step': True,
 			'lumis': [common.lumi],
 			'labels': common.ybin_plotlabels,
 			'markers': ['o', 'D', '.', '*', 'd'],
@@ -58,6 +60,8 @@ def divided_ptspectrum(args=None):
 		}
 		if quantity == 'zpt':
 			d['y_log'] = True
+			d['x_log'] = common.zpt_xlog
+			d['x_ticks'] = common.zpt_ticks
 		plots.append(d)
 	return [PlottingJob(plots, args)]
 

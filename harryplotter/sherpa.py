@@ -36,7 +36,7 @@ def sherpa(args=None, additional_dictionary=None):
 				],
 				'weights': ['1', 'weight', 'weight'],
 				'scale_factors': [factor] +[1e-3/common.lumi]*2,  # fb->pb
-				"x_expressions": [common.qdict.get(quantity, quantity), quantity, quantity],
+				"x_expressions": [common.root_quantity(quantity), quantity, quantity],
 				"x_bins": [None]+[common.bins[quantity]]*2,
 				# analysis
 				"analysis_modules": (["NormalizeToFirstHisto"] if normalize else [])+["Ratio"],
@@ -120,7 +120,7 @@ def sherpa_mc(args=None, additional_dictionary=None):
 			],
 			"input_modules": ["InputRootZJet", "InputYoda"],
 			'scale_factors': [1./1000.],
-			"x_expressions": [quantity],
+			"x_expressions": [common.root_quantity(quantity)],
 			"x_bins": [common.bins[quantity.replace('gen', '')]],
 			# analysis
 			"analysis_modules": ["Ratio"],
