@@ -17,7 +17,10 @@ def sherpa(args=None, additional_dictionary=None):
 		for quantity in parsertools.get_list_slice([["zpt", "abszy",
 			"zmass", "zphi",
 			"eminuspt", "eminuseta"]], known_args.no_quantities)[0]:
-			factor = (float(common.bins[quantity].split(',')[2])-float(common.bins[quantity].split(',')[1])) / float(common.bins[quantity].split(',')[0])
+			try:
+				factor = (float(common.bins[quantity].split(',')[2])-float(common.bins[quantity].split(',')[1])) / float(common.bins[quantity].split(',')[0])
+			except IndexError:
+				factor = 1.
 			d = {
 				# input
 				"files": [
@@ -92,6 +95,11 @@ def sherpa_mc(args=None, additional_dictionary=None):
 
 	for quantity in parsertools.get_list_slice(["zpt", "abs(genzy)",
 		"genzmass", "genzphi", "geneminuspt", "geneminuseta"], known_args.no_quantities):
+		bins = common.bins['zpt'].split(",")
+		if len(bins) > 1:
+			minzpt = bins[1]
+		else:
+			minzpt = common.bins['zpt'].split(" ")[0]
 		d = {
 			# input
 			"yoda_files": ["latest_sherivf_output/Rivet.yoda"],
@@ -101,7 +109,7 @@ def sherpa_mc(args=None, additional_dictionary=None):
 				"(abs(geneminuseta)<2.4&&abs(genepluseta)<2.4)",
 				"(abs(geneminuseta)<1.442||abs(geneminuseta)>1.566)",
 				"(abs(genepluseta)<1.442||abs(genepluseta)>1.566)",
-				"(genzpt>{})".format(common.bins['zpt'].split(",")[1]),
+				"(genzpt>{})".format(minzpt),
 				"(genzmass>81&&genzmass<101)",
 			]))],
 			"files": [

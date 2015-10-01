@@ -23,7 +23,7 @@ def pdf_correlations(args=None, additional_dictionary=None):
 					"z_label": r"Correlation coefficient $ \\rho$ ($ \\sigma_Z$, PDF)",
 					"z_lims": [-1.0, 1.0],
 					"colormap": "bwr",
-					"texts": [pdfsetdict.get(pdfset, pdfset)+r"\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)"],
+					"texts": [common.pdfsetdict.get(pdfset, pdfset)+r"\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)"],
 					"title": flavour,
 					# output
 					"filename": "_".join([flavour.replace(" ", "-"), quantity, pdfset]),

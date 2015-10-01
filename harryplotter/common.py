@@ -57,6 +57,7 @@ pdfsetdict = {
 	'MSTW2008nlo68cl': 'MSTW 2008',
 	'CT10nlo': 'CT10 NLO',
 	'HERAPDF15NLO_EIG': 'HeraPDF 1.5',
+	'MMHT2014nlo68clas118': 'MMHT 2014',
 }
 
 nmembersdict = {
