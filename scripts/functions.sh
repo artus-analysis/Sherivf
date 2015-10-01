@@ -16,8 +16,10 @@ done
 }
 
 calculate_all_correlations(){
-	for i in zpt abszy zmass; do
-		calculate_correlation.py -t latest_sherivf_output/${i}.tab -o  correlations/${i}.root &
+	for set in NNPDF30_nlo_as_0118 NNPDF23_nlo_as_0118; do
+		for i in zpt abszy zmass; do
+			calculate_correlation.py -t latest_sherivf_output/${i}.tab -o  correlations/${i}_${set}.root -p ${set} & 
+		done
 	done
 }
 
