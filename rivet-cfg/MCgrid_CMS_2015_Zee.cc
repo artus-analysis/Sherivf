@@ -52,7 +52,7 @@ public:
 
 		/// Book histograms here
 		std::vector<double> bin_edges = {30, 40, 60, 80, 100, 120, 140, 170, 200, 1000};
-		m_ybins = {0., 0.4, 0.8, 1.2, 1.6, 2.0, 2.4};
+		m_ybins = {0.4, 0.8, 1.2, 1.6, 2.0, 2.4};
 		_h_pTZ = bookHisto1D("zpt", bin_edges);
 		_h_yZ = bookHisto1D("abszy", 24, 0, 2.4);
 		_h_mZ = bookHisto1D("zmass", 20, 81, 101);
@@ -206,6 +206,7 @@ public:
 		scale(_h_pTZ_2, normfactor);
 		scale(_h_pTZ_3, normfactor);
 		scale(_h_pTZ_4, normfactor);
+		scale(_h_pTZ_5, normfactor);
 
 		scale(_h_pTe, normfactor);
 		scale(_h_etae, normfactor);
@@ -222,6 +223,7 @@ public:
 		_fnlo_pTZ_2->scale(normfactor);
 		_fnlo_pTZ_3->scale(normfactor);
 		_fnlo_pTZ_4->scale(normfactor);
+		_fnlo_pTZ_5->scale(normfactor);
 
 		_fnlo_pTZ->exportgrid();
 		_fnlo_yZ->exportgrid();
@@ -232,6 +234,7 @@ public:
 		_fnlo_pTZ_2->exportgrid();
 		_fnlo_pTZ_3->exportgrid();
 		_fnlo_pTZ_4->exportgrid();
+		_fnlo_pTZ_5->exportgrid();
 		#endif
 
 		// Clear event handler
