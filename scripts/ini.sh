@@ -3,8 +3,12 @@
 export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
 export HERADIR=$SHERIVFDIR/../herafitter-1.1.1
 
-. $SHERIVFDIR/scripts/functions.sh
-. $SHERIVFDIR/scripts/configures.sh
+if [ -f $SHERIVFDIR/scripts/functions.sh ]; then
+	. $SHERIVFDIR/scripts/functions.sh
+fi
+if [ -f $SHERIVFDIR/scripts/configures.sh ]; then
+	. $SHERIVFDIR/scripts/configures.sh
+fi
 
 export MCGRID_OUTPUT_PATH=$PWD
 export MCGRID_PHASESPACE_PATH=$PWD
