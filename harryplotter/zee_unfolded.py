@@ -41,8 +41,8 @@ def unfold(args=None):
 							unfolding_variation = 0
 							input_var = variation
 						d = {
-							'x_expressions': ['data']+[quantity.replace("z", "genz"), quantity, quantity.replace("z", "genz")],
-							'y_expressions': [None, quantity, None, None],
+							'x_expressions': ['data']+[common.root_quantity(quantity).replace("z", "genz"), common.root_quantity(quantity), common.root_quantity(quantity).replace("z", "genz")],
+							'y_expressions': [None, common.root_quantity(quantity), None, None],
 							'files': ["1_background-subtracted/" + quantity + "_" + ybinsuffix + input_var + ".root"]+[path + "/work/" + mc]*3,
 							'nicks': [
 								'data_reco',

@@ -14,7 +14,7 @@ def sherpa(args=None, additional_dictionary=None):
 	known_args, args = parsertools.parser_list_tool(args, ['norm', 'quantities'])
 
 	for normalize in parsertools.get_list_slice([[True, False]], known_args.no_norm)[0]:
-		for quantity in parsertools.get_list_slice([["zpt", "abs(zy)",
+		for quantity in parsertools.get_list_slice([["zpt", "abszy",
 			"zmass", "zphi",
 			"eminuspt", "eminuseta"]], known_args.no_quantities)[0]:
 			factor = (float(common.bins[quantity].split(',')[2])-float(common.bins[quantity].split(',')[1])) / float(common.bins[quantity].split(',')[0])
@@ -69,10 +69,10 @@ def sherpa(args=None, additional_dictionary=None):
 				d['legend'] = None
 			elif quantity == 'eminuspt':
 				d['legend'] = 'upper right'
-			elif quantity == 'abs(zy)':
+			elif quantity == 'abszy':
 				d['legend'] = 'upper right'
 			limdict = {
-				"abs(zy)": 8,
+				"abszy": 8,
 				"zmass": 30,
 				"zphi": 4,
 				"eminuspt": 20,

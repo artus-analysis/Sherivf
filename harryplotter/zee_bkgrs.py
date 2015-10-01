@@ -50,7 +50,7 @@ def zee_bkgrs(args=None):
 					for quantity in parsertools.get_list_slice(common.data_quantities + ['njets30'], known_args.no_quantities):
 						d = {
 							# input
-							'x_expressions': quantity,
+							'x_expressions': common.root_quantity(quantity),
 							'x_bins': [common.bins[quantity]],
 							'files': ([path+'/work/data_ee.root', path+mc] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds])[(0 if signal else 2):],
 							"nicks": (['data','mc']+backgrounds_merged)[(0 if signal else 2):],
@@ -96,7 +96,7 @@ def subtract_backgrounds(args=None):
 				mc_scalefactor = -1 + (-0.5*(variation=="_bkgrdown")) + (0.5*(variation=="_bkgrup"))  # for bkgr estimation
 				d = {
 					#input
-					'x_expressions': quantity,
+					'x_expressions': common.root_quantity(quantity),
 					'x_bins': [bins],
 					'files': [path+'/work/data_ee{}.root'.format(datasuffix)] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds],
 					'nicks': ['data'],
@@ -122,7 +122,7 @@ def emu(args=None):
 	for quantity in parsertools.get_list_slice(common.data_quantities + ['njets30'], known_args.no_quantities):
 		d = {
 			# input
-			'x_expressions': quantity,
+			'x_expressions': common.root_quantity(quantity),
 			'x_bins': [common.bins[quantity]],
 			'files': [path+'/work/data_em.root']+[path+'/work/background_ee_{}.root'.format(item) for item in backgrounds],
 			'folders': ['zcuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['zcuts_ak5PFJetsCHSL1L2L3/ntuple']*len(backgrounds),

@@ -13,7 +13,7 @@ def sherpa_fastnlo(args=None):
 	pdfset = 'CT10'
 	member = 0
 	# pT or y:
-	for quantity in ['zpt', 'abs(zy)', 'zmass']:
+	for quantity in common.quantities:
 		for ybin, ybinsuffix in zip(
 				[""] + ["y{}_".format(i) for i in range(len(common.ybins))],
 				["inclusive"] + common.ybin_labels
@@ -51,7 +51,7 @@ def sherpa_fastnlo(args=None):
 			if quantity == 'zpt':
 				d['y_log'] = True
 				d['y_lims'] = [1e-4, 1e2]
-			elif quantity == 'abs(zy)':
+			elif quantity == 'abszy':
 				d['y_lims'] = [0, 80]
 			elif quantity == 'zmass':
 				d['y_lims'] = [0, 40]
@@ -73,7 +73,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 	member = 0
 	colors = ['red', 'blue', 'green', 'purple', 'orange', 'cyan'][:N]
 
-	for quantity in ['abs(zy)', 'zmass', 'zpt']:
+	for quantity in common.quantities:
 		for ybin, ybinsuffix in zip(
 				[""] + ["y{}_".format(i) for i in range(len(common.ybins))],
 				["inclusive"] + common.ybin_labels
@@ -129,7 +129,7 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 	style = 'kMCSampling'
 	ybins = common.ybins
 
-	for quantity in ['abs(zy)', 'zmass', 'zpt']:
+	for quantity in common.quantities:
 		for ybin, ybinsuffix in zip(
 				[""] + ["y{}_".format(i) for i in range(len(ybins))],
 				["inclusive"] + common.ybin_labels

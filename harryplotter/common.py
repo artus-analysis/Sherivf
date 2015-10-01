@@ -30,7 +30,10 @@ bkgr_colors = {
 	'diboson': 'yellow',
 }
 
-data_quantities = ['zpt', 'abs(zy)', 'zmass']
+data_quantities = ['zpt', 'abszy', 'zmass']
+quantities = data_quantities 
+def root_quantity(quantity):
+	return {'abszy': 'abs(zy)'}.get(quantity, quantity)
 
 bins = {
 	'zpt': "37,30,400",

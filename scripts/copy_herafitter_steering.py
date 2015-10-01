@@ -13,10 +13,11 @@ def main():
 	"""main"""
 	heradir = os.environ['HERADIR']
 	steeringfile = os.path.join(os.environ['SHERIVFDIR'], "herafitter/steering.txt")
-	quantity = "abs(zy)"
+	quantity = "abszy"
 
 	herafiles = ["'{}/datafiles/hera/H1ZEUS_{}_HERA1.0.dat'".format(heradir, i) for i in ["NC_e-p", "NC_e+p", "CC_e-p", "CC_e+p"]]
-	datafiles = ["'{}/herafitter/CMS_Zee_{}_inclusive.txt'".format(os.environ['SHERIVFDIR'])]
+	datafiles = ["'{}/herafitter/CMS_Zee_{}_inclusive.txt'".format(os.environ['SHERIVFDIR'], quantity)]
+	datafiles = ["'{}/herafitter/CMS_Zee_HFinput.txt'".format(os.environ['SHERIVFDIR'])]
 
 	heradict = {
 		'nnpdf': [len(datafiles), datafiles, 'True'],

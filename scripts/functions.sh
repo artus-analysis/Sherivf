@@ -5,6 +5,7 @@ make_analysis(){
 	merlin.py --py subtract_backgrounds
 	merlin.py --py unfold --no-mcs
 	merlin.py --py zee_divide
+	merlin.py --py uncertainties
 	merlin.py --py herafile
 }
 

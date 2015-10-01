@@ -9,9 +9,6 @@ def uncertainties(args=None):
 	""" Calculate systematic uncertainties of the Z->ee measurement."""
 	# get (up) values and calculate relative difference to mean, bin y bin
 
-	#for quantities
-	#for ybins
-	#for unc sources
 	known_args, args = parsertools.parser_list_tool(args, ['ybins', 'quantities'])
 
 	plots = []
