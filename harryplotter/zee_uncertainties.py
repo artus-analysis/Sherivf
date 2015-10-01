@@ -12,7 +12,7 @@ def uncertainties(args=None):
 	known_args, args = parsertools.parser_list_tool(args, ['ybins', 'quantities'])
 
 	plots = []
-	for quantity in common.data_quantities:
+	for quantity in common.quantities:
 		for ybin, ybinsuffix in zip(*parsertools.get_list_slice([
 				["1"] + common.ybin_weights,
 				["inclusive"] + common.ybin_labels
@@ -65,7 +65,7 @@ def uncertainties(args=None):
 def plot_uncertainties(args=None):
 	""" Plot all systematic uncertainties."""
 	plots = []
-	for quantity in common.data_quantities:
+	for quantity in common.quantities:
 		files = [common.divided_path + "/" + quantity+'_madgraph_inclusive_1.root']
 		types = ['_eup', '_bkgrup', '_unfup', '_lumi']
 		for unc in ['_eup', '_bkgrup', '_unfup', '_lumi']:
