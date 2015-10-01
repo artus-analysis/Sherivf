@@ -5,7 +5,7 @@ import common
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
 
-xseclabels = {'zpt': 'xsecpt', 'abs(zy)': 'xsecabsy', 'zmass': 'xsecm', 'zphi': 'xsecphi'}
+xseclabels = {'zpt': 'xsecpt', 'abszy': 'xsecabsy', 'zmass': 'xsecm', 'zphi': 'xsecphi'}
 
 def sherpa_fastnlo(args=None):
 	"""Compare Sherpa directly with fastNLO"""
