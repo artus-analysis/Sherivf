@@ -82,6 +82,7 @@ bkgr_path = excaliburpath
 
 variations = ["", "_edown", "_eup", "_bkgrup", "_bkgrdown"]  # for sys uncert estimation
 
+subtract_dir = "1_background-subtracted"
 unfold_path = "2_unfolded"
 divided_path = "3_divided"
 systematic_path = "4_systematic"
