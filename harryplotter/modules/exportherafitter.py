@@ -65,7 +65,7 @@ class ExportHerafitter(plotbase.PlotBase):
 			with open(plotData.plotdict["header_file"]) as f:
 				plotData.plot.header = f.read()
 			for old, new in zip(
-				["@THEORYFILE@", "@NAME@", "@INDEX"],
+				["@THEORYFILE@", "@NAME@", "@INDEX@"],
 				[plotData.plotdict["hera_theoryfile"], "CMS Zee jets 2012 " + plotData.plotdict["hera_theoryfile"], str(int(1000*random.random()))]
 			):
 				plotData.plot.header = plotData.plot.header.replace(old, new)
