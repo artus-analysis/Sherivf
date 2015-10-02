@@ -35,17 +35,30 @@ def main():
 
 	print "Preparing Herafitter for {} mode".format(args.mode)
 
+	defaults = {
+		'@Q02': 1.9,
+		'@ORDER@': 'NLO',
+		'@HF_SCHEME@': 'RT FAST', # TODO Use 'RT' for final results
+		'@PDFStyle@': '13p HERAPDF',
+		'@DOBANDS@': 'True',
+		'@ALPHAS@': '0.1176',
+		'@ALPHAS_S@': '0.0',
+		'@FS@': '0.31',
+		'@FC@': '0.',
+	}
 
 	# copy
 	values = heradict[args.mode]
 	target = os.path.join(args.dir, os.path.basename(steeringfile))
 	print "Copy steering file to", target
-	sherivf.copyfile(steeringfile, target, {
-				'@NFILES@': str(values[0]),
-				'@FILES@': ",\n   ".join(values[1]),
-				'@DOREWEIGHTING@': values[2],
-				'@OUTDIRNAME@': args.mode,
-			})
+
+	defaults.update({
+		'@NFILES@': str(values[0]),
+		'@FILES@': ",\n   ".join(values[1]),
+		'@DOREWEIGHTING@': values[2],
+		'@OUTDIRNAME@': args.mode,
+	})
+	sherivf.copyfile(steeringfile, target, defaults)
 
 
 if __name__ == "__main__":

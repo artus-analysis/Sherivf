@@ -12,7 +12,6 @@
 
 &reweighting
   FLAGRW	  = @DOREWEIGHTING@                 ! Should reweighting be done?
-  !RWPDFSET    = 'HERAPDF15NLO_EIG'    ! LHAPDF grid file 
   RWPDFSET    = 'NNPDF30_nlo_as_0118'    ! LHAPDF grid file
   RWDATA  	  = 'HighStat'            ! arbitrary name for new datasample to be put in 
   RWMETHOD    = 1                     ! either 1=chi2 or 2=data
@@ -75,9 +74,9 @@
                                 !uPDF3 fit using precalculated grid of sigma_hat
 
 
-  Order  = 'NLO'       ! 'LO', 'NLO' or 'NNLO', used for DGLAP evolution.
+  Order  = '@ORDER@'       ! 'LO', 'NLO' or 'NNLO', used for DGLAP evolution.
 
-  Q02     = 1.9 ! Evolution starting scale
+  Q02     = @Q02@ ! Evolution starting scale
 
  ! --- Scheme for heavy flavors :
  ! ---  HF_SCHEME = 'ZMVFNS'    : ZM-VFNS (massless),
@@ -92,7 +91,7 @@
  ! ---  HF_SCHEME = 'FF ABM'    : Fixed Flavour Number Scheme (ABM)
  ! ---  HF_SCHEME = 'FF ABM RUNM' : Fixed Flavour Number Scheme (ABM) using run mass def
 
-  HF_SCHEME = 'RT'
+  HF_SCHEME = '@HF_SCHEME@'
 
  ! PDF type. Possible types are currently available:
  ! 'proton'  -- default (fitting proton data)
@@ -110,7 +109,7 @@
  !  'DDIS'        -- use Diffractive DIS 
  !  'BiLog'        -- bi-lognormal parametrisation 
 
-  PDFStyle = 'HERAPDF'
+  PDFStyle = '@PDFStyle@'
 
  ! XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
  !
@@ -148,9 +147,9 @@
 * Add extra to minuit parameters. These MUST include alpha_S and fs
 *
 &ExtraMinimisationParameters
-   name  = 'alphas',   'fs',   'fcharm'
-   value =  0.1176 ,   0.31,      0.
-   step  =  0.0    ,   0.0 ,      0.     ! set to 0 to avoid minimisation 
+   name  = 'alphas',      'fs',   'fcharm'
+   value =  @ALPHAS@ ,    @FS@,   @FC@
+   step  =  @ALPHAS_S@,   0.0 ,   0.     ! set to 0 to avoid minimisation 
 &End
 
 
@@ -159,7 +158,7 @@
 *
 &Output 
   ! -- Error bands on parton distributions
-  DoBands = True
+  DoBands = '@DOBANDS@'
 
   ! -- Q2 values at which the pdfs & errors are done (up to 20)
   Q2VAL = 1.9, 4., 10., 100., 8317 
