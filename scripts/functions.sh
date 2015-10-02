@@ -13,6 +13,7 @@ clear_analysis(){
 for i in 1_background-subtracted 2_unfolded 3_divided 4_systematic; do
 	rm $SHERIVFDIR/${i}/*.root
 done
+rm $SHERIVFDIR/herafitter/CMS_Zee_HFinput_*.txt
 }
 
 calculate_all_correlations(){

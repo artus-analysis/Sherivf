@@ -15,7 +15,6 @@ bkgr_labels = {
 	'others': "tW, WW, QCD,\nW+jets, "+r"DY$\\rightarrow \\tau\\tau$",
 	'diboson': 'ZZ, WZ',
 }
-
 bkgr_colors = {
 	'mc': 'blue',
 	'zz': 'yellow',
@@ -75,8 +74,8 @@ qdict = {
 	'eminuseta': 'eminuseta',
 }
 
-
-ybins = np.arange(0, 3, 0.5)
+## Rapidity
+ybins = np.arange(0, 2.8, 0.4)
 ybin_labels = ["{0:02d}y{1:02d}".format(int(10*low), int(10*up)) for low, up in zip(ybins[:-1], ybins[1:])]
 ybin_weights = ["abs(zy)<{1} && abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])]
 ybin_plotlabels = ["${0}<|y_Z|<{1}$".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])]

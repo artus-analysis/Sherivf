@@ -3,13 +3,13 @@
 ! by CMS collaboration,
 !
 &Data
-   Name           = 'CMS Zee jets 2012'
+   Name           = '@NAME@'
    Reaction       = 'FastNLO jets'
 
    NDATA          = @NDATA@
    NColumn        = 5
    ColumnType     = 'Bin'   , 'Bin'    , 'Sigma' , 'Error' , 'Error' , 'Error', 'Error', 'Error', 'Error'
-   ColumnName     = 'ylow' , 'yhigh' , 'Sigma' , 'stat'  , 'sysasdf' , 'lumi',  'unf',   'bkgr',  'ef'
+   ColumnName     = 'ylow' , 'yhigh' , 'Sigma' , 'stat'  , 'uncor' , 'lumi',  'unf',   'bkgr',  'ef'
    NInfo          = 4
    DataInfo       = 8000.     , 1.                 , -1.      , -1.
    CInfo          = 'sqrt(S)' , 'PublicationUnits' , 'MurDef' , 'MufDef'

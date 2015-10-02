@@ -64,6 +64,7 @@ class ExportHerafitter(plotbase.PlotBase):
 			with open(plotData.plotdict["header_file"]) as f:
 				plotData.plot.header = f.read()
 			plotData.plot.header = plotData.plot.header.replace("@THEORYFILE@", plotData.plotdict["hera_theoryfile"])
+			plotData.plot.header = plotData.plot.header.replace("@NAME@", "CMS Zee jets 2012 " + plotData.plotdict["hera_theoryfile"])
 
 
 	def make_plots(self, plotData):
