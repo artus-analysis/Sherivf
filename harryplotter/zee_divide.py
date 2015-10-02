@@ -58,7 +58,7 @@ def divided_ptspectrum(args=None):
 			#'step': True,
 			'lumis': [common.lumi],
 			'labels': common.ybin_plotlabels,
-			'markers': ['o', 'D', '.', '*', 'x', 'd'],
+			'markers': ['o', 'D', '.', '*', 'd', 's'],
 			'filename': quantity,
 		}
 		if quantity == 'zpt':

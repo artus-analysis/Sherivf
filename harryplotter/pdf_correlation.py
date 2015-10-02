@@ -31,7 +31,11 @@ def pdf_correlations(args=None, additional_dictionary=None):
 					"www_text": "Correlations between PDF and cross section for different flavours and Z boson quantities",
 				}
 				try:
-					d['y_lims'] = [float(i) for i in common.bins[quantity].split(",")[1:]]
+					if ',' in common.bins[quantity]:
+						d['y_lims'] = [float(i) for i in common.bins[quantity].split(",")[1:]]
+					else:  # non-equidistant bins:
+						bins = [float(i) for i in common.bins[quantity].split(" ")]
+						d['y_lims'] = [bins[0], bins[-1]]
 				except KeyError:
 					pass
 				plots.append(d)
