@@ -87,6 +87,7 @@ class ExportHerafitter(plotbase.PlotBase):
 				plotData.plotdict["root_objects"]['unfup'].GetBinContent(i),
 				plotData.plotdict["root_objects"]['bkgrup'].GetBinContent(i),
 				plotData.plotdict["root_objects"]['eup'].GetBinContent(i),
+				0.100000,
 			])
 		# now, format the values to strings with proper widths
 		list_of_max_len = [0]*len(lines[0])
@@ -102,10 +103,11 @@ class ExportHerafitter(plotbase.PlotBase):
 				"{:{width}.1f}".format(line[1], width=list_of_max_len[1]),  # 
 				"{:{width}.4f}".format(line[2], width=list_of_max_len[2]+3),  # values
 				"{:{width}.6f}".format(line[3], width=list_of_max_len[3]+3),  # stat
-				"{:{width}.6f}".format(line[4], width=list_of_max_len[4]+3),  # sys
+				"{:{width}.6f}".format(line[4], width=list_of_max_len[4]+3),  # dummy
 				"{:{width}.6f}".format(line[5], width=list_of_max_len[5]+3),  # lumi
 				"{:{width}.6f}".format(line[6], width=list_of_max_len[6]+3),  # unf
 				"{:{width}.6f}".format(line[7], width=list_of_max_len[7]+3),  # ef
 				"{:{width}.6f}".format(line[8], width=list_of_max_len[8]+3),  # bkgr
+				"{:{width}.6f}".format(line[9], width=list_of_max_len[9]+3),  # uncor
 			]))
 		plotData.plot.values = "\n".join(str_lines)
