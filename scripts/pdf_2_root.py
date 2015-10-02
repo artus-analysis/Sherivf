@@ -9,8 +9,6 @@ import numpy as np
 import os
 import ROOT
 
-import tools
-
 partondict = {
 	0: 'gluon',
 	21: 'gluon',
@@ -101,10 +99,10 @@ def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q):
 	for index, x_value in enumerate(x_values):
 		values = [pdf_values[index] for pdf_values in all_values]
 		central_value = values[0]
-		lower_error, upper_error = tools.get_pdf_uncertainty_for_bin(central_value, values[1:])
+		unc = pset.uncertainty(values)
 		tgraph.SetPoint(index, x_value, central_value)
-		tgraph.SetPointEYlow(index, lower_error)
-		tgraph.SetPointEYhigh(index, upper_error)
+		tgraph.SetPointEYlow(index, unc.errminus)
+		tgraph.SetPointEYhigh(index, unc.errplus)
 
 	return tgraph
 
