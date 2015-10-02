@@ -36,7 +36,7 @@ def sherpa_fastnlo(args=None):
 				"markers": ["o", "fill","."],
 				"x_label": quantity,
 				"y_label": xseclabels[quantity],
-				"y_subplot_lims": [0.999, 1.001],
+				"y_subplot_lims": [0.95, 1.05],
 				"energies": [8],
 				"y_errors": [False],
 				"labels": ['Sherpa+fastNLO', 'Sherpa', 'ratio'],
@@ -111,7 +111,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				'y_label': xseclabels[quantity],
 				'step': [True],
 				'x_label': quantity,
-				'y_subplot_label': 'MC/Data',
+				'y_subplot_label': 'Sim./Data',
 				'y_subplot_lims': [0.75, 1.25],
 				'texts': [ybinplotlabel],
 				# output
@@ -168,6 +168,7 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 				'step': True,
 				'x_label': quantity,
 				'y_subplot_lims': [0.75, 1.25],
+				'y_subplot_label': 'Data/Sim.',
 				'texts': [ybinplotlabel],
 				# output
 				'filename': ybin+quantity,

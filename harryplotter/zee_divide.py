@@ -41,6 +41,9 @@ def zee_divide(args=None):
 def divided_ptspectrum(args=None):
 	""" pT spectrum in y bins"""
 	plots = []
+
+	#TODO add MC
+
 	for quantity in common.data_quantities:
 		filenames = []
 		for ybin in common.ybin_labels:
@@ -55,7 +58,7 @@ def divided_ptspectrum(args=None):
 			#'step': True,
 			'lumis': [common.lumi],
 			'labels': common.ybin_plotlabels,
-			'markers': ['o', 'D', '.', '*', 'd'],
+			'markers': ['o', 'D', '.', '*', 'x', 'd'],
 			'filename': quantity,
 		}
 		if quantity == 'zpt':
