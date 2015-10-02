@@ -18,7 +18,6 @@ def main():
 	herafiles = ["'{}/datafiles/hera/H1ZEUS_{}_HERA1.0.dat'".format(heradir, i) for i in ["NC_e-p", "NC_e+p", "CC_e-p", "CC_e+p"]]
 	datafiles = ["'{}/herafitter/CMS_Zee_HFinput_{}_inclusive.txt'".format(os.environ['SHERIVFDIR'], "abszy")]
 	datafiles_bins = ["'{}/herafitter/CMS_Zee_HFinput_zpt_{}.txt'".format(os.environ['SHERIVFDIR'], ybin) for ybin in common.ybin_labels]
-	#print ([("y{}_".format(i)) for i in range(len(common.ybins))])
 
 	heradict = {
 		'nnpdf': [len(datafiles), datafiles, 'True'],
@@ -40,7 +39,7 @@ def main():
 		'@ORDER@': 'NLO',
 		'@HF_SCHEME@': 'RT FAST', # TODO Use 'RT' for final results
 		'@PDFStyle@': '13p HERAPDF',
-		'@DOBANDS@': 'False', #'True',
+		'@DOBANDS@': 'True',
 		'@ALPHAS@': '0.1176',
 		'@ALPHAS_S@': '0.0',
 		'@FS@': '0.31',
