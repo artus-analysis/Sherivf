@@ -10,6 +10,7 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import os
+import random
 import sys
 
 import Artus.HarryPlotter.plotbase as plotbase
@@ -63,8 +64,11 @@ class ExportHerafitter(plotbase.PlotBase):
 		else:
 			with open(plotData.plotdict["header_file"]) as f:
 				plotData.plot.header = f.read()
-			plotData.plot.header = plotData.plot.header.replace("@THEORYFILE@", plotData.plotdict["hera_theoryfile"])
-			plotData.plot.header = plotData.plot.header.replace("@NAME@", "CMS Zee jets 2012 " + plotData.plotdict["hera_theoryfile"])
+			for old, new in zip(
+				["@THEORYFILE@", "@NAME@", "@INDEX"],
+				[plotData.plotdict["hera_theoryfile"], "CMS Zee jets 2012 " + plotData.plotdict["hera_theoryfile"], str(int(1000*random.random()))]
+			):
+				plotData.plot.header = plotData.plot.header.replace(old, new)
 
 
 	def make_plots(self, plotData):

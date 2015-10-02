@@ -14,7 +14,7 @@
    DataInfo       = 8000.     , 1.                 , -1.      , -1.
    CInfo          = 'sqrt(S)' , 'PublicationUnits' , 'MurDef' , 'MufDef'
 
-   IndexDataset   = 784
+   IndexDataset   = @INDEX@
 
   TheoryInfoFile = '/usr/users/dhaitz/home/qcd/sherivf/latest_sherivf_output/@THEORYFILE@.tab'
    TheoryType     = 'FastNLO'

@@ -36,11 +36,11 @@ def main():
 	print "Preparing Herafitter for {} mode".format(args.mode)
 
 	defaults = {
-		'@Q02': 1.9,
+		'@Q02@': '1.9',
 		'@ORDER@': 'NLO',
 		'@HF_SCHEME@': 'RT FAST', # TODO Use 'RT' for final results
 		'@PDFStyle@': '13p HERAPDF',
-		'@DOBANDS@': 'True',
+		'@DOBANDS@': 'False', #'True',
 		'@ALPHAS@': '0.1176',
 		'@ALPHAS_S@': '0.0',
 		'@FS@': '0.31',
