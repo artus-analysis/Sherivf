@@ -19,7 +19,7 @@ rm $SHERIVFDIR/herafitter/CMS_Zee_HFinput_*.txt
 calculate_all_correlations(){
 	for set in NNPDF30_nlo_as_0118 NNPDF23_nlo_as_0118; do
 		for i in zpt abszy zmass; do
-			calculate_correlation.py -t latest_sherivf_output/${i}.tab -o  correlations/${i}_${set}.root -p ${set} & 
+			calculate_correlation.py -t output_for_correlation_plots/${i}.tab -o  correlations/${i}_${set}.root -p ${set} & 
 		done
 	done
 }
