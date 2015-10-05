@@ -52,6 +52,8 @@ def main(
 	pset = lhapdf.getPDFSet(pdfset)
 	n_members = pset.size
 	print n_members, "members in PDF set"
+	#if members is not None:
+	#	n_members=members
 
 	# iterate over flavours, get pdfgraph, write
 	for flavour in flavours:
@@ -80,10 +82,11 @@ def getopt():
 		opt.output_filename += ".root"
 	return opt
 
-def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q, Q2): 
+def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q, Q2):
 	all_values = []
 	# load each member only once
-	for i_member in range(n_members):
+	# TODO we dont need the members any more
+	for i_member in range(1):
 		p = pset.mkPDF(i_member)
 		method = p.xfxQ2 if Q2 else p.xfxQ
 		pdf_values = []
@@ -101,13 +104,19 @@ def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q, Q2):
 
 	# construct tgraph from central value and uncertainties
 	tgraph = ROOT.TGraphAsymmErrors()
+	do_uncertainty = True
 	for index, x_value in enumerate(x_values):
 		values = [pdf_values[index] for pdf_values in all_values]
 		central_value = values[0]
-		unc = pset.uncertainty(values)
 		tgraph.SetPoint(index, x_value, central_value)
-		tgraph.SetPointEYlow(index, unc.errminus)
-		tgraph.SetPointEYhigh(index, unc.errplus)
+		if do_uncertainty:
+			try:
+				unc = pset.uncertainty(values)
+				tgraph.SetPointEYlow(index, unc.errminus)
+				tgraph.SetPointEYhigh(index, unc.errplus)
+			except RuntimeError:
+				print "could not compute uncertainties"
+				do_uncertainty = False
 
 	return tgraph
 
