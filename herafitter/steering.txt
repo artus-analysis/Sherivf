@@ -74,7 +74,7 @@
                                 !uPDF3 fit using precalculated grid of sigma_hat
 
 
-  Order  = '@ORDER@'       ! 'LO', 'NLO' or 'NNLO', used for DGLAP evolution.
+  Order  = 'NLO'       ! 'LO', 'NLO' or 'NNLO', used for DGLAP evolution.
 
   Q02     = @Q02@ ! Evolution starting scale
 

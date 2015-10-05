@@ -72,6 +72,19 @@ _hera_fit(){
 
 
 
+hera_batch(){
+	#prepare dirs
+	cd $SHERIVFDIR/hera-gc
+	rm work.herafitter -rf
+	mkdir work.herafitter
+	rm /storage/a/dhaitz/hera/* -rf
+	
+	copy_herafitter_steering.py -m hera -b -d $PWD
+	go.py herafitter.conf 
+}
+
+
+
 ## for switching LHAPDF versions
 install_lhapdf(){
 	rm /usr/users/dhaitz/local/lib64/python2.6/site-packages/lhapdf.*

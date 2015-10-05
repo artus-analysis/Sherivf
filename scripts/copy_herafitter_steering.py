@@ -29,6 +29,7 @@ def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-m', '--mode', type=str, default='nnpdf',
 		help="mode", choices=heradict.keys())
+	parser.add_argument('-b', '--batch', action="store_true", help="batch mode, i.e. dont copy defaults", )
 	parser.add_argument('-d', '--dir', type=str, default=heradir, help="dir to copy steering file to")
 	args = parser.parse_args()
 
@@ -36,7 +37,6 @@ def main():
 
 	defaults = {
 		'@Q02@': '1.9',
-		'@ORDER@': 'NLO',
 		'@HF_SCHEME@': 'RT FAST', # TODO Use 'RT' for final results
 		'@PDFStyle@': '13p HERAPDF',
 		'@DOBANDS@': 'True',
@@ -47,17 +47,19 @@ def main():
 	}
 
 	# copy
-	values = heradict[args.mode]
+	dataset = heradict[args.mode]
 	target = os.path.join(args.dir, os.path.basename(steeringfile))
 	print "Copy steering file to", target
 
-	defaults.update({
-		'@NFILES@': str(values[0]),
-		'@FILES@': ",\n   ".join(values[1]),
-		'@DOREWEIGHTING@': values[2],
+	values = {
+		'@NFILES@': str(dataset[0]),
+		'@FILES@': ",\n   ".join(dataset[1]),
+		'@DOREWEIGHTING@': dataset[2],
 		'@OUTDIRNAME@': args.mode,
-	})
-	sherivf.copyfile(steeringfile, target, defaults)
+	}
+	if not args.batch:  # for GC, dont replace the HF values
+		values.update(defaults)
+	sherivf.copyfile(steeringfile, target, values)
 
 
 if __name__ == "__main__":
