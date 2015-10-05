@@ -36,6 +36,7 @@ def main(
 		output_filename,
 		n_points,
 		q,
+		q2,  # q2 instead of q
 		folder):
 	"""evaluate a PDF set and write the resuling TGraph to disk"""
 
@@ -54,7 +55,7 @@ def main(
 
 	# iterate over flavours, get pdfgraph, write
 	for flavour in flavours:
-		tgraph = get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, q)
+		tgraph = get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, q, q2)
 		tgraph.Write(partondict[flavour].replace(' ', '_'))
 
 	print "Written to", output_filename
@@ -67,30 +68,34 @@ def getopt():
 	parser.add_argument('-f', '--flavours', type=int, nargs="*", default=[21, 1, 2, 3, 4, -1, -2, 7, 8, 9])
 	parser.add_argument('-n', '--n-points', default=100, type=int, help="points in x")
 	parser.add_argument('-q', '--q', default=91.2, type=float, help="Q")
+	parser.add_argument('--q2', action='store_true', help="Q2 instead of Q")
 	parser.add_argument('--folder', type=str, default=None)
 
 	opt = parser.parse_args()
 	if opt.output_filename is None:
 		opt.output_filename = "{}__{}.root".format(opt.pdfset, str(opt.q).replace('.', '_'))
+		if opt.q2:
+			opt.output_filename += "_squared"
 	else:
 		opt.output_filename += ".root"
 	return opt
 
-def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q): 
+def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q, Q2): 
 	all_values = []
 	# load each member only once
 	for i_member in range(n_members):
 		p = pset.mkPDF(i_member)
+		method = p.xfxQ2 if Q2 else p.xfxQ
 		pdf_values = []
 		for x in x_values:
 			if flavour == 7:
-				pdf = p.xfxQ(1, x, Q) - p.xfxQ(-1, x, Q)
+				pdf = method(1, x, Q) - method(-1, x, Q)
 			elif flavour == 8:
-				pdf = p.xfxQ(2, x, Q) - p.xfxQ(-2, x, Q)
+				pdf = method(2, x, Q) - method(-2, x, Q)
 			elif flavour == 9:
-				pdf = 2*(p.xfxQ(-1, x, Q) + p.xfxQ(-2, x, Q) + p.xfxQ(-3, x, Q))
+				pdf = 2*(method(-1, x, Q) + method(-2, x, Q) + method(-3, x, Q))
 			else:
-				pdf = p.xfxQ(flavour, x, Q)
+				pdf = method(flavour, x, Q)
 			pdf_values.append(pdf)
 		all_values.append(pdf_values)
 
