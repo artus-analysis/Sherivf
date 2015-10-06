@@ -97,6 +97,7 @@ unc_labelsdict = {
 	'_bkgr': 'Background',
 	'_unf': 'Unfolding',
 	'_lumi': 'Luminosity',
+	'_pt': 'Electron pT scale',
 }
 
 
