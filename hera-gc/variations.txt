@@ -1,0 +1,14 @@
+	0:  central
+	1:  FS low low
+	2:  FS up up
+	3:  Mc down
+	4:  Mc up
+	5:  Mb down
+	6:  Mb up
+	7:  qmin up
+	8:  qmin down
+
+	Par:
+	9:  q0 down
+	10: q0 up
+	11: 

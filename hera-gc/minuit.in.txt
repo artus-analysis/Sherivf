@@ -1,0 +1,60 @@
+set title 
+new 13p HERAPDF
+parameters 
+   1   'Ag'                        0.0000   0.000000e+00
+   2   'Bg'                        @BG@     @BG_S@
+   3   'Cg'                        @CG@     @CG_S@
+   4   'Dg'                        0.0000   @DG_S@
+   5   'Eg'                        0.0000   @EG_S@
+   7   'Aprig'                     @APRIG@  @APRIG_S@
+   8   'Bprig'                     @BPRIG@  @BPRIG_S@
+   9   'Cprig'                     @CPRIG@  @CPRIG_S@
+  11   'Auv'                       0.0000   0.000000e+00
+  12   'Buv'                       @BUV@    @BUV_S@
+  13   'Cuv'                       @CUV@    @CUV_S@
+  14   'Duv'                       @DUV@    @DUV_S@
+  15   'Euv'                       @EUV@    @EUV_S@
+  16   'Fuv'                       0.0000   0.000000e+00
+  21   'Adv'                       0.0000   0.000000e+00
+  22   'Bdv'                       @BDV@    @BDV_S@
+  23   'Cdv'                       @CDV@    @CDV_S@
+  24   'Ddv'                       0.0000   @DDV_S@
+  25   'Edv'                       0.0000   @EDV_S@
+  26   'Fdv'                       0.0000   0.000000e+00
+  31   'AUbar'                     0.0000   0.000000e+00
+  32   'BUbar'                     0.0000   0.000000e+00
+  33   'CUbar'                     @CUBAR@  @CUBAR_S@
+  34   'DUbar'                     0.0000   @DUBAR_S@
+  35   'EUbar'                     0.0000   @EUBAR_S@
+  41   'ADbar'                     @ADBAR@  @ADBAR_S@
+  42   'BDbar'                     @BDBAR@  @BDBAR_S@
+  43   'CDbar'                     @CDBAR@  @CDBAR_S@
+  44   'DDbar'                     0.0000   @DDBAR_S@
+  45   'EDbar'                     0.0000   @EDBAR_S@
+  51   'AU'                        0.0000   0.000000e+00
+  52   'BU'                        0.0000   0.000000e+00
+  53   'CU'                        0.0000   0.000000e+00
+  54   'DU'                        0.0000   0.000000e+00
+  55   'EU'                        0.0000   0.000000e+00
+  61   'AD'                        0.0000   0.000000e+00
+  62   'BD'                        0.0000   0.000000e+00
+  63   'CD'                        0.0000   0.000000e+00
+  64   'DD'                        0.0000   0.000000e+00
+  65   'ED'                        0.0000   0.000000e+00
+  71   'Asea'                      0.0000   0.000000e+00
+  72   'Bsea'                      0.0000   0.000000e+00
+  73   'Csea'                      0.0000   0.000000e+00
+  74   'Dsea'                      0.0000   0.000000e+00
+  75   'Esea'                      0.0000   0.000000e+00
+  81   'Adel'                      0.0000   0.000000e+00
+  82   'Bdel'                      0.0000   0.000000e+00
+  83   'Cdel'                      0.0000   0.000000e+00
+  84   'Ddel'                      0.0000   0.000000e+00
+  85   'Edel'                      0.0000   0.000000e+00
+
+
+*migrad 5000
+migrad 20000
+hesse
+*call fcn 3
+return
