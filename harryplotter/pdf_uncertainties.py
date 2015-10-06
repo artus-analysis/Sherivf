@@ -79,7 +79,7 @@ def par_unc(args=None, additional_dictionary=None):
 
 
 def combine_exp_model(args=None, additional_dictionary=None):
-	""" """
+	""" combine model and experimental"""
 	plots = []
 	for flavour in pdf_unc_flavours:
 		d = {
@@ -109,7 +109,7 @@ def combine_exp_model(args=None, additional_dictionary=None):
 	return [PlottingJob(plots, args)]
 
 def combine_expmodel_par(args=None, additional_dictionary=None):
-	""" """
+	""" combine exp/model and parameterisation uncertainty to final uncertainty"""
 	plots = []
 	for flavour in pdf_unc_flavours:
 		d = {
@@ -142,7 +142,8 @@ def combine_expmodel_par(args=None, additional_dictionary=None):
 
 
 def plot_pdf_uncs(args=None, additional_dictionary=None):
-	""" """
+	""" plot the pdfs with all uncertainties"""
+	#TODO plot with only total unc, but comparison for HERA and HERA+CMS
 	plots = []
 	title = "HERA-I DIS"
 	text = r"$\\mathit{Q}^2 = 1.9 \\/ GeV^2$"
