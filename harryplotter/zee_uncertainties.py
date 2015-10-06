@@ -17,35 +17,44 @@ def uncertainties(args=None):
 				["1"] + common.ybin_weights,
 				["inclusive"] + common.ybin_labels
 	], known_args.no_ybins)):
-			for variation in ['_eup', '_bkgrup', '_unfup']:
-				filename1 = '{}_madgraph_{}_{}.root'.format(quantity, ybinsuffix, common.iterations_to_use)
-				filename2 = '{}_madgraph_{}_{}.root'.format(quantity, ybinsuffix+variation, common.iterations_to_use)
+			for variation in common.uncertainties:
+				filename = '{}_madgraph_{}_{}.root'.format(quantity, ybinsuffix, common.iterations_to_use)
+				filename_up = '{}_madgraph_{}_{}.root'.format(quantity, ybinsuffix+variation+"up", common.iterations_to_use)
+				filename_down = '{}_madgraph_{}_{}.root'.format(quantity, ybinsuffix+variation+"down", common.iterations_to_use)
 				d = {
 					#input
-					'files': [common.divided_path + "/" + f for f in [filename1, filename2]],
+					'files': [common.divided_path + "/" + f for f in [filename, filename_up, filename_down]],
 					'folders': [""],
 					'x_expressions': ['nick0'],
+					'nicks': ['central', 'up', 'down'],
 					#analysis
 					'analysis_modules': [
 						'Ratio',
 						'ShiftBinContents',
 						'AbsoluteBinContents',
+						'MaxHistogram'
 					],
+					'ratio_numerator_nicks': ['central'],
+					'ratio_denominator_nicks': ['up', 'down'],
+					'ratio_result_nicks': ['ratio_up', 'ratio_down'],
 					"shift": -1,
-					"shift_bin_contents": ["ratio"],
-					"absolute_bin_contents": ["ratio"],
+					"shift_bin_contents": ['ratio_up', 'ratio_down'],
+					"absolute_bin_contents": ['ratio_up', 'ratio_down'],
+					'max_nick1': 'ratio_up',
+					'max_nick2': 'ratio_down',
+					'max_result_nick': 'ratio',
 
 					'nicks_whitelist': ['ratio'],
 					'plot_modules': ['ExportRoot'],
 					'output_dir': common.systematic_path,
-					'filename': filename2.replace('.root', ''),
+					'filename': filename_up.replace('.root', '').replace("up", ''),
 					'export_json': False,
 				}
 				plots.append(d)
 			#lumi
 			filename = '{}_madgraph_{}_{}'.format(quantity, ybinsuffix+'_lumi', common.iterations_to_use)
 			d = {
-				'files': [common.divided_path + "/" + filename1]*2,
+				'files': [common.divided_path + "/" + filename_up]*2,
 				'folders': [""],
 				'x_expressions': ['nick0'],
 				'scale_factors': [common.lumi_uncertainty, 1],
@@ -75,8 +84,8 @@ def plot_uncertainties(args=None):
 				continue
 
 			files = [common.divided_path + "/" + quantity+'_madgraph_{}_1.root'.format(ybinsuffix)]
-			types = ['_eup', '_bkgrup', '_unfup', '_lumi']
-			for unc in ['_eup', '_bkgrup', '_unfup', '_lumi']:
+			types = common.uncertainties_with_lumi
+			for unc in common.uncertainties_with_lumi:
 				files += [common.systematic_path + "/" + quantity+'_madgraph_{}{}_1.root'.format(ybinsuffix, unc)]
 			n_source = 4
 			labels = ['Statistical', 'Electron ID/Trigger Efficiency', 'Background', 'Unfolding', 'Luminosity']

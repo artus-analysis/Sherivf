@@ -19,14 +19,14 @@ def herafile(args=None, additional_dictionary=None, pdflabel=""):
 				# input
 				"x_expressions": ['nick0'] + ['ratio']*4,
 				"folders": [""],
-				'nicks': ['sigma', 'lumi', 'bkgrup', 'unfup', 'eup'],
+				'nicks': ['sigma', 'lumi', 'bkgr', 'unf', 'e'],
 				'scale_factors': [1] + [100]*4,
 				"files": [
 					'3_divided/{}_madgraph_{}_1.root'.format(quantity, ybinsuffix),
 					uncfile.format(quantity, ybinsuffix, 'lumi'),
-					uncfile.format(quantity, ybinsuffix, 'bkgrup'),
-					uncfile.format(quantity, ybinsuffix, 'unfup'),
-					uncfile.format(quantity, ybinsuffix, 'eup'),
+					uncfile.format(quantity, ybinsuffix, 'bkgr'),
+					uncfile.format(quantity, ybinsuffix, 'unf'),
+					uncfile.format(quantity, ybinsuffix, 'e'),
 				],
 				#hera
 				"hera_theoryfile": ybin+quantity,

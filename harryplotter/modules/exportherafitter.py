@@ -84,9 +84,9 @@ class ExportHerafitter(plotbase.PlotBase):
 				plotData.plotdict["hera_stat"]*(100*(root_object.GetBinError(i)/root_object.GetBinContent(i) if root_object.GetBinContent(i)>0. else 0.)),  # stat
 				plotData.plotdict["hera_sys"],  # sys
 				plotData.plotdict["root_objects"]['lumi'].GetBinContent(i),
-				plotData.plotdict["root_objects"]['unfup'].GetBinContent(i),
-				plotData.plotdict["root_objects"]['bkgrup'].GetBinContent(i),
-				plotData.plotdict["root_objects"]['eup'].GetBinContent(i),
+				plotData.plotdict["root_objects"]['unf'].GetBinContent(i),
+				plotData.plotdict["root_objects"]['bkgr'].GetBinContent(i),
+				plotData.plotdict["root_objects"]['e'].GetBinContent(i),
 			])
 		# now, format the values to strings with proper widths
 		list_of_max_len = [0]*len(lines[0])
