@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
+import os
 
 
 def electron_scale_sigma(args=None, additional_dictionary=None):
 	"""Sigma for pT reco/pT gen of electron in bins of eta,pT"""
+	# TODO plot this
 	d = {
 		# input
-		"files": ["work/mc_ee.root"],
+		"files": [os.environ['EXCALIBURPATH']+"/work/mc_ee.root"],
 		"folders": ["zcuts_ak5PFJetsCHSL1L2L3/ntuple"],
 		"x_bins": ["20 30 40 50 200"],  # binning same as scale factors
 		"x_expressions": ["eminuspt"],
