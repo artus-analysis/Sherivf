@@ -95,15 +95,11 @@ def sherpa_mc(args=None, additional_dictionary=None):
 
 	for quantity in parsertools.get_list_slice(["zpt", "abs(genzy)",
 		"genzmass", "genzphi", "geneminuspt", "geneminuseta"], known_args.no_quantities):
-		bins = common.bins['zpt'].split(",")
-		if len(bins) > 1:
-			minzpt = bins[1]
-		else:
-			minzpt = common.bins['zpt'].split(" ")[0]
+		minzpt = common.lims('zpt')[0]
 		d = {
 			# input
-			"yoda_files": ["latest_sherivf_output/Rivet.yoda"],
-			"weights": ["({})".format("&&".join([
+			#"yoda_files": ["latest_sherivf_output/Rivet.yoda"],
+			"weights": ["1", "({})".format("&&".join([
 				"(ngenelectrons>1)",
 				"(geneminuspt>25&&genepluspt>25)",
 				"(abs(geneminuseta)<2.4&&abs(genepluseta)<2.4)",
@@ -113,21 +109,23 @@ def sherpa_mc(args=None, additional_dictionary=None):
 				"(genzmass>81&&genzmass<101)",
 			]))],
 			"files": [
+				os.environ['SHERIVFDIR'] + "/latest_sherivf_output/Rivet.root",
 				os.environ['EXCALIBURPATH'] + '/work/mc_ee_gen.root',
 			],
 			"folders": [
+				"",
 				"nocuts_ak5PFJetsCHSL1L2L3/ntuple",
 			],
-			"input_modules": ["InputRootZJet", "InputYoda"],
-			'scale_factors': [1./1000.],
-			"x_expressions": [common.root_quantity(quantity)],
-			"x_bins": [common.bins[quantity.replace('gen', '')]],
+			#"input_modules": ["InputRootZJet", "InputYoda"],
+			'scale_factors': [1, 1./1000.],
+			"x_expressions": [quantity.replace('gen', '').replace('(', '').replace(')', ''), common.root_quantity(quantity)],
+			"x_bins": [None, common.bins[quantity.replace('gen', '')]],
 			# analysis
 			"analysis_modules": ["Ratio"],
-			"ratio_numerator_nicks": [quantity.replace('gen', '')],
-			"ratio_denominator_nicks": ["nick0"],
+			#"ratio_numerator_nicks": [quantity.replace('gen', '')],
+			#"ratio_denominator_nicks": ["nick0"],
 			# plotting
-			"nicks_whitelist": ["nick", quantity.replace('gen', ''), "madg", "ratio"],
+			#"nicks_whitelist": ["nick", quantity.replace('gen', ''), "madg", "ratio"],
 			"y_label": "xsec",
 			"y_subplot_lims": [0.9, 1.1],
 			"y_errors": [True, False, False],

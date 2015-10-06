@@ -170,10 +170,10 @@ def plot_pdf_uncs(args=None, additional_dictionary=None):
 			'markers': ['fill']*6,
 			'grid': True,
 			'subplot_grid': True,
-			#'line_styles': '-',
+			'line_styles': '-',
 			'x_label': '$x$',
-			'y_label': 'x fx',
-			'y_subplot_label': 'Rel Uncertainty',
+			'y_label': 'xfxQ2',
+			'y_subplot_label': 'Rel. Uncertainty',
 			'colors': ["orangered", "yellow", "green"]*3,
 			
 			'title': title,

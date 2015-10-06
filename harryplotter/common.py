@@ -81,19 +81,28 @@ qdict = {
 	'eminuseta': 'eminuseta',
 }
 
-## Rapidity
+## Rapidity binning
 ybins = np.arange(0, 2.8, 0.4)
 ybin_labels = ["{0:02d}y{1:02d}".format(int(10*low), int(10*up)) for low, up in zip(ybins[:-1], ybins[1:])]
 ybin_weights = ["abs(zy)<{1} && abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])]
 ybin_plotlabels = ["${0}<|y_Z|<{1}$".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])]
 
+
+### Uncertainties
+variations = ["", "_edown", "_eup", "_bkgrup", "_bkgrdown", "_ptup", "_ptdown"]  # for sys uncert estimation
+uncertainties = ["_e", "_bkgr", "_unf", "_pt"]
+uncertainties_with_lumi = uncertainties + ['_lumi']
+unc_labelsdict = {
+	'_e': 'Electron ID/Trigger Efficiency',
+	'_bkgr': 'Background',
+	'_unf': 'Unfolding',
+	'_lumi': 'Luminosity',
+}
+
+
+# workflow dirs
 excaliburpath = os.environ['EXCALIBURPATH']
 bkgr_path = excaliburpath
-
-variations = ["", "_edown", "_eup", "_bkgrup", "_bkgrdown"]  # for sys uncert estimation
-
-uncertainties = ["_e", "_bkgr", "_unf"]
-uncertainties_with_lumi = uncertainties + ['_lumi']
 
 subtract_dir = "1_background-subtracted"
 unfold_path = "2_unfolded"
@@ -111,6 +120,7 @@ bkgr_backgrounds = ['zz', 'wz', 'tt', 'tw', 'ww', 'wjets', 'dytautau', 'qcd']
 
 lumi = 19.712
 lumi_uncertainty = 0.026
+
 
 #unfolding_variations = [0, -1, 1]
 unfolding_variations = ['_unfdown', '_unfup']
