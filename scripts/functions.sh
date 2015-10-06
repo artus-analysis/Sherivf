@@ -84,6 +84,18 @@ hera_batch(){
 }
 
 
+make_pdfuncs()
+{
+	merlin.py --py model_unc
+	merlin.py --py par_unc
+	merlin.py --py combine_exp_model
+	merlin.py --py combine_expmodel_par
+}
+clear_pdfuncs()
+{
+	rm 5_pdfunc/*.root
+}
+
 
 ## for switching LHAPDF versions
 install_lhapdf(){
