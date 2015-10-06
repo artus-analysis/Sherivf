@@ -30,6 +30,11 @@ ls -lt
 echo -e "\nherapdf:"
 ls -lt herapdf/
 
+echo -e "\n\nErrorType:"
+grep ErrorType herapdf/herapdf.info -n
+sed -i 's/replicas/hessian/g' herapdf/herapdf.info
+echo -e "\n\n"
+
 if [ @DOBANDS@ == 'False' ]; then
 	echo -e "\n no errors on pdfs \n"
 	ERRORS="-m 1"
