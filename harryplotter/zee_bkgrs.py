@@ -92,7 +92,9 @@ def subtract_backgrounds(args=None):
 	], known_args.no_ybins)):
 		for quantity, bins in zip(*parsertools.get_list_slice([common.data_quantities, [common.bins[i] for i in common.data_quantities]], known_args.no_quantities)):
 			for variation in common.variations:  # for sys uncert estimation
-				datasuffix = (variation if ('_e' in variation) else "")  # Trigger/ID SF
+				datasuffix = ""
+				if (("bkgr" not in variation) and (variation != "")):
+					datasuffix = variation
 				mc_scalefactor = -1 + (-0.5*(variation=="_bkgrdown")) + (0.5*(variation=="_bkgrup"))  # for bkgr estimation
 				d = {
 					#input

@@ -168,6 +168,7 @@ def unfolding_comparison(args=None):
 				'zorder': [10,10,2,10,10],
 				'energies': [8],
 				'legend': 'upper right',
+				'y_subplot_lims': [0.9, 1.1],
 				#'lumis': [common.lumi],
 				'x_label': quantity,
 				'title': str(iterations) + " iteration" + ("s" if iterations != 1 else ""),
@@ -184,7 +185,6 @@ def unfolding_comparison(args=None):
 				'ratio_numerator_nicks': [expression for expression in expressions if expression != 'mc_gen'],
 				'ratio_denominator_nicks': ['mc_gen'],
 				'y_subplot_label': 'Ratio to MC Gen',
-				'y_subplot_lims': [0, 2],
 			})
 			plots.append(d)
 	return [PlottingJob(plots, args)]
