@@ -48,6 +48,13 @@ bins['abszy'] = bins['abs(zy)']
 #zpt_ticks = [int(i) for i in bins['zpt'].split(" ")]
 zpt_ticks = [30, 40, 60, 100, 140, 200, 1000]
 zpt_xlog = True
+def lims(quantity):
+	if "," in bins[quantity]:
+		return map(float, bins[quantity].split(",")[1:])
+	else:
+		binlist = map(float, bins[quantity].split(" "))
+		return binlist[::len(binlist)-1]
+
 
 pdfsetdict = {
 	'NNPDF23_nlo_as_0118': 'NNPDF 2.3 NLO',

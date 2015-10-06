@@ -120,7 +120,7 @@ def response_matrix(args=None):
 	ybin = 'inclusive'
 	for log in [True, False]:
 		for quantity in common.data_quantities:
-			lims = map(float, common.bins[quantity].split(",")[1:])
+			lims = common.lims(quantity)
 			d = {
 				# input
 				'files': [common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '1']) + '.root'],
