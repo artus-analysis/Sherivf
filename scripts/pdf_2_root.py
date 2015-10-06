@@ -28,7 +28,7 @@ partondict = {
 	8: 'u valence quark',
 	9: 'sea quarks',
 }
-
+default_flavours = [21, 1, 2, 3, 4, -1, -2, 7, 8, 9]
 
 def main(
 		pdfset,
@@ -37,6 +37,7 @@ def main(
 		n_points,
 		q,
 		q2,  # q2 instead of q
+		members,
 		folder):
 	"""evaluate a PDF set and write the resuling TGraph to disk"""
 
@@ -52,8 +53,9 @@ def main(
 	pset = lhapdf.getPDFSet(pdfset)
 	n_members = pset.size
 	print n_members, "members in PDF set"
-	#if members is not None:
-	#	n_members=members
+	if members is not None:
+		n_members=members
+	print n_members
 
 	# iterate over flavours, get pdfgraph, write
 	for flavour in flavours:
@@ -67,26 +69,26 @@ def getopt():
 	parser = argparse.ArgumentParser(description='evaluate PDF set')
 	parser.add_argument('-p', '--pdfset', help='LHAPDF PDF Filename', default='NNPDF30_nlo_as_0118')
 	parser.add_argument('-o', '--output-filename', default=None)
-	parser.add_argument('-f', '--flavours', type=int, nargs="*", default=[21, 1, 2, 3, 4, -1, -2, 7, 8, 9])
+	parser.add_argument('-f', '--flavours', type=int, nargs="*", default=default_flavours)
 	parser.add_argument('-n', '--n-points', default=100, type=int, help="points in x")
+	parser.add_argument('-m', '--members', default=None, type=int, help="n members")
 	parser.add_argument('-q', '--q', default=91.2, type=float, help="Q")
 	parser.add_argument('--q2', action='store_true', help="Q2 instead of Q")
 	parser.add_argument('--folder', type=str, default=None)
 
 	opt = parser.parse_args()
 	if opt.output_filename is None:
-		opt.output_filename = "{}__{}.root".format(opt.pdfset, str(opt.q).replace('.', '_'))
+		opt.output_filename = "{}__{}".format(opt.pdfset, str(opt.q).replace('.', '_'))
 		if opt.q2:
 			opt.output_filename += "_squared"
-	else:
-		opt.output_filename += ".root"
+	
+	opt.output_filename += ".root"
 	return opt
 
 def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q, Q2):
 	all_values = []
 	# load each member only once
-	# TODO we dont need the members any more
-	for i_member in range(1):
+	for i_member in range(n_members):
 		p = pset.mkPDF(i_member)
 		method = p.xfxQ2 if Q2 else p.xfxQ
 		pdf_values = []
@@ -115,7 +117,7 @@ def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q, Q2):
 				tgraph.SetPointEYlow(index, unc.errminus)
 				tgraph.SetPointEYhigh(index, unc.errplus)
 			except RuntimeError:
-				print "could not compute uncertainties"
+				print "could not compute uncertainties (len values:", len(values)
 				do_uncertainty = False
 
 	return tgraph
