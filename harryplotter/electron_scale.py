@@ -19,12 +19,15 @@ def electron_scale_sigma(args=None, additional_dictionary=None):
 		"tree_draw_options": ["profs"],  # profS to get sigma, not sigma/sqrt(N)
 		"nicks": ["mc"],
 		# analysis
-		"analysis_modules": ["StatisticalErrors"],
+		"analysis_modules": ["ConvertToHistogram", "StatisticalErrors"],
+		"convert_nicks": ['mc'],
 		"stat_error_nicks": ["mc"],
 		"stat_error_relative": True,
 		# output
-		"filename": "sigma_pt",
+		"filename": "ElectronPtVariation",
+		"output_dir": os.environ["EXCALIBURPATH"] + "/data/electron_scalefactors/",
 		"plot_modules": ["ExportRoot"],
+		"export_json": False,
 	}
 	if additional_dictionary is not None:
 		d.update(additional_dictionary)
