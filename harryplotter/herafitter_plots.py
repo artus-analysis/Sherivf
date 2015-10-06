@@ -15,18 +15,20 @@ def herafile(args=None, additional_dictionary=None, pdflabel=""):
 			if (quantity is not 'zpt') and (ybin is not ""):
 				continue
 			uncfile = "4_systematic/{}_madgraph_{}_{}_1.root"
+			nicks = ['sigma', 'lumi', 'bkgr', 'unf', 'e', 'pt']
 			d = {
 				# input
-				"x_expressions": ['nick0'] + ['ratio']*4,
+				"x_expressions": ['nick0'] + ['ratio']*(len(nicks)-1),
 				"folders": [""],
-				'nicks': ['sigma', 'lumi', 'bkgr', 'unf', 'e'],
-				'scale_factors': [1] + [100]*4,
+				'nicks': nicks,
+				'scale_factors': [1] + [100]*(len(nicks)-1),
 				"files": [
 					'3_divided/{}_madgraph_{}_1.root'.format(quantity, ybinsuffix),
 					uncfile.format(quantity, ybinsuffix, 'lumi'),
 					uncfile.format(quantity, ybinsuffix, 'bkgr'),
 					uncfile.format(quantity, ybinsuffix, 'unf'),
 					uncfile.format(quantity, ybinsuffix, 'e'),
+					uncfile.format(quantity, ybinsuffix, 'pt'),
 				],
 				#hera
 				"hera_theoryfile": ybin+quantity,

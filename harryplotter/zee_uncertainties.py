@@ -103,6 +103,7 @@ def plot_uncertainties(args=None):
 				'stat_error_relative_percent': True,
 			
 				'texts': [ybinplotlabel],
+				'legend_cols': 2,
 				'y_label': 'Uncertainty / %',
 				'x_label': quantity,
 				'labels': labels,
