@@ -89,6 +89,7 @@ subtract_dir = "1_background-subtracted"
 unfold_path = "2_unfolded"
 divided_path = "3_divided"
 systematic_path = "4_systematic"
+pdf_dir = "5_pdfunc"
 
 iterations_to_use = 1
 
