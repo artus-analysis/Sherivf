@@ -87,7 +87,7 @@ def plot_uncertainties(args=None):
 			types = common.uncertainties_with_lumi
 			for unc in common.uncertainties_with_lumi:
 				files += [common.systematic_path + "/" + quantity+'_madgraph_{}{}_1.root'.format(ybinsuffix, unc)]
-			n_source = 4
+			n_source = len(common.uncertainties_with_lumi)
 			labels = ['Statistical'] + [common.unc_labelsdict[unc] for unc in types]
 			d = {
 				'files': files,
