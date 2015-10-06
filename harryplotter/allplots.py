@@ -15,6 +15,7 @@ import zee_bkgrs
 import zee_divide
 import zee_uncertainties
 import zee_unfolded
+import pdf_uncertainties
 
 
 def allplots(args=None):
@@ -50,7 +51,8 @@ def allplots(args=None):
 		pdf_reweighted.herapdf_14,
 		pdf_reweighted.herapdf_912,
 		zee_uncertainties.plot_uncertainties,
-		zee_divide.divided_ptspectrum
+		zee_divide.divided_ptspectrum,
+		pdf_uncertainties.plot_pdf_uncs  # 20
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -74,6 +76,7 @@ def allplots(args=None):
 		"herapdf_912",
 		"uncertainties",
 		"spectra_in_ybins",
+		"pdf_uncertainties",
 	][plot_min:plot_max]
 
 	for function, wwwdir in zip(functions, wwwdirs):
