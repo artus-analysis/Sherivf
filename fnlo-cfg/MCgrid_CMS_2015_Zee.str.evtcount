@@ -1,84 +1,244 @@
 MCgrid_CMS_2015_Zee.str
-41
-SubProc: 0 Pairs: 1 SubEvents: 42172
-SubProc: 1 Pairs: 3 SubEvents: 247
-SubProc: 2 Pairs: 2 SubEvents: 5980
-SubProc: 3 Pairs: 1 SubEvents: 384
-SubProc: 4 Pairs: 6 SubEvents: 2569
-SubProc: 5 Pairs: 2 SubEvents: 435
-SubProc: 6 Pairs: 2 SubEvents: 34083
-SubProc: 7 Pairs: 2 SubEvents: 10794
-SubProc: 8 Pairs: 6 SubEvents: 1297
-SubProc: 9 Pairs: 3 SubEvents: 52017
-SubProc: 10 Pairs: 3 SubEvents: 19473
-SubProc: 11 Pairs: 3 SubEvents: 280
-SubProc: 12 Pairs: 3 SubEvents: 12607
-SubProc: 13 Pairs: 3 SubEvents: 262
-SubProc: 14 Pairs: 2 SubEvents: 405
-SubProc: 15 Pairs: 1 SubEvents: 35
-SubProc: 16 Pairs: 2 SubEvents: 9617
-SubProc: 17 Pairs: 3 SubEvents: 1556
-SubProc: 18 Pairs: 3 SubEvents: 11569
-SubProc: 19 Pairs: 3 SubEvents: 41226
-SubProc: 20 Pairs: 3 SubEvents: 3039
-SubProc: 21 Pairs: 6 SubEvents: 785
-SubProc: 22 Pairs: 3 SubEvents: 402
-SubProc: 23 Pairs: 3 SubEvents: 142
-SubProc: 24 Pairs: 2 SubEvents: 10427
-SubProc: 25 Pairs: 2 SubEvents: 11650
-SubProc: 26 Pairs: 3 SubEvents: 333
-SubProc: 27 Pairs: 2 SubEvents: 34066
-SubProc: 28 Pairs: 3 SubEvents: 4984
-SubProc: 29 Pairs: 3 SubEvents: 23101
-SubProc: 30 Pairs: 3 SubEvents: 2659
-SubProc: 31 Pairs: 6 SubEvents: 1781
-SubProc: 32 Pairs: 1 SubEvents: 99
-SubProc: 33 Pairs: 1 SubEvents: 630
-SubProc: 34 Pairs: 3 SubEvents: 567
-SubProc: 35 Pairs: 6 SubEvents: 991
-SubProc: 36 Pairs: 3 SubEvents: 658
-SubProc: 37 Pairs: 2 SubEvents: 169
-SubProc: 38 Pairs: 6 SubEvents: 865
-SubProc: 39 Pairs: 3 SubEvents: 121
-SubProc: 40 Pairs: 3 SubEvents: 978
-Subproc: 0  42172  
-Subproc: 1  28  148  71  
-Subproc: 2  5965  15  
-Subproc: 3  384  
-Subproc: 4  27  24  47  976  346  1149  
-Subproc: 5  382  53  
-Subproc: 6  4048  30035  
-Subproc: 7  4213  6581  
-Subproc: 8  93  161  276  469  202  96  
-Subproc: 9  39642  9155  3220  
-Subproc: 10  9379  2829  7265  
-Subproc: 11  171  72  37  
-Subproc: 12  3007  9172  428  
-Subproc: 13  167  29  66  
-Subproc: 14  68  337  
-Subproc: 15  35  
-Subproc: 16  718  8899  
-Subproc: 17  419  1125  12  
-Subproc: 18  8531  2646  392  
-Subproc: 19  10585  3918  26723  
-Subproc: 20  60  2759  220  
-Subproc: 21  55  99  16  224  21  370  
-Subproc: 22  35  256  111  
-Subproc: 23  85  13  44  
-Subproc: 24  695  9732  
-Subproc: 25  4121  7529  
-Subproc: 26  109  166  58  
-Subproc: 27  29268  4798  
-Subproc: 28  231  4699  54  
-Subproc: 29  11149  8583  3369  
-Subproc: 30  236  2393  30  
-Subproc: 31  274  816  569  59  9  54  
-Subproc: 32  99  
-Subproc: 33  630  
-Subproc: 34  123  36  408  
-Subproc: 35  198  238  50  78  393  34  
-Subproc: 36  442  34  182  
-Subproc: 37  49  120  
-Subproc: 38  67  455  28  156  138  21  
-Subproc: 39  9  98  14  
-Subproc: 40  663  295  20  
+121
+SubProc: 0 Pairs: 1 SubEvents: 1293
+SubProc: 1 Pairs: 1 SubEvents: 1965
+SubProc: 2 Pairs: 1 SubEvents: 3416
+SubProc: 3 Pairs: 1 SubEvents: 4882
+SubProc: 4 Pairs: 1 SubEvents: 4836
+SubProc: 5 Pairs: 1 SubEvents: 305863
+SubProc: 6 Pairs: 1 SubEvents: 32548
+SubProc: 7 Pairs: 1 SubEvents: 37715
+SubProc: 8 Pairs: 1 SubEvents: 5082
+SubProc: 9 Pairs: 1 SubEvents: 1675
+SubProc: 10 Pairs: 1 SubEvents: 58544
+SubProc: 11 Pairs: 1 SubEvents: 2077
+SubProc: 12 Pairs: 1 SubEvents: 3150
+SubProc: 13 Pairs: 1 SubEvents: 7534
+SubProc: 14 Pairs: 1 SubEvents: 5244
+SubProc: 15 Pairs: 1 SubEvents: 12808
+SubProc: 16 Pairs: 1 SubEvents: 406413
+SubProc: 17 Pairs: 1 SubEvents: 27450
+SubProc: 18 Pairs: 1 SubEvents: 42292
+SubProc: 19 Pairs: 1 SubEvents: 5029
+SubProc: 20 Pairs: 1 SubEvents: 120052
+SubProc: 21 Pairs: 1 SubEvents: 1734
+SubProc: 22 Pairs: 1 SubEvents: 3857
+SubProc: 23 Pairs: 1 SubEvents: 4514
+SubProc: 24 Pairs: 1 SubEvents: 10317
+SubProc: 25 Pairs: 1 SubEvents: 14324
+SubProc: 26 Pairs: 1 SubEvents: 13357
+SubProc: 27 Pairs: 1 SubEvents: 780765
+SubProc: 28 Pairs: 1 SubEvents: 103322
+SubProc: 29 Pairs: 1 SubEvents: 95451
+SubProc: 30 Pairs: 1 SubEvents: 364937
+SubProc: 31 Pairs: 1 SubEvents: 4921
+SubProc: 32 Pairs: 1 SubEvents: 4965
+SubProc: 33 Pairs: 1 SubEvents: 4058
+SubProc: 34 Pairs: 1 SubEvents: 5634
+SubProc: 35 Pairs: 1 SubEvents: 11017
+SubProc: 36 Pairs: 1 SubEvents: 13428
+SubProc: 37 Pairs: 1 SubEvents: 28613
+SubProc: 38 Pairs: 1 SubEvents: 683140
+SubProc: 39 Pairs: 1 SubEvents: 52894
+SubProc: 40 Pairs: 1 SubEvents: 1501595
+SubProc: 41 Pairs: 1 SubEvents: 10711
+SubProc: 42 Pairs: 1 SubEvents: 5081
+SubProc: 43 Pairs: 1 SubEvents: 3832
+SubProc: 44 Pairs: 1 SubEvents: 5944
+SubProc: 45 Pairs: 1 SubEvents: 7047
+SubProc: 46 Pairs: 1 SubEvents: 16976
+SubProc: 47 Pairs: 1 SubEvents: 13105
+SubProc: 48 Pairs: 1 SubEvents: 22836
+SubProc: 49 Pairs: 1 SubEvents: 1032621
+SubProc: 50 Pairs: 1 SubEvents: 1041644
+SubProc: 51 Pairs: 1 SubEvents: 128388
+SubProc: 52 Pairs: 1 SubEvents: 23612
+SubProc: 53 Pairs: 1 SubEvents: 6759
+SubProc: 54 Pairs: 1 SubEvents: 7087
+SubProc: 55 Pairs: 1 SubEvents: 284691
+SubProc: 56 Pairs: 1 SubEvents: 574664
+SubProc: 57 Pairs: 1 SubEvents: 730872
+SubProc: 58 Pairs: 1 SubEvents: 902482
+SubProc: 59 Pairs: 1 SubEvents: 989418
+SubProc: 60 Pairs: 1 SubEvents: 2418232
+SubProc: 61 Pairs: 1 SubEvents: 2172689
+SubProc: 62 Pairs: 1 SubEvents: 2732165
+SubProc: 63 Pairs: 1 SubEvents: 971058
+SubProc: 64 Pairs: 1 SubEvents: 437767
+SubProc: 65 Pairs: 1 SubEvents: 424738
+SubProc: 66 Pairs: 1 SubEvents: 15615
+SubProc: 67 Pairs: 1 SubEvents: 20838
+SubProc: 68 Pairs: 1 SubEvents: 38424
+SubProc: 69 Pairs: 1 SubEvents: 40917
+SubProc: 70 Pairs: 1 SubEvents: 1274383
+SubProc: 71 Pairs: 1 SubEvents: 2138961
+SubProc: 72 Pairs: 1 SubEvents: 227201
+SubProc: 73 Pairs: 1 SubEvents: 246932
+SubProc: 74 Pairs: 1 SubEvents: 60886
+SubProc: 75 Pairs: 1 SubEvents: 26008
+SubProc: 76 Pairs: 1 SubEvents: 26765
+SubProc: 77 Pairs: 1 SubEvents: 57469
+SubProc: 78 Pairs: 1 SubEvents: 45787
+SubProc: 79 Pairs: 1 SubEvents: 146655
+SubProc: 80 Pairs: 1 SubEvents: 1372077
+SubProc: 81 Pairs: 1 SubEvents: 187336
+SubProc: 82 Pairs: 1 SubEvents: 2329347
+SubProc: 83 Pairs: 1 SubEvents: 290100
+SubProc: 84 Pairs: 1 SubEvents: 809995
+SubProc: 85 Pairs: 1 SubEvents: 128581
+SubProc: 86 Pairs: 1 SubEvents: 46371
+SubProc: 87 Pairs: 1 SubEvents: 53830
+SubProc: 88 Pairs: 1 SubEvents: 3116
+SubProc: 89 Pairs: 1 SubEvents: 4436
+SubProc: 90 Pairs: 1 SubEvents: 491537
+SubProc: 91 Pairs: 1 SubEvents: 9943
+SubProc: 92 Pairs: 1 SubEvents: 11451
+SubProc: 93 Pairs: 1 SubEvents: 720563
+SubProc: 94 Pairs: 1 SubEvents: 50490
+SubProc: 95 Pairs: 1 SubEvents: 102978
+SubProc: 96 Pairs: 1 SubEvents: 13088
+SubProc: 97 Pairs: 1 SubEvents: 5432
+SubProc: 98 Pairs: 1 SubEvents: 3309
+SubProc: 99 Pairs: 1 SubEvents: 1760
+SubProc: 100 Pairs: 1 SubEvents: 155374
+SubProc: 101 Pairs: 1 SubEvents: 4888
+SubProc: 102 Pairs: 1 SubEvents: 5471
+SubProc: 103 Pairs: 1 SubEvents: 7199
+SubProc: 104 Pairs: 1 SubEvents: 401390
+SubProc: 105 Pairs: 1 SubEvents: 21579
+SubProc: 106 Pairs: 1 SubEvents: 77387
+SubProc: 107 Pairs: 1 SubEvents: 4595
+SubProc: 108 Pairs: 1 SubEvents: 4804
+SubProc: 109 Pairs: 1 SubEvents: 1875
+SubProc: 110 Pairs: 1 SubEvents: 76268
+SubProc: 111 Pairs: 1 SubEvents: 1655
+SubProc: 112 Pairs: 1 SubEvents: 2895
+SubProc: 113 Pairs: 1 SubEvents: 3699
+SubProc: 114 Pairs: 1 SubEvents: 4459
+SubProc: 115 Pairs: 1 SubEvents: 285454
+SubProc: 116 Pairs: 1 SubEvents: 19605
+SubProc: 117 Pairs: 1 SubEvents: 41933
+SubProc: 118 Pairs: 1 SubEvents: 3536
+SubProc: 119 Pairs: 1 SubEvents: 1517
+SubProc: 120 Pairs: 1 SubEvents: 1633
+Subproc: 0  1293  
+Subproc: 1  1965  
+Subproc: 2  3416  
+Subproc: 3  4882  
+Subproc: 4  4836  
+Subproc: 5  305863  
+Subproc: 6  32548  
+Subproc: 7  37715  
+Subproc: 8  5082  
+Subproc: 9  1675  
+Subproc: 10  58544  
+Subproc: 11  2077  
+Subproc: 12  3150  
+Subproc: 13  7534  
+Subproc: 14  5244  
+Subproc: 15  12808  
+Subproc: 16  406413  
+Subproc: 17  27450  
+Subproc: 18  42292  
+Subproc: 19  5029  
+Subproc: 20  120052  
+Subproc: 21  1734  
+Subproc: 22  3857  
+Subproc: 23  4514  
+Subproc: 24  10317  
+Subproc: 25  14324  
+Subproc: 26  13357  
+Subproc: 27  780765  
+Subproc: 28  103322  
+Subproc: 29  95451  
+Subproc: 30  364937  
+Subproc: 31  4921  
+Subproc: 32  4965  
+Subproc: 33  4058  
+Subproc: 34  5634  
+Subproc: 35  11017  
+Subproc: 36  13428  
+Subproc: 37  28613  
+Subproc: 38  683140  
+Subproc: 39  52894  
+Subproc: 40  1501595  
+Subproc: 41  10711  
+Subproc: 42  5081  
+Subproc: 43  3832  
+Subproc: 44  5944  
+Subproc: 45  7047  
+Subproc: 46  16976  
+Subproc: 47  13105  
+Subproc: 48  22836  
+Subproc: 49  1032621  
+Subproc: 50  1041644  
+Subproc: 51  128388  
+Subproc: 52  23612  
+Subproc: 53  6759  
+Subproc: 54  7087  
+Subproc: 55  284691  
+Subproc: 56  574664  
+Subproc: 57  730872  
+Subproc: 58  902482  
+Subproc: 59  989418  
+Subproc: 60  2418232  
+Subproc: 61  2172689  
+Subproc: 62  2732165  
+Subproc: 63  971058  
+Subproc: 64  437767  
+Subproc: 65  424738  
+Subproc: 66  15615  
+Subproc: 67  20838  
+Subproc: 68  38424  
+Subproc: 69  40917  
+Subproc: 70  1274383  
+Subproc: 71  2138961  
+Subproc: 72  227201  
+Subproc: 73  246932  
+Subproc: 74  60886  
+Subproc: 75  26008  
+Subproc: 76  26765  
+Subproc: 77  57469  
+Subproc: 78  45787  
+Subproc: 79  146655  
+Subproc: 80  1372077  
+Subproc: 81  187336  
+Subproc: 82  2329347  
+Subproc: 83  290100  
+Subproc: 84  809995  
+Subproc: 85  128581  
+Subproc: 86  46371  
+Subproc: 87  53830  
+Subproc: 88  3116  
+Subproc: 89  4436  
+Subproc: 90  491537  
+Subproc: 91  9943  
+Subproc: 92  11451  
+Subproc: 93  720563  
+Subproc: 94  50490  
+Subproc: 95  102978  
+Subproc: 96  13088  
+Subproc: 97  5432  
+Subproc: 98  3309  
+Subproc: 99  1760  
+Subproc: 100  155374  
+Subproc: 101  4888  
+Subproc: 102  5471  
+Subproc: 103  7199  
+Subproc: 104  401390  
+Subproc: 105  21579  
+Subproc: 106  77387  
+Subproc: 107  4595  
+Subproc: 108  4804  
+Subproc: 109  1875  
+Subproc: 110  76268  
+Subproc: 111  1655  
+Subproc: 112  2895  
+Subproc: 113  3699  
+Subproc: 114  4459  
+Subproc: 115  285454  
+Subproc: 116  19605  
+Subproc: 117  41933  
+Subproc: 118  3536  
+Subproc: 119  1517  
+Subproc: 120  1633  
