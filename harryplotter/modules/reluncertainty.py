@@ -21,17 +21,33 @@ class RelUncertainty(analysisbase.AnalysisBase):
 		super(RelUncertainty, self).run(plotData)
 
 		for nick in plotData.plotdict['rel_nicks']:
-			orig = roottools.RootTools.to_histogram(plotData.plotdict["root_objects"][nick])
-			graph = ROOT.TGraphErrors()
+			orig = plotData.plotdict["root_objects"][nick]
+			graph = ROOT.TGraphAsymmErrors()
+			try:  # TH
+				n_bins = orig.GetNbinsX()
+			except AttributeError:  # TGraph
+				n_bins = orig.GetN()
 
-			for i in range(1, orig.GetNbinsX()+1):
-				graph.SetPoint(i-1, orig.GetBinCenter(i), 0)
-				try:
+			for i in range(1, n_bins+1):
+				try:  # TH
+					graph.SetPoint(i-1, orig.GetBinCenter(i), 0)
+				except AttributeError:  # TGraph
+					x, y = roottools.RootTools.tgraph_get_point(orig, i-1)
+					graph.SetPoint(i-1, x, 0)
+				try:  # TH
 					graph.SetPointError(i-1, 0, orig.GetBinError(i)/orig.GetBinContent(i))
+				except AttributeError:  # TGraph
+					x, y = roottools.RootTools.tgraph_get_point(orig, i-1)
+					try:
+						graph.SetPointEYhigh(i-1, orig.GetErrorYhigh(i-1)/y)
+						graph.SetPointEYlow(i-1, orig.GetErrorYlow(i-1)/y)
+					except ZeroDivisionError:
+						graph.SetPointEYhigh(i-1, 0)
+						graph.SetPointEYlow(i-1, 0)
 				except ZeroDivisionError:
 					graph.SetPointError(i-1, 0, 0)
+
 
 			new_nick = nick+"_rel"
 			plotData.plotdict["root_objects"][new_nick] = graph
 			plotData.plotdict['nicks'].append(new_nick)
-
