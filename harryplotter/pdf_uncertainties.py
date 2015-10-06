@@ -6,8 +6,8 @@ import os
 import pdf_2_root
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
-
-pdf_unc_basefile = "/storage/a/dhaitz/hera/job_{}_herapdf__1_9_squared.root"
+pdf_unc_basedir = "/storage/a/dhaitz/hera/"
+pdf_unc_basefile = pdf_unc_basedir + "job_{}_herapdf__1_9_squared.root"
 pdf_unc_flavours = [pdf_2_root.partondict[f].replace(' ', '_') for f in pdf_2_root.default_flavours]
 
 
@@ -145,7 +145,7 @@ def plot_pdf_uncs(args=None, additional_dictionary=None):
 	""" """
 	plots = []
 	title = "HERA-I DIS"
-	text = r"$\\mathit{Q}^2$ = 1.9 GeV$^2$"
+	text = r"$\\mathit{Q}^2 = 1.9 \\/ GeV^2$"
 	y_lims = {
 		'gluon': [0, 3],
 	}
