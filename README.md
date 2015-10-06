@@ -45,10 +45,21 @@ make sure the Excalibur outputs are present
 3. Divide by lumi and bin width `merlin.py --py zee_divide`
 3. Export unfolded data into herafitter format: `merlin.py --py unfolded_to_hera`
 
-or execute all of these steps with the alias `make_analysis`
+or execute all of these steps with the alias `make_analysis`.
+Clear the root files with `clear_analysis`
+
+
+## Workflow PDF fits
+
+* local fits with `fit_hera`, `fit_heraZ`, `fit_heraZ_bins`
+* send to batch with `hera_batch`
+* from the outputs, create PDF root file with `make_pdfuncs`
+* delete PDF root files with `clear_pdfuncs`
 
 
 ## Plots
+* alias `make_allplots` for all plots
+
 ##### PDFs
 * PDF evaluation at different Q: `merlin.py --py pdfs_thesis`
 * Correlation plots: `merlin.py --py pdf_correlations`
