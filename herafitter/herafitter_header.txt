@@ -7,9 +7,9 @@
    Reaction       = 'FastNLO jets'
 
    NDATA          = @NDATA@
-   NColumn        = 9
-   ColumnType     = 'Bin'   , 'Bin'    , 'Sigma' , 'Error' , 'Error' , 'Error', 'Error', 'Error', 'Error'
-   ColumnName     = 'ylow' , 'yhigh' , 'Sigma' , 'stat'  , 'uncor' , 'lumi',  'unf',   'bkgr',  'ef'
+   NColumn        = 10
+   ColumnType     = 'Bin'   , 'Bin'    , 'Sigma' , 'Error' , 'Error' , 'Error', 'Error', 'Error', 'Error', 'Error'
+   ColumnName     = 'ylow' , 'yhigh' , 'Sigma' , 'stat'  , 'uncor' , 'lumi',  'unf',   'bkgr',  'ef', 'pt'
    NInfo          = 4
    DataInfo       = 8000.     , 1.                 , -1.      , -1.
    CInfo          = 'sqrt(S)' , 'PublicationUnits' , 'MurDef' , 'MufDef'
@@ -19,5 +19,5 @@
   TheoryInfoFile = '/usr/users/dhaitz/home/qcd/sherivf/latest_sherivf_output/@THEORYFILE@.tab'
    TheoryType     = 'FastNLO'
 
-   Percent        = True*6
+   Percent        = True*7
 &End
