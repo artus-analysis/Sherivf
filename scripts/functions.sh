@@ -48,10 +48,8 @@ fit_nnpdf(){
 ## PDF uncertainties
 make_pdfuncs()
 {
-	merlin.py --py model_unc
-	merlin.py --py par_unc
-	merlin.py --py combine_exp_model
-	merlin.py --py combine_expmodel_par
+	merlin.py --py pdf_unc_hera
+	merlin.py --py pdf_unc_heraZ
 }
 clear_pdfuncs()
 {
