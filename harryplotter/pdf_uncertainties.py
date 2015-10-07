@@ -262,7 +262,7 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None):
 			'x_label': r'$x$',
 			'y_label': 'xfxQ2',
 			'y_subplot_label': 'Rel. Uncertainty',
-			'alpha': [0.4],
+			'alphas': [0.4],
 			'colors': [histo_colors['blue'], histo_colors['yellow']]*2,
 			'texts': ["\n".join([flavour.replace("_", " "), text])],
 			# output
