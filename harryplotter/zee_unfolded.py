@@ -171,7 +171,7 @@ def unfolding_comparison(args=None):
 				'y_subplot_lims': [0.9, 1.1],
 				#'lumis': [common.lumi],
 				'x_label': quantity,
-				'title': str(iterations) + " iteration" + ("s" if iterations != 1 else ""),
+				#'title': str(iterations) + " iteration" + ("s" if iterations != 1 else ""),
 				# output
 				'filename': "_".join(['unfolded', quantity, str(iterations)]),
 				'www_title': 'Unfolding',
@@ -179,12 +179,15 @@ def unfolding_comparison(args=None):
 			}
 			if quantity == 'zpt':
 				d['y_log'] = True
+				d['x_log'] = common.zpt_xlog
+				d['y_lims'] = [1, 1e7]
+				d['x_ticks'] = common.zpt_ticks
 			# ratio to MC gen
 			d.update({
 				'analysis_modules': ['Ratio'],
-				'ratio_numerator_nicks': [expression for expression in expressions if expression != 'mc_gen'],
-				'ratio_denominator_nicks': ['mc_gen'],
-				'y_subplot_label': 'Ratio to MC Gen',
+				'ratio_numerator_nicks': [e for e in expressions if "unfolded" in e],
+				'ratio_denominator_nicks': [e for e in expressions if "reco" in e],
+				'y_subplot_label': 'Unfolded/Reco',
 			})
 			plots.append(d)
 	return [PlottingJob(plots, args)]

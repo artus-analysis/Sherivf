@@ -28,10 +28,11 @@ def pdfs_thesis(args=None, additional_dictionary=None):
 			"x_log": True,
 			"labels": labels,
 			"y_label": "pdf",
-			"x_lims": [1e-3, 1],
+			"x_lims": [1e-4, 1],
 			"y_lims": [0, 1],
 			"title": common.pdfsetdict[pdfset],
 			"texts": [r"$\\mathit{Q}=$" + " {} GeV".format(q)],
+			"alpha": [0.75],
 			"texts_x": [0.05],
 			# output
 			"www_title": "PDFs at different Q values",

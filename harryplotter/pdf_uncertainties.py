@@ -189,23 +189,22 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 		title = "HERA-I DIS + CMS"
 	text = r"$\\mathit{Q}^2 = 1.9 \\/ GeV^2$"
 	y_lims = {
-		'gluon': [0, 3],
+		'gluon': [0, 4],
 	}
 	nicks = ["exp", "expmodel", "expmodelpar"]
 	for flavour in pdf_unc_flavours:
 		d = {
+			# input
 			'files': [os.path.join(common.pdf_dir, pdf_scenario+'_combined_exp_model_par_'+flavour+".root")],
 			'folders': [''],
 			'x_expressions': nicks,
 			'nicks': nicks,
-	
+			# analysis
 			'analysis_modules': ['RelUncertainty'],
 			'rel_nicks': nicks,
-
 			'subplot_nicks': [i+'_rel' for i in nicks],
-			
+			# labels
 			'labels': ['Exp. Unc.', 'Model Unc.', 'Par. Unc.']*len(nicks),
-
 			'x_log': True,
 			'y_subplot_lims': [-0.45, 0.45],
 			'zorder': [30, 20, 10]*3,
@@ -217,10 +216,9 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 			'y_label': 'xfxQ2',
 			'y_subplot_label': 'Rel. Uncertainty',
 			'colors': ["orangered", "yellow", "green"]*3,
-			
 			'title': title,
 			'texts': ["\n".join([flavour.replace("_", " "), text])],
-			
+			# output
 			'filename': flavour + '_all-uncertainties',
 		}
 		if flavour in y_lims:
@@ -272,6 +270,8 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None):
 		}
 		if flavour in y_lims:
 			d['y_lims'] = y_lims[flavour]
+		if 'valence' in flavour.lower():
+			d['legend'] = 'center left'
 		if additional_dictionary is not None:
 			d.update(additional_dictionary)
 		plots.append(d)

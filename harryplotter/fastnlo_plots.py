@@ -12,7 +12,6 @@ def sherpa_fastnlo(args=None):
 	plots = []
 	pdfset = 'CT10'
 	member = 0
-	# pT or y:
 	for quantity in common.quantities:
 		for ybin, ybinsuffix in zip(
 				[""] + ["y{}_".format(i) for i in range(len(common.ybins))],
@@ -36,7 +35,7 @@ def sherpa_fastnlo(args=None):
 				"markers": ["o", "fill","."],
 				"x_label": quantity,
 				"y_label": xseclabels[quantity],
-				"y_subplot_lims": [0.95, 1.05],
+				"y_subplot_lims": [0.999, 1.001],
 				"energies": [8],
 				"y_errors": [False],
 				"labels": ['Sherpa+fastNLO', 'Sherpa', 'ratio'],
@@ -54,7 +53,7 @@ def sherpa_fastnlo(args=None):
 				d['x_ticks'] = common.zpt_ticks
 				d['y_lims'] = [1e-4, 1e2]
 			elif quantity == 'abszy':
-				d['y_lims'] = [0, 80]
+				d['y_lims'] = [0, 50]
 			elif quantity == 'zmass':
 				d['y_lims'] = [0, 40]
 			plots.append(d)
@@ -110,6 +109,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				'energies': [8],
 				'y_label': xseclabels[quantity],
 				'step': [True],
+				'lumis': [common.lumi],
 				'x_label': quantity,
 				'y_subplot_label': 'Sim./Data',
 				'y_subplot_lims': [0.75, 1.25],
@@ -166,6 +166,7 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 				'markers': ['.', 'fill', '.'],
 				'energies': [8],
 				'step': True,
+				'lumis': [common.lumi],
 				'x_label': quantity,
 				'y_subplot_lims': [0.75, 1.25],
 				'y_subplot_label': 'Data/Sim.',

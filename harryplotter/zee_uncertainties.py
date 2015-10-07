@@ -113,8 +113,10 @@ def plot_uncertainties(args=None):
 				'y_errors': [False],
 			}
 			if quantity == 'zpt':
-				d['y_lims'] = [0, 6]
+				d['y_lims'] = [0, 5]
 				d['x_log'] = common.zpt_xlog
 				d['x_ticks'] = common.zpt_ticks
+			elif quantity == 'abszy':
+				d['y_lims'] = [0, 5]
 			plots.append(d)
 	return [PlottingJob(plots, args)]

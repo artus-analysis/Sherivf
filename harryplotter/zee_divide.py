@@ -57,6 +57,7 @@ def divided_ptspectrum(args=None):
 			#'line_styles': ['-'],
 			#'step': True,
 			'lumis': [common.lumi],
+			'energies': [8],
 			'labels': common.ybin_plotlabels,
 			'markers': ['o', 'D', '.', '*', 'd', 's'],
 			'filename': quantity,

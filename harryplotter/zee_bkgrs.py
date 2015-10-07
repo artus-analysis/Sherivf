@@ -73,6 +73,10 @@ def zee_bkgrs(args=None):
 							'www_text': "Backgrounds as a function of different quantities, with and without signal samples",
 							'www_title': "Background Contributions",
 						}
+						if quantity == 'zpt':
+							d['x_log'] = common.zpt_xlog
+							if common.zpt_xlog:
+								d['x_ticks'] = common.zpt_ticks
 						plots.append(d)
 
 	return [PlottingJob(plots, args)]

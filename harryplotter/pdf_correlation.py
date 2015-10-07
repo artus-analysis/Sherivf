@@ -36,6 +36,8 @@ def pdf_correlations(args=None, additional_dictionary=None):
 					else:  # non-equidistant bins:
 						bins = [float(i) for i in common.bins[quantity].split(" ")]
 						d['y_lims'] = [bins[0], bins[-1]]
+					if quantity == 'zpt':
+						d['y_lims'] = [30, 400]
 				except KeyError:
 					pass
 				plots.append(d)
