@@ -230,3 +230,50 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 		plots.append(d)
 	return [PlottingJob(plots, args)]
 
+
+def plot_pdf_unc_comparison(args=None, additional_dictionary=None):
+	""" comparison between hera and hera+CMS with total uncertainties"""
+	plots = []
+	#title = "HERA-I DIS + CMS"
+	text = r"$\\mathit{Q}^2 = 1.9 \\/ GeV^2$"
+	y_lims = {
+		'gluon': [0, 3],
+	}
+	nicks = ["hera", "heracms"]
+	scenarios = ['hera', 'heraZ']
+	for flavour in pdf_unc_flavours:
+		d = {
+			#input
+			'files': [os.path.join(common.pdf_dir, scenario+'_combined_exp_model_par_'+flavour+".root") for scenario in scenarios],
+			'folders': [''],
+			'x_expressions': ["expmodelpar"],
+			'nicks': nicks,
+			# analysis
+			'analysis_modules': ['RelUncertainty'],
+			'rel_nicks': nicks,
+			'subplot_nicks': [i+'_rel' for i in nicks],
+			# formatting
+			'labels': ['HERA', 'HERA+CMS']*len(nicks),
+			'x_log': True,
+			'y_subplot_lims': [-0.45, 0.45],
+			'zorder': [30, 20, 10]*3,
+			'markers': ['fill']*6,
+			'grid': True,
+			'subplot_grid': True,
+			'line_styles': '-',
+			'x_label': r'$x$',
+			'y_label': 'xfxQ2',
+			'y_subplot_label': 'Rel. Uncertainty',
+			'alpha': [0.4],
+			'colors': [histo_colors['blue'], histo_colors['yellow']]*2,
+			'texts': ["\n".join([flavour.replace("_", " "), text])],
+			# output
+			'filename': flavour + '_hera_cms',
+		}
+		if flavour in y_lims:
+			d['y_lims'] = y_lims[flavour]
+		if additional_dictionary is not None:
+			d.update(additional_dictionary)
+		plots.append(d)
+	return [PlottingJob(plots, args)]
+
