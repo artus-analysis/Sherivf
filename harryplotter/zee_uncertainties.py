@@ -103,7 +103,7 @@ def plot_uncertainties(args=None):
 				'stat_error_relative_percent': True,
 			
 				'texts': [ybinplotlabel],
-				'legend_cols': 2,
+				#'legend_cols': 2,
 				'y_label': 'Uncertainty / %',
 				'x_label': quantity,
 				'labels': labels,
@@ -113,7 +113,7 @@ def plot_uncertainties(args=None):
 				'y_errors': [False],
 			}
 			if quantity == 'zpt':
-				d['y_lims'] = [0, 10]
+				d['y_lims'] = [0, 6]
 				d['x_log'] = common.zpt_xlog
 				d['x_ticks'] = common.zpt_ticks
 			plots.append(d)

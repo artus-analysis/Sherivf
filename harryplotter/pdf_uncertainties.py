@@ -6,7 +6,8 @@ import os
 import pdf_2_root
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
-pdf_unc_basedir = "/storage/a/dhaitz/hera/"
+pdf_scenario="heraZ"
+pdf_unc_basedir = "/storage/a/dhaitz/"+pdf_scenario+"/"
 pdf_unc_basefile = pdf_unc_basedir + "job_{}_herapdf__1_9_squared.root"
 pdf_unc_flavours = [pdf_2_root.partondict[f].replace(' ', '_') for f in pdf_2_root.default_flavours]
 
@@ -35,7 +36,7 @@ def model_unc(args=None, additional_dictionary=None):
 
 			'plot_modules': ['ExportRoot'],
 			'output_dir': common.pdf_dir,
-			'filename': 'model_' + flavour,
+			'filename': pdf_scenario+'_model_' + flavour,
 			'export_json': False,
 		}
 		if additional_dictionary is not None:
@@ -68,7 +69,7 @@ def par_unc(args=None, additional_dictionary=None):
 
 			'plot_modules': ['ExportRoot'],
 			'output_dir': common.pdf_dir,
-			'filename': 'par_' + flavour,
+			'filename': pdf_scenario+'_par_' + flavour,
 			'export_json': False,
 		}
 		if additional_dictionary is not None:
@@ -84,7 +85,7 @@ def combine_exp_model(args=None, additional_dictionary=None):
 	for flavour in pdf_unc_flavours:
 		d = {
 			'files': [
-				os.path.join(common.pdf_dir, 'model_'+flavour+".root"),
+				os.path.join(common.pdf_dir, pdf_scenario+'_model_'+flavour+".root"),
 				pdf_unc_basefile.format(0),
 			],
 			'folders': [''],
@@ -100,7 +101,7 @@ def combine_exp_model(args=None, additional_dictionary=None):
 			
 			'plot_modules': ['ExportRoot'],
 			'output_dir': common.pdf_dir,
-			'filename': 'combined_exp_model_' + flavour,
+			'filename': pdf_scenario+'_combined_exp_model_' + flavour,
 			'export_json': False,
 		}
 		if additional_dictionary is not None:
@@ -114,8 +115,8 @@ def combine_expmodel_par(args=None, additional_dictionary=None):
 	for flavour in pdf_unc_flavours:
 		d = {
 			'files': [
-				os.path.join(common.pdf_dir, 'par_'+flavour+".root"),
-				os.path.join(common.pdf_dir, 'combined_exp_model_'+flavour+".root"),
+				os.path.join(common.pdf_dir, pdf_scenario+'_par_'+flavour+".root"),
+				os.path.join(common.pdf_dir, pdf_scenario+'_combined_exp_model_'+flavour+".root"),
 				pdf_unc_basefile.format(0),
 			],
 			'folders': [''],
@@ -131,7 +132,7 @@ def combine_expmodel_par(args=None, additional_dictionary=None):
 		
 			'plot_modules': ['ExportRoot'],
 			'output_dir': common.pdf_dir,
-			'filename': 'combined_exp_model_par_' + flavour,
+			'filename': pdf_scenario+'_combined_exp_model_par_' + flavour,
 			'export_json': False,
 		}
 	
@@ -145,24 +146,25 @@ def plot_pdf_uncs(args=None, additional_dictionary=None):
 	""" plot the pdfs with all uncertainties"""
 	#TODO plot with only total unc, but comparison for HERA and HERA+CMS
 	plots = []
-	title = "HERA-I DIS"
+	title = "HERA-I DIS + CMS"
 	text = r"$\\mathit{Q}^2 = 1.9 \\/ GeV^2$"
 	y_lims = {
 		'gluon': [0, 3],
 	}
+	nicks = ["exp", "expmodel", "expmodelpar"]
 	for flavour in pdf_unc_flavours:
 		d = {
-			'files': [os.path.join(common.pdf_dir, 'combined_exp_model_par_'+flavour+".root")],
+			'files': [os.path.join(common.pdf_dir, pdf_scenario+'_combined_exp_model_par_'+flavour+".root")],
 			'folders': [''],
-			'x_expressions': ["exp", "expmodel", "expmodelpar"],
-			'nicks': ["exp", "expmodel", "expmodelpar"],
+			'x_expressions': nicks,
+			'nicks': nicks,
 	
 			'analysis_modules': ['RelUncertainty'],
-			'rel_nicks': ["exp", "expmodel", "expmodelpar"],
+			'rel_nicks': nicks,
 
-			'subplot_nicks': [i+'_rel' for i in ["exp", "expmodel", "expmodelpar"]],
+			'subplot_nicks': [i+'_rel' for i in nicks],
 			
-			'labels': ['Exp. Unc.', 'Model Unc.', 'Par. Unc.']*3,
+			'labels': ['Exp. Unc.', 'Model Unc.', 'Par. Unc.']*len(nicks),
 
 			'x_log': True,
 			'y_subplot_lims': [-0.45, 0.45],
