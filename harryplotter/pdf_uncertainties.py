@@ -5,15 +5,34 @@ import os
 
 import pdf_2_root
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
+from Excalibur.Plotting.utility.colors import histo_colors
 
-pdf_scenario="heraZ"
-pdf_unc_basedir = "/storage/a/dhaitz/"+pdf_scenario+"/"
-pdf_unc_basefile = pdf_unc_basedir + "job_{}_herapdf__1_9_squared.root"
 pdf_unc_flavours = [pdf_2_root.partondict[f].replace(' ', '_') for f in pdf_2_root.default_flavours]
 
 
-def model_unc(args=None, additional_dictionary=None):
+def pdf_unc_base(args=None, additional_dictionary=None, scenario='hera'):
+	""" make pdf uncertainties """
+	jobs = []
+	jobs += model_unc(args, additional_dictionary, scenario)
+	jobs += par_unc(args, additional_dictionary, scenario)
+	jobs += combine_exp_model(args, additional_dictionary, scenario)
+	jobs += combine_expmodel_par(args, additional_dictionary, scenario)
+	return jobs
+
+def pdf_unc_hera(args=None, additional_dictionary=None):
+	""" make pdf uncertainties for hera """
+	return pdf_unc_base(args, additional_dictionary, 'hera')
+
+def pdf_unc_heraZ(args=None, additional_dictionary=None):
+	""" make pdf uncertainties for heraZ """
+	return pdf_unc_base(args, additional_dictionary, 'heraZ')
+
+
+
+def model_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	"""get model uncertainties"""
+	pdf_unc_basedir = os.environ['SHERIVFDIR']+"/latest_herafitter_"+pdf_scenario+"/"
+	pdf_unc_basefile = pdf_unc_basedir + "job_{}_herapdf__1_9_squared.root"
 	n_max = 9
 	q_squared = 1.9
 	exp_unc = 'exp_unc'
@@ -45,7 +64,9 @@ def model_unc(args=None, additional_dictionary=None):
 	return [PlottingJob(plots, args)]
 
 
-def par_unc(args=None, additional_dictionary=None):
+def par_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
+	pdf_unc_basedir = os.environ['SHERIVFDIR']+"/latest_herafitter_"+pdf_scenario+"/"
+	pdf_unc_basefile = pdf_unc_basedir + "job_{}_herapdf__1_9_squared.root"
 	"""get parametrisation uncertainties"""
 	variations = [0] + range(9, 20)
 	q_squared = 1.9
@@ -79,8 +100,10 @@ def par_unc(args=None, additional_dictionary=None):
 
 
 
-def combine_exp_model(args=None, additional_dictionary=None):
+def combine_exp_model(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	""" combine model and experimental"""
+	pdf_unc_basedir = os.environ['SHERIVFDIR']+"/latest_herafitter_"+pdf_scenario+"/"
+	pdf_unc_basefile = pdf_unc_basedir + "job_{}_herapdf__1_9_squared.root"
 	plots = []
 	for flavour in pdf_unc_flavours:
 		d = {
@@ -109,8 +132,10 @@ def combine_exp_model(args=None, additional_dictionary=None):
 		plots.append(d)
 	return [PlottingJob(plots, args)]
 
-def combine_expmodel_par(args=None, additional_dictionary=None):
+def combine_expmodel_par(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	""" combine exp/model and parameterisation uncertainty to final uncertainty"""
+	pdf_unc_basedir = os.environ['SHERIVFDIR']+"/latest_herafitter_"+pdf_scenario+"/"
+	pdf_unc_basefile = pdf_unc_basedir + "job_{}_herapdf__1_9_squared.root"
 	plots = []
 	for flavour in pdf_unc_flavours:
 		d = {
@@ -142,11 +167,26 @@ def combine_expmodel_par(args=None, additional_dictionary=None):
 	return [PlottingJob(plots, args)]
 
 
-def plot_pdf_uncs(args=None, additional_dictionary=None):
+###
+### Now the actual plots ...
+###
+
+def plot_pdf_uncs_hera(args=None, additional_dictionary=None):
+	return plot_pdf_uncs(args, additional_dictionary, 'hera')
+
+
+def plot_pdf_uncs_heraZ(args=None, additional_dictionary=None):
+	return plot_pdf_uncs(args, additional_dictionary, 'heraZ')
+
+
+def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	""" plot the pdfs with all uncertainties"""
-	#TODO plot with only total unc, but comparison for HERA and HERA+CMS
 	plots = []
-	title = "HERA-I DIS + CMS"
+	title = ""
+	if pdf_scenario == 'hera':
+		title = "HERA-I DIS"
+	elif pdf_scenario == 'heraZ':
+		title = "HERA-I DIS + CMS"
 	text = r"$\\mathit{Q}^2 = 1.9 \\/ GeV^2$"
 	y_lims = {
 		'gluon': [0, 3],
@@ -173,7 +213,7 @@ def plot_pdf_uncs(args=None, additional_dictionary=None):
 			'grid': True,
 			'subplot_grid': True,
 			'line_styles': '-',
-			'x_label': '$x$',
+			'x_label': r'$x$',
 			'y_label': 'xfxQ2',
 			'y_subplot_label': 'Rel. Uncertainty',
 			'colors': ["orangered", "yellow", "green"]*3,
