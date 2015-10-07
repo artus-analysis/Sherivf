@@ -16,7 +16,7 @@
 
    IndexDataset   = @INDEX@
 
-  TheoryInfoFile = '/usr/users/dhaitz/home/qcd/sherivf/latest_sherivf_output/@THEORYFILE@.tab'
+  TheoryInfoFile = '/portal/ekpcms6/home/dhaitz/qcd/sherivf/latest_sherivf_output/@THEORYFILE@.tab'
    TheoryType     = 'FastNLO'
 
    Percent        = True*7
