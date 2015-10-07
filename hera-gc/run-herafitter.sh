@@ -22,6 +22,9 @@ FitPDF
 echo -e "\nafter fit: "
 ls -lt
 
+DrawPdfs --3panels --ratio-to-theory --bands --relative-errors hera/
+mv hera/plots.pdf .
+
 echo -e "\nhera: "
 cd hera/
 ls -lt
