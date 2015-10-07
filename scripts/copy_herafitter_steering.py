@@ -28,7 +28,7 @@ heradict = {
 def main():
 	"""main"""
 	parser = argparse.ArgumentParser()
-	parser.add_argument('-m', '--mode', type=str, default='nnpdf',
+	parser.add_argument('-m', '--mode', type=str, default='hera',
 		help="mode", choices=heradict.keys())
 	parser.add_argument('-b', '--batch', action="store_true", help="batch mode, i.e. dont copy defaults", )
 	parser.add_argument('-d', '--dir', type=str, default=heradir, help="dir to copy steering file to")
