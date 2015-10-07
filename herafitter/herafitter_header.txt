@@ -21,3 +21,10 @@
 
    Percent        = True*7
 &End
+&PlotDesc
+   PlotN = 1
+   PlotDefColumn = 'ylow'
+   PlotDefValue = -1., 4
+   PlotVarColumn = 'yhigh'
+   PlotOptions(1)  = 'Experiment:CMS@ExtraLabel: Z boson at #sqrt{s} = 8 TeV@Title: 2015 @XTitle: |quantity| @YTitle:(#sigma) #sigma'
+&End 
