@@ -9,31 +9,36 @@ import common
 
 import sherivf
 
+heradir = os.environ['HERADIR']
+steeringfile = os.path.join(os.environ['SHERIVFDIR'], "herafitter/steering.txt")
+
+herafiles = ["'{}/datafiles/hera/H1ZEUS_{}_HERA1.0.dat'".format(heradir, i) for i in ["NC_e-p", "NC_e+p", "CC_e-p", "CC_e+p"]]
+datafiles = ["'{}/herafitter/CMS_Zee_HFinput_{}_inclusive.txt'".format(os.environ['SHERIVFDIR'], "abszy")]
+datafiles_bins = ["'{}/herafitter/CMS_Zee_HFinput_zpt_{}.txt'".format(os.environ['SHERIVFDIR'], ybin) for ybin in common.ybin_labels]
+
+heradict = {
+	'nnpdf': [len(datafiles), datafiles, 'True'],
+	'hera': [len(herafiles), herafiles, 'False'],
+	'heraZ': [len(datafiles)+len(herafiles), datafiles+herafiles, 'False'],
+	'heraZ_bins': [len(datafiles_bins)+len(herafiles), datafiles_bins+herafiles, 'False'],
+}
+
+
 
 def main():
 	"""main"""
-	heradir = os.environ['HERADIR']
-	steeringfile = os.path.join(os.environ['SHERIVFDIR'], "herafitter/steering.txt")
-
-	herafiles = ["'{}/datafiles/hera/H1ZEUS_{}_HERA1.0.dat'".format(heradir, i) for i in ["NC_e-p", "NC_e+p", "CC_e-p", "CC_e+p"]]
-	datafiles = ["'{}/herafitter/CMS_Zee_HFinput_{}_inclusive.txt'".format(os.environ['SHERIVFDIR'], "abszy")]
-	datafiles_bins = ["'{}/herafitter/CMS_Zee_HFinput_zpt_{}.txt'".format(os.environ['SHERIVFDIR'], ybin) for ybin in common.ybin_labels]
-
-	heradict = {
-		'nnpdf': [len(datafiles), datafiles, 'True'],
-		'hera': [len(herafiles), herafiles, 'False'],
-		'heraZ': [len(datafiles)+len(herafiles), datafiles+herafiles, 'False'],
-		'heraZ_bins': [len(datafiles_bins)+len(herafiles), datafiles_bins+herafiles, 'False'],
-	}
-
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-m', '--mode', type=str, default='nnpdf',
 		help="mode", choices=heradict.keys())
 	parser.add_argument('-b', '--batch', action="store_true", help="batch mode, i.e. dont copy defaults", )
 	parser.add_argument('-d', '--dir', type=str, default=heradir, help="dir to copy steering file to")
 	args = parser.parse_args()
+	copy_herafile(args.mode, args.batch, args.dir)
 
-	print "Preparing Herafitter for {} mode".format(args.mode)
+
+def copy_herafile(mode, batch, targetdir):
+
+	print "Preparing Herafitter for {} mode".format(mode)
 
 	defaults = {
 		'@Q02@': '1.9',
@@ -47,17 +52,17 @@ def main():
 	}
 
 	# copy
-	dataset = heradict[args.mode]
-	target = os.path.join(args.dir, os.path.basename(steeringfile))
+	dataset = heradict[mode]
+	target = os.path.join(targetdir, os.path.basename(steeringfile))
 	print "Copy steering file to", target
 
 	values = {
 		'@NFILES@': str(dataset[0]),
 		'@FILES@': ",\n   ".join(dataset[1]),
 		'@DOREWEIGHTING@': dataset[2],
-		'@OUTDIRNAME@': args.mode,
+		#'@OUTDIRNAME@': mode,
 	}
-	if not args.batch:  # for GC, dont replace the HF values
+	if not batch:  # for GC, dont replace the HF values
 		values.update(defaults)
 	sherivf.copyfile(steeringfile, target, values)
 
