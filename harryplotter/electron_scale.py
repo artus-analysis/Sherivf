@@ -6,7 +6,9 @@ import os
 
 def electron_scale_sigma(args=None, additional_dictionary=None):
 	"""Sigma for pT reco/pT gen of electron in bins of eta,pT"""
-	# TODO plot this
+	#########################
+	# TODO dont create but plot!!
+	#########################
 	d = {
 		# input
 		"files": [os.environ['EXCALIBURPATH']+"/work/mc_ee.root"],
@@ -15,14 +17,15 @@ def electron_scale_sigma(args=None, additional_dictionary=None):
 		"x_expressions": ["eminuspt"],
 		"y_bins": ["0 0.8 1.4442 1.566 2 2.5"],  # binning same as scale factors
 		"y_expressions": ["abs(eminuseta)"],
-		"z_expressions": ["(eminuspt/geneminuspt)"],
+		"z_expressions": ["0.003"],
 		"tree_draw_options": ["profs"],  # profS to get sigma, not sigma/sqrt(N)
 		"nicks": ["mc"],
 		# analysis
-		"analysis_modules": ["ConvertToHistogram", "StatisticalErrors"],
+		"analysis_modules": ["ConvertToHistogram",# "StatisticalErrors"
+			],
 		"convert_nicks": ['mc'],
-		"stat_error_nicks": ["mc"],
-		"stat_error_relative": True,
+		#"stat_error_nicks": ["mc"],
+		#"stat_error_relative": True,
 		# output
 		"filename": "ElectronPtVariation",
 		"output_dir": os.environ["EXCALIBURPATH"] + "/data/electron_scalefactors/",
