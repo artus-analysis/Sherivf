@@ -50,7 +50,7 @@
 
 &OutDir
   ! Name of the directory where output will be stored (max 22 characters)
-    OutDirName = '@OUTDIRNAME@'
+    OutDirName = 'hera'
 &End
 *
 * (Optional) Modify renormalisation/factorisation scales, dataset

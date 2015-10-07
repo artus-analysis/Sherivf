@@ -44,46 +44,8 @@ fit_nnpdf(){
 }
 
 
-fit_hera(){
-	_hera_fit hera
-}
-fit_heraZ(){
-	_hera_fit heraZ
-}
-fit_heraZ_bins(){
-	_hera_fit heraZ_bins
-}
 
-#base function:
-_hera_fit(){
-	cd $HERADIR
-	copy_herafitter_steering.py -m $1
-	rm -rf $HERADIR/$1/*
-	FitPDF
-	NAME=herapdf
-	cd $1/
-	for q in 1.4 91.2;
-		do pdf_2_root.py -p $NAME -q ${q}
-	done
-	rename $NAME $1 *.root
-	mv ${1}__*.root $SHERIVFDIR/pdf_sets
-	cd $SHERIVFDIR
-}
-
-
-
-hera_batch(){
-	#prepare dirs
-	cd $SHERIVFDIR/hera-gc
-	rm work.herafitter -rf
-	mkdir work.herafitter
-	rm /storage/a/dhaitz/hera/* -rf
-	
-	copy_herafitter_steering.py -m hera -b -d $PWD
-	go.py herafitter.conf 
-}
-
-
+## PDF uncertainties
 make_pdfuncs()
 {
 	merlin.py --py model_unc
@@ -93,7 +55,7 @@ make_pdfuncs()
 }
 clear_pdfuncs()
 {
-	rm 5_pdfunc/*.root
+	rm $SHERIVFDIR/5_pdfunc/*.root
 }
 
 
