@@ -55,7 +55,6 @@ def main(
 	print n_members, "members in PDF set"
 	if members is not None:
 		n_members=members
-	print n_members
 
 	# iterate over flavours, get pdfgraph, write
 	for flavour in flavours:

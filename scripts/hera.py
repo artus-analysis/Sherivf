@@ -25,8 +25,11 @@ class Hera(object):
 		self.gctime = time.time()
 		sherivf.run_gc(self.args.output_dir + "/" + self.args.config, self.args.output_dir)
 		self.gctime = time.time() - self.gctime
-	
-		subprocess.call(['ln', '-sf', self.args.output_dir+"/output/", sherivf.get_env('SHERIVFDIR')+'/latest_herafitter_'+self.args.mode])
+
+		linkdir = sherivf.get_env('SHERIVFDIR')+'/latest_herafitter_'+self.args.mode
+		subprocess.call(['rm', '-f', linkdir])
+		print "Create link to", linkdir
+		subprocess.call(['ln', '-sf', self.args.output_dir+"/output/", linkdir])
 
 
 	def copy_gc_files(self):
@@ -51,7 +54,7 @@ class Hera(object):
 		parser.add_argument('-m', '--mode', type=str, default=self.default_mode,
 			help="mode (hera, heraZ)")
 		parser.add_argument('-c', '--config', type=str, default=self.default_config,
-			help="")
+			help="default:" + self.default_config)
 		parser.add_argument('-o', '--output-dir', type=str, default=None,
 			help="")
 		
