@@ -28,8 +28,8 @@ class CombineTGraphs(analysisbase.AnalysisBase):
 
 		for i in range(graph.GetN()):
 			# y errors low/high as difference to the min/max values
-			graph.SetPointEYhigh(i-1, math.sqrt(graph_1.GetErrorYhigh(i)**2 + graph_2.GetErrorYhigh(i)**2))
-			graph.SetPointEYlow(i-1, math.sqrt(graph_1.GetErrorYlow(i)**2 + graph_2.GetErrorYlow(i)**2))
+			graph.SetPointEYhigh(i, math.sqrt(graph_1.GetErrorYhigh(i)**2 + graph_2.GetErrorYhigh(i)**2))
+			graph.SetPointEYlow(i, math.sqrt(graph_1.GetErrorYlow(i)**2 + graph_2.GetErrorYlow(i)**2))
 			#print roottools.RootTools.scale_tgraph(graph, i)
 			#print roottools.RootTools.scale_tgraph(graph_1, i)
 			# x errors as half the bin width
