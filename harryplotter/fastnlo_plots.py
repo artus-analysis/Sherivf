@@ -166,6 +166,7 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 				'markers': ['.', 'fill', '.'],
 				'energies': [8],
 				'step': True,
+				'alphas': [0.5],
 				'lumis': [common.lumi],
 				'x_label': quantity,
 				'y_subplot_lims': [0.75, 1.25],
