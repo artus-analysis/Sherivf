@@ -83,42 +83,6 @@ def zee_bkgrs(args=None):
 	return [PlottingJob(plots, args)]
 
 
-def subtract_backgrounds(args=None):
-	"""Subtract backgrounds from data"""
-	plots = []
-	known_args, args = parsertools.parser_list_tool(args, ['ybins', 'mcs', 'quantities'])
-
-	path = common.bkgr_path
-	backgrounds = common.bkgr_backgrounds
-
-	for ybin, ybinsuffix in zip(*parsertools.get_list_slice([
-		["1"] + common.ybin_weights,
-		["inclusive"] + common.ybin_labels
-	], known_args.no_ybins)):
-		for quantity, bins in zip(*parsertools.get_list_slice([common.data_quantities, [common.bins[i] for i in common.data_quantities]], known_args.no_quantities)):
-			for variation in common.variations:  # for sys uncert estimation
-				datasuffix = ""
-				if (("bkgr" not in variation) and (variation != "")):
-					datasuffix = variation
-				mc_scalefactor = -1 + (-0.5*(variation=="_bkgrdown")) + (0.5*(variation=="_bkgrup"))  # for bkgr estimation
-				d = {
-					#input
-					'x_expressions': common.root_quantity(quantity),
-					'x_bins': [bins],
-					'files': [path+'/work/data_ee{}.root'.format(datasuffix)] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds],
-					'nicks': ['data'],
-					'weights': ["({})".format(ybin)] + ["({scalefactor}*(hlt&&({ybin})))".format(ybin=ybin, scalefactor=mc_scalefactor)]*len(backgrounds),
-					'folders': ['zcuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['zcuts_ak5PFJetsCHSL1L2L3/ntuple']*len(backgrounds),
-					#output
-					'plot_modules': ['ExportRoot'],
-					'filename': quantity + "_" + ybinsuffix + variation,
-					'output_dir': common.subtract_dir,
-					'export_json': False,
-				}
-				plots.append(d)
-	return [PlottingJob(plots, args)]
-
-
 def emu(args=None):
 	"""plot emu Data and backgrounds"""
 	plots = []
