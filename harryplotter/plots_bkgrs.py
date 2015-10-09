@@ -83,6 +83,53 @@ def zee_bkgrs(args=None):
 	return [PlottingJob(plots, args)]
 
 
+def signal_background_ratio(args=None):
+	""" Signal and background + ratio"""
+	plots = []
+	known_args, args = parsertools.parser_list_tool(args, ['njets', 'ybins', 'quantities'])
+
+	for njetweight, njetlabel, njetsuffix in zip(*parsertools.get_list_slice([
+			["1", "njets30<2", "njets30>1"],
+			["", "$n_{jets}<=1$", "$n_{jets}}>1$"],
+			["", "_njets0-1", "_njets2"]
+	], known_args.no_njets)):
+		# iterate over rapidity bins
+		for ybin, ybinlabel, ybinsuffix in zip(*parsertools.get_list_slice([
+				["1"] + common.ybin_weights,
+				[""] + common.ybin_plotlabels,
+				["_inclusive"] + common.ybin_labels
+		], known_args.no_ybins)):
+			for quantity in parsertools.get_list_slice(common.data_quantities + ['njets30'], known_args.no_quantities):
+				d = {
+					'x_expressions': common.root_quantity(quantity),
+					'x_bins': [common.bins[quantity]],
+					'files': [common.bkgr_path+'/work/mc_ee.root'] + [common.bkgr_path+'/work/background_ee_{}.root'.format(item) for item in common.bkgr_backgrounds],
+					"nicks": ['signal']+['background']*len(common.bkgr_backgrounds),
+					"stacks": ['stack'],
+					'folders': ['zcuts_ak5PFJetsCHSL1L2L3/ntuple'],
+					'weights': (["(hlt && ({}) && ({}))".format(ybin, njetweight)]),
+					'scale_factors': [common.lumi],
+					#
+					'analysis_modules': ['Ratio'],
+					'ratio_numerator_nicks': ['background'],
+					'ratio_denominator_nicks': ['signal'],
+					#
+					'markers': ['fill']*2+['.'],
+					'labels': ['Signal', 'Background', 'Ratio'],
+					'y_subplot_label': 'Background/Signal',
+					'x_errors': [False, False, True],
+					'y_subplot_lims': [0, 0.1],
+					#'y_log': True,
+					#
+					'filename': quantity + "_" + ybinsuffix+njetsuffix,
+					'export_json': False,
+					'www_text': " ",
+					'www_title': "Background /Signal Ratio",
+				}
+				plots.append(d)
+	return [PlottingJob(plots, args)]
+
+
 def emu(args=None):
 	"""plot emu Data and backgrounds"""
 	plots = []

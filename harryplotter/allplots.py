@@ -56,6 +56,8 @@ def allplots(args=None):
 		plots_pdf_uncertainties.plot_pdf_uncs_heraZ,
 		plots_pdf_uncertainties.plot_pdf_uncs_heraZ_bins,
 		plots_pdf_uncertainties.plot_pdf_unc_comparison,
+		plots_bkgrs.signal_background_ratio,
+		#25
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -83,11 +85,14 @@ def allplots(args=None):
 		"pdf_uncertainties_heraZ",
 		"pdf_uncertainties_heraZ_bins",
 		"pdf_uncertainties_comparison",
+		"backgrounds_signal_ratio",
 	][plot_min:plot_max]
 
 	for function, wwwdir in zip(functions, wwwdirs):
 		if function == plots_bkgrs.zee_bkgrs:
 			plots = function(args + ["--no-njets", "--no-ybins", "--no-mcs"])
+		elif function == plots_bkgrs.signal_background_ratio:
+			plots = function(args + ["--no-njets", "--no-ybins"])
 		else:
 			plots = function(args)
 		for plot in plots[0].plots:
