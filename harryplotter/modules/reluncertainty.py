@@ -46,7 +46,11 @@ class RelUncertainty(analysisbase.AnalysisBase):
 						graph.SetPointEYlow(i-1, 0)
 				except ZeroDivisionError:
 					graph.SetPointError(i-1, 0, 0)
-
+				try:  # TGraph
+					graph.SetPointEXhigh(i-1, orig.GetErrorXhigh(i-1))
+					graph.SetPointEXlow(i-1, orig.GetErrorXlow(i-1))
+				except:
+					pass  # TODO implement TH1
 
 			new_nick = nick+"_rel"
 			plotData.plotdict["root_objects"][new_nick] = graph
