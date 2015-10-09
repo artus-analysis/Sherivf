@@ -84,7 +84,7 @@ qdict = {
 ## Rapidity binning
 ybins = np.arange(0, 2.8, 0.4)
 ybin_labels = ["{0:02d}y{1:02d}".format(int(10*low), int(10*up)) for low, up in zip(ybins[:-1], ybins[1:])]
-ybin_weights = ["abs(zy)<{1} && abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])]
+ybin_weights = ["abs(zy)<{1}&&abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])]
 ybin_plotlabels = ["${0}<|y_Z|<{1}$".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])]
 
 
@@ -121,10 +121,17 @@ bkgr_backgrounds = ['zz', 'wz', 'tt', 'tw', 'ww', 'wjets', 'dytautau', 'qcd']
 backgrounds_merged = ['zz', 'wz', 'tt', 'others', 'others', 'others', 'others', 'others']
 backgrounds_merged_short = ['zz', 'wz', 'tt', 'others']
 
+xseclabels = {
+	'zpt': 'xsecpt',
+	'abszy': 'xsecabsy',
+	'zmass': 'xsecm',
+	'zphi': 'xsecphi'
+}
 
 lumi = 19.712
 lumi_uncertainty = 0.026
 
+sherivf_output_dir = os.environ['SHERIVFDIR'] + "/latest_sherivf_output/"
 
 #unfolding_variations = [0, -1, 1]
 unfolding_variations = ['_unfdown', '_unfup']

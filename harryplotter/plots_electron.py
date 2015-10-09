@@ -123,7 +123,7 @@ def electron_corr(args=None, additional_dictionary=None):
 		"x_label": "eabseta",
 		"y_label": "erecogen",
 		"labels": ["corrected","raw"],
-		"y_lims": [0.975, 1.03],
+		"y_lims": [0.985, 1.03],
 		"line_styles": ["-"],
 		"lines": [1.],
 		"colors": ['red', 'black'],
@@ -143,10 +143,12 @@ def electron_corr(args=None, additional_dictionary=None):
 		"y_expressions": ["zmass"],
 		# Formatting
 		"labels": ["corrected", "raw"],
-		"y_lims": [90.4, 94.0],
+		"y_lims": [90.4, 93.0],
 		"markers": ['o', '.'],
 		"line_styles": ["-"],
+		"lines": [91.19],
 		"colors": ['red', 'black'],
+		"legend": "upper left",
 		# Output
 		"filename": "z_corr",
 	})

@@ -5,8 +5,6 @@ import common
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
 
-xseclabels = {'zpt': 'xsecpt', 'abszy': 'xsecabsy', 'zmass': 'xsecm', 'zphi': 'xsecphi'}
-
 def sherpa_fastnlo(args=None):
 	"""Compare Sherpa directly with fastNLO"""
 	plots = []
@@ -34,7 +32,7 @@ def sherpa_fastnlo(args=None):
 				# formatting
 				"markers": ["o", "fill","."],
 				"x_label": quantity,
-				"y_label": xseclabels[quantity],
+				"y_label": common.xseclabels[quantity],
 				"y_subplot_lims": [0.999, 1.001],
 				"energies": [8],
 				"y_errors": [False],
@@ -107,7 +105,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				'colors': ['black'] + colors*2,
 				'line_styles': [None] + ['-']*N*2,
 				'energies': [8],
-				'y_label': xseclabels[quantity],
+				'y_label': common.xseclabels[quantity],
 				'step': [True],
 				'lumis': [common.lumi],
 				'x_label': quantity,
@@ -161,7 +159,7 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 				'analysis_modules': ['Ratio'],
 				# formatting
 				'labels': ['Data', common.pdfsetdict.get(pdfset, pdfset), 'ratio'],
-				'y_label': xseclabels[quantity],
+				'y_label': common.xseclabels[quantity],
 				'line_styles': [None, '-', None],
 				'markers': ['.', 'fill', '.'],
 				'energies': [8],
