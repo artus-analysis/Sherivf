@@ -34,6 +34,10 @@ DimensionLabels {
    "Description_[GeV]"
 }
 
+ScaleVariationFactors {                     # Factorization scale variations (only needed for fixed-scale tables)
+  0.5 1.0 2.0                               # List of scale factors must include factor '1'
+}                                           # Scale factors will be ordered according to fastNLO convention: (1, min, ... , max) 
+
 GlobalVerbosity   INFO
 
 # -------------------------------------------------------------------- #
