@@ -3,6 +3,7 @@
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 import common
 import parsertools
+from Excalibur.Plotting.utility.colors import histo_colors
 
 
 def uncertainties(args=None):
@@ -119,4 +120,61 @@ def plot_uncertainties(args=None):
 			elif quantity == 'abszy':
 				d['y_lims'] = [0, 5]
 			plots.append(d)
+	return [PlottingJob(plots, args)]
+
+
+def scale_uncertainties(args=None, additional_dictionary=None):
+	"""fastNLO prediction with scale uncertainty"""
+	plots = []
+
+	pdfset = 'CT10nlo'
+	style = 'kAsymmetricSixPoint'
+
+	for quantity in common.quantities:
+		for ybin, ybinsuffix, ybinplotlabel in zip(
+				[""] + ["y{}_".format(i) for i in range(len(common.ybins))],
+				["inclusive"] + common.ybin_labels,
+				[""] + common.ybin_plotlabels
+		):
+			if (quantity is not 'zpt') and (ybin is not ""):
+				continue
+			replaced_quantity = common.qdict.get(quantity, quantity)
+			d = {
+				# input
+				'input_modules': ['InputFastNLO'],
+				# input fastNLO
+				'pdf_sets': [pdfset],
+				'fastnlo_nicks': ['nick'],
+				'members': [0],
+				'fastnlo_files': [common.sherivf_output_dir+"/{0}.tab".format(ybin+replaced_quantity)],
+				'uncertainty_style': style,
+				# analysis
+				'analysis_modules': ['RelUncertainty'],
+				'rel_nicks': ['nick'],
+				'subplot_nicks': ['nick_rel'],
+				'y_subplot_lims': [-1*1e-1, 1e-1],
+				# formatting
+				'y_label': common.xseclabels[quantity],
+				'line_styles': [None, '-', None],
+				'markers': ['fill'],
+				'energies': [8],
+				'colors': histo_colors['blue'],
+				'step': True,
+				'alphas': [0.5],
+				'title': '6p Scale Uncertainty',
+				'y_subplot_label': 'Rel. Uncertainty',
+				'x_label': quantity,
+				'texts': [ybinplotlabel],
+				# output
+				'filename': 'scale-unc_'+ybin+quantity,
+				'www_title': 'Evaluation of fastNLO table with scale uncertainties',
+				'www_text': '{} uncertainty and {} used'.format(style, pdfset),
+			}
+			if quantity == 'zpt':
+				d['y_log'] = True
+				d['x_log'] = common.zpt_xlog
+				d['x_ticks'] = common.zpt_ticks
+				d['y_lims'] = [1e-4, 1e1]
+			plots.append(d)
+
 	return [PlottingJob(plots, args)]

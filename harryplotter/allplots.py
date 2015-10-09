@@ -58,6 +58,7 @@ def allplots(args=None):
 		plots_pdf_uncertainties.plot_pdf_unc_comparison,
 		plots_bkgrs.signal_background_ratio,
 		plots_electron.electron_scale_unc,  # 25
+		plots_uncertainties.scale_uncertainties
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -87,6 +88,7 @@ def allplots(args=None):
 		"pdf_uncertainties_comparison",
 		"backgrounds_signal_ratio",
 		"electron_scale_uncertainty",
+		"scale_uncertainty",
 	][plot_min:plot_max]
 
 	for function, wwwdir in zip(functions, wwwdirs):
