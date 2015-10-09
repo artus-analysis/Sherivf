@@ -206,3 +206,25 @@ def electron_trigger_sf(args=None, additional_dictionary=None):
 				d.update(additional_dictionary)
 			plots.append(d)
 	return [PlottingJob(plots, args)]
+
+
+def electron_scale_unc(args=None, additional_dictionary=None):
+	"""Scale uncertainty for pT reco/pT gen of electron in bins of eta,pT"""
+	d = {
+		# input
+		"files": [common.excaliburpat+"/data/electron_scalefactors/ElectronPtVariation.root"],
+		"folders": [""],
+		"x_expressions": ["mc"],
+		# formatting
+		"y_label": "abs(eeta)",
+		"scale_factors": [100],
+		"x_label": "ept",
+		"x_log": True,
+		"z_label": r"Electron $\\mathit{p}_T$ Scale Uncertainty / %",
+		"x_ticks": [5, 10, 20, 50, 100, 200],
+		# output
+		"filename": "electron_pt_scalefactors",
+	}
+	if additional_dictionary is not None:
+		d.update(additional_dictionary)
+	return [PlottingJob([d], args)]

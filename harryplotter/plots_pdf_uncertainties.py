@@ -238,7 +238,6 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 def plot_pdf_unc_comparison(args=None, additional_dictionary=None):
 	""" comparison between hera and hera+CMS with total uncertainties"""
 	plots = []
-	#title = "HERA-I DIS + CMS"
 	text = r"$\\mathit{Q}^2 = 1.9 \\/ GeV^2$"
 	y_lims = {
 		'gluon': [0, 3],
@@ -260,7 +259,7 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None):
 			'labels': ['HERA', 'HERA+CMS']*len(nicks),
 			'x_log': True,
 			'y_subplot_lims': [-0.45, 0.45],
-			'zorder': [30, 20, 10]*3,
+			'zorder': [20, 30],
 			'markers': ['fill']*6,
 			'grid': True,
 			'subplot_grid': True,

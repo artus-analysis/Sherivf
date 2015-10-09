@@ -57,14 +57,14 @@ def allplots(args=None):
 		plots_pdf_uncertainties.plot_pdf_uncs_heraZ_bins,
 		plots_pdf_uncertainties.plot_pdf_unc_comparison,
 		plots_bkgrs.signal_background_ratio,
-		#25
+		plots_electron.electron_scale_unc,  # 25
 	][plot_min:plot_max]
 	
 	wwwdirs = [
 		"pdfs",
 		"correlations",
 		"electron_id",
-		"momentum_corrections",
+		"electron_momentum_corrections",
 		"electron_sf",
 		"backgrounds",
 		"emu",
@@ -86,6 +86,7 @@ def allplots(args=None):
 		"pdf_uncertainties_heraZ_bins",
 		"pdf_uncertainties_comparison",
 		"backgrounds_signal_ratio",
+		"electron_scale_uncertainty",
 	][plot_min:plot_max]
 
 	for function, wwwdir in zip(functions, wwwdirs):
