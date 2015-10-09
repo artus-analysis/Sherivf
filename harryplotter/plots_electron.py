@@ -169,7 +169,7 @@ def electron_trigger_sf(args=None, additional_dictionary=None):
 		for ID in ['Tight', 'Medium', 'Loose', 'Veto']:
 			d = {
 				# input
-				"files": [os.environ['EXCALIBURPATH'] + "/data/electron_scalefactors//Electron-{}ScaleFactors.root".format(typ)],
+				"files": [common.excaliburpath + "/data/electron_scalefactors//Electron-{}ScaleFactors.root".format(typ)],
 				"folders": [""],
 				# plotting
 				"plot_modules": ["PlotMplZJet", "PlotMplRectangle"],
@@ -212,7 +212,7 @@ def electron_scale_unc(args=None, additional_dictionary=None):
 	"""Scale uncertainty for pT reco/pT gen of electron in bins of eta,pT"""
 	d = {
 		# input
-		"files": [common.excaliburpat+"/data/electron_scalefactors/ElectronPtVariation.root"],
+		"files": [common.excaliburpath+"/data/electron_scalefactors/ElectronPtVariation.root"],
 		"folders": [""],
 		"x_expressions": ["mc"],
 		# formatting

@@ -148,6 +148,7 @@ def scale_uncertainties(args=None, additional_dictionary=None):
 				'members': [0],
 				'fastnlo_files': [common.sherivf_output_dir+"/{0}.tab".format(ybin+replaced_quantity)],
 				'uncertainty_style': style,
+				'uncertainty_type': 'Scale',
 				# analysis
 				'analysis_modules': ['RelUncertainty'],
 				'rel_nicks': ['nick'],

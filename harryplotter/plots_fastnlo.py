@@ -150,7 +150,8 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 				'pdf_sets': [pdfset],
 				'members': [0],
 				'fastnlo_files': ["latest_sherivf_output/{0}.tab".format(ybin+replaced_quantity)],
-				'pdf_uncertainty_style': style,
+				'uncertainty_style': style,
+				'uncertainty_type': 'PDF',
 				# input root
 				'files': [common.divided_path + '/' + '_'.join([quantity, 'madgraph', ybinsuffix, '1']) + '.root'],
 				'folders': '',
