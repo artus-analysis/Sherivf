@@ -14,18 +14,19 @@ def zee_bkgrs(args=None):
 	"""Plot data, signal and backgrounds, for all combinations of njet categories,
 	rapidity bins, mc samples, log/linear scale, ZpT/y/mass/ Njets as x-quantity."""
 
+	known_args, args = parsertools.parser_list_tool(args, ['njets', 'ybins', 'mcs', 'quantities', 'signal'])
+
 	plots = []
 	ybins = common.ybins
 	bkgr_signal_ratio = False
 	path = common.bkgr_path
-	backgrounds = common.bkgr_backgrounds
 
-	known_args, args = parsertools.parser_list_tool(args, ['njets', 'ybins', 'mcs', 'quantities', 'signal'])
+	backgrounds = common.bkgr_backgrounds
+	backgrounds_merged = common.backgrounds_merged
+	backgrounds_merged_short = common.backgrounds_merged_short
 
 	n_mcs = 1 + len(backgrounds)
-	backgrounds_merged = ['diboson', 'diboson', 'tt', 'others', 'others', 'others', 'others', 'others']
 	n_mcs_merged = 1 + len(backgrounds_merged)
-	backgrounds_merged_short = ['diboson', 'tt', 'others']
 	n_mcs_merged_short = 1 + len(backgrounds_merged_short)
 
 	# add signal data+mc or plot only backgrounds

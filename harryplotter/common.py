@@ -19,7 +19,7 @@ bkgr_colors = {
 	'mc': 'blue',
 	'zz': 'yellow',
 	'wz': 'green',
-	'tt': 'green',
+	'tt': 'violet',
 	'tw': 'violet',
 	'ww': 'grey',
 	'wjets': 'red',
@@ -118,6 +118,9 @@ mc_raw = excaliburpath + "/work/mc_ee_raw.root"
 data = excaliburpath + "/work/mc_ee.root"
 
 bkgr_backgrounds = ['zz', 'wz', 'tt', 'tw', 'ww', 'wjets', 'dytautau', 'qcd']
+backgrounds_merged = ['zz', 'wz', 'tt', 'others', 'others', 'others', 'others', 'others']
+backgrounds_merged_short = ['zz', 'wz', 'tt', 'others']
+
 
 lumi = 19.712
 lumi_uncertainty = 0.026
