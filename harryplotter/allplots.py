@@ -5,17 +5,17 @@ import argparse, os
 
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
-import electron_plots
-import fastnlo_plots
-import pdf_reweighted
-import pdf
-import pdf_correlation
-import sherpa
-import zee_bkgrs
-import zee_divide
-import zee_uncertainties
-import zee_unfolded
-import pdf_uncertainties
+import plots_electron
+import plots_fastnlo
+import plots_pdf_reweighted
+import plots_pdf
+import plots_pdf_correlation
+import plots_sherpa
+import plots_bkgrs
+import plots_zee_divide
+import plots_uncertainties
+import plots_unfolded
+import plots_pdf_uncertainties
 
 
 def allplots(args=None):
@@ -32,29 +32,30 @@ def allplots(args=None):
 	plot_max = known_args.end
 
 	functions = [
-		pdf.pdfs_thesis,  # 0
-		pdf_correlation.pdf_correlations,
-		electron_plots.electron_id,
-		electron_plots.electron_corr,
-		electron_plots.electron_trigger_sf,
-		zee_bkgrs.zee_bkgrs,  # 5
-		zee_bkgrs.emu,
-		zee_unfolded.different_iterations,
-		zee_unfolded.response_matrix,
-		zee_unfolded.unfolding_comparison,
-		sherpa.sherpa,  # 10
-		sherpa.sherpa_mc,
-		fastnlo_plots.fastnlo_pdfsets,
-		fastnlo_plots.fastnlo_pdfmember,
-		fastnlo_plots.sherpa_fastnlo,
-		pdf_reweighted.nnpdf,  # 15
-		pdf_reweighted.herapdf_14,
-		pdf_reweighted.herapdf_912,
-		zee_uncertainties.plot_uncertainties,
-		zee_divide.divided_ptspectrum,
-		pdf_uncertainties.plot_pdf_uncs_hera,  # 20
-		pdf_uncertainties.plot_pdf_uncs_heraZ,
-		pdf_uncertainties.plot_pdf_unc_comparison,
+		plots_pdf.pdfs_thesis,  # 0
+		plots_pdf_correlation.pdf_correlations,
+		plots_electron.electron_id,
+		plots_electron.electron_corr,
+		plots_electron.electron_trigger_sf,
+		plots_bkgrs.zee_bkgrs,  # 5
+		plots_bkgrs.emu,
+		plots_unfolded.different_iterations,
+		plots_unfolded.response_matrix,
+		plots_unfolded.unfolding_comparison,
+		plots_sherpa.sherpa,  # 10
+		plots_sherpa.sherpa_mc,
+		plots_fastnlo.fastnlo_pdfsets,
+		plots_fastnlo.fastnlo_pdfmember,
+		plots_fastnlo.sherpa_fastnlo,
+		plots_pdf_reweighted.nnpdf,  # 15
+		plots_pdf_reweighted.herapdf_14,
+		plots_pdf_reweighted.herapdf_912,
+		plots_uncertainties.plot_uncertainties,
+		plots_zee_divide.divided_ptspectrum,
+		plots_pdf_uncertainties.plot_pdf_uncs_hera,  # 20
+		plots_pdf_uncertainties.plot_pdf_uncs_heraZ,
+		plots_pdf_uncertainties.plot_pdf_uncs_heraZ_bins,
+		plots_pdf_uncertainties.plot_pdf_unc_comparison,
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -80,11 +81,12 @@ def allplots(args=None):
 		"spectra_in_ybins",
 		"pdf_uncertainties_hera",
 		"pdf_uncertainties_heraZ",
+		"pdf_uncertainties_heraZ_bins",
 		"pdf_uncertainties_comparison",
 	][plot_min:plot_max]
 
 	for function, wwwdir in zip(functions, wwwdirs):
-		if function == zee_bkgrs.zee_bkgrs:
+		if function == plots_bkgrs.zee_bkgrs:
 			plots = function(args + ["--no-njets", "--no-ybins", "--no-mcs"])
 		else:
 			plots = function(args)
