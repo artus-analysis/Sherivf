@@ -42,6 +42,7 @@ def copy_herafile(mode, batch, targetdir):
 
 	defaults = {
 		'@Q02@': '1.9',
+		'@Q2MIN@': '7.5',
 		'@HF_SCHEME@': 'RT FAST', # TODO Use 'RT' for final results
 		'@PDFStyle@': '13p HERAPDF',
 		'@DOBANDS@': 'True',
@@ -60,7 +61,6 @@ def copy_herafile(mode, batch, targetdir):
 		'@NFILES@': str(dataset[0]),
 		'@FILES@': ",\n   ".join(dataset[1]),
 		'@DOREWEIGHTING@': dataset[2],
-		#'@OUTDIRNAME@': mode,
 	}
 	if not batch:  # for GC, dont replace the HF values
 		values.update(defaults)

@@ -50,6 +50,7 @@ make_pdfuncs()
 {
 	merlin.py --py pdf_unc_hera
 	merlin.py --py pdf_unc_heraZ
+	merlin.py --py pdf_unc_heraZ_bins
 }
 clear_pdfuncs()
 {
