@@ -12,7 +12,6 @@ def divided_ptspectrum(args=None):
 	""" pT spectrum in y bins"""
 	plots = []
 
-	#TODO add MC
 	nbins = len(common.ybin_plotlabels)
 
 	for quantity in common.data_quantities:
