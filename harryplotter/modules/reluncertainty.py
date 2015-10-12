@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
+
 import logging
 import Artus.Utility.logger as logger
-import ROOT
-
 log = logging.getLogger(__name__)
 
 import ROOT
@@ -11,6 +10,7 @@ import Artus.HarryPlotter.utility.roottools as roottools
 
 
 class RelUncertainty(analysisbase.AnalysisBase):
+	"""Relative Uncertainty (bin content -> 0; error -> error/content)"""
 
 	def modify_argument_parser(self, parser, args):
 		super(RelUncertainty, self).modify_argument_parser(parser, args)
@@ -23,35 +23,27 @@ class RelUncertainty(analysisbase.AnalysisBase):
 		for nick in plotData.plotdict['rel_nicks']:
 			orig = plotData.plotdict["root_objects"][nick]
 			graph = ROOT.TGraphAsymmErrors()
-			try:  # TH
-				n_bins = orig.GetNbinsX()
-			except AttributeError:  # TGraph
-				n_bins = orig.GetN()
-
-			for i in range(1, n_bins+1):
-				try:  # TH
+			if isinstance(orig, ROOT.TH1):
+				for i in range(1, orig.GetNbinsX()+1):
 					graph.SetPoint(i-1, orig.GetBinCenter(i), 0)
-				except AttributeError:  # TGraph
-					x, y = roottools.RootTools.tgraph_get_point(orig, i-1)
-					graph.SetPoint(i-1, x, 0)
-				try:  # TH
-					graph.SetPointError(i-1, 0, orig.GetBinError(i)/orig.GetBinContent(i))
-				except AttributeError:  # TGraph
-					x, y = roottools.RootTools.tgraph_get_point(orig, i-1)
 					try:
-						graph.SetPointEYhigh(i-1, orig.GetErrorYhigh(i-1)/y)
-						graph.SetPointEYlow(i-1, orig.GetErrorYlow(i-1)/y)
+						graph.SetPointError(i-1, 0, orig.GetBinError(i)/orig.GetBinContent(i))
 					except ZeroDivisionError:
-						graph.SetPointEYhigh(i-1, 0)
-						graph.SetPointEYlow(i-1, 0)
-				except ZeroDivisionError:
-					graph.SetPointError(i-1, 0, 0)
-				try:  # TGraph
-					graph.SetPointEXhigh(i-1, orig.GetErrorXhigh(i-1))
-					graph.SetPointEXlow(i-1, orig.GetErrorXlow(i-1))
-				except:
-					pass  # TODO implement TH1
-
+						graph.SetPointError(i-1, 0, 0)
+			elif isinstance(orig, ROOT.TGraph):
+				for i in range(orig.GetN()):
+					x, y = roottools.RootTools.tgraph_get_point(orig, i)
+					graph.SetPoint(i, x, 0)
+					try:
+						graph.SetPointEYhigh(i, orig.GetErrorYhigh(i)/y)
+						graph.SetPointEYlow(i, orig.GetErrorYlow(i)/y)
+					except ZeroDivisionError:
+						graph.SetPointEYhigh(i, 0)
+						graph.SetPointEYlow(i, 0)
+					graph.SetPointEXhigh(i, orig.GetErrorXhigh(i))
+					graph.SetPointEXlow(i, orig.GetErrorXlow(i))
+			else:
+				pass # TODO TProfiles?
 			new_nick = nick+"_rel"
 			plotData.plotdict["root_objects"][new_nick] = graph
 			plotData.plotdict['nicks'].append(new_nick)
