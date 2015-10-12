@@ -185,3 +185,56 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			plots.append(d)
 
 	return [PlottingJob(plots, args)]
+	
+	
+def k_factors(args=None, additional_dictionary=None):
+	"""fastNLO LO and NLO cross section"""
+	plots = []
+
+	pdfset = 'CT10nlo'
+
+	for quantity in common.quantities:
+		for ybin, ybinsuffix, ybinplotlabel in zip(
+				[""] + ["y{}_".format(i) for i in range(len(common.ybins))],
+				["inclusive"] + common.ybin_labels,
+				[""] + common.ybin_plotlabels
+		):
+			if (quantity is not 'zpt') and (ybin is not ""):
+				continue
+			replaced_quantity = common.qdict.get(quantity, quantity)
+			d = {
+				# input
+				'input_modules': ['InputFastNLO'],
+				# input fastNLO
+				'pdf_sets': [pdfset],
+				'k_factors': [False, True],
+				'fastnlo_nicks': ['nlo', 'ratio'],
+				'fastnlo_files': [common.sherivf_output_dir+"/{0}.tab".format(ybin+replaced_quantity)],
+				# analysis
+				'analysis_modules': ['Ratio'],
+				'ratio_result_nicks': ['lo'],
+				# formatting
+				'y_label': common.xseclabels[quantity],
+				'markers': ['fill', 'o', '.'],
+				'line_styles': [None, None, '-'],
+				'energies': [8],
+				'step': True,
+				'labels': ['NLO', 'ratio', 'LO'],
+				#'colors': histo_colors['blue'],
+				'y_subplot_label': 'k Factor',
+				'y_subplot_lims': [0, 2],
+				'x_label': quantity,
+				'texts': [ybinplotlabel],
+				# output
+				'filename': 'kfactor_'+ybin+quantity,
+				'www_title': 'NLO-LO comparison',
+				'www_text': ' ',
+			}
+			if quantity == 'zpt':
+				d['y_log'] = True
+				d['x_log'] = common.zpt_xlog
+				d['x_ticks'] = common.zpt_ticks
+				d['y_lims'] = [1e-4, 1e1]
+			plots.append(d)
+
+	return [PlottingJob(plots, args)]
