@@ -26,5 +26,5 @@
    PlotDefColumn = 'ylow'
    PlotDefValue = @LOWERLIM@, @UPPERLIM@
    PlotVarColumn = 'yhigh'
-   PlotOptions(1)  = 'Experiment:CMS@ExtraLabel: Z boson at #sqrt{s} = 8 TeV@Title: 2015 @XTitle: |quantity| @YTitle:(#sigma) #sigma'
+   PlotOptions(1)  = 'Experiment:CMS@ExtraLabel: @NAME@ @Title: 2015 @XTitle: |quantity| @YTitle:(#sigma) #sigma'
 &End 

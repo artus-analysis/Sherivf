@@ -65,14 +65,15 @@ class ExportHerafitter(plotbase.PlotBase):
 			with open(plotData.plotdict["header_file"]) as f:
 				plotData.plot.header = f.read()
 				root_object = plotData.plotdict["root_objects"][plotData.plotdict["export_nick"]]
-			for old, new in zip(
-				["@THEORYFILE@", "@NAME@", "@INDEX@", "@LOWERLIM@", "@UPPERLIM@"],
-				[plotData.plotdict["hera_theoryfile"], "CMS Zee jets 2012 " + plotData.plotdict["hera_theoryfile"], 
-					str(int(1000*random.random())),
-					str(root_object.GetBinLowEdge(1)),
-					str(root_object.GetBinLowEdge(root_object.GetNbinsX())+root_object.GetBinWidth(root_object.GetNbinsX())),
-					]
-			):
+			replacedict = {
+				"@THEORYFILE@": plotData.plotdict["hera_theoryfile"],
+				"@NAME@": "CMS Zee jets 2012 " + plotData.plotdict["hera_theoryfile"],
+				"@INDEX@": str(int(1000*random.random())),
+				"@LOWERLIM@": str(root_object.GetBinLowEdge(1)),
+				"@UPPERLIM@": str(root_object.GetBinLowEdge(root_object.GetNbinsX())+root_object.GetBinWidth(root_object.GetNbinsX()))
+			}
+			#@TITLE@
+			for old, new in replacedict.iteritems():
 				plotData.plot.header = plotData.plot.header.replace(old, new)
 
 
