@@ -13,13 +13,15 @@ heradir = os.environ['HERADIR']
 steeringfile = os.path.join(os.environ['SHERIVFDIR'], "herafitter/steering.txt")
 
 herafiles = ["'{}/datafiles/hera/H1ZEUS_{}_HERA1.0.dat'".format(heradir, i) for i in ["NC_e-p", "NC_e+p", "CC_e-p", "CC_e+p"]]
-datafiles = ["'{}/herafitter/CMS_Zee_HFinput_{}_inclusive.txt'".format(os.environ['SHERIVFDIR'], "abszy")]
+datafiles_y = ["'{}/herafitter/CMS_Zee_HFinput_{}_inclusive.txt'".format(os.environ['SHERIVFDIR'], "abszy")]
+datafiles_pt = ["'{}/herafitter/CMS_Zee_HFinput_{}_inclusive.txt'".format(os.environ['SHERIVFDIR'], "zpt")]
 datafiles_bins = ["'{}/herafitter/CMS_Zee_HFinput_zpt_{}.txt'".format(os.environ['SHERIVFDIR'], ybin) for ybin in common.ybin_labels]
 
 heradict = {
-	'nnpdf': [len(datafiles), datafiles, 'True'],
+	'nnpdf': [len(datafiles_y), datafiles_y, 'True'],
 	'hera': [len(herafiles), herafiles, 'False'],
-	'heraZ': [len(datafiles)+len(herafiles), datafiles+herafiles, 'False'],
+	'heraZ': [len(datafiles_y)+len(herafiles), datafiles_y+herafiles, 'False'],
+	'heraZ_pt': [len(datafiles_pt)+len(herafiles), datafiles_pt+herafiles, 'False'],
 	'heraZ_bins': [len(datafiles_bins)+len(herafiles), datafiles_bins+herafiles, 'False'],
 }
 
