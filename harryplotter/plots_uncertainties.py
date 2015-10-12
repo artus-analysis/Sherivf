@@ -153,7 +153,7 @@ def scale_uncertainties(args=None, additional_dictionary=None):
 				'analysis_modules': ['RelUncertainty'],
 				'rel_nicks': ['nick'],
 				'subplot_nicks': ['nick_rel'],
-				'y_subplot_lims': [-1*1e-1, 1e-1],
+				'y_subplot_lims': [-0.5, 0.5],
 				# formatting
 				'y_label': common.xseclabels[quantity],
 				'line_styles': [None, '-', None],
