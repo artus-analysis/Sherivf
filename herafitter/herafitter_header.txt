@@ -8,8 +8,8 @@
 
    NDATA          = @NDATA@
    NColumn        = 10
-   ColumnType     = 'Bin'   , 'Bin'    , 'Sigma' , 'Error' , 'Error' , 'Error', 'Error', 'Error', 'Error', 'Error'
-   ColumnName     = 'ylow' , 'yhigh' , 'Sigma' , 'stat'  , 'uncor' , 'lumi',  'unf',   'bkgr',  'ef', 'pt'
+   ColumnType     = 'Bin' , 'Bin'  , 'Sigma', 'Error', 'Error', 'Error', 'Error', 'Error', 'Error', 'Error'
+   ColumnName     = 'ylow', 'yhigh', 'Sigma', 'stat' , 'dummy', 'lumi',  'unf',   'bkgr',  'ef',    'pt'
    NInfo          = 4
    DataInfo       = 8000.     , 1.                 , -1.      , -1.
    CInfo          = 'sqrt(S)' , 'PublicationUnits' , 'MurDef' , 'MufDef'
@@ -24,7 +24,7 @@
 &PlotDesc
    PlotN = 1
    PlotDefColumn = 'ylow'
-   PlotDefValue = -1., 4
+   PlotDefValue = @LOWERLIM@, @UPPERLIM@
    PlotVarColumn = 'yhigh'
    PlotOptions(1)  = 'Experiment:CMS@ExtraLabel: Z boson at #sqrt{s} = 8 TeV@Title: 2015 @XTitle: |quantity| @YTitle:(#sigma) #sigma'
 &End 
