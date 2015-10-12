@@ -127,6 +127,10 @@ def signal_background_ratio(args=None):
 					'www_title': "Background /Signal Ratio",
 				}
 				plots.append(d)
+				if quantity == 'zpt':
+					d['x_log'] = common.zpt_xlog
+					if common.zpt_xlog:
+						d['x_ticks'] = common.zpt_ticks
 	return [PlottingJob(plots, args)]
 
 
