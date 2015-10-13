@@ -109,29 +109,56 @@ def electron_corr(args=None, additional_dictionary=None):
 	"""Effects of electron momentum corrections"""
 	# pT Reco/Gen for corrected/raw electrons as a function of electron |eta|
 	plots = []
-	plots.append({
-		# Input
-		"files": [common.mc, common.mc_raw],
-		"folders": ["zcuts_ak5PFJetsCHSL1L2L3/electrons"],
-		"no_weight": True,
-		"tree_draw_options": ["prof"],
-		"weights": ["(genParticleMatched)"],
-		"x_bins": ["12,0,2.4"],
-		"x_expressions": ["abs(object.p4.Eta())"],
-		"y_expressions": ["object.p4.Pt()/genParticle.p4.Pt()"],
-		# Formatting
-		"x_label": "eabseta",
-		"y_label": "erecogen",
-		"labels": ["corrected","raw"],
-		"y_lims": [0.985, 1.03],
-		"line_styles": ["-"],
-		"lines": [1.],
-		"colors": ['red', 'black'],
-		"markers": ['o', '.'],
-		"legend": "upper left",
-		# Output
-		"filename": "electron_corr",
-	})
+	etabin_list = [(0, 1), (1, 1.5), (1.5, 2.5)]
+	etaweights = ["(abs(object.p4.Eta())>{}&&abs(object.p4.Eta())<{})".format(*etabins) for etabins in etabin_list]
+
+	xdict = {
+		"eta": "eabseta",
+		"pt": "ept",
+	}
+	bindict = {
+		"eta": ["12,0,2.4"],
+		"pt": ["10,25,125"],
+	}
+	rootdict = {
+		"eta": "abs(object.p4.Eta())",
+		"pt": "object.p4.Pt()",
+	}
+	labeldict = {
+		0: "",
+	}
+	for index, bins in enumerate(etabin_list):
+		labeldict[index+1] = r"${}<|\\mathit{{\\eta}}_{{Electron}}|<{}$".format(*bins)
+
+	for xquantity in ["eta", "pt"]:
+		for index, etaweight in enumerate(['1']+etaweights):
+			if xquantity == 'eta' and etaweight != '1':
+				continue
+			text = etaweight
+			plots.append({
+				# Input
+				"files": [common.mc, common.mc_raw],
+				"folders": ["zcuts_ak5PFJetsCHSL1L2L3/electrons"],
+				"no_weight": True,
+				"tree_draw_options": ["prof"],
+				"weights": ["(genParticleMatched&&{})".format(etaweight)],
+				"x_bins": bindict[xquantity],
+				"x_expressions": [rootdict[xquantity]],
+				"y_expressions": ["object.p4.Pt()/genParticle.p4.Pt()"],
+				# Formatting
+				"x_label": xdict[xquantity],
+				"y_label": "erecogen",
+				"labels": ["corrected","raw"],
+				"y_lims": [0.985, 1.03],
+				"texts": [labeldict[index]],
+				"line_styles": ["-"],
+				"lines": [1.],
+				"colors": ['red', 'black'],
+				"markers": ['o', '.'],
+				"legend": ("upper left" if xquantity == 'eta' else "upper right"),
+				# Output
+				"filename": "electron_corr_"+xquantity+"_"+str(index),
+			})
 	# Z mass as a function of |y| for corrected and uncorrected
 	plots.append({
 		# Input
