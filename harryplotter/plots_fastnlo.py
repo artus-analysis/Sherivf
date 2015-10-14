@@ -215,7 +215,7 @@ def k_factors(args=None, additional_dictionary=None):
 				'ratio_result_nicks': ['lo'],
 				# formatting
 				'y_label': common.xseclabels[quantity],
-				'markers': ['fill', 'o', '.'],
+				'markers': ['fill', '.', '.'],
 				'line_styles': [None, None, '-'],
 				'energies': [8],
 				'step': True,
