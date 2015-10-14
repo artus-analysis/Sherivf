@@ -48,7 +48,8 @@ def sherpa_fastnlo(args=None):
 			if quantity == 'zpt':
 				d['y_log'] = True
 				d['x_log'] = common.zpt_xlog
-				d['x_ticks'] = common.zpt_ticks
+				if common.zpt_xlog:
+					d['x_ticks'] = common.zpt_ticks
 				d['y_lims'] = [1e-4, 1e2]
 			elif quantity == 'abszy':
 				d['y_lims'] = [0, 50]
@@ -120,7 +121,8 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 			if quantity == 'zpt':
 				d['y_log'] = True
 				d['x_log'] = common.zpt_xlog
-				d['x_ticks'] = common.zpt_ticks
+				if common.zpt_xlog:
+					d['x_ticks'] = common.zpt_ticks
 				d['y_lims'] = [1e-4, 1e1]
 			plots.append(d)
 
@@ -180,7 +182,8 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			if quantity == 'zpt':
 				d['y_log'] = True
 				d['x_log'] = common.zpt_xlog
-				d['x_ticks'] = common.zpt_ticks
+				if common.zpt_xlog:
+					d['x_ticks'] = common.zpt_ticks
 				d['y_lims'] = [1e-4, 1e1]
 			plots.append(d)
 
@@ -233,7 +236,8 @@ def k_factors(args=None, additional_dictionary=None):
 			if quantity == 'zpt':
 				d['y_log'] = True
 				d['x_log'] = common.zpt_xlog
-				d['x_ticks'] = common.zpt_ticks
+				if common.zpt_xlog:
+					d['x_ticks'] = common.zpt_ticks
 				d['y_lims'] = [1e-4, 1e1]
 			plots.append(d)
 

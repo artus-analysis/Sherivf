@@ -125,8 +125,7 @@ def combine_exp_model(args=None, additional_dictionary=None, pdf_scenario='hera'
 			
 			'analysis_modules': ['CombineTGraphs'],
 			
-			'combine_nick1': 'exp',
-			'combine_nick2': 'model',
+			'combine_nicks': ['exp', 'model'],
 			
 			'labels': ['model', 'exp', 'expmodel'],
 			
@@ -157,9 +156,7 @@ def combine_expmodel_par(args=None, additional_dictionary=None, pdf_scenario='he
 			'nicks': ['par', 'expmodel', 'exp'],
 			
 			'analysis_modules': ['CombineTGraphs'],
-			
-			'combine_nick1': 'par',
-			'combine_nick2': 'expmodel',
+			'combine_nicks': ['par', 'expmodel'],
 		
 			'labels': ['par', 'expmodel', 'exp', 'expmodelpar'],
 		

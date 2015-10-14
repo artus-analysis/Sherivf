@@ -89,22 +89,23 @@ def plot_uncertainties(args=None):
 			for unc in common.uncertainties_with_lumi:
 				files += [common.systematic_path + "/" + quantity+'_madgraph_{}{}_1.root'.format(ybinsuffix, unc)]
 			n_source = len(common.uncertainties_with_lumi)
-			labels = ['Statistical'] + [common.unc_labelsdict[unc] for unc in types]
+			labels = ['Statistical'] + [common.unc_labelsdict[unc] for unc in types] + ['TOTAL']
 			d = {
+				# input
 				'files': files,
 				'folders': [""],
 				'x_expressions': ['nick0'] + ['ratio']*n_source,
 				'filename': '_'.join(['unc', quantity])+ybinsuffix,
 				'scale_factors': [100.],
 				'nicks': ['nick0'] + types,
-			
-				'analysis_modules': ['StatisticalErrors'],
+				# analysis
+				'analysis_modules': ['StatisticalErrors', "AddHistogramsSquared"],
 				'stat_error_nicks': ['nick0'],
 				'stat_error_relative': True,
 				'stat_error_relative_percent': True,
-			
+				'square_add_nicks': ['nick0'] + types,
+				# formatting
 				'texts': [ybinplotlabel],
-				#'legend_cols': 2,
 				'y_label': 'Uncertainty / %',
 				'x_label': quantity,
 				'labels': labels,
@@ -114,10 +115,12 @@ def plot_uncertainties(args=None):
 				'y_errors': [False],
 			}
 			if quantity == 'zpt':
-				d['y_lims'] = [0, 5]
+				d['y_lims'] = [0, 10]
 				d['x_log'] = common.zpt_xlog
-				d['x_ticks'] = common.zpt_ticks
+				if common.zpt_xlog:
+					d['x_ticks'] = common.zpt_ticks
 			elif quantity == 'abszy':
+				d['legend'] = 'upper left'
 				d['y_lims'] = [0, 5]
 			plots.append(d)
 	return [PlottingJob(plots, args)]
