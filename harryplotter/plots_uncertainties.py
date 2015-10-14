@@ -177,7 +177,8 @@ def scale_uncertainties(args=None, additional_dictionary=None):
 			if quantity == 'zpt':
 				d['y_log'] = True
 				d['x_log'] = common.zpt_xlog
-				d['x_ticks'] = common.zpt_ticks
+				if common.zpt_xlog:
+					d['x_ticks'] = common.zpt_ticks
 				d['y_lims'] = [1e-4, 1e1]
 			plots.append(d)
 

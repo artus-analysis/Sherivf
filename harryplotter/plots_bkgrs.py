@@ -70,7 +70,6 @@ def zee_bkgrs(args=None):
 							'texts_y': [0.97, 0.87],
 							# output
 							'filename': quantity + "_" + mc_label+ybinsuffix+njetsuffix + ("" if signal else "_only_bkgrs"),
-							'export_json': False,
 							'www_text': "Backgrounds as a function of different quantities, with and without signal samples",
 							'www_title': "Background Contributions",
 						}
@@ -122,7 +121,6 @@ def signal_background_ratio(args=None):
 					#'y_log': True,
 					#
 					'filename': quantity + "_" + ybinsuffix+njetsuffix,
-					'export_json': False,
 					'www_text': " ",
 					'www_title': "Background /Signal Ratio",
 				}
