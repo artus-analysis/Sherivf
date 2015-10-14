@@ -48,8 +48,8 @@ def allplots(args=None):
 		plots_fastnlo.fastnlo_pdfmember,
 		plots_fastnlo.sherpa_fastnlo,
 		plots_pdf_reweighted.nnpdf,  # 15
-		plots_pdf_reweighted.herapdf_14,
-		plots_pdf_reweighted.herapdf_912,
+		plots_uncertainties.scale_uncertainties,
+		plots_fastnlo.k_factors,
 		plots_uncertainties.plot_uncertainties,
 		plots_zee_divide.divided_ptspectrum,
 		plots_pdf_uncertainties.plot_pdf_uncs_hera,  # 20
@@ -58,8 +58,7 @@ def allplots(args=None):
 		plots_pdf_uncertainties.plot_pdf_unc_comparison,
 		plots_bkgrs.signal_background_ratio,
 		plots_electron.electron_scale_unc,  # 25
-		plots_uncertainties.scale_uncertainties,
-		plots_fastnlo.k_factors,
+		plots_pdf_uncertainties.plot_pdf_uncs_heraZ_pt,
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -79,8 +78,8 @@ def allplots(args=None):
 		"fastnlo_pdfmember",
 		"fastnlo_sherpa",
 		"nnpdf",
-		"herapdf_14",
-		"herapdf_912",
+		"scale_uncertainty",
+		"k_factors",
 		"uncertainties",
 		"spectra_in_ybins",
 		"pdf_uncertainties_hera",
@@ -89,8 +88,7 @@ def allplots(args=None):
 		"pdf_uncertainties_comparison",
 		"backgrounds_signal_ratio",
 		"electron_scale_uncertainty",
-		"scale_uncertainty",
-		"k_factors",
+		"pdf_uncertainties_heraZ_pt",
 	][plot_min:plot_max]
 
 	for function, wwwdir in zip(functions, wwwdirs):

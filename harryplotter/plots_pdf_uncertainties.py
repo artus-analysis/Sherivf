@@ -27,6 +27,10 @@ def pdf_unc_heraZ(args=None, additional_dictionary=None):
 	""" make pdf uncertainties for heraZ """
 	return pdf_unc_base(args, additional_dictionary, 'heraZ')
 
+def pdf_unc_heraZ_pt(args=None, additional_dictionary=None):
+	""" make pdf uncertainties for heraZ """
+	return pdf_unc_base(args, additional_dictionary, 'heraZ_pt')
+
 def pdf_unc_heraZ_bins(args=None, additional_dictionary=None):
 	""" make pdf uncertainties for heraZ """
 	return pdf_unc_base(args, additional_dictionary, 'heraZ_bins')
@@ -179,6 +183,8 @@ def plot_pdf_uncs_hera(args=None, additional_dictionary=None):
 	return plot_pdf_uncs(args, additional_dictionary, 'hera')
 def plot_pdf_uncs_heraZ(args=None, additional_dictionary=None):
 	return plot_pdf_uncs(args, additional_dictionary, 'heraZ')
+def plot_pdf_uncs_heraZ_pt(args=None, additional_dictionary=None):
+	return plot_pdf_uncs(args, additional_dictionary, 'heraZ_bins')
 def plot_pdf_uncs_heraZ_bins(args=None, additional_dictionary=None):
 	return plot_pdf_uncs(args, additional_dictionary, 'heraZ_bins')
 
@@ -189,6 +195,7 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	titles = {
 		'hera': "HERA-I DIS",
 		'heraZ': "HERA-I DIS + CMS",
+		'heraZ_pt': "HERA-I DIS + CMS (pT-spectrum)",
 		'heraZ_bins': "HERA-I DIS + CMS (pT in y-bins)",
 	}
 	title = titles.get(pdf_scenario, "")
