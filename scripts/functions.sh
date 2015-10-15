@@ -48,9 +48,9 @@ fit_nnpdf(){
 ## PDF uncertainties
 make_pdfuncs()
 {
-	merlin.py --py pdf_unc_hera
-	merlin.py --py pdf_unc_heraZ
-	merlin.py --py pdf_unc_heraZ_bins
+	for i in hera heraZ heraZ_pt heraZ_bins; do
+		merlin.py --py pdf_unc_${i}
+	done
 }
 clear_pdfuncs()
 {

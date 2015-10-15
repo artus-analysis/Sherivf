@@ -181,7 +181,7 @@ def plot_pdf_uncs_hera(args=None, additional_dictionary=None):
 def plot_pdf_uncs_heraZ(args=None, additional_dictionary=None):
 	return plot_pdf_uncs(args, additional_dictionary, 'heraZ')
 def plot_pdf_uncs_heraZ_pt(args=None, additional_dictionary=None):
-	return plot_pdf_uncs(args, additional_dictionary, 'heraZ_bins')
+	return plot_pdf_uncs(args, additional_dictionary, 'heraZ_pt')
 def plot_pdf_uncs_heraZ_bins(args=None, additional_dictionary=None):
 	return plot_pdf_uncs(args, additional_dictionary, 'heraZ_bins')
 
