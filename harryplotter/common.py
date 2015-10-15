@@ -47,6 +47,7 @@ bins = {
 bins['abszy'] = bins['abs(zy)']
 zpt_ticks = [30, 40, 50, 60, 80, 100, 120, 140, 170, 200, 400, 1000]
 zpt_xlog = True
+zpt_miny = 1e-5
 
 def lims(quantity):
 	if "," in bins[quantity]:
