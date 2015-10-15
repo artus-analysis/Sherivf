@@ -1,7 +1,7 @@
 # --- Use emacs in sh mode -*-sh-*- #
 # This is a automatically generated file by fastNLO and holds the values of the warmup run. 
 # The values are valid for the scenario abszy
-# and if calculated with the steerfile: /var/lib/condor/execute/dir_15285/15292/MCgrid_CMS_2015_Zee/phasespace/abszy.txt
+# and if calculated with the steerfile: /var/lib/condor/execute/dir_13438/13477/MCgrid_CMS_2015_Zee/phasespace/abszy.txt
 # but only if no serious changes have been performed since its creation.
 # 
 # Delete this file, if you want fastNLO to calculate a new one.
