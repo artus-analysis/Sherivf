@@ -1,12 +1,12 @@
 # --- Use emacs in sh mode -*-sh-*- #
 # This is a automatically generated file by fastNLO and holds the values of the warmup run. 
 # The values are valid for the scenario abszy
-# and if calculated with the steerfile: /var/lib/condor/execute/dir_13438/13477/MCgrid_CMS_2015_Zee/phasespace/abszy.txt
+# and if calculated with the steerfile: /var/lib/condor/execute/dir_26334/26395/MCgrid_CMS_2015_Zee/phasespace/abszy.txt
 # but only if no serious changes have been performed since its creation.
 # 
 # Delete this file, if you want fastNLO to calculate a new one.
 # 
-# This file has been calculated using 6.9e+08 contributions.
+# This file has been calculated using 6.9e+07 contributions.
 #   ( Mind: contributions != events. And contributions are not necessarily in phase space region.
 # Please check by eye for reasonability of the values.
  
@@ -23,30 +23,30 @@ Warmup.DimensionIsDifferential {
 
 Warmup.Values {{
    ObsBin       x_min      x_max  Description_[GeV]_min  Description_[GeV]_max
-      0      7.63e-03   1.00e+00             91.19             91.19
-      1      6.89e-03   1.00e+00             91.19             91.19
-      2      6.24e-03   1.00e+00             91.19             91.19
-      3      5.63e-03   1.00e+00             91.19             91.19
-      4      5.12e-03   1.00e+00             91.19             91.19
-      5      4.66e-03   1.00e+00             91.19             91.19
-      6      4.19e-03   1.00e+00             91.19             91.19
-      7      3.83e-03   1.00e+00             91.19             91.19
-      8      3.47e-03   1.00e+00             91.19             91.19
-      9      3.13e-03   1.00e+00             91.19             91.19
-     10      2.84e-03   1.00e+00             91.19             91.19
-     11      2.58e-03   1.00e+00             91.19             91.19
-     12      2.34e-03   1.00e+00             91.19             91.19
-     13      2.08e-03   1.00e+00             91.19             91.19
-     14      1.93e-03   1.00e+00             91.19             91.19
-     15      1.73e-03   1.00e+00             91.19             91.19
+      0      7.74e-03   1.00e+00             91.19             91.19
+      1      6.98e-03   1.00e+00             91.19             91.19
+      2      6.34e-03   1.00e+00             91.19             91.19
+      3      5.76e-03   1.00e+00             91.19             91.19
+      4      5.22e-03   1.00e+00             91.19             91.19
+      5      4.79e-03   1.00e+00             91.19             91.19
+      6      4.25e-03   1.00e+00             91.19             91.19
+      7      3.87e-03   1.00e+00             91.19             91.19
+      8      3.49e-03   1.00e+00             91.19             91.19
+      9      3.18e-03   1.00e+00             91.19             91.19
+     10      2.85e-03   1.00e+00             91.19             91.19
+     11      2.61e-03   1.00e+00             91.19             91.19
+     12      2.39e-03   1.00e+00             91.19             91.19
+     13      2.14e-03   1.00e+00             91.19             91.19
+     14      1.96e-03   1.00e+00             91.19             91.19
+     15      1.75e-03   1.00e+00             91.19             91.19
      16      1.56e-03   1.00e+00             91.19             91.19
-     17      1.42e-03   1.00e+00             91.19             91.19
-     18      1.27e-03   1.00e+00             91.19             91.19
-     19      1.17e-03   1.00e+00             91.19             91.19
+     17      1.44e-03   1.00e+00             91.19             91.19
+     18      1.32e-03   1.00e+00             91.19             91.19
+     19      1.20e-03   1.00e+00             91.19             91.19
      20      1.07e-03   1.00e+00             91.19             91.19
-     21      9.69e-04   1.00e+00             91.19             91.19
-     22      8.84e-04   1.00e+00             91.19             91.19
-     23      8.28e-04   1.00e+00             91.19             91.19
+     21      9.75e-04   1.00e+00             91.19             91.19
+     22      8.94e-04   1.00e+00             91.19             91.19
+     23      8.66e-04   1.00e+00             91.19             91.19
 }}
 
 
