@@ -99,36 +99,37 @@ def signal_background_ratio(args=None):
 				["_inclusive"] + common.ybin_labels
 		], known_args.no_ybins)):
 			for quantity in parsertools.get_list_slice(common.data_quantities + ['njets30'], known_args.no_quantities):
-				d = {
-					'x_expressions': common.root_quantity(quantity),
-					'x_bins': [common.bins[quantity]],
-					'files': [common.bkgr_path+'/work/mc_ee.root'] + [common.bkgr_path+'/work/background_ee_{}.root'.format(item) for item in common.bkgr_backgrounds],
-					"nicks": ['signal']+['background']*len(common.bkgr_backgrounds),
-					"stacks": ['stack'],
-					'folders': ['zcuts_ak5PFJetsCHSL1L2L3/ntuple'],
-					'weights': (["(hlt && ({}) && ({}))".format(ybin, njetweight)]),
-					'scale_factors': [common.lumi],
-					#
-					'analysis_modules': ['Ratio'],
-					'ratio_numerator_nicks': ['background'],
-					'ratio_denominator_nicks': ['signal'],
-					#
-					'markers': ['fill']*2+['.'],
-					'labels': ['Signal', 'Background', 'Ratio'],
-					'y_subplot_label': 'Background/Signal',
-					'x_errors': [False, False, True],
-					'y_subplot_lims': [0, 0.1],
-					#'y_log': True,
-					#
-					'filename': quantity + "_" + ybinsuffix+njetsuffix,
-					'www_text': " ",
-					'www_title': "Background /Signal Ratio",
-				}
-				plots.append(d)
-				if quantity == 'zpt':
-					d['x_log'] = common.zpt_xlog
-					if common.zpt_xlog:
-						d['x_ticks'] = common.zpt_ticks
+				for log in [True, False]:
+					d = {
+						'x_expressions': common.root_quantity(quantity),
+						'x_bins': [common.bins[quantity]],
+						'files': [common.bkgr_path+'/work/mc_ee.root'] + [common.bkgr_path+'/work/background_ee_{}.root'.format(item) for item in common.bkgr_backgrounds],
+						"nicks": ['signal']+['background']*len(common.bkgr_backgrounds),
+						"stacks": ['stack'],
+						'folders': ['zcuts_ak5PFJetsCHSL1L2L3/ntuple'],
+						'weights': (["(hlt && ({}) && ({}))".format(ybin, njetweight)]),
+						'scale_factors': [common.lumi],
+						#
+						'analysis_modules': ['Ratio'],
+						'ratio_numerator_nicks': ['background'],
+						'ratio_denominator_nicks': ['signal'],
+						#
+						'markers': ['fill']*2+['.'],
+						'labels': ['Signal', 'Background', 'Ratio'],
+						'y_subplot_label': 'Background/Signal',
+						'x_errors': [False, False, True],
+						'y_subplot_lims': [0, 0.1],
+						'y_log': log,
+						#
+						'filename': quantity + "_" + ybinsuffix+njetsuffix + ('_log' if log else ''),
+						'www_text': " ",
+						'www_title': "Background /Signal Ratio",
+					}
+					plots.append(d)
+					if quantity == 'zpt':
+						d['x_log'] = common.zpt_xlog
+						if common.zpt_xlog:
+							d['x_ticks'] = common.zpt_ticks
 	return [PlottingJob(plots, args)]
 
 
