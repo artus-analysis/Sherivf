@@ -179,7 +179,7 @@ def scale_uncertainties(args=None, additional_dictionary=None):
 				d['x_log'] = common.zpt_xlog
 				if common.zpt_xlog:
 					d['x_ticks'] = common.zpt_ticks
-				d['y_lims'] = [1e-4, 1e1]
+				d['y_lims'] = [common.zpt_miny, 1e1]
 			plots.append(d)
 
 	return [PlottingJob(plots, args)]
