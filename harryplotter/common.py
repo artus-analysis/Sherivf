@@ -45,7 +45,7 @@ bins = {
 	'eminuseta': "48,-2.4,2.4",
 }
 bins['abszy'] = bins['abs(zy)']
-zpt_ticks = [30, 40, 50, 60, 80, 100, 120, 140, 170, 200, 400, 1000]
+zpt_ticks = [30, 40, 60, 100, 200, 400, 1000]
 zpt_xlog = True
 zpt_miny = 1e-5
 
