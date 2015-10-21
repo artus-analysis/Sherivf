@@ -1,12 +1,12 @@
 # --- Use emacs in sh mode -*-sh-*- #
 # This is a automatically generated file by fastNLO and holds the values of the warmup run. 
 # The values are valid for the scenario zmass
-# and if calculated with the steerfile: /var/lib/condor/execute/dir_10996/11150/MCgrid_CMS_2015_Zee/phasespace/zmass.txt
+# and if calculated with the steerfile: /var/lib/condor/execute/dir_7495/7512/MCgrid_CMS_2015_Zee/phasespace/zmass.txt
 # but only if no serious changes have been performed since its creation.
 # 
 # Delete this file, if you want fastNLO to calculate a new one.
 # 
-# This file has been calculated using 1.4e+07 contributions.
+# This file has been calculated using 6.6e+07 contributions.
 #   ( Mind: contributions != events. And contributions are not necessarily in phase space region.
 # Please check by eye for reasonability of the values.
  
@@ -23,26 +23,26 @@ Warmup.DimensionIsDifferential {
 
 Warmup.Values {{
    ObsBin       x_min      x_max  Description_[GeV]_min  Description_[GeV]_max
-      0      9.79e-04   9.98e-01             86.40           3246.31
-      1      8.70e-04   9.99e-01             87.34           3861.94
-      2      9.75e-04   9.99e-01             88.27           3631.98
-      3      8.86e-04   1.00e+00             89.23           3367.85
-      4      9.30e-04   1.00e+00             90.15           3949.39
-      5      9.48e-04   1.00e+00             91.00           3863.41
-      6      9.48e-04   1.00e+00             92.00           3848.88
-      7      9.13e-04   1.00e+00             92.98           3887.73
-      8      9.02e-04   1.00e+00             93.92           3886.97
-      9      9.20e-04   1.00e+00             94.88           3849.60
-     10      9.11e-04   1.00e+00             95.82           3936.19
-     11      9.51e-04   1.00e+00             96.78           3948.67
-     12      9.63e-04   1.00e+00             97.73           3734.51
-     13      1.01e-03   1.00e+00             98.68           3921.88
-     14      9.64e-04   1.00e+00             99.63           3647.10
-     15      1.02e-03   1.00e+00            100.00           3837.20
-     16      1.07e-03   9.98e-01            101.54           3483.40
-     17      1.17e-03   1.00e+00            102.50           3604.51
-     18      1.07e-03   1.00e+00            103.46           3476.50
-     19      1.23e-03   9.99e-01            104.41           3944.09
+      0      8.75e-04   1.00e+00             96.00           3645.26
+      1      8.89e-04   1.00e+00             96.00           3731.08
+      2      8.58e-04   1.00e+00             96.00           3907.72
+      3      9.13e-04   1.00e+00             96.00           3300.00
+      4      8.69e-04   1.00e+00             96.00           3958.95
+      5      9.02e-04   1.00e+00             96.00           3723.84
+      6      8.95e-04   1.00e+00             96.00           3889.41
+      7      8.66e-04   1.00e+00             96.00           3904.84
+      8      8.68e-04   1.00e+00             96.00           3920.84
+      9      9.00e-04   1.00e+00             96.00           3973.47
+     10      8.88e-04   1.00e+00             96.00           3933.47
+     11      8.98e-04   1.00e+00             96.00           3966.35
+     12      9.75e-04   1.00e+00             96.00           3888.06
+     13      9.75e-04   1.00e+00             96.00           3800.00
+     14      1.00e-03   1.00e+00             96.00           3869.70
+     15      9.69e-04   1.00e+00             96.00           3867.07
+     16      1.01e-03   1.00e+00             96.00           3900.00
+     17      9.76e-04   1.00e+00             96.00           3833.53
+     18      1.03e-03   1.00e+00             96.00           3946.79
+     19      1.09e-03   1.00e+00             96.00           3906.12
 }}
 
 
