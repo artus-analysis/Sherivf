@@ -114,6 +114,8 @@ pdf_dir = "5_pdfunc"
 
 iterations_to_use = 1
 
+algocorr = "ak5PFJetsCHSL1L2L3"
+
 mc = excaliburpath + "/work/mc_ee.root"
 mc_raw = excaliburpath + "/work/mc_ee_raw.root"
 data = excaliburpath + "/work/mc_ee.root"

@@ -55,7 +55,7 @@ def zee_bkgrs(args=None):
 							'x_bins': [common.bins[quantity]],
 							'files': ([path+'/work/data_ee.root', path+mc] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds])[(0 if signal else 2):],
 							"nicks": (['data','mc']+backgrounds_merged)[(0 if signal else 2):],
-							'folders': (['zcuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['zcuts_ak5PFJetsCHSL1L2L3/ntuple']*n_mcs)[(0 if signal else 2):],
+							'folders': (['zcuts_{}Res/ntuple'.format(common.algocorr)] + ['zcuts_{}/ntuple'.format(common.algocorr)]*n_mcs)[(0 if signal else 2):],
 							'weights': (["(({}) && ({}))".format(ybin, njetweight)] + ["(hlt && ({}) && ({}))".format(ybin, njetweight)]*n_mcs)[(0 if signal else 2):],
 							'scale_factors': [1. if signal else common.lumi],
 							# formatting
@@ -106,7 +106,7 @@ def signal_background_ratio(args=None):
 						'files': [common.bkgr_path+'/work/mc_ee.root'] + [common.bkgr_path+'/work/background_ee_{}.root'.format(item) for item in common.bkgr_backgrounds],
 						"nicks": ['signal']+['background']*len(common.bkgr_backgrounds),
 						"stacks": ['stack'],
-						'folders': ['zcuts_ak5PFJetsCHSL1L2L3/ntuple'],
+						'folders': ['zcuts_{}/ntuple'.format(common.algocorr)],
 						'weights': (["(hlt && ({}) && ({}))".format(ybin, njetweight)]),
 						'scale_factors': [common.lumi],
 						#
@@ -146,7 +146,7 @@ def emu(args=None):
 			'x_expressions': common.root_quantity(quantity),
 			'x_bins': [common.bins[quantity]],
 			'files': [path+'/work/data_em.root']+[path+'/work/background_ee_{}.root'.format(item) for item in backgrounds],
-			'folders': ['zcuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['zcuts_ak5PFJetsCHSL1L2L3/ntuple']*len(backgrounds),
+			'folders': ['zcuts_{}Res/ntuple'.format(common.algocorr)] + ['zcuts_{}/ntuple'.format(common.algocorr)]*len(backgrounds),
 			#'weights': ['1']+['(hlt&&e1mvatrig&&e2mvatrig)']*4,
 			# formatting
 			'stacks': ['data'] + ['mc']*len(backgrounds),
