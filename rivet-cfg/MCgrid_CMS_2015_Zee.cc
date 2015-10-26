@@ -76,7 +76,7 @@ public:
 		MCgrid::subprocessConfig subproc(steeringFileName, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON);
 
 		MSG_INFO("Creating fastnloGridArch and fastnloConfig");
-		MCgrid::fastnloGridArch arch_fnlo(15, 6, "Lagrange", "Lagrange", "sqrtlog10", "loglog025");
+		MCgrid::fastnloGridArch arch_fnlo(20, 6, "Lagrange", "Lagrange", "sqrtlog10", "loglog025");
 
 		MCgrid::fastnloConfig config_fnlo(1, subproc, arch_fnlo, 8000.);
 		MCgrid::fastnloConfig config_fnlo_2(1, subproc, arch_fnlo, 8000.);
