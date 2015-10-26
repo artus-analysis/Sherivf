@@ -72,7 +72,7 @@ def electron_id(args=None, additional_dictionary=None):
 		#"weights": ["genParticleMatched"],
 		#"no_weight": True,
 		
-		"folders": ["zcuts_ak5PFJetsCHSL1L2L3/ntuple"],
+		"folders": ["zcuts_{}/ntuple".format(common.algocorr)],
 		"y_expressions": ids,
 		"x_expressions": ["e1pt"],
 		"tree_draw_options": ["prof"],
@@ -146,7 +146,7 @@ def electron_corr(args=None, additional_dictionary=None):
 			plots.append({
 				# Input
 				"files": [common.mc, common.mc_raw],
-				"folders": ["zcuts_ak5PFJetsCHSL1L2L3/electrons"],
+				"folders": ["zcuts_{}/electrons".format(common.algocorr)],
 				"no_weight": True,
 				"tree_draw_options": ["prof"],
 				"weights": ["(genParticleMatched&&{})".format(etaweight)],
@@ -171,7 +171,7 @@ def electron_corr(args=None, additional_dictionary=None):
 	plots.append({
 		# Input
 		"files": [common.mc, common.mc_raw],
-		"folders": ["zcuts_ak5PFJetsCHSL1L2L3/ntuple"],
+		"folders": ["zcuts_{}/ntuple".format(common.algocorr)],
 		"tree_draw_options": ["prof"],
 		"x_expressions": ["abs(zy)"],
 		"x_bins": ["10,0,2.5"],
