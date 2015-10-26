@@ -279,8 +279,6 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None):
 		}
 		if flavour in y_lims:
 			d['y_lims'] = y_lims[flavour]
-		if flavour == 'gluon':
-			d['y_lims'] = [0, 4]
 		if 'valence' in flavour.lower():
 			d['legend'] = 'center left'
 		if additional_dictionary is not None:
