@@ -130,6 +130,10 @@ def signal_background_ratio(args=None):
 						d['x_log'] = common.zpt_xlog
 						if common.zpt_xlog:
 							d['x_ticks'] = common.zpt_ticks
+					elif quantity == 'zmass':
+						d['y_lims'] = [0, 2.5e5]
+						d['y_subplot_lims'] = [0, 0.07]
+						d['y_subplot_ticks'] = [0, 0.02, 0.04, 0.06]
 	return [PlottingJob(plots, args)]
 
 

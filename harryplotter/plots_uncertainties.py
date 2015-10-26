@@ -121,7 +121,7 @@ def plot_uncertainties(args=None):
 					d['x_ticks'] = common.zpt_ticks
 			elif quantity == 'abszy':
 				d['legend'] = 'upper left'
-				d['y_lims'] = [0, 5]
+				d['y_lims'] = [0, 8]
 			plots.append(d)
 	return [PlottingJob(plots, args)]
 

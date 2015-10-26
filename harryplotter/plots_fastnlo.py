@@ -110,7 +110,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				'step': [True],
 				'lumis': [common.lumi],
 				'x_label': quantity,
-				'y_subplot_label': 'Sim./Data',
+				'y_subplot_label': 'Sim./Data\n',
 				'y_subplot_lims': [0.75, 1.25],
 				'texts': [ybinplotlabel],
 				# output
@@ -123,7 +123,8 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				d['x_log'] = common.zpt_xlog
 				if common.zpt_xlog:
 					d['x_ticks'] = common.zpt_ticks
-				d['y_lims'] = [common.zpt_miny, 1e1]
+				d['y_lims'] = [0.000005, 5]
+				d['legend'] = 'lower left'
 			plots.append(d)
 
 	return [PlottingJob(plots, args)]
