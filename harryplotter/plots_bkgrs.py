@@ -77,6 +77,8 @@ def zee_bkgrs(args=None):
 							d['x_log'] = common.zpt_xlog
 							if common.zpt_xlog:
 								d['x_ticks'] = common.zpt_ticks
+						if quantity == 'zmass' and not signal:
+							d['x_label'] = 'eemass'
 						plots.append(d)
 
 	return [PlottingJob(plots, args)]
