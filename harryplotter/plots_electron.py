@@ -10,44 +10,52 @@ import common
 def z_hlt(args=None, additional_dictionary=None):
 	""" HLT efficiency vs Z pT, y  """
 	plots = []
-	ybins = [30, 40, 50, 70, 100, 200, 400]
-	d = {
-		"files": [common.mc],
-		"folders": ["zcuts_ak5PFJetsCHSL1L2L3/ntuple"],
-		"tree_draw_options": ["prof"],
-		"x_bins": ["12,0,2.4"],
-		"x_expressions": ["abs(zy)"],
-		"y_bins": [" ".join([str(item) for item in ybins])],
+	ybins = [0, 1.5, 2.5]
+	ptbins = [25, 30, 35, 40, 45, 50, 200]
+	ptbins_str = " ".join([str(item) for item in ptbins])
 
-		"y_ticks": ybins,
-		"y_expressions": ["zpt"],
-		"y_lims": [ybins[0], ybins[-1]],
-		"y_log": True,
-		"z_expressions": ["hlt"],
-		"z_label": "HLT Efficiency",
+	border = "1.5"
+	etabins = {
+		'BB': "abs(e1eta)<{}&&abs(e2eta)<{}".format(border, border),
+		'BE': "abs(e1eta)<{}&&abs(e2eta)>{}".format(border, border),
+		'EB': "abs(e1eta)>{}&&abs(e2eta)<{}".format(border, border),
+		'EE': "abs(e1eta)>{}&&abs(e2eta)>{}".format(border, border),
 	}
-	plots.append(d)
 
-	d2 = {
-		"files": [common.mc],
-		"folders": ["zcuts_ak5PFJetsCHSL1L2L3/ntuple"],
-		"line_styles": ["-"],
-		"tree_draw_options": ["prof"],
-		"weights": ["abs(zy)<0.5",
-			"(abs(zy)>0.5&&abs(zy)<1)",
-			"(abs(zy)>1&&abs(zy)<1.5)",
-			"(abs(zy)>1.5&&abs(zy)<2)",
-			"(abs(zy)>2&&abs(zy)<2.5)"
-		],
-		"x_bins": ["30 40 50 70 100"],
-		"x_expressions": ["zpt"],
-		"y_expressions": ["hlt"]
-	}
-	plots.append(d2)
-
-	if additional_dictionary is not None:
-		for d in plots:
+	for index, etabin in enumerate(etabins.keys()):
+		d = {
+			"files": [common.mc],
+			"folders": ["zcuts_{}/ntuple".format(common.algocorr)],
+			"tree_draw_options": ["prof"],
+			"x_expressions": ["e1pt"],
+			"y_expressions": ["e2pt"],
+			"z_expressions": ["hlt"],
+			"y_bins": [ptbins_str],
+			"x_bins": [ptbins_str],
+			"z_label": "HLT Efficiency",
+			"weights": etabins[etabin],
+			
+			'z_lims': [0.9, 1],
+			'y_log': True,
+			'x_log': True,
+			'x_lims': [ptbins[0], ptbins[-1]],
+			'y_lims': [ptbins[0], ptbins[-1]],
+			
+			"filename": "hlt_{}".format(etabin),
+		}
+		export = True
+		if export:
+			d.update({
+				#'filename': 'hlt',
+				'nicks': [etabin],
+				'plot_modules': ['ExportRoot'],
+				'file_mode': ('RECREATE' if index>-10 else 'UPDATE'),
+			})
+			
+		if additional_dictionary is not None:
 			d.update(additional_dictionary)
+		plots.append(d)
+
 	return [PlottingJob(plots, args)]
 
 

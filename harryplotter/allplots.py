@@ -59,6 +59,7 @@ def allplots(args=None):
 		plots_bkgrs.signal_background_ratio,
 		plots_electron.electron_scale_unc,  # 25
 		plots_pdf_uncertainties.plot_pdf_uncs_heraZ_pt,
+		plots_electron.z_hlt,
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -89,6 +90,7 @@ def allplots(args=None):
 		"backgrounds_signal_ratio",
 		"electron_scale_uncertainty",
 		"pdf_uncertainties_heraZ_pt",
+		"hlt",
 	][plot_min:plot_max]
 
 	for function, wwwdir in zip(functions, wwwdirs):
