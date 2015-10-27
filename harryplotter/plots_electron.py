@@ -263,3 +263,63 @@ def electron_scale_unc(args=None, additional_dictionary=None):
 	if additional_dictionary is not None:
 		d.update(additional_dictionary)
 	return [PlottingJob([d], args)]
+
+
+def electron_efficiencies_2d(args=None, additional_dictionary=None):
+	""""2D Plots (eta, pT) for the efficiencies determined with the Egamma TnP package"""
+	plots = []
+	for ID in ['Loose', 'Medium', 'Tight']:
+		for step, label in zip(['SCToGsfElectron', 'GsfElectronToId', "WP{}ToHLT".format(ID)],
+								['Reconstruction', 'ID', 'HLT']):
+			for datamc in ['data', 'mc']:
+				d = {
+					'files': [datamc + "_" + step + "_WP" + ID + '.root'],
+					'folders': [""],
+					'x_expressions': 'efficiency_2d',
+					# formatting
+					'x_log': True,
+					'x_label': 'ept',
+					'y_label': 'eabseta',
+					'z_label': label + " Efficiency",
+					'x_ticks': [25, 40, 60, 100, 200],
+					'z_lims': [0.6, 1],
+					# output
+					'filename': "_".join([datamc, step, ID]),
+				}
+				if additional_dictionary is not None:
+					d.update(additional_dictionary)
+				plots.append(d)
+	return [PlottingJob(plots, args)]
+
+
+def electron_efficiencies_1d(args=None, additional_dictionary=None):
+	"""1D Plots (pT in etabins) for the efficiencies determined with the Egamma TnP package"""
+	plots = []
+	etabins = [-2.5, -2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0, 2.5]
+	etalabels = ["<eta<".join([str(a), str(b)]) for a, b in zip(etabins, etabins[1:])]
+	for ID in ['Loose', 'Medium', 'Tight']:
+		for step, label in zip(['SCToGsfElectron', 'GsfElectronToId', "WP{}ToHLT".format(ID)],
+								['Reconstruction', 'ID', 'HLT']):
+			for datamc in ['data', 'mc']:
+				d = {
+					'files': [datamc + "_" + step + "_WP" + ID + '.root'],
+					'folders': [""],
+					'x_expressions': ['efficiency_etabin{0}'.format(i) for i in range(10)],
+					# formatting
+					'x_log': True,
+					'x_label': 'ept',
+					'y_label': label + " Efficiency",
+					'y_lims': [0, 1],
+					'labels': etalabels,
+					'markers': ['.'],
+					'line_styles': ['-'],
+					'y_errors': [True],
+					'x_ticks': [25, 40, 60, 100, 200],
+					'legend': 'lower right',
+					# output
+					'filename': "_".join([datamc, step, ID]),
+				}
+				if additional_dictionary is not None:
+					d.update(additional_dictionary)
+				plots.append(d)
+	return [PlottingJob(plots, args)]
