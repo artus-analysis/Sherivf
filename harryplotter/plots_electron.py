@@ -265,10 +265,12 @@ def electron_scale_unc(args=None, additional_dictionary=None):
 	return [PlottingJob([d], args)]
 
 
+ids = ['Loose', 'Medium', 'Tight', 'None']
+
 def electron_efficiencies_2d(args=None, additional_dictionary=None):
 	""""2D Plots (eta, pT) for the efficiencies determined with the Egamma TnP package"""
 	plots = []
-	for ID in ['Loose', 'Medium', 'Tight']:
+	for ID in ids:
 		for step, label in zip(['SCToGsfElectron', 'GsfElectronToId', "WP{}ToHLT".format(ID)],
 								['Reconstruction', 'ID', 'HLT']):
 			for datamc in ['data', 'mc']:
@@ -295,16 +297,18 @@ def electron_efficiencies_2d(args=None, additional_dictionary=None):
 def electron_efficiencies_1d(args=None, additional_dictionary=None):
 	"""1D Plots (pT in etabins) for the efficiencies determined with the Egamma TnP package"""
 	plots = []
-	etabins = [-2.5, -2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0, 2.5]
-	etalabels = ["<eta<".join([str(a), str(b)]) for a, b in zip(etabins, etabins[1:])]
-	for ID in ['Loose', 'Medium', 'Tight']:
+	
+	etabins = [0.0, 0.5, 1.0, 1.5, 2.0, 2.5]
+	
+	etalabels = [r"<|$\\eta$|<".join([str(a), str(b)]) for a, b in zip(etabins, etabins[1:])]
+	for ID in ids:
 		for step, label in zip(['SCToGsfElectron', 'GsfElectronToId', "WP{}ToHLT".format(ID)],
 								['Reconstruction', 'ID', 'HLT']):
 			for datamc in ['data', 'mc']:
 				d = {
 					'files': [datamc + "_" + step + "_WP" + ID + '.root'],
 					'folders': [""],
-					'x_expressions': ['efficiency_etabin{0}'.format(i) for i in range(10)],
+					'x_expressions': ['efficiency_etabin{0}'.format(i) for i in range(len(etabins)-1)],
 					# formatting
 					'x_log': True,
 					'x_label': 'ept',
@@ -312,8 +316,8 @@ def electron_efficiencies_1d(args=None, additional_dictionary=None):
 					'y_lims': [0, 1],
 					'labels': etalabels,
 					'markers': ['.'],
-					'line_styles': ['-'],
 					'y_errors': [True],
+					'x_errors': [True],
 					'x_ticks': [25, 40, 60, 100, 200],
 					'legend': 'lower right',
 					# output
