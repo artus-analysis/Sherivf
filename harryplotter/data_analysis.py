@@ -94,7 +94,7 @@ def unfold(args=None):
 							],
 							'lumis': [common.lumi],
 							'folders': ['']+['{}_ak5PFJetsCHSL1L2L3/ntuple'.format(folder)]*3,
-							'weights': "weight*({0})".format(ybin),
+							'weights': "weight*({0}&&hlt)".format(ybin),
 							'x_bins': [bins],
 							'y_bins': [None, bins, None, None],
 							# analysis
