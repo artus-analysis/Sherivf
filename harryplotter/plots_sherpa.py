@@ -31,8 +31,8 @@ def sherpa(args=None, additional_dictionary=None):
 				"nicks": ["sherpa", "madg", "data"],
 				"folders": [
 					"",
-					"zcuts_ak5PFJetsCHSL1L2L3/ntuple",
-					"zcuts_ak5PFJetsCHSL1L2L3Res/ntuple",
+					"zcuts_{}/ntuple".format(common.algocorr),
+					"zcuts_{}Res/ntuple".format(common.algocorr),
 				],
 				'weights': ['1', 'weight', 'weight'],
 				'scale_factors': [factor] +[1e-3/common.lumi]*2,  # fb->pb
@@ -114,7 +114,7 @@ def sherpa_mc(args=None, additional_dictionary=None):
 			],
 			"folders": [
 				"",
-				"nocuts_ak5PFJetsCHSL1L2L3/ntuple",
+				"nocuts_{}/ntuple".format(common.algocorr),
 			],
 			#"input_modules": ["InputRootZJet", "InputYoda"],
 			'scale_factors': [1, 1./1000.],

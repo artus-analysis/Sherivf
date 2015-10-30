@@ -66,7 +66,7 @@ def electron_id(args=None, additional_dictionary=None):
 	labels = ['MVA(Non-Trig)', 'MVA(Trig)', 'Loose', 'Loose(95)', 'Medium', 'Medium(95)', 'Tight', 'Tight(95)']
 	d = {
 		"files": [common.mc],
-		#"folders": ["zcuts_ak5PFJetsCHSL1L2L3/electrons"],
+		#"folders": ["zcuts_{}/electrons".format(common.algocorr)],
 		#"x_expressions": ["object.p4.Pt()"],
 		#"y_expressions": ["object.id{}()".format(ID) for ID in ids],
 		#"weights": ["genParticleMatched"],

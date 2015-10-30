@@ -53,7 +53,7 @@ def zee_unfolding_crosscheck(args=None):
 					'gen',
 
 				],
-				'folders': ['zcuts_AK5PFJetsCHSL1L2L3'],
+				'folders': ['zcuts_{}'.format(common.algocorr)],
 				'analysis_modules': [
 					'Unfolding',
 				],

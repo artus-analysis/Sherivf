@@ -36,7 +36,7 @@ def subtract_backgrounds(args=None):
 					'files': [path+'/work/data_ee{}.root'.format(datasuffix)] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds],
 					'nicks': ['data'],
 					'weights': ["({})".format(ybin)] + ["{scalefactor}*(hlt&&({ybin}))".format(ybin=ybin, scalefactor=mc_scalefactor)]*len(backgrounds),
-					'folders': ['{}_ak5PFJetsCHSL1L2L3Res/ntuple'.format(folder)] + ['{}_ak5PFJetsCHSL1L2L3/ntuple'.format(folder)]*len(backgrounds),
+					'folders': ['{}_{}Res/ntuple'.format(folder, common.algocorr)] + ['{}_{}/ntuple'.format(folder, common.algocorr)]*len(backgrounds),
 					#output
 					'plot_modules': ['ExportRoot'],
 					'filename': quantity + "_" + ybinsuffix + variation,
@@ -93,7 +93,7 @@ def unfold(args=None):
 								'mc_gen',
 							],
 							'lumis': [common.lumi],
-							'folders': ['']+['{}_ak5PFJetsCHSL1L2L3/ntuple'.format(folder)]*3,
+							'folders': ['']+['{}_{}/ntuple'.format(folder, common.algocorr)]*3,
 							'weights': "weight*({0}&&hlt)".format(ybin),
 							'x_bins': [bins],
 							'y_bins': [None, bins, None, None],
