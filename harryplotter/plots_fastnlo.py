@@ -119,6 +119,10 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				'www_text': 'Unfolded data compared to fastNLO table evaluated with different PDF sets for Z y,mass,pT.',
 			}
 			if quantity == 'zpt':
+				d.update({
+				'x_bins': common.bins[quantity],
+				'x_lims': common.lims(quantity),
+				})
 				d['y_log'] = True
 				d['x_log'] = common.zpt_xlog
 				if common.zpt_xlog:

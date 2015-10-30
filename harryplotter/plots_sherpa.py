@@ -49,7 +49,7 @@ def sherpa(args=None, additional_dictionary=None):
 				"x_label": quantity,
 				"y_label": "xsec",
 				"labels": ["Data", "Madgraph+Pythia", "Sherpa",  "ratio0", "ratio1"],
-				"legend": "lower center",
+				#"legend": "lower center",
 				"marker_colors": ["black", "red", "red", "cornflowerblue"],
 				"line_styles": [None, "-", None, None, None],
 				"step": [True],
@@ -75,11 +75,11 @@ def sherpa(args=None, additional_dictionary=None):
 			elif quantity == 'abszy':
 				d['legend'] = 'upper right'
 			limdict = {
-				"abszy": 8,
+				"abszy": 4.5,
 				"zmass": 30,
 				"zphi": 4,
-				"eminuspt": 20,
-				"eminuseta": 4,
+				"eminuspt": 10,
+				"eminuseta": 2.5,
 			}
 			if quantity in limdict:
 				d['y_lims'] = [0, limdict[quantity]]

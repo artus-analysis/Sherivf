@@ -31,6 +31,7 @@ def different_iterations(args=None):
 			'marker_colors': ['black', 'red', 'blue', 'green', 'purple']*2,
 			'x_label': quantity,
 			'legend': 'upper right',
+			'x_lims': common.lims(quantity),
 			# output
 			'filename': 'iterations_' + quantity,
 			'www_title': 'Unfolding: different iterations',
@@ -62,8 +63,10 @@ def response_matrix(args=None):
 				'folders': [''],
 				'x_expressions': ['responsematrix'],
 				# formatting
-				'y_lims': lims,
+				'y_bins': common.bins[quantity],
+				'x_bins': common.bins[quantity],
 				'x_lims': lims,
+				'y_lims': lims,
 				'x_label': 'gen' + quantity,
 				'y_label': 'reco' + quantity,
 				'energies': [8],
@@ -73,6 +76,11 @@ def response_matrix(args=None):
 				'www_title': 'Response Matrices',
 				'www_text': r"Unfolding response matrices from d\'Agostini Unfolding for Z y,mass,pT with log and scalar z-axis",
 			}
+			if quantity == 'zpt' and common.zpt_xlog:
+				d['y_log'] = True
+				d['x_log'] = True
+				d['x_ticks'] = common.zpt_ticks
+				d['y_ticks'] = common.zpt_ticks
 			plots.append(d)
 	return [PlottingJob(plots, args)]
 
@@ -103,6 +111,7 @@ def unfolding_comparison(args=None):
 				'zorder': [10,10,2,10,10],
 				'energies': [8],
 				'legend': 'upper right',
+				'x_lims': common.lims(quantity),
 				'y_subplot_lims': [0.9, 1.1],
 				#'lumis': [common.lumi],
 				'x_label': quantity,

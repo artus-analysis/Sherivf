@@ -22,20 +22,21 @@ def subtract_backgrounds(args=None):
 		["1"] + common.ybin_weights,
 		["inclusive"] + common.ybin_labels
 	], known_args.no_ybins)):
-		for quantity, bins in zip(*parsertools.get_list_slice([common.data_quantities, [common.bins[i] for i in common.data_quantities]], known_args.no_quantities)):
+		for quantity, bins in zip(*parsertools.get_list_slice([common.data_quantities, [common.unfbins[i] for i in common.data_quantities]], known_args.no_quantities)):
 			for variation in common.variations:  # for sys uncert estimation
 				datasuffix = ""
 				if (("bkgr" not in variation) and (variation != "")):
 					datasuffix = variation
 				mc_scalefactor = -1 + (-0.5*(variation=="_bkgrdown")) + (0.5*(variation=="_bkgrup"))  # for bkgr estimation
+				folder = "leptoncuts" if (quantity == 'zpt') else "zcuts"
 				d = {
 					#input
 					'x_expressions': common.root_quantity(quantity),
 					'x_bins': [bins],
 					'files': [path+'/work/data_ee{}.root'.format(datasuffix)] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds],
 					'nicks': ['data'],
-					'weights': ["({})".format(ybin)] + ["({scalefactor}*(hlt&&({ybin})))".format(ybin=ybin, scalefactor=mc_scalefactor)]*len(backgrounds),
-					'folders': ['zcuts_ak5PFJetsCHSL1L2L3Res/ntuple'] + ['zcuts_ak5PFJetsCHSL1L2L3/ntuple']*len(backgrounds),
+					'weights': ["({})".format(ybin)] + ["{scalefactor}*(hlt&&({ybin}))".format(ybin=ybin, scalefactor=mc_scalefactor)]*len(backgrounds),
+					'folders': ['{}_ak5PFJetsCHSL1L2L3Res/ntuple'.format(folder)] + ['{}_ak5PFJetsCHSL1L2L3/ntuple'.format(folder)]*len(backgrounds),
 					#output
 					'plot_modules': ['ExportRoot'],
 					'filename': quantity + "_" + ybinsuffix + variation,
@@ -76,6 +77,11 @@ def unfold(args=None):
 						else:
 							unfolding_variation = 0
 							input_var = variation
+						if quantity == 'zpt':
+							folder = 'leptoncuts'
+						else:
+							folder = 'zcuts'
+						bins = common.unfbins[quantity]
 						d = {
 							'x_expressions': ['data']+[common.root_quantity(quantity).replace("z", "genz"), common.root_quantity(quantity), common.root_quantity(quantity).replace("z", "genz")],
 							'y_expressions': [None, common.root_quantity(quantity), None, None],
@@ -87,10 +93,10 @@ def unfold(args=None):
 								'mc_gen',
 							],
 							'lumis': [common.lumi],
-							'folders': ['']+['zcuts_ak5PFJetsCHSL1L2L3/ntuple']*3,
-							'weights': "weight*({}&&hlt)".format(ybin),
-							'x_bins': [common.bins[quantity]],
-							'y_bins': [None, common.bins[quantity], None, None],
+							'folders': ['']+['{}_ak5PFJetsCHSL1L2L3/ntuple'.format(folder)]*3,
+							'weights': "weight*({0})".format(ybin),
+							'x_bins': [bins],
+							'y_bins': [None, bins, None, None],
 							# analysis
 							'analysis_modules': ['Unfolding'],
 							'unfolding': ['data_reco', 'mc_reco'],

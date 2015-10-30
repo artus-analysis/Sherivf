@@ -45,6 +45,11 @@ bins = {
 	'eminuseta': "48,-2.4,2.4",
 }
 bins['abszy'] = bins['abs(zy)']
+
+unfbins = {}
+unfbins.update(bins)
+unfbins['zpt'] = "0 " + unfbins['zpt']
+
 zpt_ticks = [30, 40, 60, 100, 200, 400, 1000]
 zpt_xlog = True
 zpt_miny = 1e-5

@@ -119,6 +119,7 @@ def plot_uncertainties(args=None):
 				d['x_log'] = common.zpt_xlog
 				if common.zpt_xlog:
 					d['x_ticks'] = common.zpt_ticks
+				d['legend'] = 'upper left'
 			elif quantity == 'abszy':
 				d['legend'] = 'upper left'
 				d['y_lims'] = [0, 5]
