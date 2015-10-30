@@ -129,7 +129,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 	return [PlottingJob(plots, args)]
 
 
-def fastnlo_pdfmember(args=None, additional_dictionary=None):
+def fastnlo_pdfunc(args=None, additional_dictionary=None):
 	"""Evaluate fastNLO table for n members of a PDF set."""
 	plots = []
 
@@ -188,8 +188,76 @@ def fastnlo_pdfmember(args=None, additional_dictionary=None):
 			plots.append(d)
 
 	return [PlottingJob(plots, args)]
-	
-	
+
+
+def fastnlo_pdfmembers(args=None, additional_dictionary=None):
+	"""Evaluate fastNLO table for n members of a PDF set."""
+	plots = []
+
+	pdfset = 'NNPDF30_nlo_as_0118'
+	n_members = common.nmembersdict[pdfset]
+
+	for quantity in common.quantities:
+		for ybin, ybinsuffix, ybinplotlabel in zip(
+				[""] + ["y{}_".format(i) for i in range(len(common.ybins))],
+				["inclusive"] + common.ybin_labels,
+				[""] + common.ybin_plotlabels
+		):
+			if (quantity is not 'zpt') and (ybin is not ""):
+				continue
+			replaced_quantity = common.qdict.get(quantity, quantity)
+			d = {
+				# input
+				'input_modules': ['InputRootZJet', 'InputFastNLO'],
+				# input fastNLO
+				'pdf_sets': [pdfset],
+				'members': range(n_members),
+				'fastnlo_files': ["latest_sherivf_output/{0}.tab".format(ybin+replaced_quantity)],
+				'fastnlo_nicks': map(str, range(n_members)),
+				# input root
+				'files': [common.divided_path + '/' + '_'.join([quantity, 'madgraph', ybinsuffix, '1']) + '.root'],
+				'folders': '',
+				'x_expressions': 'nick0',
+				# analysis
+				'analysis_modules': ['Ratio'],
+				'ratio_numerator_nicks': ['nick0'],
+				'ratio_denominator_nicks': map(str, range(n_members)),
+				# formatting
+				'labels': ['Data', 'PDF set members'] + [None]*(2*n_members-1),
+				'markers': ['o'] +[' ']*n_members*2,
+				'line_styles': [None] + ['-']*n_members*2,
+				'line_widths': [0.5],
+				'y_errors': [True]+ [False]*n_members*2,
+				'x_errors': [False]+ [True]*n_members*2,
+				'colors': ['black'] + ['blue']*n_members*2,
+				'step': True,
+				'energies': [8],
+				'texts': [ybinplotlabel],
+				'lumis': [common.lumi],
+				'x_label': quantity,
+				'y_label': common.xseclabels[quantity],
+				'title': common.pdfsetdict[pdfset],
+				
+				'y_subplot_lims': [0.75, 1.25],
+				'y_subplot_label': 'Data/Sim.',
+
+				# output
+				'filename': ybin+quantity,
+				'www_title': 'Data and fastNLO with PDF set members',
+				#'www_text': ('Unfolded data compared to fastNLO table evaluated with {}.'.format(common.pdfsetdict.get(pdfset))
+				#	+ r" \'{}\' uncertainty style is used.".format(style)),
+			}
+			if quantity == 'zpt':
+				d['y_log'] = True
+				d['x_log'] = common.zpt_xlog
+				if common.zpt_xlog:
+					d['x_ticks'] = common.zpt_ticks
+				d['y_lims'] = [common.zpt_miny, 1e1]
+			plots.append(d)
+
+	return [PlottingJob(plots, args)]
+
+
 def k_factors(args=None, additional_dictionary=None):
 	"""fastNLO LO and NLO cross section"""
 	plots = []

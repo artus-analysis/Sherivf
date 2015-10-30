@@ -45,7 +45,7 @@ def allplots(args=None):
 		plots_sherpa.sherpa,  # 10
 		plots_sherpa.sherpa_mc,
 		plots_fastnlo.fastnlo_pdfsets,
-		plots_fastnlo.fastnlo_pdfmember,
+		plots_fastnlo.fastnlo_pdfunc,
 		plots_fastnlo.sherpa_fastnlo,
 		plots_pdf_reweighted.nnpdf,  # 15
 		plots_uncertainties.scale_uncertainties,
@@ -62,7 +62,7 @@ def allplots(args=None):
 		plots_electron.z_hlt,
 		plots_electron.electron_efficiencies_2d,
 		plots_electron.electron_efficiencies_1d,
-		#30
+		plots_fastnlo.fastnlo_pdfmembers,  # 30
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -79,7 +79,7 @@ def allplots(args=None):
 		"sherpa",
 		"sherpa_mc",
 		"fastnlo_pdfsets",
-		"fastnlo_pdfmember",
+		"fastnlo_pdfuncertainties",
 		"fastnlo_sherpa",
 		"nnpdf",
 		"scale_uncertainty",
@@ -96,6 +96,7 @@ def allplots(args=None):
 		"hlt",
 		"electron_efficiencies_2d",
 		"electron_efficiencies_1d",
+		"fastnlo_pdfmembers",
 	][plot_min:plot_max]
 
 	for function, wwwdir in zip(functions, wwwdirs):
