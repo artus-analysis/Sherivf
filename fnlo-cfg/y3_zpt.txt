@@ -1,7 +1,7 @@
 # --- Use emacs in sh mode -*-sh-*- #
 # This is a automatically generated file by fastNLO and holds the values of the warmup run. 
 # The values are valid for the scenario y3_zpt
-# and if calculated with the steerfile: /var/lib/condor/execute/dir_10538/10554/MCgrid_CMS_2015_Zee/phasespace/y3_zpt.txt
+# and if calculated with the steerfile: /var/lib/condor/execute/dir_7329/7405/MCgrid_CMS_2015_Zee/phasespace/y3_zpt.txt
 # but only if no serious changes have been performed since its creation.
 # 
 # Delete this file, if you want fastNLO to calculate a new one.
@@ -32,8 +32,7 @@ Warmup.Values {{
       6      3.41e-03   1.00e+00            150.00            167.08
       7      3.77e-03   9.99e-01            167.08            192.91
       8      4.57e-03   9.99e-01            192.91            220.00
-      9      5.11e-03   9.99e-01            219.81            410.25
-     10      1.26e-02   1.00e+00            410.00           1004.11
+      9      5.11e-03   1.00e+00            219.81           1004.11
 }}
 
 
@@ -48,6 +47,5 @@ Warmup.Binning {{
        6       120.000       140.000       20.0000    
        7       140.000       170.000       30.0000    
        8       170.000       200.000       30.0000    
-       9       200.000       400.000       200.000    
-      10       400.000       1000.00       600.000    
+       9       200.000       1000.00       800.000    
 }}
