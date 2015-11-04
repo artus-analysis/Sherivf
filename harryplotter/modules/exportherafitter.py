@@ -107,7 +107,7 @@ class ExportHerafitter(plotbase.PlotBase):
 			str_lines.append("  ".join([
 				"{:{width}.1f}".format(line[0], width=list_of_max_len[0]),
 				"{:{width}.1f}".format(line[1], width=list_of_max_len[1]),  # 
-				"{:{width}.4f}".format(line[2], width=list_of_max_len[2]+3),  # values
+				"{:{width}.6f}".format(line[2], width=list_of_max_len[2]+3),  # values
 				"{:{width}.6f}".format(line[3], width=list_of_max_len[3]+3),  # stat
 				"{:{width}.6f}".format(line[4], width=list_of_max_len[4]+3),  # sys
 				"{:{width}.6f}".format(line[5], width=list_of_max_len[5]+3),  # lumi
