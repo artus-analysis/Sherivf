@@ -45,6 +45,7 @@ def uncertainties(args=None):
 					'max_nick2': 'ratio_down',
 					'max_result_nick': 'ratio',
 
+					'x_bins': common.bins[quantity],
 					'nicks_whitelist': ['ratio'],
 					'plot_modules': ['ExportRoot'],
 					'output_dir': common.systematic_path,
@@ -116,6 +117,7 @@ def plot_uncertainties(args=None):
 			}
 			if quantity == 'zpt':
 				d['y_lims'] = [0, 10]
+				#d['x_lims'] = common.lims[quantity]
 				d['x_log'] = common.zpt_xlog
 				if common.zpt_xlog:
 					d['x_ticks'] = common.zpt_ticks

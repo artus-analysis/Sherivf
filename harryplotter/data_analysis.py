@@ -138,6 +138,7 @@ def zee_divide(args=None):
 
 					'analysis_modules': ['NormalizeByBinWidth'],
 
+					'x_bins': common.bins[quantity],
 					'plot_modules': ['ExportRoot'],
 					'output_dir': common.divided_path,
 					'filename': filename,
