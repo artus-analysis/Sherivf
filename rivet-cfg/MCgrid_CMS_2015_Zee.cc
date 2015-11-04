@@ -51,7 +51,7 @@ public:
 		addProjection(electrons, "Electrons");
 
 		/// Book histograms here
-		std::vector<double> bin_edges = {30, 40, 50, 60, 80, 100, 120, 140, 170, 200, 400, 1000};
+		std::vector<double> bin_edges = {30, 40, 50, 60, 80, 100, 120, 140, 170, 200, 1000};
 		m_ybins = {0.4, 0.8, 1.2, 1.6, 2.0, 2.4};
 		_h_pTZ = bookHisto1D("zpt", bin_edges);
 		_h_yZ = bookHisto1D("abszy", 24, 0, 2.4);
