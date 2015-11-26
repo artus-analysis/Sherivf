@@ -3,6 +3,9 @@
 export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
 export HERADIR=$SHERIVFDIR/../herafitter-1.1.1
 
+# additional excalibur cfgs: vary electron scale etc. etc.
+export EXCALIBURCONFIGS=$(dirname $(readlink -mf ${BASH_SOURCE[0]})):$EXCALIBURCONFIGS
+
 if [ -f $SHERIVFDIR/scripts/functions.sh ]; then
 	. $SHERIVFDIR/scripts/functions.sh
 fi
