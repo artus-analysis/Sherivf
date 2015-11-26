@@ -28,7 +28,8 @@ def subtract_backgrounds(args=None):
 				if (("bkgr" not in variation) and (variation != "")):
 					datasuffix = variation
 				mc_scalefactor = -1 + (-0.5*(variation=="_bkgrdown")) + (0.5*(variation=="_bkgrup"))  # for bkgr estimation
-				folder = "leptoncuts" if (quantity == 'zpt') else "zcuts"
+				folder = common.unffolder(quantity)
+				#folder = "leptoncuts" if (quantity == 'zpt') else "zcuts"
 				d = {
 					#input
 					'x_expressions': common.root_quantity(quantity),
@@ -77,10 +78,7 @@ def unfold(args=None):
 						else:
 							unfolding_variation = 0
 							input_var = variation
-						if quantity == 'zpt':
-							folder = 'leptoncuts'
-						else:
-							folder = 'zcuts'
+						folder = common.unffolder(quantity)
 						bins = common.unfbins[quantity]
 						d = {
 							'x_expressions': ['data']+[common.root_quantity(quantity).replace("z", "genz"), common.root_quantity(quantity), common.root_quantity(quantity).replace("z", "genz")],

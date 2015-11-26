@@ -63,10 +63,10 @@ def response_matrix(args=None):
 				'folders': [''],
 				'x_expressions': ['responsematrix'],
 				# formatting
-				'y_bins': common.bins[quantity],
-				'x_bins': common.bins[quantity],
-				'x_lims': lims,
-				'y_lims': lims,
+				#'y_bins': common.bins[quantity],
+				#'x_bins': common.bins[quantity],
+				#'x_lims': lims,
+				#'y_lims': lims,
 				'x_label': 'gen' + quantity,
 				'y_label': 'reco' + quantity,
 				'energies': [8],
@@ -81,6 +81,8 @@ def response_matrix(args=None):
 				d['x_log'] = True
 				d['x_ticks'] = common.zpt_ticks
 				d['y_ticks'] = common.zpt_ticks
+				d['y_lims'] = [1, lims[1]]
+				d['x_lims'] = [1, lims[1]]
 			plots.append(d)
 	return [PlottingJob(plots, args)]
 

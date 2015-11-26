@@ -49,6 +49,16 @@ bins['abszy'] = bins['abs(zy)']
 unfbins = {}
 unfbins.update(bins)
 unfbins['zpt'] = "0 " + unfbins['zpt']
+unfbins['abs(zy)'] = "26,0,2.6"
+unfbins['abszy'] = unfbins['abs(zy)']
+
+unfdict = {
+	'zpt' : 'ptunfolding',
+	'abszy': 'yunfolding',
+}
+unfdict['abs(zy)'] = unfdict['abszy']
+def unffolder(quantity):
+	return unfdict.get(quantity, 'zcuts')
 
 zpt_ticks = [30, 40, 60, 100, 200, 400, 1000]
 zpt_xlog = True
