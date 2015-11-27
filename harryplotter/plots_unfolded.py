@@ -50,6 +50,7 @@ def different_iterations(args=None):
 		plots.append(d)
 	return [PlottingJob(plots, args)]
 
+
 def response_matrix(args=None):
 	""" plot response matrix"""
 	plots = []
@@ -81,8 +82,8 @@ def response_matrix(args=None):
 				d['x_log'] = True
 				d['x_ticks'] = common.zpt_ticks
 				d['y_ticks'] = common.zpt_ticks
-				d['y_lims'] = [1, lims[1]]
-				d['x_lims'] = [1, lims[1]]
+				d['x_bins'] = common.bins[quantity]
+				d['y_bins'] = common.bins[quantity]
 			plots.append(d)
 	return [PlottingJob(plots, args)]
 
