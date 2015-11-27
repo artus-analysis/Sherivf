@@ -178,7 +178,7 @@ def fastnlo_pdfunc(args=None, additional_dictionary=None):
 				'y_subplot_label': 'Data/Sim.',
 				'texts': [ybinplotlabel],
 				# output
-				'filename': ybin+quantity,
+				'filename': 'pdfunc_' + ybin + quantity,
 				'www_title': 'Data and fastNLO with PDFUncertainties',
 				'www_text': ('Unfolded data compared to fastNLO table evaluated with {}.'.format(common.pdfsetdict.get(pdfset))
 					+ r" \'{}\' uncertainty style is used.".format(style)),
