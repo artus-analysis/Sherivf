@@ -1,9 +1,9 @@
 (run){
-  EVENTS 1M;
-  SF:=1;
+  EVENTS 1M;  % overwritten in parallel mode
+
+  % needed for Rivet/MCgrid
   ANALYSIS Rivet;
   ANALYSIS_OUTPUT Rivet;
-  
   HEPMC_USE_NAMED_WEIGHTS=1;
   HEPMC_EXTENDED_WEIGHTS=1;
 
@@ -64,11 +64,13 @@
 
 
 (selector){
-  Mass 11 -11 81. 101.
+  % electron cuts (pT, eta)
   PTNLO 11 25 E_CMS
   PTNLO -11 25 E_CMS
   PseudoRapidityNLO 11 -2.4 2.4
   PseudoRapidityNLO -11 -2.4 2.4
+  % Z cuts (mass, pT)
+  Mass 11 -11 81. 101.
   PT2NLO 11 -11 30 E_CMS
 }(selector)
 
