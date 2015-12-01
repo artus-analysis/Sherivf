@@ -13,7 +13,6 @@ def pdfs_thesis(args=None, additional_dictionary=None):
 	for q in [1.4, 3, 10, 14, 91.2, 200]:
 		d = {
 			# input
-			#"files": ["pdf_sets/{}/Q_{}.root".format(pdfset, str(q).replace(".", "_"))],
 			"files": ["pdf_sets/{}/pdfs_for_plotting_{}.root".format(pdfset, str(q).replace(".", "_"))],
 			"folders": [""],
 			'x_expressions': flavours,
@@ -34,7 +33,6 @@ def pdfs_thesis(args=None, additional_dictionary=None):
 			"title": common.pdfsetdict[pdfset],
 			"texts": [r"$\\mathit{Q}=$" + " {} GeV".format(q)],
 			"alphas": [0.75],
-			#"texts_x": [0.05],
 			# output
 			"www_title": "PDFs at different Q values",
 			"www_text": " ",
