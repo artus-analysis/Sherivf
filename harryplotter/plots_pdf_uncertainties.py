@@ -191,7 +191,7 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	plots = []
 	titles = {
 		'hera': "HERA-I DIS",
-		'heraZ': "HERA-I DIS + CMS",
+		'heraZ': r"HERA-I DIS + CMS Z($\\rightarrow$ee)+jet",
 		'heraZ_pt': "HERA-I DIS + CMS (pT-spectrum)",
 		'heraZ_bins': "HERA-I DIS + CMS (pT in y-bins)",
 	}
@@ -260,7 +260,7 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None):
 			'rel_nicks': nicks,
 			'subplot_nicks': [i+'_rel' for i in nicks],
 			# formatting
-			'labels': ['HERA', 'HERA+CMS']*len(nicks),
+			'labels': ['HERA', r'HERA + CMS Z($\\rightarrow$ee)+jet']*len(nicks),
 			'x_log': True,
 			'y_subplot_lims': [-0.45, 0.45],
 			'zorder': [20, 30],
