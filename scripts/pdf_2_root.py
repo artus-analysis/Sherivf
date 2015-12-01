@@ -41,6 +41,8 @@ def main(
 		folder):
 	"""evaluate a PDF set and write the resuling TGraph to disk"""
 
+	if folder is not None and not os.path.exists(folder):
+		os.makedirs(folder)
 	out = ROOT.TFile((folder+"/" if folder is not None else "") + output_filename, "RECREATE")
 	x_values = np.logspace(-4, -0.01, n_points)  # TODO get min, max x from PDF set
 
@@ -113,10 +115,11 @@ def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q, Q2):
 		if do_uncertainty:
 			try:
 				unc = pset.uncertainty(values)
+				#unc.errminus = 0
 				tgraph.SetPointEYlow(index, unc.errminus)
 				tgraph.SetPointEYhigh(index, unc.errplus)
 			except RuntimeError:
-				print "could not compute uncertainties (len values:", len(values)
+				print "could not compute uncertainties (len values):", len(values)
 				do_uncertainty = False
 
 	return tgraph

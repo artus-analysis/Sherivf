@@ -8,18 +8,19 @@ def pdfs_thesis(args=None, additional_dictionary=None):
 	"""PDF plots for thesis"""
 	plots = []
 	pdfset = "NNPDF30_nlo_as_0118"
-	flavours = ['gluon', 'd_valence_quark', 'u_valence_quark', 'strange', 'd_antiquark', 'u_antiquark']
-	labels = ["gluon/10", r"$d_v$", r"$u_v$", r"$s$", r"$\\bar{d}$", r"$\\bar{u}$"]
-	for q in [1.9, 3, 10, 14, 91.2, 200]:
+	flavours = ['gluon', 'd_valence_quark', 'u_valence_quark', 'sea_quarks']
+	labels = ["gluon / 10", r"$d_v$", r"$u_v$", "sea quarks / 10"]
+	for q in [1.4, 3, 10, 14, 91.2, 200]:
 		d = {
 			# input
-			"files": ["pdf_sets/{}/Q_{}.root".format(pdfset, str(q).replace(".", "_"))],
+			#"files": ["pdf_sets/{}/Q_{}.root".format(pdfset, str(q).replace(".", "_"))],
+			"files": ["pdf_sets/{}/pdfs_for_plotting_{}.root".format(pdfset, str(q).replace(".", "_"))],
 			"folders": [""],
 			'x_expressions': flavours,
 			"nicks": flavours,
 			# analysis
-			"analysis_modules": ["ScaleHistograms", "ConvertToTGraphErrors"],
-			"scale_nicks": ["gluon"],
+			"analysis_modules": ["ScaleHistograms"],
+			"scale_nicks": ["gluon", "sea_quarks"],
 			"scale": 0.1,
 			# formatting
 			"line_styles": ["-"],
@@ -33,7 +34,7 @@ def pdfs_thesis(args=None, additional_dictionary=None):
 			"title": common.pdfsetdict[pdfset],
 			"texts": [r"$\\mathit{Q}=$" + " {} GeV".format(q)],
 			"alphas": [0.75],
-			"texts_x": [0.05],
+			#"texts_x": [0.05],
 			# output
 			"www_title": "PDFs at different Q values",
 			"www_text": " ",
