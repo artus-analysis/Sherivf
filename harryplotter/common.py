@@ -35,7 +35,7 @@ def root_quantity(quantity):
 	return {'abszy': 'abs(zy)'}.get(quantity, quantity)
 
 bins = {
-	'zpt': "30 40 50 60 80 100 120 140 170 200 400 1000",
+	'zpt': "30 40 50 60 80 100 120 140 170 200 1000",
 	'zy': "50,-2.5,2.5",
 	'abs(zy)': "24,0,2.4",
 	'zmass': "20,81,101",
