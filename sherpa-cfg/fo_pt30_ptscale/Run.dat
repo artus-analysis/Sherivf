@@ -24,7 +24,7 @@
 (me){
   ME_SIGNAL_GENERATOR BlackHat Comix Internal;
   EVENT_GENERATION_MODE Weighted;
-  SCALES VAR{8315.18+PPerp2(p[2]+p[3])};
+  SCALES VAR{Abs2(p[2]+p[3])+PPerp2(p[2]+p[3])};
   RESULT_DIRECTORY Results_NLO; 
 }(me);
 
@@ -64,12 +64,10 @@
 
 
 (selector){
-  % electron cuts (pT, eta)
   PTNLO 11 25 E_CMS
   PTNLO -11 25 E_CMS
   PseudoRapidityNLO 11 -2.4 2.4
   PseudoRapidityNLO -11 -2.4 2.4
-  % Z cuts (mass, pT)
   Mass 11 -11 81. 101.
   PT2NLO 11 -11 30 E_CMS
 }(selector)
