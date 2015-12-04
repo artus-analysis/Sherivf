@@ -55,8 +55,8 @@ class Sherivf(object):
 			if not self.args.warmup:
 				outputs = self.merge_outputs()
 				print "\nOutputs:\n", "\n".join(outputs)
-				subprocess.call(['rm', '-f', 'latest_sherivf_output'])
-				subprocess.call(['ln', '-sf', self.args.output_dir, 'latest_sherivf_output'])
+				subprocess.call(['rm', '-f', 'latest_sherivf_output_'+self.args.sherpa])
+				subprocess.call(['ln', '-sf', self.args.output_dir, 'latest_sherivf_output_'+self.args.sherpa])
 				subprocess.call(['yoda_2_root.py', 'latest_sherivf_output/Rivet.yoda'])
 			else:
 				self.merge_warmup_files()
