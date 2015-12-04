@@ -6,6 +6,9 @@
 #include "Rivet/Projections/VetoedFinalState.hh"
 #include "Rivet/Projections/FastJets.hh"
 
+
+#include "mcgrid/mcgrid.hh"
+
 namespace Rivet {
 
 
@@ -57,6 +60,22 @@ namespace Rivet {
       _h_costheta_biased_phjet = bookHisto1D(5, 1, 1);
       _h_mass_phjet            = bookHisto1D(6, 1, 1);
       _h_costheta_phjet        = bookHisto1D(7, 1, 1);
+      
+#if USE_FNLO
+MSG_INFO("Using fastnlo");
+const string steeringFileName = "ATLAS_2013_I1244522.str";
+
+MCgrid::subprocessConfig subproc(steeringFileName, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON);
+
+MSG_INFO("Creating fastnloGridArch and fastnloConfig");
+MCgrid::fastnloGridArch arch_fnlo(20, 6, "Lagrange", "Lagrange", "sqrtlog10", "loglog025");
+
+MCgrid::fastnloConfig config_fnlo(1, subproc, arch_fnlo, 7000.);
+_fnlo_pT = MCgrid::bookGrid(_h_ph_pt, histoDir(), config_fnlo);
+
+#endif
+
+
 
     }//init
 
@@ -134,6 +153,11 @@ namespace Rivet {
       float costheta_phj = tanh(dy/2);
       
 	    _h_ph_pt->fill(photon_pt, weight); 
+#if USE_FNLO
+		MCgrid::PDFHandler::HandleEvent(event, histoDir());
+_fnlo_pT->fill(photon_pt, event);
+#endif
+	    
       _h_jet_pt->fill(jet_pt,   weight);
       _h_jet_rap->fill(jet_y,   weight);
 
@@ -160,6 +184,12 @@ namespace Rivet {
       scale(_h_costheta_biased_phjet, sf);
       scale(_h_mass_phjet,            sf);
       scale(_h_costheta_phjet,        sf);
+#if USE_FNLO
+_fnlo_pT->scale(sf);
+_fnlo_pT->exportgrid();
+MCgrid::PDFHandler::CheckOutAnalysis(histoDir());
+#endif
+
     }
 
 
@@ -177,6 +207,9 @@ namespace Rivet {
 
     std::vector<float> _eta_bins_areaoffset;
 
+#if USE_FNLO
+MCgrid::gridPtr _fnlo_pT;
+#endif
   };
 
   // The hook for the plugin system
