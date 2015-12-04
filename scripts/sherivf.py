@@ -29,6 +29,61 @@ class Sherivf(object):
 			2. Check if a new workdir has to be created.
 			3. Delete, resume or start new (default) run
 		"""
+		
+		# TODO determine mode: batch, warmup, test,
+		if self.args.integrate:
+			# cd to sherpa dir, delete files other than Run.dat, integrate
+			directory = os.path.join(get_env('SHERIVFDIR'), 'sherpa-cfg', self.args.sherpa)
+			try:
+				os.chdir(directory)
+				print "Current dir: ", os.getcwd()
+				files = os.listdir(os.getcwd())
+				files.remove('Run.dat')
+				if len(files) > 0:
+					rm_command = ["rm", "-rf"] + files
+					query_yes_no("Delete {}?".format(" ".join(files)))
+					print_and_call(rm_command)
+				print_and_call(["Sherpa", "-e 100"])
+			except OSError:
+				print "ERROR: could not switch to directory", directory
+			print "Sucessfully ran Sherpa"
+			return
+
+		#if warmup: delete warmup files
+		
+		
+		if True:#self.args.test:
+			test_dir = os.path.join(get_env('SHERIVFDIR'), 'test', time.strftime("%Y-%m-%d_%H-%M-%S"))
+			print "Create directory", test_dir
+
+			# copy files to test dir
+			shutil.copytree(
+				os.path.join(get_env('SHERIVFDIR'), 'sherpa-cfg', self.args.sherpa),
+				test_dir
+			)
+			shutil.copy(
+				os.path.join(get_env('SHERIVFDIR'), 'RivetMyAnalyses.so'),
+				test_dir
+			)
+			analysis = "ATLAS_2013_I1244522"
+			shutil.copy(
+				os.path.join(get_env('SHERIVFDIR'), 'fnlo-cfg', analysis+'.str'),
+				test_dir
+			)
+
+			# delete old output
+			if self.args.warmup:
+				try:
+					shutil.rmtree(os.path.join(get_env('MCGRID_PHASESPACE_PATH'), analysis, 'phasespace'))
+				except OSError:  # dir doesnt exist
+					pass
+
+			os.chdir(test_dir)
+			print_and_call(["Sherpa", "-e "+str(self.args.n_events)])
+			print test_dir
+			return
+		
+		#sys.exit(0)
 
 		# config dir: new or existing one?
 		if self.args.delete or self.args.resume:
@@ -81,6 +136,9 @@ class Sherivf(object):
 		parser = argparse.ArgumentParser(
 			description="%(prog)s is the main analysis program.", epilog="Have fun.")
 
+		# for batch mode
+		parser.add_argument('-b', '--batch', type=str, default=self.default_config,
+			help="batch mode. cfg optional")
 		parser.add_argument('-c', '--config', type=str, default=self.default_config,
 			help="config to run. will be set automatically for naf")
 		parser.add_argument('-d', '--delete', action='store_true',
@@ -89,8 +147,14 @@ class Sherivf(object):
 			help="resume the grid-control run.")
 		parser.add_argument('--rivet-only', action='store_true',
 			help="only recover rivet outputs, not fastNLO.")
+
+		# cfgs: sherpa, analysis
 		parser.add_argument('-s', '--sherpa', type=str, default='fo',
 			help="sherpa config in folder sherpa-cfg. [Default: %(default)s]")
+		parser.add_argument('-a', '--analysis', type=str, default='MCgrid_CMS_2015_Zee',
+			help="Rivet analysis. [Default: %(default)s]")
+		parser.add_argument('-i', '--integrate', action="store_true",
+			help="Integration run for Sherpa. [Default: %(default)s]")
 
 		parser.add_argument('-n', '--n-events', type=str, default='1',
 			help="n events")
@@ -232,6 +296,40 @@ def get_env(variable):
 		print "Please source scripts/ini.sh!"
 		sys.exit(1)
 
+#http://stackoverflow.com/questions/3041986/python-command-line-yes-no-input
+def query_yes_no(question, default="yes"):
+	"""Ask a yes/no question via raw_input() and return their answer.
+
+	"question" is a string that is presented to the user.
+	"default" is the presumed answer if the user just hits <Enter>.
+		It must be "yes" (the default), "no" or None (meaning
+		an answer is required of the user).
+
+	The "answer" return value is True for "yes" or False for "no".
+	"""
+	valid = {"yes": True, "y": True, "ye": True,
+			 "no": False, "n": False}
+	if default is None:
+		prompt = " [y/n] "
+	elif default == "yes":
+		prompt = " [Y/n] "
+	elif default == "no":
+		prompt = " [y/N] "
+	else:
+		raise ValueError("invalid default answer: '%s'" % default)
+
+	while True:
+		sys.stdout.write(question + prompt)
+		choice = raw_input().lower()
+		if default is not None and choice == '':
+			return valid[default]
+		elif choice in valid:
+			return valid[choice]
+		else:
+			sys.stdout.write("Please respond with 'yes' or 'no' "
+							 "(or 'y' or 'n').\n")
+
+
 def format_time(seconds):
 	if seconds < 180.:
 		return "{0:.0f} seconds".format(seconds)
@@ -245,5 +343,5 @@ if __name__ == "__main__":
 	sherivf = Sherivf()
 	sherivf.run()
 	if hasattr(sherivf, "gctime"):
-		print "---     Sherivf took {} ---".format(format_time(time.time() - start_time))
+		print "---	 Sherivf took {} ---".format(format_time(time.time() - start_time))
 		print "--- GridControl took {} ---".format(format_time(sherivf.gctime))
