@@ -18,8 +18,10 @@ export MCGRID_PHASESPACE_PATH=$PWD
 
 if ( [[ $HOSTNAME == *"naf"* ]] || [[ $HOSTNAME == *"bird"* ]] ); then
 	export SHERIVFDIR=/afs/desy.de/user/d/dhaitz/qcd/sherivf
+	export SHERIVF_STORAGE_PATH=/nfs/dust/cms/user/dhaitz/sherivf/
 else
 	export SHERIVFDIR=/portal/ekpcms6/home/dhaitz/qcd/sherivf
+	export SHERIVF_STORAGE_PATH=/storage/a/dhaitz/sherivf/
 fi
 
 # Rivet
@@ -66,10 +68,9 @@ elif [[ `lhapdf-config  --version` == 6.* ]]; then
 fi
 
 # aliases
-#export RIVET_ANALYSIS_FILE=MCgrid_CMS_2015_Zee.cc
-alias rivbuild_nofastnlo="rivet-buildplugin RivetMyAnalyses.so ${RIVET_ANALYSIS_FILE} -std=c++0x -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA"
-alias rivbuild="rivbuild_nofastnlo -DUSE_FNLO=1"
-
-
-# Nevent
-# 10000 evts -> avg 2.5 min
+rivbuild_nofastnlo(){
+	rivet-buildplugin RivetMyAnalyses.so $1.cc -std=c++0x -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA $2
+}
+rivbuild(){
+	rivbuild_nofastnlo $1 -DUSE_FNLO=1
+}
