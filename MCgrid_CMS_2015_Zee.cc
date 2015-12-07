@@ -1,1 +1,0 @@
-rivet-cfg/MCgrid_CMS_2015_Zee.cc
