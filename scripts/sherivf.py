@@ -8,19 +8,14 @@ import sys, os, glob, shutil, time, subprocess, argparse, socket, multiprocessin
 class Sherivf(object):
 
 	def __init__(self):
-		quantities = ['abszy', 'zpt', 'zmass']
-		quantities += ['y0_zpt', 'y1_zpt', 'y2_zpt', 'y3_zpt', 'y4_zpt', 'y5_zpt']
-		self.analysis = "MCgrid_CMS_2015_Zee"
 
 		if 'naf' in socket.gethostname().lower():
 			self.default_config = 'naf'
-			self.default_storage_path = '/nfs/dust/cms/user/dhaitz/sherivf/'
 		elif 'ekp' in socket.gethostname().lower():
 			self.default_config = 'ekpcluster'
-			self.default_storage_path = '/storage/a/dhaitz/sherivf/'
+		self.default_storage_path = get_env('SHERIVF_STORAGE_PATH')
 		self.get_arguments()
-		suffix = (".txt" if self.args.warmup else ".tab")
-		self.fastnlo_outputs = [quantity + suffix for quantity in quantities]
+		self.fastnlo_outputs = [os.path.basename(f).replace('.txt', '.tab') for f in glob.glob(os.path.join(get_env('SHERIVFDIR'),'fastnlo',self.args.rivet, '*.txt' ))]
 
 
 	def run(self):
@@ -30,64 +25,76 @@ class Sherivf(object):
 			3. Delete, resume or start new (default) run
 		"""
 		
-		# TODO determine mode: batch, warmup, test,
+		#
+		# INTEGRATION RUN
+		#
+		
 		if self.args.integrate:
 			# cd to sherpa dir, delete files other than Run.dat, integrate
 			directory = os.path.join(get_env('SHERIVFDIR'), 'sherpa-cfg', self.args.sherpa)
 			try:
+				print "Preparing for inegration run in directory", directory
+				files_to_delete = os.listdir(os.getcwd())
 				os.chdir(directory)
-				print "Current dir: ", os.getcwd()
-				files = os.listdir(os.getcwd())
-				files.remove('Run.dat')
-				if len(files) > 0:
-					rm_command = ["rm", "-rf"] + files
-					query_yes_no("Delete {}?".format(" ".join(files)))
+				files_to_delete.remove('Run.dat')
+				if len(files_to_delete) > 0:
+					rm_command = ["rm", "-rf"] + files_to_delete
+					query_yes_no("Delete {0}?".format(" ".join(files_to_delete)))
 					print_and_call(rm_command)
-				print_and_call(["Sherpa", "-e 100"])
+				print_and_call(["Sherpa", "-e "+str(self.args.n_events)])
+				print "Sucessfully ran Sherpa in directory", directory
 			except OSError:
 				print "ERROR: could not switch to directory", directory
-			print "Sucessfully ran Sherpa"
 			return
 
-		#if warmup: delete warmup files
-		
-		
-		if True:#self.args.test:
+		#
+		# LOCAL EXECUTION (for Testing)
+		#
+
+		if self.args.batch is None:
 			test_dir = os.path.join(get_env('SHERIVFDIR'), 'test', time.strftime("%Y-%m-%d_%H-%M-%S"))
 			print "Create directory", test_dir
 
-			# copy files to test dir
-			shutil.copytree(
-				os.path.join(get_env('SHERIVFDIR'), 'sherpa-cfg', self.args.sherpa),
-				test_dir
-			)
-			shutil.copy(
-				os.path.join(get_env('SHERIVFDIR'), 'RivetMyAnalyses.so'),
-				test_dir
-			)
-			analysis = "ATLAS_2013_I1244522"
-			shutil.copy(
-				os.path.join(get_env('SHERIVFDIR'), 'fnlo-cfg', analysis+'.str'),
-				test_dir
-			)
-
-			# delete old output
-			if self.args.warmup:
-				try:
-					shutil.rmtree(os.path.join(get_env('MCGRID_PHASESPACE_PATH'), analysis, 'phasespace'))
-				except OSError:  # dir doesnt exist
-					pass
+			# copy Sherpa/Rivet/fastNLO files to test directory
+			for filelist in [
+				['sherpa-cfg', self.args.sherpa],
+				['rivet', self.args.rivet, 'Rivet_{0}.so'.format(self.args.rivet)],
+				['fastnlo', self.args.rivet, self.args.rivet+'.str'],
+			]:
+				shutil.copytree(os.path.join(get_env('SHERIVFDIR'), *filelist), test_dir)
 
 			os.chdir(test_dir)
-			print_and_call(["Sherpa", "-e "+str(self.args.n_events)])
-			print test_dir
-			return
-		
-		#sys.exit(0)
+			for _dir in ["MCGRID_OUTPUT_PATH", "MCGRID_PHASESPACE_PATH"]:
+				os.environ[_dir] = test_dir
 
-		# config dir: new or existing one?
+			# paths for mc grid
+			ph_path = os.path.join(test_dir, self.args.rivet, "phasespace")
+			ph_target_dir = os.path.join(get_env('SHERIVFDIR'), 'fastnlo', self.args.rivet)
+
+			# copy warmupfiles and event count file
+			if not self.args.warmup:
+				shutil.copy(os.path.join(ph_target_dir, self.args.rivet+".str.evtcount"), test_dir)
+				warmupfiles = glob.glob(os.path.join(ph_target_dir, "*.txt"))
+				if not os.path.exists(ph_path):
+					os.makedirs(ph_path)
+				for wfile in warmupfiles:
+					shutil.copy(wfile, ph_path)
+			
+			print_and_call(["Sherpa", "-e "+str(self.args.n_events)])
+			
+			# copy warmup and event count files
+			if self.args.warmup:
+				for f in glob.glob(ph_path+"/*.txt"):
+					if not os.path.exists(ph_target_dir):
+						os.makedirs(ph_target_dir)
+					shutil.copy(f, ph_target_dir)
+				shutil.copy(os.path.join(test_dir, self.args.rivet+".str.evtcount"), ph_target_dir)
+				print "Copied warmup files to", ph_target_dir
+			return
+
+		# config dir: already existing or create new one?
 		if self.args.delete or self.args.resume:
-			paths = glob.glob("{0}/{1}*".format(self.args.output_dir, self.args.config))
+			paths = glob.glob("{0}/{1}*".format(self.args.output_dir, self.args.batch))
 			paths.sort()
 			try:
 				self.args.output_dir = paths[-1]
@@ -95,7 +102,7 @@ class Sherivf(object):
 			except IndexError:
 				sys.exit("No output directories exist!")
 		else:
-			self.args.output_dir += (self.args.config + "_" + time.strftime("%Y-%m-%d_%H-%M"))
+			self.args.output_dir += (self.args.batch + "_" + time.strftime("%Y-%m-%d_%H-%M"))
 
 		# delete, normal run or warmup?
 		if self.args.delete:
@@ -107,17 +114,19 @@ class Sherivf(object):
 			self.gctime = time.time()
 			run_gc(self.args.output_dir + "/" + self.args.configfile, self.args.output_dir)
 			self.gctime = time.time() - self.gctime
-			if not self.args.warmup:
-				outputs = self.merge_outputs()
-				print "\nOutputs:\n", "\n".join(outputs)
-				subprocess.call(['rm', '-f', 'latest_sherivf_output_'+self.args.sherpa])
-				subprocess.call(['ln', '-sf', self.args.output_dir, 'latest_sherivf_output_'+self.args.sherpa])
-				subprocess.call(['yoda_2_root.py', 'latest_sherivf_output/Rivet.yoda'])
-			else:
-				self.merge_warmup_files()
-				for warmupfile in [item.replace(".", "_warmup.") for item in self.fastnlo_outputs]:
-					subprocess.call(['mv', warmupfile, warmupfile.replace('_warmup', '')])
-				subprocess.call(['mv', self.args.output_dir + "/" + self.analysis+".str.evtcount", "."])
+
+			outputs = self.merge_outputs()
+			print "\nOutput files:\n", "\n".join(outputs)
+
+			# create link to latest output:
+			link_dir = os.path.join(get_env('SHERIVFDIR'), 'outputs')
+			if not os.path.exists(link_dir):
+				os.makedirs(link_dir)
+			link = link_dir+'/'+self.args.rivet + '_' + self.args.sherpa
+			subprocess.call(['rm', '-f', link])
+			subprocess.call(['ln', '-sf', self.args.output_dir, link])
+			subprocess.call(['yoda_2_root.py', link + '/Rivet.yoda'])
+
 
 	def delete_latest_output_dir(self):
 		try:
@@ -137,48 +146,42 @@ class Sherivf(object):
 			description="%(prog)s is the main analysis program.", epilog="Have fun.")
 
 		# for batch mode
-		parser.add_argument('-b', '--batch', type=str, default=self.default_config,
+		parser.add_argument('-b', '--batch', type=str, nargs="?", const=self.default_config,
 			help="batch mode. cfg optional")
-		parser.add_argument('-c', '--config', type=str, default=self.default_config,
-			help="config to run. will be set automatically for naf")
 		parser.add_argument('-d', '--delete', action='store_true',
 			help="delete the latest output and jobs still running")
 		parser.add_argument('-r', '--resume', action='store_true',
 			help="resume the grid-control run.")
-		parser.add_argument('--rivet-only', action='store_true',
-			help="only recover rivet outputs, not fastNLO.")
+		parser.add_argument('-j', '--n-jobs', type=str, default='1',
+			help="n jobs")
 
 		# cfgs: sherpa, analysis
 		parser.add_argument('-s', '--sherpa', type=str, default='fo',
 			help="sherpa config in folder sherpa-cfg. [Default: %(default)s]")
-		parser.add_argument('-a', '--analysis', type=str, default='MCgrid_CMS_2015_Zee',
-			help="Rivet analysis. [Default: %(default)s]")
 		parser.add_argument('-i', '--integrate', action="store_true",
 			help="Integration run for Sherpa. [Default: %(default)s]")
-
-		parser.add_argument('-n', '--n-events', type=str, default='1',
-			help="n events")
-		parser.add_argument('-j', '--n-jobs', type=str, default='1',
-			help="n jobs")
-
-		parser.add_argument('--output-dir', type=str, help="output directory",
-			default=self.default_storage_path)
+		parser.add_argument('--rivet', type=str, #default='MCgrid_CMS_2015_Zee',
+			help="name of rivet analysis")
 
 		parser.add_argument('-w', '--warmup', action='store_true', default=False,
 			help="if set, do warmup run")
+		parser.add_argument('-n', '--n-events', type=str, default='1000',
+			help="n events")
+		parser.add_argument('--output-dir', type=str, help="output directory",
+			default=self.default_storage_path)
 
 		self.args = parser.parse_args()
 
 		# define configs to use
-		self.args.configfile = 'sherpa-rivet_{0}.conf'.format(self.args.config)
+		self.args.configfile = 'sherpa-rivet_{0}.conf'.format(self.args.batch)
 		self.args.list_of_gc_cfgs = [
 			get_env('SHERIVFDIR') + '/' + 'gc_configs/sherpa-rivet_base.conf',
 			get_env('SHERIVFDIR') + '/' + 'gc_configs/run-sherpa.sh',
-			get_env('SHERIVFDIR') + '/' + 'gc_configs/sherpa-rivet_{0}.conf'.format(self.args.config)
+			get_env('SHERIVFDIR') + '/' + 'gc_configs/sherpa-rivet_{0}.conf'.format(self.args.batch)
 		]
 		if 'ekp' in socket.gethostname().lower():
 			self.args.list_of_gc_cfgs.append(get_env('SHERIVFDIR') + '/' + 'gc_configs/sherpa-rivet_ekp-base.conf')
-		if self.args.config == 'ekpcloud':
+		if self.args.batch == 'ekpcloud':
 			self.args.output_dir = self.args.output_dir.replace("/a/", "/ekpcloud_local/")
 
 
@@ -193,12 +196,13 @@ class Sherivf(object):
 
 
 	def copy_gc_configs(self):
-		if self.args.rivet_only:
-			output = (' '.join(self.fastnlo_outputs) if self.args.warmup else "Rivet.yoda")
-		else:
-			output = (' '.join(self.fastnlo_outputs) if self.args.warmup else "Rivet.yoda " + ' '.join(self.fastnlo_outputs))
-		if self.args.warmup:
-			output += " " + self.analysis + ".str.evtcount"
+
+		inputfiles = [
+			os.path.join(get_env('SHERIVFDIR'), 'rivet', self.args.rivet, 'Rivet_{0}.so'.format(self.args.rivet)),
+			os.path.join(get_env('SHERIVFDIR'), 'sherpa-cfg', self.args.sherpa, '*.*'),
+			os.path.join(get_env('SHERIVFDIR'), 'fastnlo', self.args.rivet, '*.*'),
+		]
+		# fastnlo tab
 
 		for gcfile in self.args.list_of_gc_cfgs:
 			copyfile(gcfile, self.args.output_dir+'/'+os.path.basename(gcfile),{
@@ -206,8 +210,10 @@ class Sherivf(object):
 				'@NJOBS@': self.args.n_jobs,
 				'@OUTDIR@': self.args.output_dir+'/output',
 				'@WARMUP@': ("rm *.txt"if self.args.warmup else ""),
-				'@OUTPUT@': output,
+				'@OUTPUT@': "Rivet.yoda " + ' '.join(self.fastnlo_outputs),
 				'@CONFIG@': self.args.sherpa,
+				'@ANALYSIS@': self.args.rivet,
+				'@INPUTFILES@': "\n\t".join(inputfiles),
 			})
 
 
@@ -226,9 +232,6 @@ class Sherivf(object):
 		except OSError as e:
 			print "Could not merge Rivet outputs ({0}): {1}".format(e.errno, e.strerror)
 
-		if self.args.rivet_only:
-			return outputs
-
 		try:
 			#merge fastNLO files: gather commands
 			commands_list = []
@@ -245,16 +248,6 @@ class Sherivf(object):
 
 		return outputs
 
-
-	def merge_warmup_files(self):
-		for scenario in [item.replace(".txt", "") for item in self.fastnlo_outputs]:
-			commands = [
-				"/usr/users/dhaitz/home/qcd/fastnlo_toolkit_fredpatches/fastNLO/trunk/tools/fnlo-add-warmup.pl",
-				"-w",
-				self.args.output_dir+"/output/",
-				scenario
-			]
-			print_and_call(commands)
 
 def run_gc(config, output_dir):
 	commands = ['go.py', config]
@@ -343,5 +336,5 @@ if __name__ == "__main__":
 	sherivf = Sherivf()
 	sherivf.run()
 	if hasattr(sherivf, "gctime"):
-		print "---	 Sherivf took {} ---".format(format_time(time.time() - start_time))
-		print "--- GridControl took {} ---".format(format_time(sherivf.gctime))
+		print "---	 Sherivf took {0} ---".format(format_time(time.time() - start_time))
+		print "--- GridControl took {0} ---".format(format_time(sherivf.gctime))
