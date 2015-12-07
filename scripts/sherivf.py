@@ -156,7 +156,7 @@ class Sherivf(object):
 			help="n jobs")
 
 		# cfgs: sherpa, analysis
-		parser.add_argument('-s', '--sherpa', type=str, default='fo',
+		parser.add_argument('-s', '--sherpa', type=str, default='zjet',
 			help="sherpa config in folder sherpa-cfg. [Default: %(default)s]")
 		parser.add_argument('-i', '--integrate', action="store_true",
 			help="Integration run for Sherpa. [Default: %(default)s]")
