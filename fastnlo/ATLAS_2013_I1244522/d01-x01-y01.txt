@@ -1,7 +1,7 @@
 # --- Use emacs in sh mode -*-sh-*- #
 # This is a automatically generated file by fastNLO and holds the values of the warmup run. 
 # The values are valid for the scenario d01-x01-y01
-# and if calculated with the steerfile: /portal/ekpcms6/home/dhaitz/qcd/sherivf/test/2015-12-07_10-42-47/ATLAS_2013_I1244522/phasespace/d01-x01-y01.txt
+# and if calculated with the steerfile: /portal/ekpcms6/home/dhaitz/qcd/sherivf/test/2015-12-07_14-09-05/ATLAS_2013_I1244522/phasespace/d01-x01-y01.txt
 # but only if no serious changes have been performed since its creation.
 # 
 # Delete this file, if you want fastNLO to calculate a new one.

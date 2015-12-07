@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""This is the GC wrapper"""
+"""This is the GC wrapper
+
+sherivf.py -
+"""
 
 import sys, os, glob, shutil, time, subprocess, argparse, socket, multiprocessing
 
@@ -14,8 +17,9 @@ class Sherivf(object):
 		elif 'ekp' in socket.gethostname().lower():
 			self.default_config = 'ekpcluster'
 		self.default_storage_path = get_env('SHERIVF_STORAGE_PATH')
+		self.sherivf_path = get_env('SHERIVFDIR')
 		self.get_arguments()
-		self.fastnlo_outputs = [os.path.basename(f).replace('.txt', '.tab') for f in glob.glob(os.path.join(get_env('SHERIVFDIR'),'fastnlo',self.args.rivet, '*.txt' ))]
+		self.fastnlo_outputs = [os.path.basename(f).replace('.txt', '.tab') for f in glob.glob(os.path.join(self.sherivf_path,'fastnlo',self.args.rivet, '*.txt' ))]
 
 
 	def run(self):
@@ -31,7 +35,7 @@ class Sherivf(object):
 		
 		if self.args.integrate:
 			# cd to sherpa dir, delete files other than Run.dat, integrate
-			directory = os.path.join(get_env('SHERIVFDIR'), 'sherpa-cfg', self.args.sherpa)
+			directory = os.path.join(self.sherivf_path, 'sherpa-cfg', self.args.sherpa)
 			try:
 				print "Preparing for inegration run in directory", directory
 				files_to_delete = os.listdir(os.getcwd())
@@ -52,16 +56,16 @@ class Sherivf(object):
 		#
 
 		if self.args.batch is None:
-			test_dir = os.path.join(get_env('SHERIVFDIR'), 'test', time.strftime("%Y-%m-%d_%H-%M-%S"))
+			test_dir = os.path.join(self.sherivf_path, 'test', time.strftime("%Y-%m-%d_%H-%M-%S"))
 			print "Create directory", test_dir
 
 			# copy Sherpa/Rivet/fastNLO files to test directory
-			for filelist in [
+			for filelist, function in zip([
 				['sherpa-cfg', self.args.sherpa],
 				['rivet', self.args.rivet, 'Rivet_{0}.so'.format(self.args.rivet)],
 				['fastnlo', self.args.rivet, self.args.rivet+'.str'],
-			]:
-				shutil.copytree(os.path.join(get_env('SHERIVFDIR'), *filelist), test_dir)
+			], ["copytree", "copy", "copy"]):
+				getattr(shutil, function)(os.path.join(self.sherivf_path, *filelist), test_dir)
 
 			os.chdir(test_dir)
 			for _dir in ["MCGRID_OUTPUT_PATH", "MCGRID_PHASESPACE_PATH"]:
@@ -69,7 +73,7 @@ class Sherivf(object):
 
 			# paths for mc grid
 			ph_path = os.path.join(test_dir, self.args.rivet, "phasespace")
-			ph_target_dir = os.path.join(get_env('SHERIVFDIR'), 'fastnlo', self.args.rivet)
+			ph_target_dir = os.path.join(self.sherivf_path, 'fastnlo', self.args.rivet)
 
 			# copy warmupfiles and event count file
 			if not self.args.warmup:
@@ -90,6 +94,8 @@ class Sherivf(object):
 					shutil.copy(f, ph_target_dir)
 				shutil.copy(os.path.join(test_dir, self.args.rivet+".str.evtcount"), ph_target_dir)
 				print "Copied warmup files to", ph_target_dir
+
+			print "Sherpa was run in", test_dir
 			return
 
 		# config dir: already existing or create new one?
@@ -119,7 +125,7 @@ class Sherivf(object):
 			print "\nOutput files:\n", "\n".join(outputs)
 
 			# create link to latest output:
-			link_dir = os.path.join(get_env('SHERIVFDIR'), 'outputs')
+			link_dir = os.path.join(self.sherivf_path, 'outputs')
 			if not os.path.exists(link_dir):
 				os.makedirs(link_dir)
 			link = link_dir+'/'+self.args.rivet + '_' + self.args.sherpa
@@ -160,7 +166,7 @@ class Sherivf(object):
 			help="sherpa config in folder sherpa-cfg. [Default: %(default)s]")
 		parser.add_argument('-i', '--integrate', action="store_true",
 			help="Integration run for Sherpa. [Default: %(default)s]")
-		parser.add_argument('--rivet', type=str, #default='MCgrid_CMS_2015_Zee',
+		parser.add_argument('--rivet', type=str, default='MCgrid_CMS_2015_Zee',
 			help="name of rivet analysis")
 
 		parser.add_argument('-w', '--warmup', action='store_true', default=False,
@@ -175,12 +181,12 @@ class Sherivf(object):
 		# define configs to use
 		self.args.configfile = 'sherpa-rivet_{0}.conf'.format(self.args.batch)
 		self.args.list_of_gc_cfgs = [
-			get_env('SHERIVFDIR') + '/' + 'gc_configs/sherpa-rivet_base.conf',
-			get_env('SHERIVFDIR') + '/' + 'gc_configs/run-sherpa.sh',
-			get_env('SHERIVFDIR') + '/' + 'gc_configs/sherpa-rivet_{0}.conf'.format(self.args.batch)
+			self.sherivf_path + '/' + 'gc_configs/sherpa-rivet_base.conf',
+			self.sherivf_path + '/' + 'gc_configs/run-sherpa.sh',
+			self.sherivf_path + '/' + 'gc_configs/sherpa-rivet_{0}.conf'.format(self.args.batch)
 		]
 		if 'ekp' in socket.gethostname().lower():
-			self.args.list_of_gc_cfgs.append(get_env('SHERIVFDIR') + '/' + 'gc_configs/sherpa-rivet_ekp-base.conf')
+			self.args.list_of_gc_cfgs.append(self.sherivf_path + '/' + 'gc_configs/sherpa-rivet_ekp-base.conf')
 		if self.args.batch == 'ekpcloud':
 			self.args.output_dir = self.args.output_dir.replace("/a/", "/ekpcloud_local/")
 
@@ -198,9 +204,9 @@ class Sherivf(object):
 	def copy_gc_configs(self):
 
 		inputfiles = [
-			os.path.join(get_env('SHERIVFDIR'), 'rivet', self.args.rivet, 'Rivet_{0}.so'.format(self.args.rivet)),
-			os.path.join(get_env('SHERIVFDIR'), 'sherpa-cfg', self.args.sherpa, '*.*'),
-			os.path.join(get_env('SHERIVFDIR'), 'fastnlo', self.args.rivet, '*.*'),
+			os.path.join(self.sherivf_path, 'rivet', self.args.rivet, 'Rivet_{0}.so'.format(self.args.rivet)),
+			os.path.join(self.sherivf_path, 'sherpa-cfg', self.args.sherpa, '*.*'),
+			os.path.join(self.sherivf_path, 'fastnlo', self.args.rivet, '*.*'),
 		]
 		# fastnlo tab
 

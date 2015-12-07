@@ -69,7 +69,7 @@ fi
 
 # aliases
 rivbuild_nofastnlo(){
-	rivet-buildplugin RivetMyAnalyses.so $1.cc -std=c++0x -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA $2
+	rivet-buildplugin Rivet_$1.so $1.cc -std=c++0x -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA $2
 }
 rivbuild(){
 	rivbuild_nofastnlo $1 -DUSE_FNLO=1
