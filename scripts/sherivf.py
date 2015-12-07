@@ -29,27 +29,11 @@ class Sherivf(object):
 			3. Delete, resume or start new (default) run
 		"""
 		
-		#
-		# INTEGRATION RUN
-		#
-		
-		if self.args.integrate:
-			# cd to sherpa dir, delete files other than Run.dat, integrate
-			directory = os.path.join(self.sherivf_path, 'sherpa-cfg', self.args.sherpa)
-			try:
-				print "Preparing for inegration run in directory", directory
-				files_to_delete = os.listdir(os.getcwd())
-				os.chdir(directory)
-				files_to_delete.remove('Run.dat')
-				if len(files_to_delete) > 0:
-					rm_command = ["rm", "-rf"] + files_to_delete
-					query_yes_no("Delete {0}?".format(" ".join(files_to_delete)))
-					print_and_call(rm_command)
-				print_and_call(["Sherpa", "-e "+str(self.args.n_events)])
-				print "Sucessfully ran Sherpa in directory", directory
-			except OSError:
-				print "ERROR: could not switch to directory", directory
+		if self.args.compile:  # compilation
+			self.compile_rivet_plugin()
 			return
+		elif self.args.integrate:  # integration run
+			sherpa_integration_run()
 
 		#
 		# LOCAL EXECUTION (for Testing)
@@ -168,6 +152,8 @@ class Sherivf(object):
 			help="Integration run for Sherpa. [Default: %(default)s]")
 		parser.add_argument('--rivet', type=str, default='MCgrid_CMS_2015_Zee',
 			help="name of rivet analysis")
+		parser.add_argument('-c', '--compile', action='store_true',
+			help="if set, compile analysis")
 
 		parser.add_argument('-w', '--warmup', action='store_true', default=False,
 			help="if set, do warmup run")
@@ -253,6 +239,40 @@ class Sherivf(object):
 			print "Could not merge fastNLO outputs ({0}): {1}".format(e.errno, e.strerror)
 
 		return outputs
+
+
+	def compile_rivet_plugin(self):
+		""" compile the Rivet plugin via rivet-buildplugin. compiler flags are
+		read in via env var RIVET_COMPILER_FLAGS"""
+		os.chdir(os.path.join(self.sherivf_path, 'rivet'))
+		print_and_call([
+			'rivet-buildplugin', 
+			"{path}/Rivet_{analysis}.so {path}/{analysis}.cc".format(
+				analysis=self.args.rivet,
+				path=os.path.join(self.sherivf_path, 'rivet', self.args.rivet)
+			),
+			get_env("RIVET_COMPILER_FLAGS")
+		])
+		print "Rivet Plugin {0} compiled".format(self.args.rivet)
+
+
+	def sherpa_integration_run(self):
+		# cd to sherpa dir, delete files other than Run.dat, integrate
+		directory = os.path.join(self.sherivf_path, 'sherpa-cfg', self.args.sherpa)
+		try:
+			print "Preparing for integration run in directory", directory
+			files_to_delete = os.listdir(os.getcwd())
+			os.chdir(directory)
+			files_to_delete.remove('Run.dat')
+			if len(files_to_delete) > 0:
+				rm_command = ["rm", "-rf"] + files_to_delete
+				query_yes_no("Delete {0}?".format(" ".join(files_to_delete)))
+				print_and_call(rm_command)
+			print_and_call(["Sherpa", "-e "+str(self.args.n_events)])
+			print "Sucessfully ran Sherpa in directory", directory
+		except OSError:
+			print "ERROR: could not switch to directory", directory
+		return
 
 
 def run_gc(config, output_dir):

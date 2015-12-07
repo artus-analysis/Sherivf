@@ -68,9 +68,5 @@ elif [[ `lhapdf-config  --version` == 6.* ]]; then
 fi
 
 # aliases
-rivbuild_nofastnlo(){
-	rivet-buildplugin Rivet_$1.so $1.cc -std=c++0x -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA $2
-}
-rivbuild(){
-	rivbuild_nofastnlo $1 -DUSE_FNLO=1
-}
+export RIVET_COMPILER_FLAGS="-std=c++0x -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA -DUSE_FNLO=1"
+
