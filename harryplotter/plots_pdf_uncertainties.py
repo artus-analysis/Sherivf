@@ -35,6 +35,9 @@ def pdf_unc_heraZ_bins(args=None, additional_dictionary=None):
 	""" make pdf uncertainties for heraZ """
 	return pdf_unc_base(args, additional_dictionary, 'heraZ_bins')
 
+def pdf_unc_photon(args=None, additional_dictionary=None):
+	""" make pdf uncertainties for photon """
+	return pdf_unc_base(args, additional_dictionary, 'photon')
 
 
 def model_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
@@ -184,6 +187,8 @@ def plot_pdf_uncs_heraZ_pt(args=None, additional_dictionary=None):
 	return plot_pdf_uncs(args, additional_dictionary, 'heraZ_pt')
 def plot_pdf_uncs_heraZ_bins(args=None, additional_dictionary=None):
 	return plot_pdf_uncs(args, additional_dictionary, 'heraZ_bins')
+def plot_pdf_uncs_photon(args=None, additional_dictionary=None):
+	return plot_pdf_uncs(args, additional_dictionary, 'photon')
 
 
 def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
@@ -194,6 +199,7 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 		'heraZ': r"HERA-I DIS + CMS Z($\\rightarrow$ee)+jet",
 		'heraZ_pt': "HERA-I DIS + CMS (pT-spectrum)",
 		'heraZ_bins': "HERA-I DIS + CMS (pT in y-bins)",
+		'photon': "HERA-I DIS + ATLAS photon+jet",
 	}
 	title = titles.get(pdf_scenario, "")
 	text = r"$\\mathit{Q}^2 = 1.9 \\/ GeV^2$"

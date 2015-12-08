@@ -16,6 +16,7 @@ herafiles = ["'{}/datafiles/hera/H1ZEUS_{}_HERA1.0.dat'".format(heradir, i) for 
 datafiles_y = ["'{}/herafitter/CMS_Zee_HFinput_{}_inclusive.txt'".format(os.environ['SHERIVFDIR'], "abszy")]
 datafiles_pt = ["'{}/herafitter/CMS_Zee_HFinput_{}_inclusive.txt'".format(os.environ['SHERIVFDIR'], "zpt")]
 datafiles_bins = ["'{}/herafitter/CMS_Zee_HFinput_zpt_{}.txt'".format(os.environ['SHERIVFDIR'], ybin) for ybin in common.ybin_labels]
+datafiles_photon = ["'{}/herafitter/photon.txt'".format(os.environ['SHERIVFDIR'])]
 
 heradict = {
 	'nnpdf': [len(datafiles_y), datafiles_y, 'True'],
@@ -23,6 +24,7 @@ heradict = {
 	'heraZ': [len(datafiles_y)+len(herafiles), datafiles_y+herafiles, 'False'],
 	'heraZ_pt': [len(datafiles_pt)+len(herafiles), datafiles_pt+herafiles, 'False'],
 	'heraZ_bins': [len(datafiles_bins)+len(herafiles), datafiles_bins+herafiles, 'False'],
+	'photon': [len(datafiles_photon)+len(herafiles), datafiles_photon+herafiles, 'False'],
 }
 
 
