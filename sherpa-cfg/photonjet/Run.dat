@@ -18,7 +18,7 @@
 }(beam);
 
 (integration){
-  ERROR 0.5;
+  ERROR 0.1;
 }(integration);
 
 (me){
@@ -44,7 +44,7 @@
   Process 93 93 -> 22 93;
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part I;
-  Order (*,*);
+  Order (*,2);
   End process;
 
   Process 93 93 -> 22 93;
@@ -65,7 +65,7 @@
 
 
 (selector){
-  PTNLO 22 10 E_CMS
+  PTNLO 22 30 E_CMS
 }(selector)
 
 
