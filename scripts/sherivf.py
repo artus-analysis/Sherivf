@@ -33,7 +33,7 @@ class Sherivf(object):
 			self.compile_rivet_plugin()
 			return
 		elif self.args.integrate:  # integration run
-			sherpa_integration_run()
+			self.sherpa_integration_run()
 
 		#
 		# LOCAL EXECUTION (for Testing)
@@ -261,8 +261,8 @@ class Sherivf(object):
 		directory = os.path.join(self.sherivf_path, 'sherpa-cfg', self.args.sherpa)
 		try:
 			print "Preparing for integration run in directory", directory
-			files_to_delete = os.listdir(os.getcwd())
 			os.chdir(directory)
+			files_to_delete = os.listdir(os.getcwd())
 			files_to_delete.remove('Run.dat')
 			if len(files_to_delete) > 0:
 				rm_command = ["rm", "-rf"] + files_to_delete
