@@ -63,7 +63,7 @@ clear_pdfuncs()
 # SHERPA
 sherpa_integrate()
 {
-	cd $SHERIVFDIR/sherpa-cfg/$1
+	cd $SHERIVFDIR/sherpa/$1
 	Sherpa EVENTS=1000
 }
 

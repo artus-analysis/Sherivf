@@ -45,7 +45,7 @@ class Sherivf(object):
 
 			# copy Sherpa/Rivet/fastNLO files to test directory
 			for filelist, function in zip([
-				['sherpa-cfg', self.args.sherpa],
+				['sherpa', self.args.sherpa],
 				['rivet', self.args.rivet, 'Rivet_{0}.so'.format(self.args.rivet)],
 				['fastnlo', self.args.rivet, self.args.rivet+'.str'],
 			], ["copytree", "copy", "copy"]):
@@ -147,7 +147,7 @@ class Sherivf(object):
 
 		# cfgs: sherpa, analysis
 		parser.add_argument('-s', '--sherpa', type=str, default='zjet',
-			help="sherpa config in folder sherpa-cfg. [Default: %(default)s]")
+			help="sherpa config in folder sherpa. [Default: %(default)s]")
 		parser.add_argument('-i', '--integrate', action="store_true",
 			help="Integration run for Sherpa. [Default: %(default)s]")
 		parser.add_argument('--rivet', type=str, default='MCgrid_CMS_2015_Zee',
@@ -191,7 +191,7 @@ class Sherivf(object):
 
 		inputfiles = [
 			os.path.join(self.sherivf_path, 'rivet', self.args.rivet, 'Rivet_{0}.so'.format(self.args.rivet)),
-			os.path.join(self.sherivf_path, 'sherpa-cfg', self.args.sherpa, '*.*'),
+			os.path.join(self.sherivf_path, 'sherpa', self.args.sherpa, '*.*'),
 			os.path.join(self.sherivf_path, 'fastnlo', self.args.rivet, '*.*'),
 		]
 		# fastnlo tab
@@ -258,7 +258,7 @@ class Sherivf(object):
 
 	def sherpa_integration_run(self):
 		# cd to sherpa dir, delete files other than Run.dat, integrate
-		directory = os.path.join(self.sherivf_path, 'sherpa-cfg', self.args.sherpa)
+		directory = os.path.join(self.sherivf_path, 'sherpa', self.args.sherpa)
 		try:
 			print "Preparing for integration run in directory", directory
 			os.chdir(directory)
