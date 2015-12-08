@@ -1,0 +1,39 @@
+!
+! Zee cross sections 2011
+! by CMS collaboration,
+!
+&Data
+   Name           = 'ATLAS photon jets 2011'
+   Reaction       = 'FastNLO jets'
+
+   NDATA          = 8
+   NColumn        = 5
+   ColumnType     = 'Bin' , 'Bin'  , 'Sigma', 'Error', 'Error'
+   ColumnName     = 'ylow', 'yhigh', 'Sigma', 'stat' , 'syxs'
+   NInfo          = 4
+   DataInfo       = 7000.     , 1.                 , -1.      , -1.
+   CInfo          = 'sqrt(S)' , 'PublicationUnits' , 'MurDef' , 'MufDef'
+
+   IndexDataset   = 33480
+
+  TheoryInfoFile = '/portal/ekpcms6/home/dhaitz/qcd/sherivf/outputs/ATLAS_2013_I1244522_photon+jet/d01-x01-y01.tab'
+   TheoryType     = 'FastNLO'
+
+   Percent        = False*2
+&End
+&PlotDesc
+   PlotN = 1
+   PlotDefColumn = 'ylow'
+   PlotDefValue = 45.0, 400.0
+   PlotVarColumn = 'yhigh'
+   PlotOptions(1)  = 'Experiment:ATLAS@ExtraLabel: ATLAS photon jets 2012 zpt @Title: 2015 @XTitle: |quantity| @YTitle:(#sigma) #sigma'
+&End 
+45.0  55.0  160.2  0.9  19.0
+55.0  70.0  81.1  0.5  7.0
+70.0  85.0  35.39  0.32  3.0
+85.0  100.0  16.75  0.21  1.2
+100.0  125.0  6.89  0.1  0.5
+125.0  150.0  2.58  0.06  0.17
+150.0  200.0  0.789  0.025  0.05
+200.0  400.0  0.081  0.004  0.005
+
