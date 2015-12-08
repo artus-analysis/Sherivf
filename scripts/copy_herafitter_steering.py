@@ -35,19 +35,20 @@ def main():
 	parser.add_argument('-m', '--mode', type=str, default='hera',
 		help="mode", choices=heradict.keys())
 	parser.add_argument('-b', '--batch', action="store_true", help="batch mode, i.e. dont copy defaults", )
+	parser.add_argument('-f', '--fast', action="store_true", help="RT FAST scheme (instead of RT)")
 	parser.add_argument('-d', '--dir', type=str, default=heradir, help="dir to copy steering file to")
 	args = parser.parse_args()
-	copy_herafile(args.mode, args.batch, args.dir)
+	copy_herafile(args.mode, args.batch, args.dir, args.fast)
 
 
-def copy_herafile(mode, batch, targetdir):
+def copy_herafile(mode, batch, targetdir, fast=False):
 
 	print "Preparing Herafitter for {} mode".format(mode)
 
 	defaults = {
 		'@Q02@': '1.9',
 		'@Q2MIN@': '7.5',
-		'@HF_SCHEME@': 'RT FAST', # TODO Use 'RT' for final results
+		'@HF_SCHEME@': 'RT'+(' FAST' if fast else ''),
 		'@PDFStyle@': '13p HERAPDF',
 		'@DOBANDS@': 'True',
 		'@ALPHAS@': '0.1176',

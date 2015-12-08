@@ -38,7 +38,7 @@ class Hera(object):
 				'@OUTDIR@': self.args.output_dir+'/output',
 				'@MODE@': self.args.mode,
 			})
-		copy_herafitter_steering.copy_herafile(self.args.mode, True, self.args.output_dir)
+		copy_herafitter_steering.copy_herafile(self.args.mode, True, self.args.output_dir, self.args.fast)
 
 
 	def create_output_dir(self):
@@ -55,8 +55,8 @@ class Hera(object):
 			help="mode (hera, heraZ)")
 		parser.add_argument('-c', '--config', type=str, default=self.default_config,
 			help="default:" + self.default_config)
-		parser.add_argument('-o', '--output-dir', type=str, default=None,
-			help="")
+		parser.add_argument('-o', '--output-dir', type=str, default=None, help="")
+		parser.add_argument('-f', '--fast', action="store_true", help="RT FAST scheme (instead of RT)")
 		
 		self.args = parser.parse_args()
 		if self.args.output_dir is None:
