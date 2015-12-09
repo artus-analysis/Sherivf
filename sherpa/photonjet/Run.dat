@@ -18,13 +18,13 @@
 }(beam);
 
 (integration){
-  ERROR 0.5;
+  ERROR 0.05;
 }(integration);
 
 (me){
   ME_SIGNAL_GENERATOR BlackHat Comix Internal;
   EVENT_GENERATION_MODE Weighted;
-  SCALES VAR{H_T2};
+  SCALES VAR{PPerp2(p[2])};
   RESULT_DIRECTORY Results_NLO; 
 }(me);
 
@@ -65,7 +65,8 @@
 
 
 (selector){
-  PTNLO 22 30 E_CMS
+  PTNLO 22 45 E_CMS
+  PseudoRapidityNLO 22 -2.4 2.4
 }(selector)
 
 
