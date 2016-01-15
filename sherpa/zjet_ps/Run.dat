@@ -1,0 +1,74 @@
+(run){
+  EVENTS 1000;  % overwritten in parallel mode
+
+  % needed for Rivet/MCgrid
+  ANALYSIS Rivet;
+  ANALYSIS_OUTPUT Rivet;
+  HEPMC_USE_NAMED_WEIGHTS=1;
+  HEPMC_EXTENDED_WEIGHTS=1;
+
+  PDF_LIBRARY=CT10Sherpa;
+  PDF_SET=ct10;
+  
+  % scales, tags for scale variations
+  % exclude tau from lepton container
+  MASSIVE[15] 1;
+
+  % tags for process setup
+  NJET:=1; LJET:=1; QCUT:=20.;
+  
+}(run);
+
+(beam){
+  % LHC collider setup
+  BEAM_1 2212; BEAM_ENERGY_1 4000;
+  BEAM_2 2212; BEAM_ENERGY_2 4000;
+}(beam);
+
+
+(integration){
+  ERROR 0.5;
+}(integration);
+
+
+(me){
+  ME_SIGNAL_GENERATOR Comix Amegic BlackHat;
+  EVENT_GENERATION_MODE Weighted;
+  SCALES VAR{Abs2(p[2]+p[3])+PPerp2(p[2]+p[3])};
+  RESULT_DIRECTORY Results_NLO; 
+}(me);
+
+(model){
+  MASS[6] = 1e20
+}(model)
+
+(processes){
+  Process 93 93 -> 11 -11 93;
+  Order (*,2);
+  CKKW sqr(QCUT/E_CMS);
+  NLO_QCD_Mode MC@NLO {LJET};
+  ME_Generator Amegic {LJET};
+  RS_ME_Generator Comix {LJET};
+  Loop_Generator BlackHat {LJET};
+  End process;
+}(processes)
+
+
+(selector){
+  PTNLO 11 25 E_CMS
+  PTNLO -11 25 E_CMS
+  PseudoRapidityNLO 11 -2.4 2.4
+  PseudoRapidityNLO -11 -2.4 2.4
+  Mass 11 -11 81. 101.
+  PT2NLO 11 -11 30 E_CMS
+}(selector)
+
+
+(analysis){
+  BEGIN_RIVET {
+    -a MCgrid_CMS_2015_Zee;
+    USE_HEPMC_SHORT 1;
+    USE_HEPMC_EXTENDED_WEIGHTS 1;
+    IGNOREBEAMS 1;
+  } END_RIVET;
+}(analysis);

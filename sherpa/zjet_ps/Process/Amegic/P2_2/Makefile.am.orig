@@ -1,0 +1,27 @@
+MAKE = make 
+SUBDIRS = \
+	2_2__ub__u__em__ep__S1_0 \
+	2_2__ub__u__em__ep__S0_1 \
+	2_2__u__ub__em__ep__S1_0 \
+	2_2__u__ub__em__ep__S0_1 \
+	2_2__db__d__em__ep__S1_0 \
+	2_2__db__d__em__ep__S0_1 \
+	2_2__d__db__em__ep__S1_0 \
+	2_2__d__db__em__ep__S0_1 \
+	2_2__ub__u__em__ep \
+	2_2__u__ub__em__ep \
+	2_2__db__d__em__ep \
+	fsrchannels2 \
+	2_2__d__db__em__ep
+
+
+
+
+
+
+
+
+
+
+
+
