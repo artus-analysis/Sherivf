@@ -266,10 +266,16 @@ class Sherivf(object):
 			files_to_delete.remove('Run.dat')
 			if len(files_to_delete) > 0:
 				rm_command = ["rm", "-rf"] + files_to_delete
-				query_yes_no("Delete {0}?".format(" ".join(files_to_delete)))
-				print_and_call(rm_command)
+				if query_yes_no("Delete {0}?".format(" ".join(files_to_delete))):
+					print_and_call(rm_command)
 			print_and_call(["Sherpa", "-e "+str(self.args.n_events)])
 			print "Sucessfully ran Sherpa in directory", directory
+
+			#check if 'makelibs' is needed
+			if os.path.isfile('makelibs') and if query_yes_no("Delete makelibs?"):
+				print_and_call(["./makelibs"])
+				print "Sucessfully compiled libraries with './makelibs'"
+
 		except OSError:
 			print "ERROR: could not switch to directory", directory
 		return
