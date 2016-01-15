@@ -80,6 +80,11 @@ class Sherivf(object):
 				shutil.copy(os.path.join(test_dir, self.args.rivet+".str.evtcount"), ph_target_dir)
 				print "Copied warmup files to", ph_target_dir
 
+			# convert yoda to root
+			if os.path.isfile('Rivet.yoda'):
+				print "Convert Rivet output from YODA to ROOT"
+				print_and_call(['yoda_2_root.py', 'Rivet.yoda'])
+
 			print "Sherpa was run in", test_dir
 			return
 
@@ -272,7 +277,7 @@ class Sherivf(object):
 			print_and_call(["Sherpa", "-e "+str(self.args.n_events)])
 			print "Sucessfully ran Sherpa in directory", directory
 
-			#check if 'makelibs' is needed
+			#check for 'makelibs' (produced by AMEGIC)
 			if os.path.isfile('makelibs') and query_yes_no("Delete makelibs?"):
 				print_and_call(["./makelibs"])
 				print "Sucessfully compiled libraries with './makelibs'"
