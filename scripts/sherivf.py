@@ -55,9 +55,10 @@ class Sherivf(object):
 			for _dir in ["MCGRID_OUTPUT_PATH", "MCGRID_PHASESPACE_PATH"]:
 				os.environ[_dir] = test_dir
 
-			# paths for mc grid
+			# paths for mc grid and Rivet
 			ph_path = os.path.join(test_dir, self.args.rivet, "phasespace")
 			ph_target_dir = os.path.join(self.sherivf_path, 'fastnlo', self.args.rivet)
+			os.environ["RIVET_ANALYSIS_PATH"] = test_dir
 
 			# copy warmupfiles and event count file
 			if not self.args.warmup:
@@ -272,7 +273,7 @@ class Sherivf(object):
 			print "Sucessfully ran Sherpa in directory", directory
 
 			#check if 'makelibs' is needed
-			if os.path.isfile('makelibs') and if query_yes_no("Delete makelibs?"):
+			if os.path.isfile('makelibs') and query_yes_no("Delete makelibs?"):
 				print_and_call(["./makelibs"])
 				print "Sucessfully compiled libraries with './makelibs'"
 
