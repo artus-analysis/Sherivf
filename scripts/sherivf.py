@@ -53,12 +53,12 @@ class Sherivf(object):
 
 			os.chdir(test_dir)
 			for _dir in ["MCGRID_OUTPUT_PATH", "MCGRID_PHASESPACE_PATH"]:
-				get_env(_dir) = test_dir
+				os.environ[_dir] = test_dir
 
 			# paths for mc grid and Rivet
 			ph_path = os.path.join(test_dir, self.args.rivet, "phasespace")
 			ph_target_dir = os.path.join(self.sherivf_path, 'fastnlo', self.args.rivet)
-			get_env("RIVET_ANALYSIS_PATH") = test_dir
+			os.environ["RIVET_ANALYSIS_PATH"] = test_dir
 
 			# copy warmupfiles and event count file
 			if not self.args.warmup:
