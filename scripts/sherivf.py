@@ -7,6 +7,8 @@ sherivf.py -
 """
 
 import sys, os, glob, shutil, time, subprocess, argparse, socket, multiprocessing
+from tools import run_gc, print_and_call, copyfile, get_env, query_yes_no, format_time
+
 
 class Sherivf(object):
 
@@ -23,71 +25,21 @@ class Sherivf(object):
 
 
 	def run(self):
-		"""Main function.
-			1. Get configs.
-			2. Check if a new workdir has to be created.
-			3. Delete, resume or start new (default) run
-		"""
-		
+		"""Main function."""
 		if self.args.compile:  # compilation
 			self.compile_rivet_plugin()
 			return
 		elif self.args.integrate:  # integration run
 			self.sherpa_integration_run()
-
-		#
-		# LOCAL EXECUTION (for Testing)
-		#
-
-		if self.args.batch is None:
-			test_dir = os.path.join(self.sherivf_path, 'test', time.strftime("%Y-%m-%d_%H-%M-%S"))
-			print "Create directory", test_dir
-
-			# copy Sherpa/Rivet/fastNLO files to test directory
-			for filelist, function in zip([
-				['sherpa', self.args.sherpa],
-				['rivet', self.args.rivet, 'Rivet_{0}.so'.format(self.args.rivet)],
-				['fastnlo', self.args.rivet, self.args.rivet+'.str'],
-			], ["copytree", "copy", "copy"]):
-				getattr(shutil, function)(os.path.join(self.sherivf_path, *filelist), test_dir)
-
-			os.chdir(test_dir)
-			for _dir in ["MCGRID_OUTPUT_PATH", "MCGRID_PHASESPACE_PATH"]:
-				os.environ[_dir] = test_dir
-
-			# paths for mc grid and Rivet
-			ph_path = os.path.join(test_dir, self.args.rivet, "phasespace")
-			ph_target_dir = os.path.join(self.sherivf_path, 'fastnlo', self.args.rivet)
-			os.environ["RIVET_ANALYSIS_PATH"] = test_dir
-
-			# copy warmupfiles and event count file
-			if not self.args.warmup:
-				shutil.copy(os.path.join(ph_target_dir, self.args.rivet+".str.evtcount"), test_dir)
-				warmupfiles = glob.glob(os.path.join(ph_target_dir, "*.txt"))
-				if not os.path.exists(ph_path):
-					os.makedirs(ph_path)
-				for wfile in warmupfiles:
-					shutil.copy(wfile, ph_path)
-			
-			print_and_call(["Sherpa", "-e "+str(self.args.n_events)])
-			
-			# copy warmup and event count files
-			if self.args.warmup:
-				for f in glob.glob(ph_path+"/*.txt"):
-					if not os.path.exists(ph_target_dir):
-						os.makedirs(ph_target_dir)
-					shutil.copy(f, ph_target_dir)
-				shutil.copy(os.path.join(test_dir, self.args.rivet+".str.evtcount"), ph_target_dir)
-				print "Copied warmup files to", ph_target_dir
-
-			# convert yoda to root
-			if os.path.isfile('Rivet.yoda'):
-				print "Convert Rivet output from YODA to ROOT"
-				print_and_call(['yoda_2_root.py', 'Rivet.yoda'])
-
-			print "Sherpa was run in", test_dir
+		elif self.args.batch is None:  # local
+			self.local()
 			return
+		else:  # batch
+			self.batch()
 
+
+	def batch(self):
+		""" Check if a new workdir has to be created.  Delete, resume or start new (default) run"""
 		# config dir: already existing or create new one?
 		if self.args.delete or self.args.resume:
 			paths = glob.glob("{0}/{1}*".format(self.args.output_dir, self.args.batch))
@@ -181,6 +133,56 @@ class Sherivf(object):
 			self.args.list_of_gc_cfgs.append(self.sherivf_path + '/' + 'gc_configs/sherpa-rivet_ekp-base.conf')
 		if self.args.batch == 'ekpcloud':
 			self.args.output_dir = self.args.output_dir.replace("/a/", "/ekpcloud_local/")
+
+
+	def local(self):
+		"""LOCAL EXECUTION (for Testing)"""
+		test_dir = os.path.join(self.sherivf_path, 'test', time.strftime("%Y-%m-%d_%H-%M-%S"))
+		print "Create directory", test_dir
+
+		# copy Sherpa/Rivet/fastNLO files to test directory
+		for filelist, function in zip([
+			['sherpa', self.args.sherpa],
+			['rivet', self.args.rivet, 'Rivet_{0}.so'.format(self.args.rivet)],
+			['fastnlo', self.args.rivet, self.args.rivet+'.str'],
+		], ["copytree", "copy", "copy"]):
+			getattr(shutil, function)(os.path.join(self.sherivf_path, *filelist), test_dir)
+
+		os.chdir(test_dir)
+		for _dir in ["MCGRID_OUTPUT_PATH", "MCGRID_PHASESPACE_PATH"]:
+			os.environ[_dir] = test_dir
+
+		# paths for mc grid and Rivet
+		ph_path = os.path.join(test_dir, self.args.rivet, "phasespace")
+		ph_target_dir = os.path.join(self.sherivf_path, 'fastnlo', self.args.rivet)
+		os.environ["RIVET_ANALYSIS_PATH"] = test_dir
+
+		# copy warmupfiles and event count file
+		if not self.args.warmup:
+			shutil.copy(os.path.join(ph_target_dir, self.args.rivet+".str.evtcount"), test_dir)
+			warmupfiles = glob.glob(os.path.join(ph_target_dir, "*.txt"))
+			if not os.path.exists(ph_path):
+				os.makedirs(ph_path)
+			for wfile in warmupfiles:
+				shutil.copy(wfile, ph_path)
+		
+		print_and_call(["Sherpa", "-e "+str(self.args.n_events)])
+		
+		# copy warmup and event count files
+		if self.args.warmup:
+			for f in glob.glob(ph_path+"/*.txt"):
+				if not os.path.exists(ph_target_dir):
+					os.makedirs(ph_target_dir)
+				shutil.copy(f, ph_target_dir)
+			shutil.copy(os.path.join(test_dir, self.args.rivet+".str.evtcount"), ph_target_dir)
+			print "Copied warmup files to", ph_target_dir
+
+		# convert yoda to root
+		if os.path.isfile('Rivet.yoda'):
+			print "Convert Rivet output from YODA to ROOT"
+			print_and_call(['yoda_2_root.py', 'Rivet.yoda'])
+
+		print "Sherpa was run in", test_dir
 
 
 	def create_output_dir(self):
@@ -278,7 +280,7 @@ class Sherivf(object):
 			print "Sucessfully ran Sherpa in directory", directory
 
 			#check for 'makelibs' (produced by AMEGIC)
-			if os.path.isfile('makelibs') and query_yes_no("Delete makelibs?"):
+			if os.path.isfile('makelibs') and query_yes_no("Compile makelibs?"):
 				print_and_call(["./makelibs"])
 				print "Sucessfully compiled libraries with './makelibs'"
 
@@ -286,88 +288,6 @@ class Sherivf(object):
 			print "ERROR: could not switch to directory", directory
 		return
 
-
-def run_gc(config, output_dir):
-	commands = ['go.py', config]
-	try:
-		print_and_call(commands)
-	except KeyboardInterrupt:
-		print output_dir
-		exit(1)
-	except:
-		print "grid-control run failed"
-		exit(1)
-
-
-def print_and_call(commands):
-	print " ".join(commands)
-	subprocess.call(commands)
-
-
-def copyfile(source, target, replace={}):
-	# copy file with replace dict
-	try:
-		with open(source) as f:
-			text = f.read()
-	except IOError:
-		print "Couldnt open file", source
-		sys.exit(1)
-	for a, b in replace.items():
-		text = text.replace(a, b)
-	with open(target, 'wb') as f:
-		f.write(text)
-	return text
-
-
-def get_env(variable):
-	try:
-		return os.environ[variable]
-	except:
-		print variable, "is not in shell variables:", os.environ.keys()
-		print "Please source scripts/ini.sh!"
-		sys.exit(1)
-
-#http://stackoverflow.com/questions/3041986/python-command-line-yes-no-input
-def query_yes_no(question, default="yes"):
-	"""Ask a yes/no question via raw_input() and return their answer.
-
-	"question" is a string that is presented to the user.
-	"default" is the presumed answer if the user just hits <Enter>.
-		It must be "yes" (the default), "no" or None (meaning
-		an answer is required of the user).
-
-	The "answer" return value is True for "yes" or False for "no".
-	"""
-	valid = {"yes": True, "y": True, "ye": True,
-			 "no": False, "n": False}
-	if default is None:
-		prompt = " [y/n] "
-	elif default == "yes":
-		prompt = " [Y/n] "
-	elif default == "no":
-		prompt = " [y/N] "
-	else:
-		raise ValueError("invalid default answer: '%s'" % default)
-
-	while True:
-		sys.stdout.write(question + prompt)
-		choice = raw_input().lower()
-		if default is not None and choice == '':
-			return valid[default]
-		elif choice in valid:
-			return valid[choice]
-		else:
-			sys.stdout.write("Please respond with 'yes' or 'no' "
-							 "(or 'y' or 'n').\n")
-
-
-def format_time(seconds):
-	if seconds < 180.:
-		return "{0:.0f} seconds".format(seconds)
-	elif (seconds/60.) < 120.:
-		return "{0:.0f} minutes".format(seconds/60.)
-	else:
-		return "{0:.0f} hours {1:.0f} minutes".format(int(seconds/3600.), (seconds/60. % 60))
 
 if __name__ == "__main__":
 	start_time = time.time()
