@@ -18,10 +18,12 @@ class Hera(object):
 		self.get_arguments()
 
 	def run(self):
+		# create gc-dir and copy necessary files
 		self.create_output_dir()
 		files_to_copy = [self.default_config, 'minuit.in.txt', 'herapdf_par.conf', 'ewparam.txt','run-herafitter.sh']
 		self.list_of_gc_files = [sherivf.get_env('SHERIVFDIR') + '/hera-gc/' + f for f in files_to_copy]
 		self.copy_gc_files()
+
 		self.gctime = time.time()
 		sherivf.run_gc(self.args.output_dir + "/" + self.args.config, self.args.output_dir)
 		self.gctime = time.time() - self.gctime
