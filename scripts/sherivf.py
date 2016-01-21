@@ -265,7 +265,7 @@ class Sherivf(object):
 
 
 	def sherpa_integration_run(self):
-		# cd to sherpa dir, delete files other than Run.dat, integrate
+		"""Switch to sherpa dir, delete files other than Run.dat, integrate"""
 		directory = os.path.join(self.sherivf_path, 'sherpa', self.args.sherpa)
 		try:
 			print "Preparing for integration run in directory", directory
