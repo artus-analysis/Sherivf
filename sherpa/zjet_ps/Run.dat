@@ -16,7 +16,7 @@
 
   % tags for process setup
   QCUT:=20.;
-  NJET:=2; LJET:=2;
+  NJET:=1; LJET:=2;
   
 }(run);
 
@@ -44,7 +44,7 @@
 }(model)
 
 (processes){
-  Process 93 93 -> 11 -11 93{NJET};
+  Process 93 93 -> 11 -11 93 93{NJET};
   Order (*,2);
   CKKW sqr(QCUT/E_CMS);
   
