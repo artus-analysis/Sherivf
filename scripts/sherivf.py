@@ -3,7 +3,7 @@
 
 """This is the GC wrapper
 
-sherivf.py -
+sherivf.py
 """
 
 import sys, os, glob, shutil, time, subprocess, argparse, socket, multiprocessing
@@ -146,7 +146,10 @@ class Sherivf(object):
 			['rivet', self.args.rivet, 'Rivet_{0}.so'.format(self.args.rivet)],
 			['fastnlo', self.args.rivet, self.args.rivet+'.str'],
 		], ["copytree", "copy", "copy"]):
-			getattr(shutil, function)(os.path.join(self.sherivf_path, *filelist), test_dir)
+			try:
+				getattr(shutil, function)(os.path.join(self.sherivf_path, *filelist), test_dir)
+			except IOError:
+				print "Could not copy", os.path.join(self.sherivf_path, *filelist)
 
 		os.chdir(test_dir)
 		for _dir in ["MCGRID_OUTPUT_PATH", "MCGRID_PHASESPACE_PATH"]:
@@ -159,7 +162,10 @@ class Sherivf(object):
 
 		# copy warmupfiles and event count file
 		if not self.args.warmup:
-			shutil.copy(os.path.join(ph_target_dir, self.args.rivet+".str.evtcount"), test_dir)
+			try:
+				shutil.copy(os.path.join(ph_target_dir, self.args.rivet+".str.evtcount"), test_dir)
+			except IOError:
+				print "could not copy", os.path.join(ph_target_dir, self.args.rivet+".str.evtcount")
 			warmupfiles = glob.glob(os.path.join(ph_target_dir, "*.txt"))
 			if not os.path.exists(ph_path):
 				os.makedirs(ph_path)
@@ -197,12 +203,12 @@ class Sherivf(object):
 
 	def copy_gc_configs(self):
 
+		# files to be copied by gc to workdir
 		inputfiles = [
 			os.path.join(self.sherivf_path, 'rivet', self.args.rivet, 'Rivet_{0}.so'.format(self.args.rivet)),
 			os.path.join(self.sherivf_path, 'sherpa', self.args.sherpa, '*.*'),
 			os.path.join(self.sherivf_path, 'fastnlo', self.args.rivet, '*.*'),
 		]
-		# fastnlo tab
 
 		for gcfile in self.args.list_of_gc_cfgs:
 			copyfile(gcfile, self.args.output_dir+'/'+os.path.basename(gcfile),{
@@ -253,6 +259,7 @@ class Sherivf(object):
 		""" compile the Rivet plugin via rivet-buildplugin. compiler flags are
 		read in via env var RIVET_COMPILER_FLAGS"""
 		os.chdir(os.path.join(self.sherivf_path, 'rivet'))
+		print "Compiling Rivet Plugin {0}".format(self.args.rivet)
 		print_and_call([
 			'rivet-buildplugin', 
 			"{path}/Rivet_{analysis}.so {path}/{analysis}.cc".format(
@@ -261,7 +268,6 @@ class Sherivf(object):
 			),
 			get_env("RIVET_COMPILER_FLAGS")
 		])
-		print "Rivet Plugin {0} compiled".format(self.args.rivet)
 
 
 	def sherpa_integration_run(self):

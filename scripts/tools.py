@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import os
+import subprocess
+import sys
 
 def run_gc(config, output_dir):
 	commands = ['go.py', config]
