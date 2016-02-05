@@ -7,9 +7,9 @@
    Reaction       = 'FastNLO jets'
 
    NDATA          = @NDATA@
-   NColumn        = 10
-   ColumnType     = 'Bin' , 'Bin'  , 'Sigma', 'Error', 'Error', 'Error', 'Error', 'Error', 'Error', 'Error'
-   ColumnName     = 'ylow', 'yhigh', 'Sigma', 'stat' , 'dummy', 'lumi',  'unf',   'bkgr',  'ef',    'pt'
+   NColumn        = 9
+   ColumnType     = 'Bin' , 'Bin'  , 'Sigma', 'Error', 'Error', 'Error', 'Error', 'Error', 'Error'
+   ColumnName     = 'ylow', 'yhigh', 'Sigma', 'stat' , 'lumi',  'unf',   'bkgr',  'ef',    'pt'
    NInfo          = 4
    DataInfo       = 8000.     , 1.                 , -1.      , -1.
    CInfo          = 'sqrt(S)' , 'PublicationUnits' , 'MurDef' , 'MufDef'
