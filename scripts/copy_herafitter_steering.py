@@ -19,7 +19,7 @@ datafiles_bins = ["'{}/herafitter/CMS_Zee_HFinput_zpt_{}.txt'".format(os.environ
 datafiles_photon = ["'{}/herafitter/photon.txt'".format(os.environ['SHERIVFDIR'])]
 
 heradict = {
-	'nnpdf': [len(datafiles_y), datafiles_y, 'True'],
+	'nnpdf': [len(datafiles_pt), datafiles_pt, 'True'],
 	'hera': [len(herafiles), herafiles, 'False'],
 	'heraZ': [len(datafiles_y)+len(herafiles), datafiles_y+herafiles, 'False'],
 	'heraZ_pt': [len(datafiles_pt)+len(herafiles), datafiles_pt+herafiles, 'False'],
@@ -66,6 +66,7 @@ def copy_herafile(mode, batch, targetdir, fast=False):
 		'@NFILES@': str(dataset[0]),
 		'@FILES@': ",\n   ".join(dataset[1]),
 		'@DOREWEIGHTING@': dataset[2],
+
 	}
 	if not batch:  # for GC, dont replace the HF values
 		values.update(defaults)
