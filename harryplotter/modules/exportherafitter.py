@@ -43,8 +43,6 @@ class ExportHerafitter(plotbase.PlotBase):
 		    help="Location to the txt file containing the header of the Herafitter data file.")
 		self.plotting_options.add_argument("--hera-stat", type=float, default=1.,
 		    help="multiplicator for stat uncertainties")
-		self.plotting_options.add_argument("--hera-sys", type=float, default=10.,
-		    help="sys uncertainty")
 		self.plotting_options.add_argument("--hera-lumifile", type=str)
 		self.plotting_options.add_argument("--hera-unffile", type=str)
 		self.plotting_options.add_argument("--hera-bkgrfile", type=str)
@@ -88,7 +86,6 @@ class ExportHerafitter(plotbase.PlotBase):
 				root_object.GetBinLowEdge(i) + root_object.GetBinWidth(i),
 				root_object.GetBinContent(i),
 				plotData.plotdict["hera_stat"]*(100*(root_object.GetBinError(i)/root_object.GetBinContent(i) if root_object.GetBinContent(i)>0. else 0.)),  # stat
-				plotData.plotdict["hera_sys"],  # sys
 				plotData.plotdict["root_objects"]['lumi'].GetBinContent(i),
 				plotData.plotdict["root_objects"]['unf'].GetBinContent(i),
 				plotData.plotdict["root_objects"]['bkgr'].GetBinContent(i),
@@ -107,13 +104,12 @@ class ExportHerafitter(plotbase.PlotBase):
 			str_lines.append("  ".join([
 				"{:{width}.1f}".format(line[0], width=list_of_max_len[0]),
 				"{:{width}.1f}".format(line[1], width=list_of_max_len[1]),  # 
-				"{:{width}.6f}".format(line[2], width=list_of_max_len[2]+3),  # values
-				"{:{width}.6f}".format(line[3], width=list_of_max_len[3]+3),  # stat
-				"{:{width}.6f}".format(line[4], width=list_of_max_len[4]+3),  # sys
-				"{:{width}.6f}".format(line[5], width=list_of_max_len[5]+3),  # lumi
-				"{:{width}.6f}".format(line[6], width=list_of_max_len[6]+3),  # unf
-				"{:{width}.6f}".format(line[7], width=list_of_max_len[7]+3),  # ef
-				"{:{width}.6f}".format(line[8], width=list_of_max_len[8]+3),  # bkgr
-				"{:{width}.6f}".format(line[9], width=list_of_max_len[9]+3),  # pt
+				"{:{width}.6f}".format(line[2], width=list_of_max_len[2]+3),  # stat
+				"{:{width}.6f}".format(line[3], width=list_of_max_len[3]+3),  # sys
+				"{:{width}.6f}".format(line[4], width=list_of_max_len[4]+3),  # lumi
+				"{:{width}.6f}".format(line[5], width=list_of_max_len[5]+3),  # unf
+				"{:{width}.6f}".format(line[6], width=list_of_max_len[6]+3),  # ef
+				"{:{width}.6f}".format(line[7], width=list_of_max_len[7]+3),  # bkgr
+				"{:{width}.6f}".format(line[8], width=list_of_max_len[8]+3),  # pt
 			]))
 		plotData.plot.values = "\n".join(str_lines)
