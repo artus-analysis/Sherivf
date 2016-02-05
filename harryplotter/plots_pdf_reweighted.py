@@ -3,78 +3,58 @@
 
 import Excalibur.Plotting.utility.colors as colors
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
+from Excalibur.Plotting.utility.colors import histo_colors
 
+from plots_pdf_uncertainties import pdf_unc_flavours
 
-def pdf(args=None, additional_dictionary=None, pdflabel=""):
-	"""plot a PDF"""
+def nnpdf(args=None, additional_dictionary=None):
+	""" Result of NNPDF reweighting """
 	plots = []
-	# determine q from file name:
-	q_value = "91.2"
-	try:
-		q_values = [f.split('.')[0].split('__')[-1].replace('_', '.') for f in additional_dictionary['files']]
-		if len(list(set(q_values))) == 1:
-			q_value = q_values[0]
-	except:
-		pass
-
-	for flavour in ['gluon', 'd_quark', 'u_quark', 'strange', 'charm', 'd_antiquark',
-					'u_antiquark', 'u_valence_quark', 'd_valence_quark', 'sea_quarks']:
+	y_lims = {
+		'gluon': [0, 3],
+	}
+	pdfset = 'NNPDF30_nlo_as_0118'
+	q = '1_9_squared'
+	q = '91_2'
+	nicks = ['orig', 'reweighted']
+	for flavour in pdf_unc_flavours:
 		d = {
-			"folders": [""],
+			#input
+			'files': [
+				'pdf_sets/{}/pdfs_for_plotting_{}.root'.format(pdfset, q),
+				'latest_herafitter_nnpdf/job_0_herapdf__{}.root'.format(q),
+			],
+			'folders': [''],
 			'x_expressions': [flavour],
+			'nicks': nicks,
 			# analysis
-			"analysis_modules": ["RelUncertainty"],
-			"rel_nicks": ['orig', 'new'],
+			'analysis_modules': ['RelUncertainty'],
+			'rel_nicks': nicks,
+			'subplot_nicks': [i+'_rel' for i in nicks],
 			# formatting
-			"nicks": ['orig', 'new'],
-			"subplot_nicks": ['orig_rel', 'new_rel'],
-			"line_styles": ["-"],
-			"markers": ["fill"],
-			"x_label": r"$\\mathit{x}$",
-			"colors": [colors.histo_colors['blue'], colors.histo_colors['yellow']]*2,
-			"x_log": True,
-			"y_label": "pdf",
-			"y_subplot_lims": [-0.1, 0.1],
-			"y_subplot_label": "Rel. Uncert.",
-			"texts": [pdflabel + r"\n$\\mathit{{Q}}={} \\ GeV$".format(q_value)],
-			"texts_x": [0.05],
-			'title': flavour.replace('_', ' '),
-			'subplot_fraction': 50,
+			'x_log': True,
+			'y_subplot_lims': [-0.45, 0.45],
+			'zorder': [20, 30],
+			'markers': ['fill']*6,
+			'grid': True,
+			'subplot_grid': True,
+			'line_styles': '-',
+			'x_label': r'$x$',
+			'y_label': 'xfxQ2',
+			'y_subplot_label': 'Rel. Uncertainty',
+			'alphas': [0.4],
+			'colors': [histo_colors['blue'], histo_colors['yellow']]*2,
 			# output
-			'www_title': 'NNPDF Reweighting',
-			'www_text': 'Result of NNPDF Reweighting: Comparison of original and reweighted PDF set. Dummy systematic errors have been used.',
+			'filename': flavour + '_nnpdf-rew',
 		}
+		if flavour in y_lims:
+			d['y_lims'] = y_lims[flavour]
+		if 'valence' in flavour.lower():
+			d['legend'] = 'center left'
 		if additional_dictionary is not None:
 			d.update(additional_dictionary)
 		plots.append(d)
 	return [PlottingJob(plots, args)]
-
-
-def nnpdf(args=None):
-	pdfset = 'NNPDF30_nlo_as_0118'
-	labels = {
-		'NNPDF30_nlo_as_0118': 'NNPDF 3.0',
-	}
-	return pdf(args, {
-		'files': ['pdf_sets/{}__91_2.root'.format(pdfset), 'pdf_sets/{}_HighStat_chi2_nRep100__91_2.root'.format(pdfset)],
-		'labels': ['original', 'reweighted']*2,
-	}, pdflabel=labels[pdfset])
-
-
-def herapdf(args=None, q_value='91_2'):
-	"""plot hera pdf reweighted pdf"""
-	return pdf(args, {
-		'files':  ['pdf_sets/hera{}__{}.root'.format(a, q_value) for a in ['', 'Z']],
-		'labels': ['HERA', r'HERA+CMS']*2,
-		'www_title': 'PDF Fit',
-		'www_text': 'No model or parametrisation uncertainties',
-	})
-
-def herapdf_14(args=None):
-	return herapdf(args, '1_4')
-
-def herapdf_912(args=None):
-	return herapdf(args, '91_2')
 
 
 if __name__ == '__main__':
