@@ -39,6 +39,7 @@ def different_iterations(args=None):
 		}
 		if quantity == 'zpt':
 			d['y_log'] = True
+			d['x_log'] = True
 		# ratio to MC gen
 		d.update({
 			'analysis_modules': ['Ratio'],
@@ -154,6 +155,44 @@ def unfolded_to_hera(args=None):
 		'output_dir': 'herafitter/',
 	}
 	plots.append(d)
+	return [PlottingJob(plots, args)]
+
+
+def unfolded_mc_comparison(args=None):
+	""" compare the result of the unfolding procedure for diff MCs or diff algos """
+	plots = []
+	iterations = 4
+	for quantity in ['zpt', 'abszy']:
+		# MC comparison
+		dic1 = {
+			'files': ['2_unfolded/{0}_{1}_inclusive_{2}.root'.format(quantity, mc, iterations) for mc in ['madgraph', 'powheg']],
+
+			'labels': ['Response matrix from {} sample'.format(mc) for mc in  ['Madgraph', 'Powheg']],
+			'filename': 'unfolding_samples_'+quantity,
+		}
+		# method comparison
+		dic2 = {
+			'files': ['2_unfolded/{0}_madgraph_inclusive_{2}{1}.root'.format(quantity, method, iterations) for method in ['', '_dagostini']],
+			'labels': ['Simple matrix inversion', 'Iterative d`Agostini ({0} iterations)'.format(iterations)],
+			'filename': 'unfolding_methods_'+quantity,
+		}
+		for dic in [dic1, dic2]:
+			dic.update({
+				'x_lims': common.lims(quantity),
+				'x_expressions': 'data_unfolded',
+				'folders': [''],
+				'analysis_modules': ['Ratio'],
+				'x_label': quantity,
+				'y_subplot_lims': [0.9, 1.1],
+				#'colors': ['red', 'grey'],
+				#'markers': ['o', 'fill'],
+			})
+			if quantity == 'zpt':
+				dic['y_log'] = True
+				dic['x_log'] = common.zpt_xlog
+				dic['x_ticks'] = common.zpt_ticks
+				dic['y_lims'] = [1, 10e6]
+			plots.append(dic)
 	return [PlottingJob(plots, args)]
 
 
