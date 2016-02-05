@@ -16,7 +16,7 @@
 
   % tags for process setup
   QCUT:=20.;
-  NJET:=1; LJET:=2;
+  NJET:=4; LJET:=2,3,4;
   
 }(run);
 
@@ -33,7 +33,7 @@
 
 
 (me){
-  ME_SIGNAL_GENERATOR BlackHat Comix Internal Amegic;
+  ME_SIGNAL_GENERATOR  Comix Amegic BlackHat Internal;
   EVENT_GENERATION_MODE Weighted;
   SCALES VAR{Abs2(p[2]+p[3])+PPerp2(p[2]+p[3])};
   RESULT_DIRECTORY Results_NLO; 
@@ -44,11 +44,12 @@
 }(model)
 
 (processes){
-  Process 93 93 -> 11 -11 93 93{NJET};
+  Process 93 93 -> 11 -11 93{NJET};
   Order (*,2);
   CKKW sqr(QCUT/E_CMS);
   
   NLO_QCD_Mode MC@NLO {LJET};
+  ME_Generator Amegic {LJET};
   RS_ME_Generator Comix {LJET};
   Loop_Generator BlackHat {LJET};
 
@@ -62,7 +63,6 @@
   PseudoRapidityNLO 11 -2.4 2.4
   PseudoRapidityNLO -11 -2.4 2.4
   Mass 11 -11 81. 101.
-  PT2NLO 11 -11 30 E_CMS
 }(selector)
 
 
