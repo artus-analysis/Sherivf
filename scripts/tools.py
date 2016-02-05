@@ -18,7 +18,7 @@ def run_gc(config, output_dir):
 
 def print_and_call(commands):
 	print " ".join(commands)
-	subprocess.call(commands)
+	return subprocess.call(commands)
 
 
 def copyfile(source, target, replace={}):

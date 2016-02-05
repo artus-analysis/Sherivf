@@ -282,13 +282,13 @@ class Sherivf(object):
 				rm_command = ["rm", "-rf"] + files_to_delete
 				if query_yes_no("Delete {0}?".format(" ".join(files_to_delete))):
 					print_and_call(rm_command)
-			print_and_call(["Sherpa", "-e "+str(self.args.n_events)])
-			print "Sucessfully ran Sherpa in directory", directory
+			if print_and_call(["Sherpa", "-e "+str(self.args.n_events)]):
+				print "Sucessfully ran Sherpa in directory", directory
 
 			#check for 'makelibs' (produced by AMEGIC)
 			if os.path.isfile('makelibs') and query_yes_no("Compile makelibs?"):
-				print_and_call(["./makelibs"])
-				print "Sucessfully compiled libraries with './makelibs'"
+				if print_and_call(["./makelibs"]):
+					print "Sucessfully compiled libraries with './makelibs'"
 
 		except OSError:
 			print "ERROR: could not switch to directory", directory

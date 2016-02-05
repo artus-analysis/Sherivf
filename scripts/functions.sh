@@ -4,11 +4,11 @@
 
 # execute the different steps for data analysis
 make_analysis(){
-	merlin.py --py subtract_backgrounds
-	merlin.py --py unfold --no-mcs
-	merlin.py --py zee_divide
-	merlin.py --py uncertainties
-	merlin.py --py herafile
+	merlin.py --py subtract_backgrounds $@
+	merlin.py --py unfold $@
+	merlin.py --py zee_divide $@
+	merlin.py --py uncertainties $@
+	merlin.py --py herafile $@
 }
 
 clear_analysis(){

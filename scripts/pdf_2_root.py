@@ -119,7 +119,7 @@ def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q, Q2):
 				tgraph.SetPointEYlow(index, unc.errminus)
 				tgraph.SetPointEYhigh(index, unc.errplus)
 			except RuntimeError:
-				print "could not compute uncertainties (len values):", len(values)
+				print "Could not compute uncertainties!"
 				do_uncertainty = False
 
 	return tgraph
