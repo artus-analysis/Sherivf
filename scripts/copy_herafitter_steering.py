@@ -25,7 +25,7 @@ heradict = {
 	'heraZ_bins': [len(datafiles_bins)+len(herafiles), datafiles_bins+herafiles, 'False'],
 }
 
-valuefile = "'" + os.environ['SHERIVFDIR'] + "/herafitter/CMS_Zee_HFinput_{}_inclusive.txt'" 
+valuefile = "'" + os.environ['SHERIVFDIR'] + "/herafitter/CMS_Zee_HFinput_{0}_{1}.txt'"
 modes = {
 	'hera': herafiles,
 	#'hera2': [len(herafiles), herafiles],
@@ -33,8 +33,9 @@ modes = {
 }
 
 values = {
-	'abszy': [valuefile.format('abszy')],
-	'zpt': [valuefile.format('zpt')],
+	'abszy': [valuefile.format('abszy', 'inclusive')],
+	'zpt': [valuefile.format('zpt', 'inclusive')],
+	'zpt_bins': [valuefile.format('zpt', ptbin) for ptbin in common.ybin_labels[:-1]],
 }
 
 
@@ -51,7 +52,7 @@ def main():
 	copy_herafile(args.mode, args.batch, args.dir, args.fast)
 
 
-def copy_herafile(mode, value, batch, targetdir, fast=False):
+def copy_herafile(mode, value, batch, targetdir, fast=False, keys={}):
 
 	print "Preparing Herafitter for {0} mode with {1} values".format(mode, value)
 
@@ -79,11 +80,13 @@ def copy_herafile(mode, value, batch, targetdir, fast=False):
 		'@NFILES@': str(len(datafiles)),
 		'@FILES@': ",\n   ".join(datafiles),
 		'@DOREWEIGHTING@': str((mode == 'nnpdf')),
+		'@PDFSET@': 'NNPDF23_nlo_as_0118',
 		# NNPDF Rew.
 	}
 	settings.update(defaults_global)
 	if not batch:  # for GC, dont replace the HF values
 		settings.update(defaults_local)
+	settings.update(keys)
 	tools.copyfile(steeringfile, target, settings)
 
 

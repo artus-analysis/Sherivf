@@ -20,35 +20,30 @@ class NNPDF(object):
 		self.hfiles = ['ewparam.txt', 'minuit.in.txt']
 
 	def run(self):
-		pdfset = 'NNPDF23_nlo_as_0118'
+		pdfset = 'NNPDF30_nlo_as_0118'
 		newname = 'Zee'
 		chi2_data = 'chi2'
 		newset = '_'.join([pdfset, newname, chi2_data])
+		steering_dict = {'@PDFSET@': pdfset}
 		
 		# create dir and copy necessary files
 		os.makedirs(self.args.output_dir + "/output/"+newset)
 		os.makedirs(self.args.output_dir + "/input_steering")
-		copy_herafitter_steering.copy_herafile('nnpdf', self.args.value, False, self.args.output_dir)
+		copy_herafitter_steering.copy_herafile('nnpdf', self.args.value, False, self.args.output_dir, keys=steering_dict)
 		for hfile in self.hfiles:
 			tools.copyfile('hera-gc/'+hfile, self.args.output_dir+'/'+os.path.basename(hfile),{'@MCHARM@': '1.4','@MBOTTOM@': '4.75',})
 
-		# 
+		# Run fit
 		os.chdir(self.args.output_dir)
 		os.makedirs(newset)
-
 		fit_success = tools.print_and_call(["FitPDF"])
-		print "\n\n", fit_success
 
+		# evaluate PDF
 		os.chdir('output/' + newset)
 		newset_rep = newset + '_nRep100'
 		with open(newset_rep + '/' + newset_rep + '.info', 'a') as pdf_info_file:
 			pdf_info_file.write('ErrorType: replicas')
-		#eval_pdfs ${PDFSET}_${NEWNAME}_${CHI2_DATA}_nRep100
-		#rename ${PDFSET}_${NEWNAME}_${CHI2_DATA}_nRep100 herapdf *.root
-
-
 		print "Name of new PDF set:", newset_rep
-
 		for q, q2 in zip([91.2, 1.4], [False, True]):
 			pdf_2_root.main(
 				newset_rep,
@@ -60,11 +55,9 @@ class NNPDF(object):
 				101,
 				os.getcwd()
 			)
-		#for filename in glob.glob("*.root"):
-		#	os.rename(filename, filename.replace(newset_rep, 'herapdf'))
 
+		# create link
 		print "Output dir", self.args.output_dir
-		# link
 		linkdir = tools.get_env('SHERIVFDIR')+'/results'
 		if not os.path.exists(linkdir):
 			os.makedirs(linkdir)
@@ -76,7 +69,6 @@ class NNPDF(object):
 	def get_arguments(self):
 		parser = argparse.ArgumentParser(
 			description="%(prog)s is the main analysis program.", epilog="Have fun.")
-
 		parser.add_argument('-v', '--value', type=str, default=self.default_value,
 			help="value (abszy, zpt")
 		parser.add_argument('-o', '--output-dir', type=str, default=None, help="")
