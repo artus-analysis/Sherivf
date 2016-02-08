@@ -7,7 +7,7 @@ import argparse
 import os
 import common
 
-import sherivf
+import tools
 
 heradir = os.environ['HERADIR']
 steeringfile = os.path.join(os.environ['SHERIVFDIR'], "herafitter/steering.txt")
@@ -25,13 +25,25 @@ heradict = {
 	'heraZ_bins': [len(datafiles_bins)+len(herafiles), datafiles_bins+herafiles, 'False'],
 }
 
+valuefile = "'" + os.environ['SHERIVFDIR'] + "/herafitter/CMS_Zee_HFinput_{}_inclusive.txt'" 
+modes = {
+	'hera': herafiles,
+	#'hera2': [len(herafiles), herafiles],
+	'nnpdf':[],
+}
+
+values = {
+	'abszy': [valuefile.format('abszy')],
+	'zpt': [valuefile.format('zpt')],
+}
+
 
 
 def main():
 	"""main"""
 	parser = argparse.ArgumentParser()
-	parser.add_argument('-m', '--mode', type=str, default='hera',
-		help="mode", choices=heradict.keys())
+	parser.add_argument('-m', '--mode', type=str, default='hera', help="mode", choices=modes.keys())
+	parser.add_argument('-v', '--values', type=str, default='abszy', help="Value", choices=values.keys())
 	parser.add_argument('-b', '--batch', action="store_true", help="batch mode, i.e. dont copy defaults", )
 	parser.add_argument('-f', '--fast', action="store_true", help="RT FAST scheme (instead of RT)")
 	parser.add_argument('-d', '--dir', type=str, default=heradir, help="dir to copy steering file to")
@@ -39,11 +51,12 @@ def main():
 	copy_herafile(args.mode, args.batch, args.dir, args.fast)
 
 
-def copy_herafile(mode, batch, targetdir, fast=False):
+def copy_herafile(mode, value, batch, targetdir, fast=False):
 
-	print "Preparing Herafitter for {} mode".format(mode)
+	print "Preparing Herafitter for {0} mode with {1} values".format(mode, value)
 
-	defaults = {
+	defaults_local = {
+		# for HERA Fit
 		'@Q02@': '1.9',
 		'@Q2MIN@': '7.5',
 		'@HF_SCHEME@': 'RT'+(' FAST' if fast else ''),
@@ -54,21 +67,24 @@ def copy_herafile(mode, batch, targetdir, fast=False):
 		'@FS@': '0.31',
 		'@FC@': '0.',
 	}
+	defaults_global = {
+	}
 
 	# copy
-	dataset = heradict[mode]
 	target = os.path.join(targetdir, os.path.basename(steeringfile))
 	print "Copy steering file to", target
 
-	values = {
-		'@NFILES@': str(dataset[0]),
-		'@FILES@': ",\n   ".join(dataset[1]),
-		'@DOREWEIGHTING@': dataset[2],
-
+	datafiles = modes[mode] + values[value]
+	settings = {
+		'@NFILES@': str(len(datafiles)),
+		'@FILES@': ",\n   ".join(datafiles),
+		'@DOREWEIGHTING@': str((mode == 'nnpdf')),
+		# NNPDF Rew.
 	}
+	settings.update(defaults_global)
 	if not batch:  # for GC, dont replace the HF values
-		values.update(defaults)
-	sherivf.copyfile(steeringfile, target, values)
+		settings.update(defaults_local)
+	tools.copyfile(steeringfile, target, settings)
 
 
 if __name__ == "__main__":

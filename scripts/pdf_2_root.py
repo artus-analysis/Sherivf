@@ -79,12 +79,17 @@ def getopt():
 
 	opt = parser.parse_args()
 	if opt.output_filename is None:
-		opt.output_filename = "{}__{}".format(opt.pdfset, str(opt.q).replace('.', '_'))
-		if opt.q2:
-			opt.output_filename += "_squared"
-	
+		opt.output_filename = get_default_filename(opt.pdfset, opt.q, opt.q2)
 	opt.output_filename += ".root"
 	return opt
+
+
+def get_default_filename(pdfset, q, q2):
+	output_filename = "{}__{}".format(pdfset, str(q).replace('.', '_'))
+	if q2:
+		output_filename += "_squared"
+	return output_filename
+
 
 def get_pdf_tgraph(pset, flavour, x_values, n_points, n_members, Q, Q2):
 	all_values = []

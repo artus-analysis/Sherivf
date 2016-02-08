@@ -7,14 +7,15 @@
 
 
 import time, sys, os, glob, argparse, subprocess
-import sherivf
-import copy_herafitter_steering
 
+import tools
+import copy_herafitter_steering
+import pdf_2_root
 
 
 class NNPDF(object):
 	def __init__(self):
-		self.default_mode = 'nnpdf'
+		self.default_value = 'abszy'
 		self.get_arguments()
 		self.hfiles = ['ewparam.txt', 'minuit.in.txt']
 
@@ -27,40 +28,62 @@ class NNPDF(object):
 		# create dir and copy necessary files
 		os.makedirs(self.args.output_dir + "/output/"+newset)
 		os.makedirs(self.args.output_dir + "/input_steering")
-		copy_herafitter_steering.copy_herafile(self.args.mode, False, self.args.output_dir)
+		copy_herafitter_steering.copy_herafile('nnpdf', self.args.value, False, self.args.output_dir)
 		for hfile in self.hfiles:
-			sherivf.copyfile('hera-gc/'+hfile, self.args.output_dir+'/'+os.path.basename(hfile),{'@MCHARM@': '1.4','@MBOTTOM@': '4.75',})
+			tools.copyfile('hera-gc/'+hfile, self.args.output_dir+'/'+os.path.basename(hfile),{'@MCHARM@': '1.4','@MBOTTOM@': '4.75',})
 
 		# 
 		os.chdir(self.args.output_dir)
 		os.makedirs(newset)
 
-		sherivf.print_and_call(["FitPDF"])
+		fit_success = tools.print_and_call(["FitPDF"])
+		print "\n\n", fit_success
 
-		#os.chdir('output/')
-		#cd output/${PDFSET}_${NEWNAME}_${CHI2_DATA}
-		#echo "ErrorType: replicas" >> ${PDFSET}_${NEWNAME}_${CHI2_DATA}_nRep100/${PDFSET}_${NEWNAME}_${CHI2_DATA}_nRep100.info
+		os.chdir('output/' + newset)
+		newset_rep = newset + '_nRep100'
+		with open(newset_rep + '/' + newset_rep + '.info', 'a') as pdf_info_file:
+			pdf_info_file.write('ErrorType: replicas')
 		#eval_pdfs ${PDFSET}_${NEWNAME}_${CHI2_DATA}_nRep100
 		#rename ${PDFSET}_${NEWNAME}_${CHI2_DATA}_nRep100 herapdf *.root
-		print self.args.output_dir
 
+
+		print "Name of new PDF set:", newset_rep
+
+		for q, q2 in zip([91.2, 1.4], [False, True]):
+			pdf_2_root.main(
+				newset_rep,
+				pdf_2_root.partondict.keys(),
+				pdf_2_root.get_default_filename(newset_rep, q, q2)+'.root',
+				100,
+				q,
+				q2,
+				101,
+				os.getcwd()
+			)
+		#for filename in glob.glob("*.root"):
+		#	os.rename(filename, filename.replace(newset_rep, 'herapdf'))
+
+		print "Output dir", self.args.output_dir
 		# link
-		linkdir = sherivf.get_env('SHERIVFDIR')+'/latest_herafitter_'+self.args.mode
+		linkdir = tools.get_env('SHERIVFDIR')+'/results'
+		if not os.path.exists(linkdir):
+			os.makedirs(linkdir)
+		linkdir += '/nnpdf_'+self.args.value
 		subprocess.call(['rm', '-f', linkdir])
 		print "Create link to", linkdir
-		subprocess.call(['ln', '-sf', self.args.output_dir+"/output/"+newset, linkdir])
+		subprocess.call(['ln', '-sf', tools.get_env('SHERIVFDIR') + "/" + self.args.output_dir+"/output/"+newset, linkdir])
 
 	def get_arguments(self):
 		parser = argparse.ArgumentParser(
 			description="%(prog)s is the main analysis program.", epilog="Have fun.")
 
-		parser.add_argument('-m', '--mode', type=str, default=self.default_mode,
-			help="mode (hera, heraZ)")
+		parser.add_argument('-v', '--value', type=str, default=self.default_value,
+			help="value (abszy, zpt")
 		parser.add_argument('-o', '--output-dir', type=str, default=None, help="")
 		
 		self.args = parser.parse_args()
 		if self.args.output_dir is None:
-			self.args.output_dir = (self.args.mode + "_" + time.strftime("%Y-%m-%d_%H-%M"))
+			self.args.output_dir = (self.args.value + "_" + time.strftime("%Y-%m-%d_%H-%M"))
 		self.args.output_dir = 'nnpdf/' + self.args.output_dir
 
 
@@ -68,5 +91,5 @@ if __name__ == "__main__":
 	start_time = time.time()
 	nnpdf = NNPDF()
 	nnpdf.run()
-	print "---        NNPDF took {}  ---".format(sherivf.format_time(time.time() - start_time))
+	print "---        NNPDF took {}  ---".format(tools.format_time(time.time() - start_time))
 

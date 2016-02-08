@@ -13,16 +13,16 @@ def nnpdf(args=None, additional_dictionary=None):
 	y_lims = {
 		'gluon': [0, 3],
 	}
-	pdfset = 'NNPDF30_nlo_as_0118'
-	q = '1_9_squared'
-	q = '91_2'
+	pdfset = 'NNPDF23_nlo_as_0118'
+	q = '1_4_squared'
+	#q = '91_2'
 	nicks = ['orig', 'reweighted']
 	for flavour in pdf_unc_flavours:
 		d = {
 			#input
 			'files': [
-				'pdf_sets/{}/pdfs_for_plotting_{}.root'.format(pdfset, q),
-				'latest_herafitter_nnpdf/job_0_herapdf__{}.root'.format(q),
+				'pdf_sets/{0}__{1}.root'.format(pdfset, q),
+				'results/nnpdf_zpt/{0}_Zee_chi2_nRep100__{1}.root'.format(pdfset, q),
 			],
 			'folders': [''],
 			'x_expressions': [flavour],
