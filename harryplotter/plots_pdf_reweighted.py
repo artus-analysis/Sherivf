@@ -6,6 +6,7 @@ from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 from Excalibur.Plotting.utility.colors import histo_colors
 
 from plots_pdf_uncertainties import pdf_unc_flavours
+import common
 
 def nnpdf(args=None, additional_dictionary=None):
 	""" Result of NNPDF reweighting """
@@ -15,8 +16,8 @@ def nnpdf(args=None, additional_dictionary=None):
 	}
 	pdfset = 'NNPDF23_nlo_as_0118'
 	q = '1_4_squared'
-	#q = '91_2'
-	nicks = ['orig', 'reweighted']
+	q = '91_2'
+	nicks = ['original', 'reweighted']
 	for flavour in pdf_unc_flavours:
 		d = {
 			#input
@@ -33,12 +34,13 @@ def nnpdf(args=None, additional_dictionary=None):
 			'subplot_nicks': [i+'_rel' for i in nicks],
 			# formatting
 			'x_log': True,
-			'y_subplot_lims': [-0.45, 0.45],
+			'y_subplot_lims': [-0.1, 0.1],
 			'zorder': [20, 30],
 			'markers': ['fill']*6,
 			'grid': True,
 			'subplot_grid': True,
 			'line_styles': '-',
+			'title': common.pdfsetdict.get(pdfset, pdfset),
 			'x_label': r'$x$',
 			'y_label': 'xfxQ2',
 			'y_subplot_label': 'Rel. Uncertainty',
