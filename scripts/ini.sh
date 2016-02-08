@@ -62,10 +62,11 @@ export LD_LIBRARY_PATH=$PWD:$LD_LIBRARY_PATH:$BOOSTPATH/lib:$HOME/local/lib64/:/
 
 #LHAPDF
 if [[ `lhapdf-config  --version` == 5.* ]]; then
-	export LHAPATH=/cvmfs/cms.cern.ch/lhapdf/pdfsets/5.9.1
+	export LHAPDF_DATA_PATH=/cvmfs/cms.cern.ch/lhapdf/pdfsets/5.9.1
 elif [[ `lhapdf-config  --version` == 6.* ]]; then
-	export LHAPATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/lhapdf/6.1.5/share/LHAPDF/
+	export LHAPDF_DATA_PATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/lhapdf/6.1.5/share/LHAPDF/
 fi
+export LHAPDF_DATA_PATH=/storage/a/dhaitz/PDFsets/:$LHAPDF_DATA_PATH
 
 # aliases
 export RIVET_COMPILER_FLAGS="-std=c++0x -Wl,--export-dynamic,-z,defs  $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lHepMC -lYODA -DUSE_FNLO=1"

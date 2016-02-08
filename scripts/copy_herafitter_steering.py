@@ -81,6 +81,7 @@ def copy_herafile(mode, value, batch, targetdir, fast=False, keys={}):
 		'@FILES@': ",\n   ".join(datafiles),
 		'@DOREWEIGHTING@': str((mode == 'nnpdf')),
 		'@PDFSET@': 'NNPDF23_nlo_as_0118',
+		'@NREPLICAS@': 100,
 		# NNPDF Rew.
 	}
 	settings.update(defaults_global)

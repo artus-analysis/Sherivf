@@ -20,11 +20,12 @@ class NNPDF(object):
 		self.hfiles = ['ewparam.txt', 'minuit.in.txt']
 
 	def run(self):
-		pdfset = 'NNPDF30_nlo_as_0118'
+		pdfset = 'NNPDF30_nlo_as_0118_nolhc_1000'
 		newname = 'Zee'
 		chi2_data = 'chi2'
+		n_replicas = 1000
 		newset = '_'.join([pdfset, newname, chi2_data])
-		steering_dict = {'@PDFSET@': pdfset}
+		steering_dict = {'@PDFSET@': pdfset,'@NREPLICAS@': str(n_replicas)}
 		
 		# create dir and copy necessary files
 		os.makedirs(self.args.output_dir + "/output/"+newset)
@@ -40,11 +41,11 @@ class NNPDF(object):
 
 		# evaluate PDF
 		os.chdir('output/' + newset)
-		newset_rep = newset + '_nRep100'
+		newset_rep = newset + '_nRep'+str(n_replicas)
 		with open(newset_rep + '/' + newset_rep + '.info', 'a') as pdf_info_file:
 			pdf_info_file.write('ErrorType: replicas')
 		print "Name of new PDF set:", newset_rep
-		for q, q2 in zip([91.2, 1.4], [False, True]):
+		for q, q2 in zip([91.2, 1.9, 10.0], [False, True, True]):
 			pdf_2_root.main(
 				newset_rep,
 				pdf_2_root.partondict.keys(),
