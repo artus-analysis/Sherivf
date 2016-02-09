@@ -4,6 +4,18 @@ import os
 import subprocess
 import sys
 
+
+def create_result_linkdir(outputdir, linkname):
+	print "Output dir", outputdir
+	linkdir = tools.get_env('SHERIVFDIR')+'/results/'
+	if not os.path.exists(linkdir):
+		os.makedirs(linkdir)
+	linkdir += linkname
+	subprocess.call(['rm', '-f', linkdir])
+	print "Create link to", linkdir
+	subprocess.call(['ln', '-sf', outputdir, linkdir])
+
+
 def run_gc(config, output_dir):
 	commands = ['go.py', config]
 	try:
@@ -16,9 +28,9 @@ def run_gc(config, output_dir):
 		exit(1)
 
 
-def print_and_call(commands):
+def print_and_call(commands, **kwargs):
 	print " ".join(commands)
-	return subprocess.call(commands)
+	return subprocess.call(commands, **kwargs)
 
 
 def copyfile(source, target, replace={}):
@@ -30,7 +42,7 @@ def copyfile(source, target, replace={}):
 		print "Couldnt open file", source
 		sys.exit(1)
 	for a, b in replace.items():
-		text = text.replace(a, b)
+		text = text.replace(str(a), str(b))
 	with open(target, 'wb') as f:
 		f.write(text)
 	return text

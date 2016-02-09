@@ -12,7 +12,8 @@ import copy_herafitter_steering
 
 class Hera(object):
 	def __init__(self):
-		self.default_mode = 'hera'
+		self.default_mode = 'hera2'
+		self.default_value = 'abszy'
 		self.default_config = "herafitter.conf"
 		self.default_storage_path = '/storage/a/dhaitz/hera/'
 		self.get_arguments()
@@ -28,19 +29,15 @@ class Hera(object):
 		sherivf.run_gc(self.args.output_dir + "/" + self.args.config, self.args.output_dir)
 		self.gctime = time.time() - self.gctime
 
-		linkdir = sherivf.get_env('SHERIVFDIR')+'/latest_herafitter_'+self.args.mode
-		subprocess.call(['rm', '-f', linkdir])
-		print "Create link to", linkdir
-		subprocess.call(['ln', '-sf', self.args.output_dir+"/output/", linkdir])
+		tools.create_result_linkdir(self.args.output_dir+"/output/", self.args.mode + '_' + self.args.value)
 
 
 	def copy_gc_files(self):
 		for gcfile in self.list_of_gc_files:
 			sherivf.copyfile(gcfile, self.args.output_dir+'/'+os.path.basename(gcfile),{
 				'@OUTDIR@': self.args.output_dir+'/output',
-				'@MODE@': self.args.mode,
 			})
-		copy_herafitter_steering.copy_herafile(self.args.mode, True, self.args.output_dir, self.args.fast)
+		copy_herafitter_steering.copy_herafile(self.args.mode, self.args.value, True, self.args.output_dir, self.args.fast)
 
 
 	def create_output_dir(self):
@@ -53,8 +50,8 @@ class Hera(object):
 		parser = argparse.ArgumentParser(
 			description="%(prog)s is the main analysis program.", epilog="Have fun.")
 
-		parser.add_argument('-m', '--mode', type=str, default=self.default_mode,
-			help="mode (hera, heraZ)")
+		parser.add_argument('-m', '--mode', type=str, default=self.default_mode, help="mode", choices=copy_herafitter_steering.modes.keys())
+		parser.add_argument('-v', '--value', type=str, default=self.default_value, help="Value", choices=copy_herafitter_steering.values.keys())
 		parser.add_argument('-c', '--config', type=str, default=self.default_config,
 			help="default:" + self.default_config)
 		parser.add_argument('-o', '--output-dir', type=str, default=None, help="")
@@ -62,7 +59,7 @@ class Hera(object):
 		
 		self.args = parser.parse_args()
 		if self.args.output_dir is None:
-			self.args.output_dir = (self.args.mode + "_" + time.strftime("%Y-%m-%d_%H-%M"))
+			self.args.output_dir = (self.args.mode + "_" + self.args.value + "_" + time.strftime("%Y-%m-%d_%H-%M"))
 		self.args.output_dir = self.default_storage_path + "/" + self.args.output_dir
 
 if __name__ == "__main__":

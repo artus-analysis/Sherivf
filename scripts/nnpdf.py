@@ -37,7 +37,8 @@ class NNPDF(object):
 		# Run fit
 		os.chdir(self.args.output_dir)
 		os.makedirs(newset)
-		fit_success = tools.print_and_call(["FitPDF"])
+		stdout_file = open("stdout.txt", "w")
+		fit_success = tools.print_and_call(["FitPDF"], stdout=stdout_file)
 
 		# evaluate PDF
 		os.chdir('output/' + newset)
@@ -53,7 +54,7 @@ class NNPDF(object):
 				100,
 				q,
 				q2,
-				101,
+				n_replicas+1,
 				os.getcwd()
 			)
 
@@ -65,7 +66,7 @@ class NNPDF(object):
 		linkdir += '/nnpdf_'+self.args.value
 		subprocess.call(['rm', '-f', linkdir])
 		print "Create link to", linkdir
-		subprocess.call(['ln', '-sf', tools.get_env('SHERIVFDIR') + "/" + self.args.output_dir+"/output/"+newset, linkdir])
+		subprocess.call(['ln', '-sf', self.args.output_dir+"/output/"+newset, linkdir])
 
 	def get_arguments(self):
 		parser = argparse.ArgumentParser(
@@ -77,7 +78,7 @@ class NNPDF(object):
 		self.args = parser.parse_args()
 		if self.args.output_dir is None:
 			self.args.output_dir = (self.args.value + "_" + time.strftime("%Y-%m-%d_%H-%M"))
-		self.args.output_dir = 'nnpdf/' + self.args.output_dir
+		self.args.output_dir = tools.get_env('SHERIVF_STORAGE_PATH') + 'nnpdf/' + self.args.output_dir
 
 
 if __name__ == "__main__":
