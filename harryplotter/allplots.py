@@ -16,6 +16,7 @@ import plots_zee_divide
 import plots_uncertainties
 import plots_unfolded
 import plots_pdf_uncertainties
+import branching
 
 
 def allplots(args=None):
@@ -69,6 +70,7 @@ def allplots(args=None):
 		plots_pdf_reweighted.nnpdf_abszy_2,
 		plots_pdf_reweighted.nnpdf_abszy_10,  # 35
 		plots_pdf_reweighted.nnpdf_abszy_91,
+		branching.branching_ratio,
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -109,6 +111,7 @@ def allplots(args=None):
 		"nnpdf_abszy_2",
 		"nnpdf_abszy_10",
 		"nnpdf_abszy_91",
+		"branching_ratio",
 	][plot_min:plot_max]
 
 	for function, wwwdir in zip(functions, wwwdirs):
