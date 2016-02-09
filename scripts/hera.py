@@ -13,7 +13,7 @@ import copy_herafitter_steering
 class Hera(object):
 	def __init__(self):
 		self.default_mode = 'hera2'
-		self.default_value = 'abszy'
+		self.default_value = None
 		self.default_config = "herafitter.conf"
 		self.default_storage_path = '/storage/a/dhaitz/hera/'
 		self.get_arguments()
@@ -29,7 +29,7 @@ class Hera(object):
 		tools.run_gc(self.args.output_dir + "/" + self.args.config, self.args.output_dir)
 		self.gctime = time.time() - self.gctime
 
-		tools.create_result_linkdir(self.args.output_dir+"/output/", self.args.mode + '_' + self.args.value)
+		tools.create_result_linkdir(self.args.output_dir+"/output/", self.args.mode + ('_' + self.args.value if self.args.value else '')
 
 
 	def copy_gc_files(self):
@@ -59,7 +59,7 @@ class Hera(object):
 		
 		self.args = parser.parse_args()
 		if self.args.output_dir is None:
-			self.args.output_dir = (self.args.mode + "_" + self.args.value + "_" + time.strftime("%Y-%m-%d_%H-%M"))
+			self.args.output_dir = (self.args.mode + ('_' + self.args.value if self.args.value else '') + "_" + time.strftime("%Y-%m-%d_%H-%M"))
 		self.args.output_dir = self.default_storage_path + "/" + self.args.output_dir
 
 if __name__ == "__main__":

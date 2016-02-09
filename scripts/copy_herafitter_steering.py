@@ -32,7 +32,7 @@ def main():
 	"""main"""
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-m', '--mode', type=str, default='hera', help="mode", choices=modes.keys())
-	parser.add_argument('-v', '--values', type=str, default='abszy', help="Value", choices=values.keys())
+	parser.add_argument('-v', '--values', type=str, default=None, help="Value", choices=values.keys())
 	parser.add_argument('-b', '--batch', action="store_true", help="batch mode, i.e. dont copy defaults", )
 	parser.add_argument('-f', '--fast', action="store_true", help="RT FAST scheme (instead of RT)")
 	parser.add_argument('-d', '--dir', type=str, default=heradir, help="dir to copy steering file to")
@@ -42,7 +42,7 @@ def main():
 
 def copy_herafile(mode, value, batch, targetdir, fast=False, keys={}):
 
-	print "Preparing Herafitter for {0} mode with {1} values".format(mode, value)
+	print "Preparing Herafitter for {0} mode {1} ".format(mode, ('with {0} values'.format(value) if value else ''))
 
 	defaults_local = {
 		# for HERA Fit
@@ -63,7 +63,7 @@ def copy_herafile(mode, value, batch, targetdir, fast=False, keys={}):
 	target = os.path.join(targetdir, os.path.basename(steeringfile))
 	print "Copy steering file to", target
 
-	datafiles = modes[mode] + values[value]
+	datafiles = modes[mode] + (values[value] if value else [])
 	settings = {
 		'@NFILES@': str(len(datafiles)),
 		'@FILES@': ",\n   ".join(datafiles),
