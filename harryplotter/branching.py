@@ -12,6 +12,7 @@ def branching_ratio(args=None, additional_dictionary=None):
 		"x_expressions": ["0.5 2"] + ["3.5"]*3,
 		"y_expressions": ["69.91 20", "10.09", "6.73", "3.37"],
 		"y_errors": ["0.06 0.06"]+["0.01"]*3,
+		"x_errors": [None],
 		#formatting
 		"markers": ["fill"],
 		"colors": [histo_colors[color] for color in ['blue', 'yellow', 'green', 'brown']],

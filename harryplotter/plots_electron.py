@@ -265,7 +265,7 @@ def electron_scale_unc(args=None, additional_dictionary=None):
 	return [PlottingJob([d], args)]
 
 
-ids = ['Loose', 'Medium', 'Tight', 'None']
+ids = ['Loose', 'Medium', 'Tight']
 
 def electron_efficiencies_2d(args=None, additional_dictionary=None):
 	""""2D Plots (eta, pT) for the efficiencies determined with the Egamma TnP package"""

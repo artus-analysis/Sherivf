@@ -6,7 +6,7 @@
 """
 
 import time, sys, os, glob, argparse, subprocess
-import sherivf
+import tools
 import copy_herafitter_steering
 
 
@@ -22,11 +22,11 @@ class Hera(object):
 		# create gc-dir and copy necessary files
 		self.create_output_dir()
 		files_to_copy = [self.default_config, 'minuit.in.txt', 'herapdf_par.conf', 'ewparam.txt','run-herafitter.sh']
-		self.list_of_gc_files = [sherivf.get_env('SHERIVFDIR') + '/hera-gc/' + f for f in files_to_copy]
+		self.list_of_gc_files = [tools.get_env('SHERIVFDIR') + '/hera-gc/' + f for f in files_to_copy]
 		self.copy_gc_files()
 
 		self.gctime = time.time()
-		sherivf.run_gc(self.args.output_dir + "/" + self.args.config, self.args.output_dir)
+		tools.run_gc(self.args.output_dir + "/" + self.args.config, self.args.output_dir)
 		self.gctime = time.time() - self.gctime
 
 		tools.create_result_linkdir(self.args.output_dir+"/output/", self.args.mode + '_' + self.args.value)
@@ -34,7 +34,7 @@ class Hera(object):
 
 	def copy_gc_files(self):
 		for gcfile in self.list_of_gc_files:
-			sherivf.copyfile(gcfile, self.args.output_dir+'/'+os.path.basename(gcfile),{
+			tools.copyfile(gcfile, self.args.output_dir+'/'+os.path.basename(gcfile),{
 				'@OUTDIR@': self.args.output_dir+'/output',
 			})
 		copy_herafitter_steering.copy_herafile(self.args.mode, self.args.value, True, self.args.output_dir, self.args.fast)
@@ -67,5 +67,5 @@ if __name__ == "__main__":
 	hera = Hera()
 	hera.run()
 	if hasattr(hera, "gctime"):
-		print "---        Hera took {}  ---".format(sherivf.format_time(time.time() - start_time))
-		print "--- GridControl took {}  ---".format(sherivf.format_time(hera.gctime))
+		print "---        Hera took {}  ---".format(tools.format_time(time.time() - start_time))
+		print "--- GridControl took {}  ---".format(tools.format_time(hera.gctime))

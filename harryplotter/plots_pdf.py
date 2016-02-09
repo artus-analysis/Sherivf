@@ -20,7 +20,7 @@ def pdfs_thesis(args=None, additional_dictionary=None):
 			# analysis
 			"analysis_modules": ["ScaleHistograms"],
 			"scale_nicks": ["gluon", "sea_quarks"],
-			"scale": 0.1,
+			"scales": [0.1],
 			# formatting
 			"line_styles": ["-"],
 			"markers": ["fill"],

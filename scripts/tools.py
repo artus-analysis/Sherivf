@@ -7,7 +7,7 @@ import sys
 
 def create_result_linkdir(outputdir, linkname):
 	print "Output dir", outputdir
-	linkdir = tools.get_env('SHERIVFDIR')+'/results/'
+	linkdir = get_env('SHERIVFDIR')+'/results/'
 	if not os.path.exists(linkdir):
 		os.makedirs(linkdir)
 	linkdir += linkname

@@ -68,7 +68,7 @@ def unfold(args=None):
 			['mc_ee.root', 'mc_ee_powheg.root']
 		], known_args.no_mcs)):
 			for quantity in parsertools.get_list_slice([common.data_quantities], known_args.no_quantities)[0]:
-				for method in ['dagostini', 'binbybin']:
+				for method in ['dagostini', 'binbybin', 'inversion']:
 					for iteration in parsertools.get_list_slice([range(1, 1+max_iterations)], known_args.no_iterations)[0]:
 						for variation in common.variations + common.unfolding_variations:
 							if variation == '_unfdown':
