@@ -64,6 +64,11 @@ def allplots(args=None):
 		plots_electron.electron_efficiencies_1d,
 		plots_fastnlo.fastnlo_pdfmembers,  # 30
 		plots_unfolded.unfolded_mc_comparison,
+		plots_pdf_reweighted.nnpdf_zpt_91,
+		plots_pdf_reweighted.nnpdf_zpt_2,
+		plots_pdf_reweighted.nnpdf_abszy_2,
+		plots_pdf_reweighted.nnpdf_abszy_10,  # 35
+		plots_pdf_reweighted.nnpdf_abszy_91,
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -82,7 +87,7 @@ def allplots(args=None):
 		"fastnlo_pdfsets",
 		"fastnlo_pdfuncertainties",
 		"fastnlo_sherpa",
-		"nnpdf",
+		"nnpdf_zpt_10",
 		"scale_uncertainty",
 		"k_factors",
 		"uncertainties",
@@ -99,6 +104,11 @@ def allplots(args=None):
 		"electron_efficiencies_1d",
 		"fastnlo_pdfmembers",
 		"unfolding_crosschecks",
+		"nnpdf_zpt_91",
+		"nnpdf_zpt_2",
+		"nnpdf_abszy_2",
+		"nnpdf_abszy_10",
+		"nnpdf_abszy_91",
 	][plot_min:plot_max]
 
 	for function, wwwdir in zip(functions, wwwdirs):
