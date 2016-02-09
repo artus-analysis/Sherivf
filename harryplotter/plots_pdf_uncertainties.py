@@ -8,38 +8,38 @@ from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 from Excalibur.Plotting.utility.colors import histo_colors
 
 pdf_unc_flavours = [pdf_2_root.partondict[f].replace(' ', '_') for f in pdf_2_root.default_flavours]
-
+results_dir = os.environ['SHERIVFDIR']+"/results/"
 
 def pdf_unc_base(args=None, additional_dictionary=None, scenario='hera'):
 	""" make pdf uncertainties """
-	jobs = []
-	jobs += model_unc(args, additional_dictionary, scenario)
-	jobs += par_unc(args, additional_dictionary, scenario)
-	jobs += combine_exp_model(args, additional_dictionary, scenario)
-	jobs += combine_expmodel_par(args, additional_dictionary, scenario)
+	jobs = [
+		model_unc(args, additional_dictionary, scenario),
+		par_unc(args, additional_dictionary, scenario),
+		combine_exp_model(args, additional_dictionary, scenario),
+		combine_expmodel_par(args, additional_dictionary, scenario),
+	]
 	return jobs
 
 def pdf_unc_hera(args=None, additional_dictionary=None):
 	""" make pdf uncertainties for hera """
-	return pdf_unc_base(args, additional_dictionary, 'hera')
+	return pdf_unc_base(args, additional_dictionary, 'hera2')
 
 def pdf_unc_heraZ(args=None, additional_dictionary=None):
 	""" make pdf uncertainties for heraZ """
-	return pdf_unc_base(args, additional_dictionary, 'heraZ')
+	return pdf_unc_base(args, additional_dictionary, 'hera2_abszy')
 
 def pdf_unc_heraZ_pt(args=None, additional_dictionary=None):
 	""" make pdf uncertainties for heraZ """
-	return pdf_unc_base(args, additional_dictionary, 'heraZ_pt')
+	return pdf_unc_base(args, additional_dictionary, 'hera2_zpt')
 
 def pdf_unc_heraZ_bins(args=None, additional_dictionary=None):
 	""" make pdf uncertainties for heraZ """
-	return pdf_unc_base(args, additional_dictionary, 'heraZ_bins')
+	return pdf_unc_base(args, additional_dictionary, 'hera2_zpt_bins')
 
 
 def model_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	"""get model uncertainties"""
-	pdf_unc_basedir = os.environ['SHERIVFDIR']+"/latest_herafitter_"+pdf_scenario+"/"
-	pdf_unc_basefile = pdf_unc_basedir + "job_{}_herapdf__1_9_squared.root"
+	pdf_unc_basefile = results_dir+pdf_scenario+ "/job_{}_herapdf__1_9_squared.root"
 	n_max = 9
 	q_squared = 1.9
 	exp_unc = 'exp_unc'
@@ -72,8 +72,7 @@ def model_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
 
 
 def par_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
-	pdf_unc_basedir = os.environ['SHERIVFDIR']+"/latest_herafitter_"+pdf_scenario+"/"
-	pdf_unc_basefile = pdf_unc_basedir + "job_{}_herapdf__1_9_squared.root"
+	pdf_unc_basefile = results_dir+pdf_scenario+ "/job_{}_herapdf__1_9_squared.root"
 	"""get parametrisation uncertainties"""
 	variations = [0] + range(9, 20)
 	q_squared = 1.9
@@ -109,8 +108,7 @@ def par_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
 
 def combine_exp_model(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	""" combine model and experimental"""
-	pdf_unc_basedir = os.environ['SHERIVFDIR']+"/latest_herafitter_"+pdf_scenario+"/"
-	pdf_unc_basefile = pdf_unc_basedir + "job_{}_herapdf__1_9_squared.root"
+	pdf_unc_basefile = results_dir+pdf_scenario+ "/job_{}_herapdf__1_9_squared.root"
 	plots = []
 	for flavour in pdf_unc_flavours:
 		d = {
@@ -140,8 +138,7 @@ def combine_exp_model(args=None, additional_dictionary=None, pdf_scenario='hera'
 
 def combine_expmodel_par(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	""" combine exp/model and parameterisation uncertainty to final uncertainty"""
-	pdf_unc_basedir = os.environ['SHERIVFDIR']+"/latest_herafitter_"+pdf_scenario+"/"
-	pdf_unc_basefile = pdf_unc_basedir + "job_{}_herapdf__1_9_squared.root"
+	pdf_unc_basefile = results_dir+pdf_scenario+ "/job_{}_herapdf__1_9_squared.root"
 	plots = []
 	for flavour in pdf_unc_flavours:
 		d = {
