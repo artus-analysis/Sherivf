@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import copy
+
 import Excalibur.Plotting.utility.colors as colors
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 from Excalibur.Plotting.utility.colors import histo_colors
@@ -8,7 +10,7 @@ from Excalibur.Plotting.utility.colors import histo_colors
 from plots_pdf_uncertainties import pdf_unc_flavours
 import common
 
-def nnpdf(args=None, additional_dictionary=None, plot_errors = True):
+def nnpdf(args=None, additional_dictionary=None):
 	""" Result of NNPDF reweighting 
 
 	plot PDFs with rel uncertainties
@@ -18,76 +20,90 @@ def nnpdf(args=None, additional_dictionary=None, plot_errors = True):
 	plots = []
 	q = additional_dictionary.get('q', '91_2')
 	mode = additional_dictionary.get('mode', 'zpt')
+	additional_dictionary.pop('q')
+	additional_dictionary.pop('mode')
 	y_lims = {
-		'gluon': [0.01, 10],
+		#'gluon': [0.01, 10],
 	}
+	n_replicas= 1000
 	pdfset = 'NNPDF30_nlo_as_0118_nolhc_1000'
-	nicks = ['original', 'reweighted']
+	labels = ['Original', 'Reweighted']
+	nicks = [label.lower() for label in labels]
 	for flavour in pdf_unc_flavours:
+		files = [
+			'pdf_sets/{0}__{1}.root'.format(pdfset, q),
+			'results/nnpdf_{2}/{0}_Zee_chi2_nRep{3}__{1}.root'.format(pdfset, q, mode, n_replicas),
+		]
+		qlabel = r'$Q{0}$ = {1}'.format(('^2' if 'squared' in q else ''), q.replace('_squared', '').replace('_', '.'))
+		filename = '_'.join(['nnpdf_{}', flavour, q])
 		d = {
 			#input
-			'files': [
-				'pdf_sets/{0}__{1}.root'.format(pdfset, q),
-				'results/nnpdf_{2}/{0}_Zee_chi2_nRep100__{1}.root'.format(pdfset, q, mode),
-			],
 			'folders': [''],
 			'x_expressions': [flavour],
-			'nicks': nicks,
 			# formatting
 			'x_log': True,
 			'zorder': [20, 30],
 			'markers': ['fill']*6,
-			'grid': True,
-			'subplot_grid': True,
 			'title': common.pdfsetdict.get(pdfset, pdfset),
 			'x_label': r'$x$',
-			'texts': mode + '\n' + str(q),
-			# output
-			'filename': flavour + '_nnpdf-rew',
+			'labels': labels,
+			'texts': (r"Reweighted: {0}".format(common.labels.get_nice_label(mode).split('/')[0].replace('\\', '\\\\')) + '\n' + qlabel),
 		}
-		if plot_errors:
-			d.update({
-				#analysis
-				'analysis_modules': [
-					'ConvertToHistogram',
-					'StatisticalErrors',
-					'Ratio',
-				],
-				'ratio_numerator_nicks': ['reweighted'],
-				'ratio_denominator_nicks': ['original'],
-				'stat_error_relative': True,
-				# formatting
-				'colors': [histo_colors['blue'], histo_colors['yellow'], 'black'],
-				'y_label': 'PDF relative uncertainty',
-				'y_subplot_label': 'Ratio rew./orig.',
-				'markers': ['-'],
-				'y_subplot_lims': [0.5, 1.5],
-				'line_widths': [2.],
-				'step': True,
-				'line_styles': ['-'],
-				'y_log': True,
-				'y_lims': [0.01, 10]
-			})
-		else:
-			d.update({
-				#analysis
-				'analysis_modules': ['RelUncertainty'],
-				'rel_nicks': nicks,
-				'subplot_nicks': [i+'_rel' for i in nicks],
-				# formatting
-				'y_subplot_lims': [-0.45, 0.45],
-				'alphas': [0.4],
-				'colors': [histo_colors['blue'], histo_colors['yellow']]*2,
-				'y_label': 'xfxQ2',
-				'y_subplot_label': 'Rel. Uncertainty',
-			})
+		# errors with ratio
+		d1 = copy.deepcopy(d)
+		d1.update({
+			'files': files*2,
+			'nicks': nicks + [i+'_tgraph' for i in nicks],
+			#analysis
+			'analysis_modules': [
+				'ConvertToHistogram',
+				'StatisticalErrors',
+				'Ratio',
+			],
+			'convert_nicks': nicks,
+			'ratio_numerator_nicks': ['reweighted'],
+			'ratio_denominator_nicks': ['original'],
+			'stat_error_relative': True,
+			'nicks_whitelist': ['tgraph', 'ratio'],
+			# formatting
+			'colors': [histo_colors['blue'], histo_colors['yellow'], 'black'],
+			'y_label': 'PDF relative uncertainty',
+			'y_subplot_label': 'Ratio rew./orig.\n',
+			'markers': ['fill']*2+['-'],
+			'y_subplot_lims': [0.5, 1.5],
+			'alphas': [0.6],
+			'line_styles': ['-'],
+			'y_lims': [0, 0.45],
+			# output
+			'filename': filename.format('errors'),
+		})
+		# full PDF
+		d2 = copy.deepcopy(d)
+		d2.update({
+			'files': files,
+			'nicks': nicks,
+			#analysis
+			'analysis_modules': ['RelUncertainty'],
+			'rel_nicks': nicks,
+			'subplot_nicks': [i+'_rel' for i in nicks],
+			# formatting
+			'y_subplot_lims': [-0.45, 0.45],
+			'alphas': [0.4],
+			'colors': [histo_colors['blue'], histo_colors['yellow']]*2,
+			'y_label': 'xfxQ2',
+			'line_styles': ['-'],
+			'y_subplot_label': 'Rel. Uncertainty',
+			# output
+			'filename': filename.format('pdf'),
+		})
 		if flavour in y_lims:
-			d['y_lims'] = y_lims[flavour]
+			d2['y_lims'] = y_lims[flavour]
 		if 'valence' in flavour.lower():
-			d['legend'] = 'center left'
-		if additional_dictionary is not None:
-			d.update(additional_dictionary)
-		plots.append(d)
+			d2['legend'] = 'center left'
+		for d in [d1, d2]:
+			if additional_dictionary is not None:
+				d.update(additional_dictionary)
+			plots.append(d)
 	return [PlottingJob(plots, args)]
 
 

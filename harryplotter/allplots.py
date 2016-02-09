@@ -47,7 +47,7 @@ def allplots(args=None):
 		plots_fastnlo.fastnlo_pdfsets,
 		plots_fastnlo.fastnlo_pdfunc,
 		plots_fastnlo.sherpa_fastnlo,
-		plots_pdf_reweighted.nnpdf,  # 15
+		plots_pdf_reweighted.nnpdf_zpt_10,  # 15
 		plots_uncertainties.scale_uncertainties,
 		plots_fastnlo.k_factors,
 		plots_uncertainties.plot_uncertainties,
@@ -63,7 +63,6 @@ def allplots(args=None):
 		plots_electron.electron_efficiencies_2d,
 		plots_electron.electron_efficiencies_1d,
 		plots_fastnlo.fastnlo_pdfmembers,  # 30
-		plots_pdf_uncertainties.plot_pdf_uncs_photon,
 		plots_unfolded.unfolded_mc_comparison,
 	][plot_min:plot_max]
 	
@@ -99,7 +98,6 @@ def allplots(args=None):
 		"electron_efficiencies_2d",
 		"electron_efficiencies_1d",
 		"fastnlo_pdfmembers",
-		"pdf_uncertainties_photon",
 		"unfolding_crosschecks",
 	][plot_min:plot_max]
 

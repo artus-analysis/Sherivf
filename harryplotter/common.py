@@ -29,6 +29,11 @@ bkgr_colors = {
 	'diboson': 'yellow',
 }
 
+import Excalibur.Plotting.utility.labelsZJet as labelsZJet
+
+labels = labelsZJet.LabelsDictZJet()
+
+
 data_quantities = ['zpt', 'abszy', 'zmass']
 quantities = data_quantities 
 def root_quantity(quantity):
@@ -75,6 +80,7 @@ def lims(quantity):
 pdfsetdict = {
 	'NNPDF23_nlo_as_0118': 'NNPDF 2.3 NLO',
 	'NNPDF30_nlo_as_0118': 'NNPDF 3.0 NLO',
+	'NNPDF30_nlo_as_0118_nolhc_1000': 'NNPDF 3.0 NLO (no LHC data, 1000 replicas)',
 	'NNPDF21_100': 'NNPDF 2.1',
 	'abm11_3n_nlo': 'ABM11',
 	'cteq65': 'CTEQ 6.5',

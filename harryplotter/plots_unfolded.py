@@ -3,8 +3,8 @@
 
 import Artus.HarryPlotter.harry as harry
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
-import Excalibur.Plotting.utility.colors as colors
 import parsertools
+import Excalibur.Plotting.utility.colors as colors
 
 import numpy as np
 import common
@@ -35,7 +35,7 @@ def different_iterations(args=None):
 			# output
 			'filename': 'iterations_' + quantity,
 			'www_title': 'Unfolding: different iterations',
-			'www_text': r"Different iterations for d\'Agostini unfolding",
+			'www_text': r"Different iterations for d'Agostini unfolding",
 		}
 		if quantity == 'zpt':
 			d['y_log'] = True
@@ -161,31 +161,40 @@ def unfolded_to_hera(args=None):
 def unfolded_mc_comparison(args=None):
 	""" compare the result of the unfolding procedure for diff MCs or diff algos """
 	plots = []
-	iterations = 4
 	for quantity in ['zpt', 'abszy']:
 		# MC comparison
+		iterations = 1
 		dic1 = {
 			'files': ['2_unfolded/{0}_{1}_inclusive_{2}.root'.format(quantity, mc, iterations) for mc in ['madgraph', 'powheg']],
-
-			'labels': ['Response matrix from {} sample'.format(mc) for mc in  ['Madgraph', 'Powheg']],
 			'filename': 'unfolding_samples_'+quantity,
+			'analysis_modules': ['Ratio'],
+			'labels': ['Response matrix from {} sample'.format(mc) for mc in  ['Madgraph', 'Powheg']],
 		}
 		# method comparison
+		methods = ['', '_dagostini', '_inversion']
+		iterations = [1, 4, 1]
 		dic2 = {
-			'files': ['2_unfolded/{0}_madgraph_inclusive_{2}{1}.root'.format(quantity, method, iterations) for method in ['', '_dagostini']],
-			'labels': ['Simple matrix inversion', 'Iterative d`Agostini ({0} iterations)'.format(iterations)],
+			'files': ['2_unfolded/{0}_madgraph_inclusive_{2}{1}.root'.format(quantity, method, iteration) for method, iteration in zip(methods, iterations)],
+			'x_bins': common.bins[quantity],
+			'analysis_modules': ['Ratio', 'DAgostini'],
+			'ratio_denominator_nicks': ['nick0', 'nick2'],
+			'ratio_numerator_nicks': ['nick1'],
+			# formatting
+			'y_subplot_label': 'Ratio to dAgostini',
+			'labels': ['Bin-by-bin', "Iterative dAgostini ({0} iterations)".format(iterations[1]), 'Matrix inversion'],
 			'filename': 'unfolding_methods_'+quantity,
+			'step': True,
+			'colors': ['black', colors.histo_colors['blue'], 'red', 'black', 'red'],
+			'markers': ['o', 'fill', '-', '-', '-'],
+			'line_styles': [None, None, '-', '--', '-'],
 		}
 		for dic in [dic1, dic2]:
 			dic.update({
 				'x_lims': common.lims(quantity),
 				'x_expressions': 'data_unfolded',
 				'folders': [''],
-				'analysis_modules': ['Ratio'],
 				'x_label': quantity,
-				'y_subplot_lims': [0.9, 1.1],
-				#'colors': ['red', 'grey'],
-				#'markers': ['o', 'fill'],
+				'y_subplot_lims': [0.95, 1.05],
 			})
 			if quantity == 'zpt':
 				dic['y_log'] = True
@@ -194,7 +203,3 @@ def unfolded_mc_comparison(args=None):
 				dic['y_lims'] = [1, 10e6]
 			plots.append(dic)
 	return [PlottingJob(plots, args)]
-
-
-if __name__ == '__main__':
-	zee_unfolded()

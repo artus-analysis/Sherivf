@@ -232,7 +232,7 @@ def fastnlo_pdfmembers(args=None, additional_dictionary=None):
 				'line_styles': [None] + ['-']*n_members*2,
 				'line_widths': [0.5],
 				'y_errors': [True]+ [False]*n_members*2,
-				'x_errors': [False]+ [True]*n_members*2,
+				#'x_errors': [False]+ [True]*n_members*2,
 				'colors': ['black'] + ['blue']*n_members*2,
 				'step': True,
 				'energies': [8],
