@@ -29,7 +29,7 @@ class Hera(object):
 		tools.run_gc(self.args.output_dir + "/" + self.args.config, self.args.output_dir)
 		self.gctime = time.time() - self.gctime
 
-		tools.create_result_linkdir(self.args.output_dir+"/output/", self.args.mode + ('_' + self.args.value if self.args.value else '')
+		tools.create_result_linkdir(self.args.output_dir+"/output/", self.args.mode + ('_' + self.args.value if self.args.value else ''))
 
 
 	def copy_gc_files(self):

@@ -32,12 +32,12 @@ def main():
 	"""main"""
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-m', '--mode', type=str, default='hera', help="mode", choices=modes.keys())
-	parser.add_argument('-v', '--values', type=str, default=None, help="Value", choices=values.keys())
+	parser.add_argument('-v', '--value', type=str, default=None, help="Value", choices=values.keys())
 	parser.add_argument('-b', '--batch', action="store_true", help="batch mode, i.e. dont copy defaults", )
 	parser.add_argument('-f', '--fast', action="store_true", help="RT FAST scheme (instead of RT)")
 	parser.add_argument('-d', '--dir', type=str, default=heradir, help="dir to copy steering file to")
 	args = parser.parse_args()
-	copy_herafile(args.mode, args.batch, args.dir, args.fast)
+	copy_herafile(args.mode, args.value, args.batch, args.dir, args.fast)
 
 
 def copy_herafile(mode, value, batch, targetdir, fast=False, keys={}):
