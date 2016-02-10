@@ -51,7 +51,7 @@ for q in 1.4 1.9 91.2; do
 	done
 done
 mv *.root ..
-mv fittedresults.txt ..
+mv fittedresults.txt Results.txt ..
 cd ..
 
 
