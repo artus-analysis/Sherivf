@@ -80,6 +80,10 @@ def unfold(args=None):
 							else:
 								unfolding_variation = 0
 								input_var = variation
+							if (variation != '') and (method != common.default_unfolding_method):
+								continue
+							elif (iteration > 1) and (method != 'dagostini'):
+								continue
 							folder = common.unffolder(quantity)
 							bins = common.unfbins[quantity]
 							d = {
@@ -110,7 +114,7 @@ def unfold(args=None):
 								'libRooUnfold': '~/home/RooUnfold/libRooUnfold.so',
 								#output
 								'plot_modules': ['ExportRoot'],
-								'filename': "_".join([quantity, mc_label.lower(), ybinsuffix]) + variation + "_" + str(iteration) + ('' if method == 'binbybin' else "_"+method),
+								'filename': "_".join([quantity, mc_label.lower(), ybinsuffix]) + variation + "_" + str(iteration) + ('' if method == common.default_unfolding_method else "_"+method),
 								'output_dir': common.unfold_path,
 								'export_json': False,
 							}

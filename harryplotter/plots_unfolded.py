@@ -14,7 +14,10 @@ def different_iterations(args=None):
 	"""compare different unfolding iterations"""
 	plots = []
 	ybin = 'inclusive'
-	max_iteration = 4
+	if (common.default_unfolding_method == 'dagostini'):
+		max_iteration = 4
+	else:
+		max_iteration = 1
 	for quantity in common.data_quantities:
 		basename = common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '{}']) + '.root'
 		d = {
@@ -100,6 +103,8 @@ def unfolding_comparison(args=None):
 	for iterations in range(1, 5):
 		for quantity in common.data_quantities:
 			filename = common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, str(iterations)]) + '.root'
+			if (common.default_unfolding_method != 'dagostini') and (iterations > 1):
+				continue
 			d = {
 				# input
 				'files': [filename],

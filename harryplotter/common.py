@@ -56,7 +56,7 @@ unfbins.update(bins)
 unfbins['zpt'] = "0 " + unfbins['zpt']
 unfbins['abs(zy)'] = "26,0,2.6"
 unfbins['abszy'] = unfbins['abs(zy)']
-
+default_unfolding_method = 'inversion'
 unfdict = {
 	'zpt' : 'ptunfolding',
 	'abszy': 'yunfolding',
