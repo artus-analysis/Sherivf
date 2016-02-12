@@ -29,6 +29,7 @@ fi
 # Rivet
 export PATH=$SHERIVFDIR/../Rivet-2.2.0/bin/:$SHERIVFDIR/scripts:$PATH:/usr/users/dhaitz/local/bin
 export PATH=$SHERIVFDIR/../herafitter-1.1.1/bin:$PATH
+export PATH=$HOME/local/bin:$PATH
 export RIVET_ANALYSIS_PATH=$PWD:$RIVET_ANALYSIS_PATH
 if [ -e $SHERIVFDIR/../Rivet-2.2.0/rivetenv.sh ]
 then
@@ -42,7 +43,7 @@ export MODULES_SEARCH_PATH=$SHERIVFDIR/harryplotter/modules:$MODULES_SEARCH_PATH
 
 
 if ( [[ $HOSTNAME == *"naf"* ]] || [[ $HOSTNAME == *"bird"* ]] ); then
-	export LOCALHOME=/afs/desy.de/user/d/dhaitz/local/lib
+	export LOCALHOME=/afs/desy.de/user/d/dhaitz/
 else
 	export LOCALHOME=/usr/users/dhaitz/
 fi
@@ -51,7 +52,7 @@ fi
 export SHERPA_INCLUDE_PATH=$LOCALHOME/local/include/SHERPA-MC
 export SHERPA_SHARE_PATH=$LOCALHOME/local/share/SHERPA-MC
 export SHERPA_LIBRARY_PATH=$LOCALHOME/local/lib/SHERPA-MC
-export LD_LIBRARY_PATH=$SHERPA_LIBRARY_PATH:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$SHERPA_LIBRARY_PATH:$LOCALHOME/local/lib:$LD_LIBRARY_PATH
 
 export QCDNUM_ROOT=/portal/ekpcms6/home/dhaitz/qcd/qcdnum-17-00-06
 
