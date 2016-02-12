@@ -19,9 +19,11 @@ export MCGRID_PHASESPACE_PATH=$PWD
 if ( [[ $HOSTNAME == *"naf"* ]] || [[ $HOSTNAME == *"bird"* ]] ); then
 	export SHERIVFDIR=/afs/desy.de/user/d/dhaitz/qcd/sherivf
 	export SHERIVF_STORAGE_PATH=/nfs/dust/cms/user/dhaitz/sherivf/
+	export PKG_CONFIG_PATH=$SHERIVFDIR../mcgrid:$PKG_CONFIG_PATH
 else
 	export SHERIVFDIR=/portal/ekpcms6/home/dhaitz/qcd/sherivf
 	export SHERIVF_STORAGE_PATH=/storage/a/dhaitz/sherivf/
+	export PKG_CONFIG_PATH=$SHERIVFDIR/../enrico/mcgrid/mcgrid/:$PKG_CONFIG_PATH
 fi
 
 # Rivet
@@ -38,7 +40,7 @@ export PLOTCONFIGS=$SHERIVFDIR/harryplotter:$PYTHONCONFIGS
 export PYTHONPATH=$SHERIVFDIR/harryplotter:$SHERIVFDIR/scripts:$PYTHONPATH
 export MODULES_SEARCH_PATH=$SHERIVFDIR/harryplotter/modules:$MODULES_SEARCH_PATH
 
-export PKG_CONFIG_PATH=$SHERIVFDIR/../enrico/mcgrid/mcgrid/:$PKG_CONFIG_PATH
+
 
 export EKPHOME=/usr/users/dhaitz/
 
