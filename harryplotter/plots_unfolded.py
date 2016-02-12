@@ -176,22 +176,25 @@ def unfolded_mc_comparison(args=None):
 			'labels': ['Response matrix from {} sample'.format(mc) for mc in  ['Madgraph', 'Powheg']],
 		}
 		# method comparison
-		methods = ['', '_dagostini', '_inversion']
+		methods = [''] + ['_'+m for m in common.other_methods]
+		# ['', '_dagostini', '_binbybin']
+		
 		iterations = [1, 4, 1]
 		dic2 = {
 			'files': ['2_unfolded/{0}_madgraph_inclusive_{2}{1}.root'.format(quantity, method, iteration) for method, iteration in zip(methods, iterations)],
 			'x_bins': common.bins[quantity],
+			'nicks': ['inv', 'dago', 'bbb'],
 			'analysis_modules': ['Ratio', 'DAgostini'],
-			'ratio_denominator_nicks': ['nick0', 'nick2'],
-			'ratio_numerator_nicks': ['nick1'],
+			'ratio_numerator_nicks': ['inv', 'dago'],
+			'ratio_denominator_nicks': ['bbb'],
 			# formatting
-			'y_subplot_label': 'Ratio to dAgostini',
-			'labels': ['Bin-by-bin', "Iterative dAgostini ({0} iterations)".format(iterations[1]), 'Matrix inversion'],
+			'y_subplot_label': 'Ratio to bin-by-bin',
+			'labels': ['Matrix inversion',"Iterative dAgostini ({0} iterations)".format(iterations[1]), 'Bin-by-bin'] + ['inv/bbb', 'dago/bbb'],
 			'filename': 'unfolding_methods_'+quantity,
 			'step': True,
-			'colors': ['black', colors.histo_colors['blue'], 'red', 'black', 'red'],
-			'markers': ['o', 'fill', '-', '-', '-'],
-			'line_styles': [None, None, '-', '--', '-'],
+			'colors': ['black', 'red', colors.histo_colors['blue'], 'black', 'red'],
+			'markers': ['o', '-',  'fill',  '-', '-'],
+			'line_styles': [None, '-', None, '--', '-'],
 		}
 		for dic in [dic1, dic2]:
 			dic.update({
