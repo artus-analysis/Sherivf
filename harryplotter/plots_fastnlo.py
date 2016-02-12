@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
+
 import common
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
@@ -130,6 +132,71 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				d['y_lims'] = [common.zpt_miny, 1e1]
 			plots.append(d)
 
+	return [PlottingJob(plots, args)]
+
+
+def fastnlo_tables(args=None, additional_dictionary=None):
+	"""Compare fastnlo tables with data and central prediction."""
+	plots = []
+	member = 0
+	pdf_set = 'HERAPDF15NLO_EIG'
+	basedir = '/storage/ekpcloud_local/dhaitz/sherivf/ekpcloud_2015-12-01_14-51/'
+	#basedir = print os.readlink(os.environ['SHERIVFDIR'] + '/results/MCgrid_CMS_2015_Zee_zjet')
+	N = 40
+	for subplot in [True, False]:
+		for quantity in ['abszy', 'zpt']:  # common.quantities:
+			replaced_quantity = common.qdict.get(quantity, quantity)
+			tables = [
+				basedir+'{}.tab'.format(quantity), # central
+			] + [basedir+'output/{}_{}.tab'.format(quantity, i) for i in range(N)]
+			nicks = ['central'] + map(str, range(N))
+			d = {
+				# input
+				'input_modules': ['InputRootZJet', 'InputFastNLO'],
+				'nicks': ['data'],
+				'files': [common.divided_path + '/' + '_'.join([quantity, 'madgraph', 'inclusive', '1']) + '.root'],
+				'folders': '',
+				'x_expressions': 'nick0',
+				#fnlo
+				'pdf_sets': [pdf_set],
+				'members': [member],
+				'fastnlo_files': tables,
+				'fastnlo_nicks': nicks,
+				# analysis
+				"analysis_modules": ["Ratio"],
+				'ratio_numerator_nicks': nicks,
+				'ratio_denominator_nicks': ['data'],
+				# formatting
+				'labels': ['data', 'merged', 'individual tables']+[None]*2*(N-1),
+				'zorder': [40] + ([30] + [20]*N)*2,
+				'markers': ['o'] + ['-']*(N+1)*2,
+				'y_errors': [True] + [False]*2*(N+1),
+				'colors': ['black'] + (['red'] + ['blue']*N)*2,
+				'line_styles': [None] + ['-']*(N+1)*2,
+				'line_widths': [1] + ([2] + [0.7]*N)*2,
+				'energies': [8],
+				'y_label': common.xseclabels[quantity],
+				'step': [True],
+				'subplot_fraction': (90 if subplot else 10),
+				'x_label': quantity,
+				'y_subplot_label': 'Ratio sim./data',
+				'y_subplot_lims': [0.4, 1.5],
+				# output
+				'filename': "fastnlo_tables_"+('subplot_' if subplot else '')+quantity,
+			}
+			if quantity == 'zpt':
+		
+				d['y_subplot_lims'] =  [0.65, 1.2]
+				d.update({
+				'x_bins': common.bins[quantity],
+				'x_lims': common.lims(quantity),
+				})
+				d['y_log'] = True
+				d['x_log'] = common.zpt_xlog
+				if common.zpt_xlog:
+					d['x_ticks'] = common.zpt_ticks
+				d['y_lims'] = [common.zpt_miny, 1e1]
+			plots.append(d)
 	return [PlottingJob(plots, args)]
 
 
