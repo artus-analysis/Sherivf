@@ -67,7 +67,7 @@ class Sherivf(object):
 			print "\nOutput files:\n", "\n".join(outputs)
 
 			# create link to latest output:
-			link_dir = os.path.join(self.sherivf_path, 'outputs')
+			link_dir = os.path.join(self.sherivf_path, 'results')
 			if not os.path.exists(link_dir):
 				os.makedirs(link_dir)
 			link = link_dir+'/'+self.args.rivet + '_' + self.args.sherpa

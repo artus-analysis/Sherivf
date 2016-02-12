@@ -32,22 +32,6 @@ calculate_all_correlations(){
 alias make_allplots="merlin.py --py allplots"
 
 
-## Final PDF fitting
-fit_nnpdf(){
-	PDFSET=NNPDF30_nlo_as_0118
-	copy_herafitter_steering.py -m nnpdf
-	cd $HERADIR
-	rm $HERADIR/output/NNPDF*_HighStat_chi2/* $HERADIR/NNPDF/data/* -rf
-	mkdir -p output/${PDFSET}_HighStat_chi2
-	FitPDF
-	cd output/${PDFSET}_HighStat_chi2
-	pdf_2_root.py -p ${PDFSET}_HighStat_chi2_nRep100
-	cp ${PDFSET}_HighStat_chi2_nRep100*.root $SHERIVFDIR/pdf_sets
-	cd $SHERIVFDIR
-}
-
-
-
 ## PDF uncertainties
 make_pdfuncs()
 {
@@ -57,7 +41,7 @@ make_pdfuncs()
 }
 clear_pdfuncs()
 {
-	rm $SHERIVFDIR/5_pdfunc/*.root
+	rm -f $SHERIVFDIR/5_pdfunc/*.root
 }
 
 # SHERPA
