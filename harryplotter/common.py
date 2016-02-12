@@ -57,6 +57,7 @@ unfbins['zpt'] = "0 " + unfbins['zpt']
 unfbins['abs(zy)'] = "26,0,2.6"
 unfbins['abszy'] = unfbins['abs(zy)']
 default_unfolding_method = 'inversion'
+other_methods = ['dagostini', 'binbybin']
 unfdict = {
 	'zpt' : 'ptunfolding',
 	'abszy': 'yunfolding',
@@ -80,6 +81,7 @@ def lims(quantity):
 pdfsetdict = {
 	'NNPDF23_nlo_as_0118': 'NNPDF 2.3 NLO',
 	'NNPDF30_nlo_as_0118': 'NNPDF 3.0 NLO',
+	'NNPDF30_nlo_as_0118_nolhc': 'NNPDF 3.0 NLO (no LHC data)',
 	'NNPDF30_nlo_as_0118_nolhc_1000': 'NNPDF 3.0 NLO (no LHC data, 1000 replicas)',
 	'NNPDF21_100': 'NNPDF 2.1',
 	'abm11_3n_nlo': 'ABM11',
@@ -95,6 +97,7 @@ nmembersdict = {
 	'CT10': 51,
 	'NNPDF23_nlo_as_0118': 101,
 	'NNPDF30_nlo_as_0118': 101,
+	'NNPDF30_nlo_as_0118_nolhc': 101,
 }
 
 qdict = {

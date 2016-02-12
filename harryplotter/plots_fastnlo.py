@@ -198,7 +198,7 @@ def fastnlo_pdfmembers(args=None, additional_dictionary=None):
 	"""Evaluate fastNLO table for n members of a PDF set."""
 	plots = []
 
-	pdfset = 'NNPDF23_nlo_as_0118'
+	pdfset = 'NNPDF30_nlo_as_0118_nolhc'
 	n_members = common.nmembersdict[pdfset]
 
 	for quantity in common.quantities:

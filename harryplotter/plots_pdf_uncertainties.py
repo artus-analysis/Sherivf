@@ -12,13 +12,10 @@ results_dir = os.environ['SHERIVFDIR']+"/results/"
 
 def pdf_unc_base(args=None, additional_dictionary=None, scenario='hera'):
 	""" make pdf uncertainties """
-	jobs = [
-		model_unc(args, additional_dictionary, scenario),
-		par_unc(args, additional_dictionary, scenario),
-		combine_exp_model(args, additional_dictionary, scenario),
-		combine_expmodel_par(args, additional_dictionary, scenario),
-	]
-	return jobs
+	return (model_unc(args, additional_dictionary, scenario)
+		+ par_unc(args, additional_dictionary, scenario)
+		+ combine_exp_model(args, additional_dictionary, scenario)
+		+ combine_expmodel_par(args, additional_dictionary, scenario))
 
 def pdf_unc_hera(args=None, additional_dictionary=None):
 	""" make pdf uncertainties for hera """
@@ -172,24 +169,24 @@ def combine_expmodel_par(args=None, additional_dictionary=None, pdf_scenario='he
 ### Now the actual plots ...
 ###
 
-def plot_pdf_uncs_hera(args=None, additional_dictionary=None):
-	return plot_pdf_uncs(args, additional_dictionary, 'hera')
-def plot_pdf_uncs_heraZ(args=None, additional_dictionary=None):
-	return plot_pdf_uncs(args, additional_dictionary, 'heraZ')
-def plot_pdf_uncs_heraZ_pt(args=None, additional_dictionary=None):
-	return plot_pdf_uncs(args, additional_dictionary, 'heraZ_pt')
-def plot_pdf_uncs_heraZ_bins(args=None, additional_dictionary=None):
-	return plot_pdf_uncs(args, additional_dictionary, 'heraZ_bins')
+def plot_pdf_uncs_hera2(args=None, additional_dictionary=None):
+	return plot_pdf_uncs(args, additional_dictionary, 'hera2')
+def plot_pdf_uncs_hera2_abszy(args=None, additional_dictionary=None):
+	return plot_pdf_uncs(args, additional_dictionary, 'hera2_abszy')
+def plot_pdf_uncs_hera2_zpt(args=None, additional_dictionary=None):
+	return plot_pdf_uncs(args, additional_dictionary, 'hera2_zpt')
+def plot_pdf_uncs_hera2_zpt_bins(args=None, additional_dictionary=None):
+	return plot_pdf_uncs(args, additional_dictionary, 'hera2_zpt_bins')
 
 
 def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	""" plot the pdfs with all uncertainties"""
 	plots = []
 	titles = {
-		'hera': "HERA-I DIS",
-		'heraZ': r"HERA-I DIS + CMS Z($\\rightarrow$ee)+jet",
-		'heraZ_pt': "HERA-I DIS + CMS (pT-spectrum)",
-		'heraZ_bins': "HERA-I DIS + CMS (pT in y-bins)",
+		'hera2': "HERA-I DIS",
+		'hera2_abszy': r"HERA-I DIS + CMS Z($\\rightarrow$ee)+jet",
+		'hera2_zpt': "HERA-I DIS + CMS (pT-spectrum)",
+		'hera2_zpt_bins': "HERA-I DIS + CMS (pT in y-bins)",
 	}
 	title = titles.get(pdf_scenario, "")
 	text = r"$\\mathit{Q}^2 = 1.9 \\/ GeV^2$"
@@ -241,7 +238,8 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None):
 		'gluon': [0, 3],
 	}
 	nicks = ["hera", "heracms"]
-	scenarios = ['hera', 'heraZ']
+	scenarios = ['hera2', 'hera2_zpt']
+	labels = ['HERA2', r'HERA2 + CMS Z($\\rightarrow$ee)']*len(nicks),
 	for flavour in pdf_unc_flavours:
 		d = {
 			#input
@@ -254,7 +252,7 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None):
 			'rel_nicks': nicks,
 			'subplot_nicks': [i+'_rel' for i in nicks],
 			# formatting
-			'labels': ['HERA', r'HERA + CMS Z($\\rightarrow$ee)+jet']*len(nicks),
+			'labels': labels,
 			'x_log': True,
 			'y_subplot_lims': [-0.45, 0.45],
 			'zorder': [20, 30],

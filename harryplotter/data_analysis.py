@@ -29,14 +29,14 @@ def subtract_backgrounds(args=None):
 					datasuffix = variation
 				mc_scalefactor = -1 + (-0.5*(variation=="_bkgrdown")) + (0.5*(variation=="_bkgrup"))  # for bkgr estimation
 				folder = common.unffolder(quantity)
-				#folder = "leptoncuts" if (quantity == 'zpt') else "zcuts"
+				additional_weight = '1'
 				d = {
 					#input
 					'x_expressions': common.root_quantity(quantity),
 					'x_bins': [bins],
 					'files': [path+'/work/data_ee{}.root'.format(datasuffix)] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds],
 					'nicks': ['data'],
-					'weights': ["({})".format(ybin)] + ["{scalefactor}*(hlt&&({ybin}))".format(ybin=ybin, scalefactor=mc_scalefactor)]*len(backgrounds),
+					'weights': ["({0}*{1})".format(ybin, additional_weight)] + ["{addweight}*{scalefactor}*(hlt&&({ybin}))".format(ybin=ybin, scalefactor=mc_scalefactor, addweight=additional_weight)]*len(backgrounds),
 					'folders': ['{}_{}Res/ntuple'.format(folder, common.algocorr)] + ['{}_{}/ntuple'.format(folder, common.algocorr)]*len(backgrounds),
 					#output
 					'plot_modules': ['ExportRoot'],
