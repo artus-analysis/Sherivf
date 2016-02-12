@@ -19,7 +19,7 @@ export MCGRID_PHASESPACE_PATH=$PWD
 if ( [[ $HOSTNAME == *"naf"* ]] || [[ $HOSTNAME == *"bird"* ]] ); then
 	export SHERIVFDIR=/afs/desy.de/user/d/dhaitz/qcd/sherivf
 	export SHERIVF_STORAGE_PATH=/nfs/dust/cms/user/dhaitz/sherivf/
-	export PKG_CONFIG_PATH=$SHERIVFDIR../mcgrid:$PKG_CONFIG_PATH
+	export PKG_CONFIG_PATH=$SHERIVFDIR/../mcgrid:$PKG_CONFIG_PATH
 else
 	export SHERIVFDIR=/portal/ekpcms6/home/dhaitz/qcd/sherivf
 	export SHERIVF_STORAGE_PATH=/storage/a/dhaitz/sherivf/
@@ -41,13 +41,16 @@ export PYTHONPATH=$SHERIVFDIR/harryplotter:$SHERIVFDIR/scripts:$PYTHONPATH
 export MODULES_SEARCH_PATH=$SHERIVFDIR/harryplotter/modules:$MODULES_SEARCH_PATH
 
 
-
-export EKPHOME=/usr/users/dhaitz/
+if ( [[ $HOSTNAME == *"naf"* ]] || [[ $HOSTNAME == *"bird"* ]] ); then
+	export LOCALHOME=/afs/desy.de/user/d/dhaitz/local/lib
+else
+	export LOCALHOME=/usr/users/dhaitz/
+fi
 
 #Sherpa
-export SHERPA_INCLUDE_PATH=$EKPHOME/local/include/SHERPA-MC
-export SHERPA_SHARE_PATH=$EKPHOME/local/share/SHERPA-MC
-export SHERPA_LIBRARY_PATH=$EKPHOME/local/lib/SHERPA-MC
+export SHERPA_INCLUDE_PATH=$LOCALHOME/local/include/SHERPA-MC
+export SHERPA_SHARE_PATH=$LOCALHOME/local/share/SHERPA-MC
+export SHERPA_LIBRARY_PATH=$LOCALHOME/local/lib/SHERPA-MC
 export LD_LIBRARY_PATH=$SHERPA_LIBRARY_PATH:$LD_LIBRARY_PATH
 
 export QCDNUM_ROOT=/portal/ekpcms6/home/dhaitz/qcd/qcdnum-17-00-06

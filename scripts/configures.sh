@@ -4,27 +4,34 @@
 # Rivet stuff
 #####
 
-#yoda
+# YODA
 # dont install with CMSSW sourced - the BOOST version there is too old
 alias configure_yoda=" ./configure --prefix=$HOME/local"  # --enable-root"
-#LHAPDF
+
+# LHAPDF
 # dont install with CMSSW sourced - the BOOST version there is too old
-#HepMC
+
+# HEPMC
 alias configure_hepmc="./configure --prefix=$HOME/local --with-momentum=GEV --with-length=MM"
-# fastjet plugins
+
+# FASTJET
 #-L$HOME/local/include/fastjet/.libs
 # also make plugins in fastjet subfolders? esp SIScone?
 alias configure_fastjet="./configure --prefix=$HOME/local  --enable-allcxxplugins --enable-shared"
 
+# RIVET
 
 #####
 # Sherpa stuff
 #####
 
-#SHERPA
-alias configure_sherpa="./configure --prefix=$HOME/local --with-sqlite3=install --enable-hepmc2=$HOME/local/ --enable-rivet=$HOME/local/ --enable-blackhat=/storage/a/dhaitz/blackhat   --enable-fastjet=$HOME/local/"
-#blackhat
+# QDNUM
+
+# BLACKHAT
 alias configure_blackhat="./configure --prefix=/storage/a/dhaitz/blackhat --with-QDpath=$HOME/local"
+
+# SHERPA
+alias configure_sherpa="./configure --prefix=$HOME/local --with-sqlite3=install --enable-hepmc2=$HOME/local/ --enable-rivet=$HOME/local/ --enable-blackhat=/storage/a/dhaitz/blackhat   --enable-fastjet=$HOME/local/"
 
 
 #####
@@ -33,6 +40,7 @@ alias configure_blackhat="./configure --prefix=/storage/a/dhaitz/blackhat --with
 
 #fastnlo
 alias configure_fastnlo="./configure --prefix=$HOME/local --enable-pyext  PYTHON_VERSION='2.6'"
+
 #MCgrid
 alias configure_mcgrid="./configure --prefix=$HOME/local CXXFLAGS='-DFASTNLO_ENABLED=1'"
 
