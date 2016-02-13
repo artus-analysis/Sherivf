@@ -77,14 +77,12 @@ def main():
     tmean = trimmed_mean(xs_nlo, axis=0, percentile=0.1)
     tstd = trimmed_std(xs_nlo, axis=0, percentile=0.1)
 
-
-    def print_rounded_values(values):
-        magn = min([int(math.log10(x)) for x in values])
-        print np.array([round(value, max([0, 2-magn])) for value in values])
     # print results
     for values in ['mean', 'tmean', 'std', 'tstd', 'median', 'std/mean', 'tstd/mean', 'mean/median']:
         print values
-        print_rounded_values(eval(values))
+        values = eval(values)
+        magn = min([int(math.log10(x)) for x in values])
+        print np.array([round(value, max([0, 2-magn])) for value in values])
 
     #plot
     plot_distribution(xs_nlo, plot_dir='nlo_plots', **args)
