@@ -33,7 +33,7 @@ def main():
     parser.add_argument('--work-dir', help='Workdir.')
     parser.add_argument('--pdfset', default='CT10nlo', help='PDF set to evaluate fastNLO tables.')
     parser.add_argument('--nlo-regex', default='^.*nlo.*$', help='Regex matching NLO tables in input folder.')
-    parser.add_argument('-m', '--max-processes', default=8, help='Max number of parallel processes')
+    parser.add_argument('-m', '--max-processes', type=int, default=8, help='Max number of parallel processes')
     parser.add_argument('--filter', action='store_true', default=False, help='Filter invalid tables.')
     parser.add_argument('-s', '--stds', type=float, default=100., help='number of standard deviations to filter table')
     parser.add_argument("--log-level", default="info", help="Log level.")
@@ -66,6 +66,7 @@ def main():
     log.info('Tables contain {0} observable bins.'.format(n_bins))
 
     # get cross section values
+    log.info("Get cross section in {} processes".format(min([args['max_processes'], len(tables_files)])))
     pool = multiprocessing.Pool(processes=min([args['max_processes'], len(tables_files)]))
     results = pool.map_async(gettab, [(tab, args['pdfset']) for tab in tables_files])
     xs_nlo = np.array(results.get(9999999)) # 9999999 is needed for KeyboardInterrupt to work: http://stackoverflow.com/questions/1408356/keyboard-interrupts-with-pythons-multiprocessing-pool
