@@ -23,8 +23,5 @@
 &End
 &PlotDesc
    PlotN = 1
-   PlotDefColumn = '@QUANTITY@low'
-   PlotDefValue = @LOWERLIM@, @UPPERLIM@
-   PlotVarColumn = '@QUANTITY@high'
    PlotOptions(1)  = 'Experiment:CMS@ExtraLabel: @NAME@ @Title: 2015 @XTitle: |quantity| @YTitle:(#sigma) #sigma'
 &End 

@@ -67,8 +67,6 @@ class ExportHerafitter(plotbase.PlotBase):
 				"@THEORYFILE@": plotData.plotdict["hera_theoryfile"],
 				"@NAME@": "CMS Zee jets 2012 " + plotData.plotdict["hera_theoryfile"],
 				"@INDEX@": str(int(1000*random.random())),
-				"@LOWERLIM@": str(root_object.GetBinLowEdge(1)),
-				"@UPPERLIM@": str(root_object.GetBinLowEdge(root_object.GetNbinsX())+root_object.GetBinWidth(root_object.GetNbinsX())),
 				"@QUANTITY@": plotData.plotdict["hera_quantity"],
 			}
 			#@TITLE@
