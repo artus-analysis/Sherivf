@@ -102,15 +102,5 @@ class ExportHerafitter(plotbase.PlotBase):
 		# write to text
 		str_lines = []
 		for line in lines:
-			str_lines.append("  ".join([
-				"{:{width}.1f}".format(line[0], width=list_of_max_len[0]),
-				"{:{width}.1f}".format(line[1], width=list_of_max_len[1]),  # 
-				"{:{width}.6f}".format(line[2], width=list_of_max_len[2]+3),  # stat
-				"{:{width}.6f}".format(line[3], width=list_of_max_len[3]+3),  # sys
-				"{:{width}.6f}".format(line[4], width=list_of_max_len[4]+3),  # lumi
-				"{:{width}.6f}".format(line[5], width=list_of_max_len[5]+3),  # unf
-				"{:{width}.6f}".format(line[6], width=list_of_max_len[6]+3),  # ef
-				"{:{width}.6f}".format(line[7], width=list_of_max_len[7]+3),  # bkgr
-				"{:{width}.6f}".format(line[8], width=list_of_max_len[8]+3),  # pt
-			]))
+			str_lines.append("  ".join(["{:{width}.6f}".format(item, width=list_of_max_len[i]+3) for i, item in enumerate(line)]))
 		plotData.plot.values = "\n".join(str_lines)
