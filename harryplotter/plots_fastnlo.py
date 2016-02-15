@@ -23,11 +23,11 @@ def sherpa_fastnlo(args=None):
 			d = {
 				# input
 				'input_modules': ['InputRootZJet', 'InputFastNLO'],
-				"files": ['latest_sherivf_output/Rivet.root'],
+				"files": [common.sherpa_results + '/Rivet.root'],
 				"folders": [""],
 				"x_expressions": ybin+replaced_quantity,
 				'pdf_sets': [pdfset],
-				'fastnlo_files': ["latest_sherivf_output/{}.tab".format(ybin+replaced_quantity)],
+				'fastnlo_files': [common.sherpa_results+"/{}.tab".format(ybin+replaced_quantity)],
 				'members': [0],
 				# analysis
 				'analysis_modules': ['Ratio'],
@@ -92,7 +92,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 					#fnlo
 				'pdf_sets': pdf_sets,
 				'members': [member],
-				'fastnlo_files': ["latest_sherivf_output/{0}.tab".format(ybin+replaced_quantity)],
+				'fastnlo_files': [common.sherpa_results+"/{0}.tab".format(ybin+replaced_quantity)],
 					#root
 				'files': [common.divided_path + '/' + '_'.join([quantity, 'madgraph', ybinsuffix, '1']) + '.root'],
 				'folders': '',
@@ -100,7 +100,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				# analysis
 				"analysis_modules": ["Ratio"],
 				'ratio_denominator_nicks': ['nick0'],
-				'ratio_numerator_nicks':["latest_sherivf_output/{}.tab_{}_{}".format(ybin+replaced_quantity, i, member) for i in pdf_sets],
+				'ratio_numerator_nicks':[common.sherpa_results+"/{}.tab_{}_{}".format(ybin+replaced_quantity, i, member) for i in pdf_sets],
 				# formatting
 				'labels': ['Data'] + labels,
 				'legend': 'upper right',
@@ -222,7 +222,7 @@ def fastnlo_pdfunc(args=None, additional_dictionary=None):
 				# input fastNLO
 				'pdf_sets': [pdfset],
 				'members': [0],
-				'fastnlo_files': ["latest_sherivf_output/{0}.tab".format(ybin+replaced_quantity)],
+				'fastnlo_files': [common.sherpa_results+"/{0}.tab".format(ybin+replaced_quantity)],
 				'uncertainty_style': style,
 				'uncertainty_type': 'PDF',
 				# input root
@@ -283,7 +283,7 @@ def fastnlo_pdfmembers(args=None, additional_dictionary=None):
 				# input fastNLO
 				'pdf_sets': [pdfset],
 				'members': range(n_members),
-				'fastnlo_files': ["latest_sherivf_output/{0}.tab".format(ybin+replaced_quantity)],
+				'fastnlo_files': [common.sherpa_results+"/{0}.tab".format(ybin+replaced_quantity)],
 				'fastnlo_nicks': map(str, range(n_members)),
 				# input root
 				'files': [common.divided_path + '/' + '_'.join([quantity, 'madgraph', ybinsuffix, '1']) + '.root'],

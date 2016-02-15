@@ -129,6 +129,7 @@ unc_labelsdict = {
 # workflow dirs
 excaliburpath = os.environ['EXCALIBURPATH']
 bkgr_path = excaliburpath
+sherpa_results = os.path.join(os.environ['SHERIVFDIR'], 'results/MCgrid_CMS_2015_Zee_zjet/')
 
 subtract_dir = "1_background-subtracted"
 unfold_path = "2_unfolded"
