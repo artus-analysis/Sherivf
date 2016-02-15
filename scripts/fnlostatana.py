@@ -5,6 +5,13 @@
 	DOCUMENTATION
 	script to check the statistical precision of fastNLO tables
 	originally be gsieber
+	
+	Example:
+		$ python fnlostatana.py -i $PWD/sherpa_output/ --nlo '^zpt_[0-9]+.tab$' --max 5  --work $PWD
+	find all tables in sherpa_output/ matching '^zpt_[0-9]+.tab$', print mean,
+	StdDev, all tables where |xsec-median|> 5 sigma and create plots for all
+	bins in a folder in the current dir
+	Add --filter to move critical tables into subfolder.
 """
 
 import argparse
@@ -25,6 +32,10 @@ fastnlo.SetGlobalVerbosity(fastnlo.WARNING)
 
 import logging
 log = logging.getLogger(__name__)
+# additional log handler to write log file
+filelog = logging.FileHandler(os.path.splitext(os.path.basename(__file__))[0]+'.log')
+filelog.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+log.addHandler(filelog)
 
 
 def main():
@@ -37,7 +48,8 @@ def main():
 	parser.add_argument('-r', '--regex', default='^.*nlo.*$', help='Regex matching tables in input folder.')
 	parser.add_argument('-m', '--max-processes', type=int, default=8, help='Max number of parallel processes')
 	parser.add_argument('--filter', action='store_true', default=False, help='Filter invalid tables.')
-	parser.add_argument('-s', '--stds', type=float, default=100., help='number of standard deviations to filter table')
+	parser.add_argument('-s', '--stds', type=float, default=100., help='number of standard deviations a \
+	                   table is allowed to deviate from the median to not be considered critical')
 	parser.add_argument("--log-level", default="info", help="Log level.")
 
 	# Parse arguments.
@@ -49,7 +61,7 @@ def main():
 	log_level = getattr(logging, args['log_level'].upper(), None)
 	if not isinstance(log_level, int):
 		raise ValueError('Invalid log level: %s' % loglevel)
-	logging.basicConfig(format='%(message)s', level=log_level)#, filename='example.log')
+	logging.basicConfig(format='%(message)s', level=log_level)
 
 	log.info('Globbing all .tab files in input directory.')
 	log.debug('Regex for NLO tables is \'{0}\'.'.format(args['regex']))
@@ -74,6 +86,7 @@ def main():
 	results = pool.map_async(gettab, [(tab, args['pdfset']) for tab in tables_files])
 	xs_nlo = np.array(results.get(9999999)) # 9999999 is needed for KeyboardInterrupt to work: http://stackoverflow.com/questions/1408356/keyboard-interrupts-with-pythons-multiprocessing-pool
 
+	# calculate statistical estimators
 	mean = np.mean(xs_nlo, axis=0)
 	std = np.std(xs_nlo, axis=0)
 	mean_error = std/math.sqrt(float(len(tables_files)))
@@ -93,7 +106,7 @@ def main():
 	#plot
 	plot_distribution(xs_nlo, plot_dir='nlo_plots', **args)
 
-	# Get all tables where any bin is > x std off from the mean
+	# Find all tables where any bin is > x std off from the mean
 	invalid_nlo_tables = np.array(tables_files)[np.any(xs_nlo-median > args['stds'] * xs_nlo.std(axis=0), axis=1)]
 	if invalid_nlo_tables.size != 0:
 		log.warning('There are tables with potential problems (any bin with xsec {} sigma away from median):'.format(args['stds']))
