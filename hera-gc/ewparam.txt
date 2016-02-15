@@ -56,7 +56,7 @@
 
  ! Heavy quark masses:
   mch			= @MCHARM@   ! Synchronize with QCDNUM,RT
-  mtp			= 174d0   ! Synchronize with QCDNUM
+  mtp			= 173d0   ! Synchronize with QCDNUM
   mbt			= @MBOTTOM@   ! Synchronize with QCDNUM,RT
    
 &end

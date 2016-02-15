@@ -49,11 +49,11 @@ def copy_herafile(mode, value, batch, targetdir, fast=False, keys={}):
 		'@Q02@': '1.9',
 		'@Q2MIN@': '7.5',
 		'@HF_SCHEME@': 'RT'+(' FAST' if fast else ''),
-		'@PDFStyle@': '13p HERAPDF',
+		'@PDFStyle@': 'HERAPDF',
 		'@DOBANDS@': 'True',
-		'@ALPHAS@': '0.1176',
+		'@ALPHAS@': '0.118',
 		'@ALPHAS_S@': '0.0',
-		'@FS@': '0.31',
+		'@FS@': '0.40',
 		'@FC@': '0.',
 	}
 	defaults_global = {
