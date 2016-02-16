@@ -219,6 +219,7 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 			'colors': [histo_colors[c] for c in ["red", "yellow", "green"]]*len(nicks),
 			'title': title,
 			'texts': ["\n".join([flavour.replace("_", " "), text])],
+			'x_lims': [1e-4, 0.9],
 			# output
 			'filename': flavour + '_all-uncertainties',
 		}
@@ -230,7 +231,7 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	return [PlottingJob(plots, args)]
 
 
-def plot_pdf_unc_comparison(args=None, additional_dictionary=None):
+def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='hera2_abszy'):
 	""" comparison between hera and hera+CMS with total uncertainties"""
 	plots = []
 	text = r"$\\mathit{Q}^2 = 1.9 \\/ GeV^2$"
@@ -238,7 +239,7 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None):
 		'gluon': [0, 3],
 	}
 	nicks = ["hera", "heracms"]
-	scenarios = ['hera2', 'hera2_zpt']
+	scenarios = ['hera2', scenario]
 	labels = ['HERA2', r'HERA2 + CMS Z($\\rightarrow$ee)']*len(nicks),
 	for flavour in pdf_unc_flavours:
 		d = {
@@ -264,8 +265,9 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None):
 			'alphas': [0.4],
 			'colors': [histo_colors['blue'], histo_colors['yellow']]*2,
 			'texts': ["\n".join([flavour.replace("_", " "), text])],
+			'x_lims': [1e-4, 0.9],
 			# output
-			'filename': flavour + '_hera_cms',
+			'filename': '_'.join([flavour, scenario, 'cms']),
 		}
 		if flavour in y_lims:
 			d['y_lims'] = y_lims[flavour]
@@ -276,3 +278,8 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None):
 		plots.append(d)
 	return [PlottingJob(plots, args)]
 
+def plot_pdf_unc_comparison_zpt(args=None, additional_dictionary=None):
+	return plot_pdf_unc_comparison(args, additional_dictionary, scenario='hera2_zpt')
+
+def plot_pdf_unc_comparison_abszy(args=None, additional_dictionary=None):
+	return plot_pdf_unc_comparison(args, additional_dictionary, scenario='hera2_abszy')

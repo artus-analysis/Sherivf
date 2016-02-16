@@ -57,7 +57,7 @@ def allplots(args=None):
 		plots_pdf_uncertainties.plot_pdf_uncs_hera2_abszy,
 		plots_pdf_uncertainties.plot_pdf_uncs_hera2_zpt,
 		plots_pdf_uncertainties.plot_pdf_uncs_hera2_zpt_bins,
-		plots_pdf_uncertainties.plot_pdf_unc_comparison,
+		plots_pdf_uncertainties.plot_pdf_unc_comparison_zpt,
 		plots_bkgrs.signal_background_ratio,  # 25
 		plots_electron.electron_scale_unc,
 		plots_electron.z_hlt,
@@ -71,6 +71,7 @@ def allplots(args=None):
 		plots_pdf_reweighted.nnpdf_abszy_10,  # 35
 		plots_pdf_reweighted.nnpdf_abszy_91,
 		branching.branching_ratio,
+		plots_pdf_uncertainties.plot_pdf_unc_comparison_abszy,
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -98,7 +99,7 @@ def allplots(args=None):
 		"pdf_uncertainties_hera2_abszy",
 		"pdf_uncertainties_hera2_zpt",
 		"pdf_uncertainties_hera2_zpt_bins",
-		"pdf_uncertainties_comparison",
+		"pdf_uncertainties_comparison_zpt",
 		"backgrounds_signal_ratio",
 		"electron_scale_uncertainty",
 		"hlt",
@@ -112,6 +113,7 @@ def allplots(args=None):
 		"nnpdf_abszy_10",
 		"nnpdf_abszy_91",
 		"branching_ratio",
+		"pdf_uncertainties_comparison_abszy",
 	][plot_min:plot_max]
 
 	for function, wwwdir in zip(functions, wwwdirs):
