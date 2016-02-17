@@ -28,6 +28,7 @@ alias configure_fastjet="./configure --prefix=$HOME/local  --enable-allcxxplugin
 # QDNUM
 
 # BLACKHAT
+# blackhat libraries can become quite large - install in storage space
 alias configure_blackhat="./configure --prefix=/storage/a/dhaitz/blackhat --with-QDpath=$HOME/local"
 
 # SHERPA
