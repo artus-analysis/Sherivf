@@ -22,7 +22,7 @@ parameters
   25   'Edv'                       0.0000   @EDV_S@
   26   'Fdv'                       0.0000   0.000000e+00
   31   'AUbar'                     0.0000   0.000000e+00
-  32   'BUbar'                     0.0000   0.000000e+00
+  32   'BUbar'                     @BUBAR@  @BUBAR_S@
   33   'CUbar'                     @CUBAR@  @CUBAR_S@
   34   'DUbar'                     @DUBAR@  @DUBAR_S@
   35   'EUbar'                     0.0000   @EUBAR_S@
