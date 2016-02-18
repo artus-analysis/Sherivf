@@ -41,7 +41,7 @@ def root_quantity(quantity):
 
 bins = {
 	'zpt': "30 40 50 60 80 100 120 140 170 200 1000",
-	'zy': "50,-2.5,2.5",
+	'zy': "48,-2.4,2.4",
 	'abs(zy)': "24,0,2.4",
 	'zmass': "20,81,101",
 	'zphi': '32,-3.2,3.2',
@@ -55,12 +55,14 @@ unfbins = {}
 unfbins.update(bins)
 unfbins['zpt'] = "0 " + unfbins['zpt']
 unfbins['abs(zy)'] = "26,0,2.6"
+unfbins['zy'] = "52,-2.6,2.6"
 unfbins['abszy'] = unfbins['abs(zy)']
 default_unfolding_method = 'inversion'
 other_methods = ['dagostini', 'binbybin']
 unfdict = {
 	'zpt' : 'ptunfolding',
 	'abszy': 'yunfolding',
+	'zy': 'yunfolding',
 }
 unfdict['abs(zy)'] = unfdict['abszy']
 def unffolder(quantity):
@@ -152,6 +154,7 @@ backgrounds_merged_short = ['zz', 'wz', 'tt', 'others']
 xseclabels = {
 	'zpt': 'xsecpt',
 	'abszy': 'xsecabsy',
+	'zy': 'xsecy',
 	'zmass': 'xsecm',
 	'zphi': 'xsecphi'
 }
