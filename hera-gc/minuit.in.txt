@@ -26,7 +26,7 @@ parameters
   33   'CUbar'                     @CUBAR@  @CUBAR_S@
   34   'DUbar'                     @DUBAR@  @DUBAR_S@
   35   'EUbar'                     0.0000   @EUBAR_S@
-  41   'ADbar'                     @ADBAR@  @ADBAR_S@
+  41   'ADbar'                     0.0000   0.000000e+00
   42   'BDbar'                     @BDBAR@  @BDBAR_S@
   43   'CDbar'                     @CDBAR@  @CDBAR_S@
   44   'DDbar'                     0.0000   @DDBAR_S@
