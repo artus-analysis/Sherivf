@@ -54,7 +54,8 @@ public:
 		std::vector<double> bin_edges = {30, 40, 50, 60, 80, 100, 120, 140, 170, 200, 1000};
 		m_ybins = {0.4, 0.8, 1.2, 1.6, 2.0, 2.4};
 		_h_pTZ = bookHisto1D("zpt", bin_edges);
-		_h_yZ = bookHisto1D("abszy", 24, 0, 2.4);
+		_h_yZ = bookHisto1D("zy", 48, -2.4, 2.4);
+		_h_absyZ = bookHisto1D("abszy", 24, 0, 2.4);
 		_h_mZ = bookHisto1D("zmass", 20, 81, 101);
 		_h_phiZ = bookHisto1D("zphi", 32, -3.2, 3.2);
 
@@ -88,9 +89,11 @@ public:
 		MCgrid::fastnloConfig config_fnlo_7(1, subproc, arch_fnlo, 8000.);
 		MCgrid::fastnloConfig config_fnlo_8(1, subproc, arch_fnlo, 8000.);
 		MCgrid::fastnloConfig config_fnlo_9(1, subproc, arch_fnlo, 8000.);
+		MCgrid::fastnloConfig config_fnlo_10(1, subproc, arch_fnlo, 8000.);
 
 		MSG_INFO("bookGrid for yZ. histoDir: " << histoDir());
 		_fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo);
+		_fnlo_absyZ = MCgrid::bookGrid(_h_absyZ, histoDir(), config_fnlo_10);
 		_fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_2);
 		_fnlo_mZ = MCgrid::bookGrid(_h_mZ, histoDir(), config_fnlo_3);
 
@@ -116,7 +119,7 @@ public:
 
 		if (zfinder.bosons().size() == 1) {
 
-			double yZ = fabs(zfinder.bosons()[0].momentum().rapidity());
+			double yZ = zfinder.bosons()[0].momentum().rapidity();
 			double pTZ = zfinder.bosons()[0].momentum().pT();
 			double mZ = zfinder.bosons()[0].momentum().mass();
 			double phiZ = zfinder.bosons()[0].momentum().phi()-pi;
@@ -133,6 +136,7 @@ public:
 				// Z histos
 				_h_pTZ->fill(pTZ, weight);
 				_h_yZ->fill(yZ, weight);
+				_h_absyZ->fill(fabs(yZ), weight);
 				_h_mZ->fill(mZ, weight);
 				_h_phiZ->fill(phiZ, weight);
 
@@ -176,6 +180,7 @@ public:
 			#if USE_FNLO
 				_fnlo_pTZ->fill(pTZ, event);
 				_fnlo_yZ->fill(yZ, event);
+				_fnlo_absyZ->fill(fabs(yZ), event);
 				_fnlo_mZ->fill(mZ, event);
 
 			#endif
@@ -195,6 +200,7 @@ public:
 
 		// scale rivet
 		scale(_h_yZ, normfactor);
+		scale(_h_absyZ, normfactor);
 		scale(_h_pTZ, normfactor);
 		scale(_h_mZ, normfactor);
 		scale(_h_phiZ, normfactor);
@@ -214,6 +220,7 @@ public:
 		//scale fastnlo
 		_fnlo_pTZ->scale(normfactor);
 		_fnlo_yZ->scale(normfactor);
+		_fnlo_absyZ->scale(normfactor);
 		_fnlo_mZ->scale(normfactor);
 
 		_fnlo_pTZ_0->scale(normfactor);
@@ -225,6 +232,7 @@ public:
 
 		_fnlo_pTZ->exportgrid();
 		_fnlo_yZ->exportgrid();
+		_fnlo_absyZ->exportgrid();
 		_fnlo_mZ->exportgrid();
 
 		_fnlo_pTZ_0->exportgrid();
@@ -246,6 +254,7 @@ private:
 	/// Histograms
 	Histo1DPtr _h_pTZ;
 	Histo1DPtr _h_yZ;
+	Histo1DPtr _h_absyZ;
 	Histo1DPtr _h_mZ;
 	Histo1DPtr _h_phiZ;
 
@@ -265,6 +274,7 @@ private:
 	#if USE_FNLO
 	MCgrid::gridPtr _fnlo_pTZ;
 	MCgrid::gridPtr _fnlo_yZ;
+	MCgrid::gridPtr _fnlo_absyZ;
 	MCgrid::gridPtr _fnlo_mZ;
 	
 	MCgrid::gridPtr _fnlo_pTZ_0;

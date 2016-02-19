@@ -23,6 +23,7 @@ valuefile = "'" + os.environ['SHERIVFDIR'] + "/herafitter/CMS_Zee_HFinput_{0}_{1
 values = {
 	'abszy': [valuefile.format('abszy', 'inclusive')],
 	'zpt': [valuefile.format('zpt', 'inclusive')],
+	'zy': [valuefile.format('zy', 'inclusive')],
 	'zpt_bins': [valuefile.format('zpt', ptbin) for ptbin in common.ybin_labels[:-1]],
 }
 
