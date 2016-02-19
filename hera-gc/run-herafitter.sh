@@ -12,10 +12,6 @@ cd /portal/ekpcms6/home/dhaitz/qcd/sherivf
 . scripts/ini.sh
 cd $WDIR
 
-echo -e "\nParameter values:"
-#echo $MEMBER $DATASET $ORDER $HF_SCHEME $MCHARM $Q02 $Q2MIN $FS $FC $DG_S $EG_S $DUV_S $DDV_S $EDV_S $DUBAR_S $EUBAR_S $DDBAR_S $EDBAR_S $ALPHAS $ALPHAS_S $BANDS $CHI2EXTRAPARAM[$DATASET] $BPRIG_S $PDFStyle
-echo @MCHARM@ @MBOTTOM@
-
 echo -e "\nFit:"
 FitPDF
 
