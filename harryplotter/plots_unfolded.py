@@ -67,6 +67,7 @@ def response_matrix(args=None):
 				'files': [common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '1']) + '.root'],
 				'folders': [''],
 				'x_expressions': ['responsematrix'],
+				'analysis_modules': ['NormalizeColumnsToUnity'],
 				# formatting
 				#'y_bins': common.bins[quantity],
 				#'x_bins': common.bins[quantity],
@@ -79,7 +80,7 @@ def response_matrix(args=None):
 				# output
 				'filename': 'responsematrix_' + quantity + ("_log" if log else ""),
 				'www_title': 'Response Matrices',
-				'www_text': r"Unfolding response matrices from d\'Agostini Unfolding for Z y,mass,pT with log and scalar z-axis",
+				'www_text': r"Unfolding response matrices from Unfolding for Z y,mass,pT with log and scalar z-axis",
 			}
 			if quantity == 'zpt' and common.zpt_xlog:
 				d['y_log'] = True
