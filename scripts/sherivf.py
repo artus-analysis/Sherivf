@@ -21,7 +21,7 @@ class Sherivf(object):
 		self.default_storage_path = get_env('SHERIVF_STORAGE_PATH')
 		self.sherivf_path = get_env('SHERIVFDIR')
 		self.get_arguments()
-		self.fastnlo_outputs = [os.path.basename(f).replace('.txt', '.tab') for f in glob.glob(os.path.join(self.sherivf_path,'fastnlo',self.args.rivet, '*.txt' ))]
+		self.fastnlo_outputs = [os.path.basename(f).replace('.txt', ('.txt' if self.args.warmup else '.tab')) for f in glob.glob(os.path.join(self.sherivf_path,'fastnlo',self.args.rivet, '*.txt' ))]
 
 
 	def run(self):
