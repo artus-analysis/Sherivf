@@ -20,9 +20,10 @@ rm -f $SHERIVFDIR/herafitter/CMS_Zee_HFinput_*.txt
 
 # calculate the root files for the correlation plots
 calculate_all_correlations(){
-	for set in NNPDF30_nlo_as_0118 NNPDF23_nlo_as_0118; do
+	SETS=${1:-/storage/a/dhaitz/sherivf/ekpcloud_2015-09-26_09-57/}
+	for set in NNPDF30_nlo_as_0118 NNPDF23_nlo_as_0118 NNPDF30_nlo_as_0118_nolhc; do
 		for i in zpt abszy zmass; do
-			calculate_correlation.py -t output_for_correlation_plots/${i}.tab -o  correlations/${i}_${set}.root -p ${set} & 
+			calculate_correlation.py -t $SETS/${i}.tab -o  correlations/${i}_${set}.root -p ${set} & 
 		done
 	done
 }
