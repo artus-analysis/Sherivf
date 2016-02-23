@@ -59,37 +59,38 @@ def response_matrix(args=None):
 	""" plot response matrix"""
 	plots = []
 	ybin = 'inclusive'
-	for log in [True, False]:
-		for quantity in common.data_quantities:
-			lims = common.lims(quantity)
-			d = {
-				# input
-				'files': [common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '1']) + '.root'],
-				'folders': [''],
-				'x_expressions': ['responsematrix'],
-				'analysis_modules': ['NormalizeColumnsToUnity'],
-				# formatting
-				#'y_bins': common.bins[quantity],
-				#'x_bins': common.bins[quantity],
-				#'x_lims': lims,
-				#'y_lims': lims,
-				'x_label': 'gen' + quantity,
-				'y_label': 'reco' + quantity,
-				'energies': [8],
-				'z_log': log,
-				# output
-				'filename': 'responsematrix_' + quantity + ("_log" if log else ""),
-				'www_title': 'Response Matrices',
-				'www_text': r"Unfolding response matrices from Unfolding for Z y,mass,pT with log and scalar z-axis",
-			}
-			if quantity == 'zpt' and common.zpt_xlog:
-				d['y_log'] = True
-				d['x_log'] = True
-				d['x_ticks'] = common.zpt_ticks
-				d['y_ticks'] = common.zpt_ticks
-				d['x_bins'] = common.bins[quantity]
-				d['y_bins'] = common.bins[quantity]
-			plots.append(d)
+	for quantity in common.data_quantities:
+		lims = common.lims(quantity)
+		d = {
+			# input
+			'files': [common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '1']) + '.root'],
+			'folders': [''],
+			'x_expressions': ['responsematrix'],
+			'analysis_modules': ['NormalizeColumnsToUnity'],
+			# formatting
+			#'y_bins': common.bins[quantity],
+			#'x_bins': common.bins[quantity],
+			#'x_lims': lims,
+			#'y_lims': lims,
+			'x_label': 'gen' + quantity,
+			'y_label': 'reco' + quantity,
+			'energies': [8],
+			'z_log': True,
+			'z_lims':[1e-3, 1],
+			'z_label': 'Response',
+			# output
+			'filename': 'responsematrix_' + quantity,
+			'www_title': 'Response Matrices',
+			'www_text': r"Unfolding response matrices from Unfolding for Z y,mass,pT with log and scalar z-axis",
+		}
+		if quantity == 'zpt' and common.zpt_xlog:
+			d['y_log'] = True
+			d['x_log'] = True
+			d['x_ticks'] = common.zpt_ticks
+			d['y_ticks'] = common.zpt_ticks
+			d['x_bins'] = common.bins[quantity]
+			d['y_bins'] = common.bins[quantity]
+		plots.append(d)
 	return [PlottingJob(plots, args)]
 
 

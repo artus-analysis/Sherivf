@@ -3,6 +3,9 @@
 import numpy as np
 import os
 
+import pdf_2_root
+
+
 bkgr_labels = {
 	'zz': "ZZ",
 	'wz': "WZ",
@@ -166,3 +169,9 @@ sherivf_output_dir = os.environ['SHERIVFDIR'] + "/latest_sherivf_output/"
 
 #unfolding_variations = [0, -1, 1]
 unfolding_variations = ['_unfdown', '_unfup']
+
+
+# PDF
+pdf_unc_flavours = [pdf_2_root.partondict[f].replace(' ', '_') for f in pdf_2_root.default_flavours]
+results_dir = os.environ['SHERIVFDIR']+"/results/"
+

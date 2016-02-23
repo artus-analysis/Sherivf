@@ -7,7 +7,6 @@ import Excalibur.Plotting.utility.colors as colors
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 from Excalibur.Plotting.utility.colors import histo_colors
 
-from plots_pdf_uncertainties import pdf_unc_flavours
 import common
 
 def nnpdf(args=None, additional_dictionary=None):
@@ -29,7 +28,7 @@ def nnpdf(args=None, additional_dictionary=None):
 	pdfset = 'NNPDF30_nlo_as_0118_nolhc_1000'
 	labels = ['Original', 'Reweighted']
 	nicks = [label.lower() for label in labels]
-	for flavour in pdf_unc_flavours:
+	for flavour in common.pdf_unc_flavours:
 		files = [
 			'pdf_sets/{0}__{1}.root'.format(pdfset, q),
 			'results/nnpdf_{2}/{0}_Zee_chi2_nRep{3}__{1}.root'.format(pdfset, q, mode, n_replicas),

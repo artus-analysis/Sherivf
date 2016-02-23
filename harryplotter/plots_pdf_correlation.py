@@ -8,7 +8,7 @@ import common
 def pdf_correlations(args=None, additional_dictionary=None):
 	""" Correlation of sigma_Z and PDF vs Z quantities and x (2D), for u/d/s/g."""
 	plots = []
-	for pdfset in ['NNPDF30_nlo_as_0118', 'NNPDF23_nlo_as_0118']:
+	for pdfset in ['NNPDF30_nlo_as_0118', 'NNPDF23_nlo_as_0118', 'NNPDF30_nlo_as_0118_nolhc']:
 		for flavour in calculate_correlation.partons.values():
 			for quantity in ['zpt' ,'zmass', 'abszy']:
 				d = {
@@ -22,7 +22,8 @@ def pdf_correlations(args=None, additional_dictionary=None):
 					"y_label": quantity,
 					"z_label": r"Correlation coefficient $ \\rho$ ($ \\sigma_Z$, PDF)",
 					"z_lims": [-1.0, 1.0],
-					"colormap": "bwr",
+					"colormap": "coolwarm",
+					"rasterized": True,
 					"texts": [common.pdfsetdict.get(pdfset, pdfset)+r"\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)"],
 					"title": flavour,
 					# output
