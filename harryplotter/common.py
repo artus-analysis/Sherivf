@@ -36,8 +36,9 @@ import Excalibur.Plotting.utility.labelsZJet as labelsZJet
 
 labels = labelsZJet.LabelsDictZJet()
 
-
-data_quantities = ['zpt', 'abszy', 'zmass']
+### main steering for quantities
+data_quantities = ['zpt', 'abszy', 'zy', 'zmass']
+###
 quantities = data_quantities 
 def root_quantity(quantity):
 	return {'abszy': 'abs(zy)'}.get(quantity, quantity)
