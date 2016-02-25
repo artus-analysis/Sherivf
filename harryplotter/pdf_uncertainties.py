@@ -1,33 +1,22 @@
 # -*- coding: utf-8 -*-
 
+import argparse
 import common
 import os
 
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
 
-def pdf_unc_base(args=None, additional_dictionary=None, scenario='hera'):
+def make_pdf_unc(args=None, additional_dictionary=None, scenario='hera'):
 	""" make pdf uncertainties """
-	return (model_unc(args, additional_dictionary, scenario)
-		+ par_unc(args, additional_dictionary, scenario)
-		+ combine_exp_model(args, additional_dictionary, scenario)
-		+ combine_expmodel_par(args, additional_dictionary, scenario))
+	parser = argparse.ArgumentParser()
+	parser.add_argument('--scenario', default='hera2', help="scenario")
+	known_args, args = parser.parse_known_args(**({'args':args} if args is not None else {}))
 
-def pdf_unc_hera(args=None, additional_dictionary=None):
-	""" make pdf uncertainties for hera """
-	return pdf_unc_base(args, additional_dictionary, 'hera2')
-
-def pdf_unc_heraZ(args=None, additional_dictionary=None):
-	""" make pdf uncertainties for heraZ """
-	return pdf_unc_base(args, additional_dictionary, 'hera2_abszy')
-
-def pdf_unc_heraZ_pt(args=None, additional_dictionary=None):
-	""" make pdf uncertainties for heraZ """
-	return pdf_unc_base(args, additional_dictionary, 'hera2_zpt')
-
-def pdf_unc_heraZ_bins(args=None, additional_dictionary=None):
-	""" make pdf uncertainties for heraZ """
-	return pdf_unc_base(args, additional_dictionary, 'hera2_zpt_bins')
+	return (model_unc(args, additional_dictionary, known_args.scenario)
+		+ par_unc(args, additional_dictionary, known_args.scenario)
+		+ combine_exp_model(args, additional_dictionary, known_args.scenario)
+		+ combine_expmodel_par(args, additional_dictionary, known_args.scenario))
 
 
 def model_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
