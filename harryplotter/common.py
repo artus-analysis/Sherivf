@@ -89,13 +89,15 @@ pdfsetdict = {
 	'NNPDF30_nlo_as_0118_nolhc': 'NNPDF 3.0 NLO (no LHC data)',
 	'NNPDF30_nlo_as_0118_nolhc_1000': 'NNPDF 3.0 NLO (no LHC data, 1000 replicas)',
 	'NNPDF21_100': 'NNPDF 2.1',
-	'abm11_3n_nlo': 'ABM11',
+	'abm11_3n_nlo': 'ABM11 NLO',
 	'cteq65': 'CTEQ 6.5',
 	'cteq66': 'CTEQ 6.6',
 	'MSTW2008nlo68cl': 'MSTW 2008',
 	'CT10nlo': 'CT10 NLO',
-	'HERAPDF15NLO_EIG': 'HeraPDF 1.5',
-	'MMHT2014nlo68clas118': 'MMHT 2014',
+	'CT14nlo': 'CT14 NLO',
+	'HERAPDF15NLO_EIG': 'HeraPDF 1.5 NLO',
+	'HERAPDF20_NLO_EIG': 'HeraPDF 2.0 NLO',
+	'MMHT2014nlo68clas118': 'MMHT 2014 NLO',
 }
 
 nmembersdict = {

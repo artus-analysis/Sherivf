@@ -67,9 +67,9 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 	# configure fastNLO input
 	n_members = 1
 	pdf_sets = [
-		'CT10nlo', 'NNPDF30_nlo_as_0118', 'abm11_3n_nlo',
+		'CT14nlo', 'NNPDF30_nlo_as_0118', 'abm11_3n_nlo',
 		#'cteq66', 'MSTW2008nlo68cl',
-		'HERAPDF15NLO_EIG',
+		'HERAPDF20_NLO_EIG',
 		'MMHT2014nlo68clas118'
 		]
 	labels = [common.pdfsetdict.get(i, i) for i in pdf_sets]
