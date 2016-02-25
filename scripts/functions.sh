@@ -36,7 +36,7 @@ alias make_allplots="merlin.py --py allplots"
 ## PDF uncertainties
 make_pdfuncs()
 {
-	for i in hera2 hera2_abszy hera2_zpt hera2_zpt_bins; do
+	for i in hera2 hera2_abszy hera2_zy hera2_zpt hera2_zpt_bins; do
 		merlin.py --py make_pdf_unc --scenario ${i}
 	done
 }
