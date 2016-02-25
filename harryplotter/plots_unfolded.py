@@ -78,6 +78,7 @@ def response_matrix(args=None):
 			'z_log': True,
 			'z_lims':[1e-3, 1],
 			'z_label': 'Response',
+			'rasterized': True,
 			# output
 			'filename': 'responsematrix_' + quantity,
 			'www_title': 'Response Matrices',
