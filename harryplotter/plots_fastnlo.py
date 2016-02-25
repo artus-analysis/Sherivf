@@ -70,7 +70,8 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 		'CT14nlo', 'NNPDF30_nlo_as_0118', 'abm11_3n_nlo',
 		#'cteq66', 'MSTW2008nlo68cl',
 		'HERAPDF20_NLO_EIG',
-		'MMHT2014nlo68clas118'
+		'MMHT2014nlo68clas118',
+		#'PDF4LHC15_nlo_100'
 		]
 	labels = [common.pdfsetdict.get(i, i) for i in pdf_sets]
 	N = len(pdf_sets)

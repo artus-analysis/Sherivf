@@ -58,8 +58,10 @@ bins['abszy'] = bins['abs(zy)']
 unfbins = {}
 unfbins.update(bins)
 unfbins['zpt'] = "0 " + unfbins['zpt']
-unfbins['abs(zy)'] = "26,0,2.6"
-unfbins['zy'] = "52,-2.6,2.6"
+unfbins.update({
+	'abs(zy)': "26,0,2.6",
+	'zy': "52,-2.6,2.6",
+})
 unfbins['abszy'] = unfbins['abs(zy)']
 default_unfolding_method = 'inversion'
 other_methods = ['dagostini', 'binbybin']
@@ -99,6 +101,7 @@ pdfsetdict = {
 	'HERAPDF15NLO_EIG': 'HeraPDF 1.5 NLO',
 	'HERAPDF20_NLO_EIG': 'HeraPDF 2.0 NLO',
 	'MMHT2014nlo68clas118': 'MMHT 2014 NLO',
+	'PDF4LHC15_nlo_100': 'PDF4LHC15 NLO '
 }
 
 nmembersdict = {
