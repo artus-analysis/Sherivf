@@ -56,7 +56,7 @@ def model_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
 def par_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_herapdf__1_9_squared.root"
 	"""get parametrisation uncertainties"""
-	variations = [0] + range(9, 20)
+	variations = [0] + range(9, 19)
 	q_squared = 1.9
 	exp_unc = 'exp_unc'
 	nicks = ["nick"+str(i) for i in variations]

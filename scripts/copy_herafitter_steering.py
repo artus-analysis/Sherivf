@@ -49,7 +49,7 @@ def copy_herafile(mode, value, batch, targetdir, fast=False, keys={}):
 		# for HERA Fit
 		'@Q02@': '1.9',
 		'@Q2MIN@': '7.5',
-		'@HF_SCHEME@': 'RT'+(' FAST' if fast else ''),
+		'@HF_SCHEME@': 'RT OPT'+(' FAST' if fast else ''),
 		'@PDFStyle@': 'HERAPDF',
 		'@DOBANDS@': 'True',
 		'@ALPHAS@': '0.118',
