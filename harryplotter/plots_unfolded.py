@@ -19,7 +19,7 @@ def different_iterations(args=None):
 	else:
 		max_iteration = 1
 	for quantity in common.data_quantities:
-		basename = common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '{}']) + '.root'
+		basename = common.unfold_path + '/' + '_'.join([quantity, common.default_mc, ybin, '{}']) + '.root'
 		d = {
 			# input
 			'files': [basename.format(str(1))]*2 + [basename.format(str(1+n)) for n in range(max_iteration)],
@@ -63,7 +63,7 @@ def response_matrix(args=None):
 		lims = common.lims(quantity)
 		d = {
 			# input
-			'files': [common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, '1']) + '.root'],
+			'files': [common.unfold_path + '/' + '_'.join([quantity, common.default_mc, ybin, '1']) + '.root'],
 			'folders': [''],
 			'x_expressions': ['responsematrix'],
 			'analysis_modules': ['NormalizeColumnsToUnity'],
@@ -105,7 +105,7 @@ def unfolding_comparison(args=None):
 
 	for iterations in range(1, 5):
 		for quantity in common.data_quantities:
-			filename = common.unfold_path + '/' + '_'.join([quantity, 'madgraph', ybin, str(iterations)]) + '.root'
+			filename = common.unfold_path + '/' + '_'.join([quantity, common.default_mc, ybin, str(iterations)]) + '.root'
 			if (common.default_unfolding_method != 'dagostini') and (iterations > 1):
 				continue
 			d = {
@@ -153,7 +153,7 @@ def unfolded_to_hera(args=None):
 	""" take unfolded data and convert it into herafitter format"""
 	plots = []
 	d = {
-		'files': ['2_unfolded/zpt_madgraph_inclusive_{}.root'.format(iterations_to_use)],
+		'files': ['2_unfolded/zpt_{}_inclusive_{}.root'.format(common.default_mc, iterations_to_use)],
 		'folders': [''],
 		'x_expressions': ['data_unfolded'],
 		# output
@@ -173,10 +173,10 @@ def unfolded_mc_comparison(args=None):
 		# MC comparison
 		iterations = 1
 		dic1 = {
-			'files': ['2_unfolded/{0}_{1}_inclusive_{2}.root'.format(quantity, mc, iterations) for mc in ['madgraph', 'powheg']],
+			'files': ['2_unfolded/{0}_{1}_inclusive_{2}.root'.format(quantity, mc, iterations) for mc in common.mcs],
 			'filename': 'unfolding_samples_'+quantity,
 			'analysis_modules': ['Ratio'],
-			'labels': ['Response matrix from {} sample'.format(mc) for mc in  ['Madgraph', 'Powheg']],
+			'labels': ['Response matrix from {} sample'.format(mc) for mc in  [s.capitalize() for s in common.mcs]],
 		}
 		# method comparison
 		methods = [''] + ['_'+m for m in common.other_methods]
@@ -184,7 +184,7 @@ def unfolded_mc_comparison(args=None):
 		
 		iterations = [1, 4, 1]
 		dic2 = {
-			'files': ['2_unfolded/{0}_madgraph_inclusive_{2}{1}.root'.format(quantity, method, iteration) for method, iteration in zip(methods, iterations)],
+			'files': ['2_unfolded/{0}_{3}_inclusive_{2}{1}.root'.format(quantity, method, iteration, common.default_mc) for method, iteration in zip(methods, iterations)],
 			'x_bins': common.bins[quantity],
 			'nicks': ['inv', 'dago', 'bbb'],
 			'analysis_modules': ['Ratio', 'DAgostini'],

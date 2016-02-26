@@ -64,7 +64,7 @@ def unfold(args=None):
 				["inclusive"] + common.ybin_labels,
 	], known_args.no_ybins)):
 		for mc_label, mc_unfold in zip(*parsertools.get_list_slice([
-			['Madgraph', 'Powheg'],
+			common.mcs,
 			['mc_ee.root', 'mc_ee_powheg.root']
 		], known_args.no_mcs)):
 			for quantity in parsertools.get_list_slice([common.data_quantities], known_args.no_quantities)[0]:
@@ -134,7 +134,7 @@ def zee_divide(args=None):
 				["inclusive"] + common.ybin_labels
 	], known_args.no_ybins)):
 			for variation in common.variations+common.unfolding_variations:
-				filename = '{}_madgraph_{}_{}'.format(quantity, ybinsuffix+variation, common.iterations_to_use)
+				filename = '{}_{}_{}_{}'.format(quantity, common.default_mc, ybinsuffix+variation, common.iterations_to_use)
 				d = {
 					'files': [common.unfold_path + '/' + filename + '.root'],
 					'folders': [""],
@@ -163,7 +163,7 @@ def herafile(args=None, additional_dictionary=None, pdflabel=""):
 		):
 			if (quantity is not 'zpt') and (ybin is not ""):
 				continue
-			uncfile = "4_systematic/{}_madgraph_{}_{}_1.root"
+			uncfile = "4_systematic/{}_{}_{}_{}_1.root"
 			nicks = ['sigma', 'lumi', 'bkgr', 'unf', 'e', 'pt']
 			d = {
 				# input
@@ -172,12 +172,12 @@ def herafile(args=None, additional_dictionary=None, pdflabel=""):
 				'nicks': nicks,
 				'scale_factors': [1] + [100]*(len(nicks)-1),
 				"files": [
-					'3_divided/{}_madgraph_{}_1.root'.format(quantity, ybinsuffix),
-					uncfile.format(quantity, ybinsuffix, 'lumi'),
-					uncfile.format(quantity, ybinsuffix, 'bkgr'),
-					uncfile.format(quantity, ybinsuffix, 'unf'),
-					uncfile.format(quantity, ybinsuffix, 'e'),
-					uncfile.format(quantity, ybinsuffix, 'pt'),
+					'3_divided/{}_{}_{}_1.root'.format(quantity, common.default_mc, ybinsuffix),
+					uncfile.format(quantity, common.default_mc, ybinsuffix, 'lumi'),
+					uncfile.format(quantity, common.default_mc, ybinsuffix, 'bkgr'),
+					uncfile.format(quantity, common.default_mc, ybinsuffix, 'unf'),
+					uncfile.format(quantity, common.default_mc, ybinsuffix, 'e'),
+					uncfile.format(quantity, common.default_mc, ybinsuffix, 'pt'),
 				],
 				#hera
 				"hera_theoryfile": ybin+quantity,

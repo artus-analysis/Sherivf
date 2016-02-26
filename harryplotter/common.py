@@ -54,6 +54,8 @@ bins = {
 	'eminuseta': "48,-2.4,2.4",
 }
 bins['abszy'] = bins['abs(zy)']
+default_mc = 'madgraph'
+mcs = [default_mc, 'powheg']
 
 unfbins = {}
 unfbins.update(bins)

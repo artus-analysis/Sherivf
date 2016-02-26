@@ -19,9 +19,9 @@ def uncertainties(args=None):
 				["inclusive"] + common.ybin_labels
 	], known_args.no_ybins)):
 			for variation in common.uncertainties:
-				filename = '{}_madgraph_{}_{}.root'.format(quantity, ybinsuffix, common.iterations_to_use)
-				filename_up = '{}_madgraph_{}_{}.root'.format(quantity, ybinsuffix+variation+"up", common.iterations_to_use)
-				filename_down = '{}_madgraph_{}_{}.root'.format(quantity, ybinsuffix+variation+"down", common.iterations_to_use)
+				filename = '{}_{}_{}_{}.root'.format(quantity, common.default_mc, ybinsuffix, common.iterations_to_use)
+				filename_up =   '{}_{}_{}_{}.root'.format(quantity, common.default_mc, ybinsuffix+variation+"up", common.iterations_to_use)
+				filename_down = '{}_{}_{}_{}.root'.format(quantity, common.default_mc, ybinsuffix+variation+"down", common.iterations_to_use)
 				d = {
 					#input
 					'files': [common.divided_path + "/" + f for f in [filename, filename_up, filename_down]],
@@ -54,7 +54,7 @@ def uncertainties(args=None):
 				}
 				plots.append(d)
 			#lumi
-			filename = '{}_madgraph_{}_{}'.format(quantity, ybinsuffix+'_lumi', common.iterations_to_use)
+			filename = '{}_{}_{}_{}'.format(quantity, common.default_mc, ybinsuffix+'_lumi', common.iterations_to_use)
 			d = {
 				'files': [common.divided_path + "/" + filename_up]*2,
 				'folders': [""],
@@ -85,10 +85,10 @@ def plot_uncertainties(args=None):
 			if (quantity is not 'zpt') and (ybin is not ""):
 				continue
 
-			files = [common.divided_path + "/" + quantity+'_madgraph_{}_1.root'.format(ybinsuffix)]
+			files = [common.divided_path + "/" + quantity+'_{}_{}_1.root'.format(common.default_mc, ybinsuffix)]
 			types = common.uncertainties_with_lumi
 			for unc in common.uncertainties_with_lumi:
-				files += [common.systematic_path + "/" + quantity+'_madgraph_{}{}_1.root'.format(ybinsuffix, unc)]
+				files += [common.systematic_path + "/" + quantity+'_{}_{}{}_1.root'.format(common.default_mc, ybinsuffix, unc)]
 			n_source = len(common.uncertainties_with_lumi)
 			labels = ['Statistical'] + [common.unc_labelsdict[unc] for unc in types] + ['TOTAL']
 			d = {

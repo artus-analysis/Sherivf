@@ -71,6 +71,7 @@ def nnpdf(args=None, additional_dictionary=None):
 			'markers': ['fill']*2+['-'],
 			'y_subplot_lims': [0.5, 1.5],
 			'alphas': [0.6],
+			'x_errors': [False],
 			'line_styles': ['-'],
 			'y_lims': [0, 0.45],
 			# output

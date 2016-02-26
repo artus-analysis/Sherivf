@@ -95,7 +95,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				'members': [member],
 				'fastnlo_files': [common.sherpa_results+"/{0}.tab".format(ybin+replaced_quantity)],
 					#root
-				'files': [common.divided_path + '/' + '_'.join([quantity, 'madgraph', ybinsuffix, '1']) + '.root'],
+				'files': [common.divided_path + '/' + '_'.join([quantity, common.default_mc, ybinsuffix, '1']) + '.root'],
 				'folders': '',
 				'x_expressions': 'nick0',
 				# analysis
@@ -155,7 +155,7 @@ def fastnlo_tables(args=None, additional_dictionary=None):
 				# input
 				'input_modules': ['InputRootZJet', 'InputFastNLO'],
 				'nicks': ['data'],
-				'files': [common.divided_path + '/' + '_'.join([quantity, 'madgraph', 'inclusive', '1']) + '.root'],
+				'files': [common.divided_path + '/' + '_'.join([quantity, common.default_mc, 'inclusive', '1']) + '.root'],
 				'folders': '',
 				'x_expressions': 'nick0',
 				#fnlo
@@ -227,7 +227,7 @@ def fastnlo_pdfunc(args=None, additional_dictionary=None):
 				'uncertainty_style': style,
 				'uncertainty_type': 'PDF',
 				# input root
-				'files': [common.divided_path + '/' + '_'.join([quantity, 'madgraph', ybinsuffix, '1']) + '.root'],
+				'files': [common.divided_path + '/' + '_'.join([quantity, common.default_mc, ybinsuffix, '1']) + '.root'],
 				'folders': '',
 				'x_expressions': 'nick0',
 				# analysis
@@ -287,7 +287,7 @@ def fastnlo_pdfmembers(args=None, additional_dictionary=None):
 				'fastnlo_files': [common.sherpa_results+"/{0}.tab".format(ybin+replaced_quantity)],
 				'fastnlo_nicks': map(str, range(n_members)),
 				# input root
-				'files': [common.divided_path + '/' + '_'.join([quantity, 'madgraph', ybinsuffix, '1']) + '.root'],
+				'files': [common.divided_path + '/' + '_'.join([quantity, common.default_mc, ybinsuffix, '1']) + '.root'],
 				'folders': '',
 				'x_expressions': 'nick0',
 				# analysis
