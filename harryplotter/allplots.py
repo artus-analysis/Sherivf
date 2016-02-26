@@ -75,6 +75,9 @@ def allplots(args=None):
 		branching.branching_ratio,
 		plots_pdf_uncertainties.plot_pdf_unc_comparison_abszy,
 		plots_pdf_uncertainties.plot_pdf_unc_comparison_zpt_bins,
+		plots_pdf_reweighted.nnpdf_zpt_bins_2,  # 40
+		plots_pdf_reweighted.nnpdf_zpt_bins_10,
+		plots_pdf_reweighted.nnpdf_zpt_bins_91,
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -118,6 +121,9 @@ def allplots(args=None):
 		"branching_ratio",
 		"pdf_uncertainties_comparison_abszy",
 		"pdf_uncertainties_comparison_zpt_bins",
+		"nnpdf_zpt_bins_2",
+		"nnpdf_zpt_bins_10",
+		"nnpdf_zpt_bins_91",
 	][plot_min:plot_max]
 
 	if number:

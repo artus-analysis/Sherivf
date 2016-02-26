@@ -33,7 +33,7 @@ def nnpdf(args=None, additional_dictionary=None):
 			'pdf_sets/{0}__{1}.root'.format(pdfset, q),
 			'results/nnpdf_{2}/{0}_Zee_chi2_nRep{3}__{1}.root'.format(pdfset, q, mode, n_replicas),
 		]
-		qlabel = r'$Q{0}$ = {1}'.format(('^2' if 'squared' in q else ''), q.replace('_squared', '').replace('_', '.'))
+		qlabel = r'$Q{0}$ = {1} GeV$^2$'.format(('^2' if 'squared' in q else ''), q.replace('_squared', '').replace('_', '.'))
 		filename = '_'.join(['nnpdf_{}', flavour, q])
 		d = {
 			#input
@@ -46,7 +46,7 @@ def nnpdf(args=None, additional_dictionary=None):
 			'title': common.pdfsetdict.get(pdfset, pdfset),
 			'x_label': r'$x$',
 			'labels': labels,
-			'texts': (r"Reweighted: {0}".format(common.labels.get_nice_label(mode).split('/')[0].replace('\\', '\\\\')) + '\n' + qlabel),
+			'texts': (flavour.replace('_', ' ') + " PDF\n" + r"Data: {0}".format(common.labels.get_nice_label(mode).split('/')[0].replace('\\', '\\\\')) + '\n' + qlabel),
 		}
 		# errors with ratio
 		d1 = copy.deepcopy(d)
@@ -105,7 +105,7 @@ def nnpdf(args=None, additional_dictionary=None):
 			plots.append(d)
 	return [PlottingJob(plots, args)]
 
-
+# zpt
 def nnpdf_zpt_91(args=None):
 	return nnpdf(args, {'q': '91_2', 'mode': 'zpt'})
 
@@ -115,6 +115,7 @@ def nnpdf_zpt_2(args=None):
 def nnpdf_zpt_10(args=None):
 	return nnpdf(args, {'q': '10_0_squared', 'mode': 'zpt'})
 
+# abszy
 def nnpdf_abszy_91(args=None):
 	return nnpdf(args, {'q': '91_2', 'mode': 'abszy'})
 
@@ -123,6 +124,16 @@ def nnpdf_abszy_2(args=None):
 
 def nnpdf_abszy_10(args=None):
 	return nnpdf(args, {'q': '10_0_squared', 'mode': 'abszy'})
+
+# zpt in bins
+def nnpdf_zpt_bins_91(args=None):
+	return nnpdf(args, {'q': '91_2', 'mode': 'zpt_bins'})
+
+def nnpdf_zpt_bins_2(args=None):
+	return nnpdf(args, {'q': '1_9_squared', 'mode': 'zpt_bins'})
+
+def nnpdf_zpt_bins_10(args=None):
+	return nnpdf(args, {'q': '10_0_squared', 'mode': 'zpt_bins'})
 
 if __name__ == '__main__':
 	nnpdf()
