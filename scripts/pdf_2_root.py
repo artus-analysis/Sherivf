@@ -28,7 +28,7 @@ partondict = {
 	8: 'u valence quark',
 	9: 'sea quarks',
 }
-default_flavours = [21, 1, 2, 3, 4, -1, -2, 7, 8, 9]
+default_flavours = [21, 1, 2, 3, -1, -2, 7, 8, 9]
 
 def main(
 		pdfset,
