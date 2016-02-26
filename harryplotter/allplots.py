@@ -27,10 +27,12 @@ def allplots(args=None):
 	parser.add_argument('--www-dir', type=str, default="zee", help="www dir")
 	parser.add_argument('--start', type=int, default=0, help="start")
 	parser.add_argument('--end', type=int, default=999, help="end")
+	parser.add_argument('--number', type=int, default=None, help="number")
 	known_args, args = parser.parse_known_args(**({'args':args} if args is not None else {}))
 
 	plot_min = known_args.start
 	plot_max = known_args.end
+	number = known_args.number
 
 	functions = [
 		plots_pdf.pdfs_thesis,  # 0
@@ -72,6 +74,7 @@ def allplots(args=None):
 		plots_pdf_reweighted.nnpdf_abszy_91,
 		branching.branching_ratio,
 		plots_pdf_uncertainties.plot_pdf_unc_comparison_abszy,
+		plots_pdf_uncertainties.plot_pdf_unc_comparison_zpt_bins,
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -114,7 +117,11 @@ def allplots(args=None):
 		"nnpdf_abszy_91",
 		"branching_ratio",
 		"pdf_uncertainties_comparison_abszy",
+		"pdf_uncertainties_comparison_zpt_bins",
 	][plot_min:plot_max]
+
+	if number:
+		functions, wwwdirs = functions[number:number+1], wwwdirs[number:number+1]
 
 	for function, wwwdir in zip(functions, wwwdirs):
 		if function == plots_bkgrs.zee_bkgrs:

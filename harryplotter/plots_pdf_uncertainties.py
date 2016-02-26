@@ -22,9 +22,9 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	plots = []
 	titles = {
 		'hera2': "HERA-I DIS",
-		'hera2_abszy': r"HERA-I DIS + CMS Z($\\rightarrow$ee)+jet",
-		'hera2_zpt': "HERA-I DIS + CMS (pT-spectrum)",
-		'hera2_zpt_bins': "HERA-I DIS + CMS (pT in y-bins)",
+		'hera2_abszy': r"HERA + CMS Z($\\rightarrow$ee)+jet |$y$|",
+		'hera2_zpt': "HERA + CMS Z($\\rightarrow$ee)+jet $p_\\mathrm{T}$",
+		'hera2_zpt_bins': "HERA + CMS Z($\\rightarrow$ee)+jet ($p_\\mathrm{T}$ in bins of |y|)",
 	}
 	title = titles.get(pdf_scenario, "")
 	text = r"$\\mathit{Q}^2 = 1.9 \\/ GeV^2$"
@@ -121,3 +121,6 @@ def plot_pdf_unc_comparison_zpt(args=None, additional_dictionary=None):
 
 def plot_pdf_unc_comparison_abszy(args=None, additional_dictionary=None):
 	return plot_pdf_unc_comparison(args, additional_dictionary, scenario='hera2_abszy')
+
+def plot_pdf_unc_comparison_zpt_bins(args=None, additional_dictionary=None):
+	return plot_pdf_unc_comparison(args, additional_dictionary, scenario='hera2_zpt_bins')

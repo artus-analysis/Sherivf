@@ -58,7 +58,7 @@ def divided_ptspectrum(args=None):
 				'analysis_modules': ['Ratio'],
 				'ratio_numerator_nicks': [n for n in nicks if quantity not in n],
 				'ratio_denominator_nicks': [n for n in nicks if quantity in n],
-				'y_subplot_lims': [0.65, 1.1],
+				'y_subplot_lims': [0.65, 1.35],
 				'y_subplot_label': 'Data/Sim. Ratio\n',
 			})
 		plots.append(d)
