@@ -19,7 +19,7 @@ def branching_ratio(args=None, additional_dictionary=None):
 		"labels": [None] + ['$e^+e^-$', r'$\\mu^+\\mu^-$', r'$\\tau^+\\tau^-$'],
 		"legend": "center right",
 		"x_bins": ["0 1 1.5 2.5 3 4"],
-		"x_label": "Decay channel",
+		"x_label": "\nDecay channel",
 		"x_lims": [-0.5, 4.5],
 		"x_ticks": [0.5, 2, 3.5],
 		"x_tick_labels": ["Hadrons", r"Neutrinos", "Charged leptons"],

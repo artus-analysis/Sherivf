@@ -13,9 +13,10 @@ def sherpa_fastnlo(args=None):
 	pdfset = 'CT10'
 	member = 0
 	for quantity in common.quantities:
-		for ybin, ybinsuffix in zip(
+		for ybin, ybinsuffix, ybinplotlabel in zip(
 				[""] + ["y{}_".format(i) for i in range(len(common.ybins))],
-				["inclusive"] + common.ybin_labels
+				["inclusive"] + common.ybin_labels,
+				[""] + common.ybin_plotlabels
 		):
 			if (quantity is not 'zpt') and (ybin is not ""):
 				continue
@@ -41,7 +42,7 @@ def sherpa_fastnlo(args=None):
 				"labels": ['Sherpa', 'Sherpa+fastNLO', 'ratio'],
 				"marker_colors": ['red'],
 				"y_subplot_label": "Sherpa/fastNLO",
-				"texts": [pdfset],
+				"texts": [pdfset + "\n" + ybinplotlabel],
 				# filename
 				'filename': ybin+quantity.lower(),
 				'www_title': 'Sherpa vs fastNLO',
