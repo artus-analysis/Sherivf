@@ -13,12 +13,12 @@ cd /portal/ekpcms6/home/dhaitz/qcd/sherivf
 cd $WDIR
 
 echo -e "\nFit:"
-FitPDF
+xfitter
 
 echo -e "\nafter fit: "
 ls -lt
 
-DrawPdfs --3panels --ratio-to-theory --bands --relative-errors hera/
+xfitter-draw --3panels --ratio-to-theory --bands --relative-errors hera/
 mv hera/plots.pdf .
 
 echo -e "\nhera: "
@@ -26,12 +26,12 @@ cd hera/
 ls -lt
 
 
-echo -e "\nherapdf:"
-ls -lt herapdf/
+echo -e "\nhf_pdf:"
+ls -lt hf_pdf/
 
 echo -e "\n\nErrorType:"
-grep ErrorType herapdf/herapdf.info -n
-sed -i 's/replicas/hessian/g' herapdf/herapdf.info
+grep ErrorType hf_pdf/hf_pdf.info -n
+sed -i 's/replicas/hessian/g' hf_pdf/hf_pdf.info
 echo -e "\n\n"
 
 if [ @DOBANDS@ == 'False' ]; then
@@ -43,7 +43,7 @@ fi
 
 for q in 1.4 1.9 91.2; do
 	for squared in "" "--q2"; do
-		pdf_2_root.py -p herapdf -q ${q} ${squared} $ERRORS
+		pdf_2_root.py -p hf_pdf -q ${q} ${squared} $ERRORS
 	done
 done
 mv *.root ..

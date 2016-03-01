@@ -38,7 +38,7 @@ class NNPDF(object):
 		os.chdir(self.args.output_dir)
 		os.makedirs(newset)
 		stdout_file = open("stdout.txt", "w")
-		fit_success = tools.print_and_call(["FitPDF"], stdout=stdout_file)
+		fit_success = tools.print_and_call(["xfitter"], stdout=stdout_file)
 
 		# evaluate PDF
 		os.chdir('output/' + newset)

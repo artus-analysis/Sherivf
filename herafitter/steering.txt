@@ -65,7 +65,9 @@
 *
 * Main steering cards
 *
-&HeraFitter 
+&xFitter 
+  RunningMode = 'Fit'
+
   TheoryType = 'DGLAP' ! 'DGLAP'  -- colinear evolution
                        ! 'DIPOLE' -- dipole model 
                        ! 'uPDF'   -- un-integrated PDFs

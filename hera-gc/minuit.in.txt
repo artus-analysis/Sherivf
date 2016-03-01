@@ -57,4 +57,5 @@ parameters
 migrad 20000
 hesse
 *call fcn 3
+set print 3
 return
