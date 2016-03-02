@@ -41,7 +41,7 @@ else
 	ERRORS=""
 fi
 
-for q in 1.4 1.9 91.2; do
+for q in 1.4 1.9 10.0 91.2; do
 	for squared in "" "--q2"; do
 		pdf_2_root.py -p hf_pdf -q ${q} ${squared} $ERRORS
 	done
