@@ -21,13 +21,13 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	""" plot the pdfs with all uncertainties"""
 	plots = []
 	titles = {
-		'hera2': "HERA-I DIS",
-		'hera2_abszy': r"HERA + CMS Z($\\rightarrow$ee)+jet |$y$|",
-		'hera2_zpt': "HERA + CMS Z($\\rightarrow$ee)+jet $p_\\mathrm{T}$",
-		'hera2_zpt_bins': "HERA + CMS Z($\\rightarrow$ee)+jet ($p_\\mathrm{T}$ in bins of |y|)",
+		'hera2': "HERA DIS",
+		'hera2_abszy': r"HERA DIS + CMS Z($\\rightarrow$ee)+jet |$y$|",
+		'hera2_zpt': "HERA DIS + CMS Z($\\rightarrow$ee)+jet $p_\\mathrm{T}$",
+		'hera2_zpt_bins': "HERA DIS + CMS Z($\\rightarrow$ee)+jet ($p_\\mathrm{T}$ in bins of |y|)",
 	}
 	title = titles.get(pdf_scenario, "")
-	text = r"$\\mathit{Q}^2 = 1.9 \\/ GeV^2$"
+	text = r"$\\mathit{{Q}}^2 = {} \\/ GeV{}$".format(".".join(common.pdfq.split("_")[:-1]), ("^2" if "squared" in common.pdfq else ""))
 	y_lims = {
 		'gluon': [0, 4],
 	}

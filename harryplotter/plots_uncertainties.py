@@ -116,7 +116,7 @@ def plot_uncertainties(args=None):
 				'y_errors': [False],
 			}
 			if quantity == 'zpt':
-				d['y_lims'] = [0, 10]
+				d['y_lims'] = [0, 5]
 				#d['x_lims'] = common.lims[quantity]
 				d['x_log'] = common.zpt_xlog
 				if common.zpt_xlog:

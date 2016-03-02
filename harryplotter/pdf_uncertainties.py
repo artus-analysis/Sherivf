@@ -6,6 +6,7 @@ import os
 
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
+pdfname = "hf_pdf"
 
 def make_pdf_unc(args=None, additional_dictionary=None, scenario='hera'):
 	""" make pdf uncertainties """
@@ -21,9 +22,8 @@ def make_pdf_unc(args=None, additional_dictionary=None, scenario='hera'):
 
 def model_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	"""get model uncertainties"""
-	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_herapdf__1_9_squared.root"
+	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_"+pdfname+"__"+common.pdfq+".root"
 	n_max = 9
-	q_squared = 1.9
 	exp_unc = 'exp_unc'
 	nicks = ["nick"+str(i) for i in range(n_max)]
 	plots = []
@@ -54,7 +54,7 @@ def model_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
 
 
 def par_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
-	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_herapdf__1_9_squared.root"
+	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_"+pdfname+"__"+common.pdfq+".root"
 	"""get parametrisation uncertainties"""
 	variations = [0] + range(9, 19)
 	q_squared = 1.9
@@ -90,7 +90,7 @@ def par_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
 
 def combine_exp_model(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	""" combine model and experimental"""
-	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_herapdf__1_9_squared.root"
+	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_"+pdfname+"__"+common.pdfq+".root"
 	plots = []
 	for flavour in common.pdf_unc_flavours:
 		d = {
@@ -120,7 +120,7 @@ def combine_exp_model(args=None, additional_dictionary=None, pdf_scenario='hera'
 
 def combine_expmodel_par(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	""" combine exp/model and parameterisation uncertainty to final uncertainty"""
-	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_herapdf__1_9_squared.root"
+	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_"+pdfname+"__"+common.pdfq+".root"
 	plots = []
 	for flavour in common.pdf_unc_flavours:
 		d = {
