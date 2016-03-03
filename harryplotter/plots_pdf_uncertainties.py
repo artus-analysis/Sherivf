@@ -23,8 +23,8 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	titles = {
 		'hera2': "HERA DIS",
 		'hera2_abszy': r"HERA DIS + CMS Z($\\rightarrow$ee)+jet |$y$|",
-		'hera2_zpt': "HERA DIS + CMS Z($\\rightarrow$ee)+jet $p_\\mathrm{T}$",
-		'hera2_zpt_bins': "HERA DIS + CMS Z($\\rightarrow$ee)+jet ($p_\\mathrm{T}$ in bins of |y|)",
+		'hera2_zpt': r"HERA DIS + CMS Z($\\rightarrow$ee)+jet $p_\\mathrm{T}$",
+		'hera2_zpt_bins': r"HERA DIS + CMS Z($\\rightarrow$ee)+jet ($p_\\mathrm{T}$ in bins of |y|)",
 	}
 	title = titles.get(pdf_scenario, "")
 	text = r"$\\mathit{{Q}}^2 = {} \\/ GeV{}$".format(".".join(common.pdfq.split("_")[:-1]), ("^2" if "squared" in common.pdfq else ""))
@@ -72,13 +72,13 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='hera2_abszy'):
 	""" comparison between hera and hera+CMS with total uncertainties"""
 	plots = []
-	text = r"$\\mathit{Q}^2 = 1.9 \\/ GeV^2$"
+	text = r"$\\mathit{{Q}}^2 = {} \\/ GeV{}$".format(".".join(common.pdfq.split("_")[:-1]), ("^2" if "squared" in common.pdfq else ""))
 	y_lims = {
 		'gluon': [0, 3],
 	}
 	nicks = ["hera", "heracms"]
 	scenarios = ['hera2', scenario]
-	labels = ['HERA2', r'HERA2 + CMS Z($\\rightarrow$ee)']*len(nicks),
+	labels = ['HERA', r'HERA + CMS Z($\\rightarrow$ee)']*len(nicks),
 	for flavour in common.pdf_unc_flavours:
 		d = {
 			#input
