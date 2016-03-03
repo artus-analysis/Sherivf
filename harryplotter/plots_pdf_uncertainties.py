@@ -11,6 +11,8 @@ def plot_pdf_uncs_hera2(args=None, additional_dictionary=None):
 	return plot_pdf_uncs(args, additional_dictionary, 'hera2')
 def plot_pdf_uncs_hera2_abszy(args=None, additional_dictionary=None):
 	return plot_pdf_uncs(args, additional_dictionary, 'hera2_abszy')
+def plot_pdf_uncs_hera2_zy(args=None, additional_dictionary=None):
+	return plot_pdf_uncs(args, additional_dictionary, 'hera2_zy')
 def plot_pdf_uncs_hera2_zpt(args=None, additional_dictionary=None):
 	return plot_pdf_uncs(args, additional_dictionary, 'hera2_zpt')
 def plot_pdf_uncs_hera2_zpt_bins(args=None, additional_dictionary=None):
@@ -23,6 +25,7 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	titles = {
 		'hera2': "HERA DIS",
 		'hera2_abszy': r"HERA DIS + CMS Z($\\rightarrow$ee)+jet |$y$|",
+		'hera2_zy': r"HERA DIS + CMS Z($\\rightarrow$ee)+jet $y$",
 		'hera2_zpt': r"HERA DIS + CMS Z($\\rightarrow$ee)+jet $p_\\mathrm{T}$",
 		'hera2_zpt_bins': r"HERA DIS + CMS Z($\\rightarrow$ee)+jet ($p_\\mathrm{T}$ in bins of |y|)",
 	}
@@ -118,9 +121,9 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='her
 
 def plot_pdf_unc_comparison_zpt(args=None, additional_dictionary=None):
 	return plot_pdf_unc_comparison(args, additional_dictionary, scenario='hera2_zpt')
-
 def plot_pdf_unc_comparison_abszy(args=None, additional_dictionary=None):
 	return plot_pdf_unc_comparison(args, additional_dictionary, scenario='hera2_abszy')
-
+def plot_pdf_unc_comparison_zy(args=None, additional_dictionary=None):
+	return plot_pdf_unc_comparison(args, additional_dictionary, scenario='hera2_zy')
 def plot_pdf_unc_comparison_zpt_bins(args=None, additional_dictionary=None):
 	return plot_pdf_unc_comparison(args, additional_dictionary, scenario='hera2_zpt_bins')
