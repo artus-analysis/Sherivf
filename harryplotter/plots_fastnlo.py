@@ -206,7 +206,7 @@ def fastnlo_pdfunc(args=None, additional_dictionary=None):
 	"""Evaluate fastNLO table for n members of a PDF set."""
 	plots = []
 
-	pdfset = 'NNPDF30_nlo_as_0118'
+	pdfset = 'NNPDF30_nlo_as_0118_nolhc'
 	style = 'kMCSampling'
 
 	for quantity in common.quantities:

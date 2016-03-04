@@ -77,7 +77,7 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='her
 	plots = []
 	text = r"$\\mathit{{Q}}^2 = {} \\/ GeV{}$".format(".".join(common.pdfq.split("_")[:-1]), ("^2" if "squared" in common.pdfq else ""))
 	y_lims = {
-		'gluon': [0, 3],
+		'gluon': [0, 4],
 	}
 	nicks = ["hera", "heracms"]
 	scenarios = ['hera2', scenario]

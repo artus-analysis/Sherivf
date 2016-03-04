@@ -14,8 +14,8 @@ bkgr_labels = {
 	'ww': "WW",
 	'wjets': "W+jets",
 	'dytautau': r"DY$\\rightarrow \\tau\\tau$",
-	'qcd': "QCD",
-	'others': "tW, WW, QCD,\nW+jets, "+r"DY$\\rightarrow \\tau\\tau$",
+	'qcd': "dijet",
+	'others': "tW, WW, dijet,\nW+jets, "+r"DY$\\rightarrow \\tau\\tau$",
 	'diboson': 'ZZ, WZ',
 }
 bkgr_colors = {
@@ -131,7 +131,7 @@ variations = ["", "_edown", "_eup", "_bkgrup", "_bkgrdown", "_ptup", "_ptdown"] 
 uncertainties = ["_e", "_bkgr", "_unf", "_pt"]
 uncertainties_with_lumi = uncertainties + ['_lumi']
 unc_labelsdict = {
-	'_e': 'Electron ID/Trigger Efficiency',
+	'_e': 'Electron ID/trigger efficiency',
 	'_bkgr': 'Background',
 	'_unf': 'Unfolding',
 	'_lumi': 'Luminosity',
