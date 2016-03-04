@@ -12,17 +12,18 @@ def make_pdf_unc(args=None, additional_dictionary=None, scenario='hera'):
 	""" make pdf uncertainties """
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--scenario', default='hera2', help="scenario")
+	parser.add_argument('--pdfq', default="1_9_squared")
 	known_args, args = parser.parse_known_args(**({'args':args} if args is not None else {}))
 
-	return (model_unc(args, additional_dictionary, known_args.scenario)
-		+ par_unc(args, additional_dictionary, known_args.scenario)
-		+ combine_exp_model(args, additional_dictionary, known_args.scenario)
-		+ combine_expmodel_par(args, additional_dictionary, known_args.scenario))
+	return (model_unc(args, additional_dictionary, known_args.scenario, known_args.pdfq)
+		+ par_unc(args, additional_dictionary, known_args.scenario, known_args.pdfq)
+		+ combine_exp_model(args, additional_dictionary, known_args.scenario, known_args.pdfq)
+		+ combine_expmodel_par(args, additional_dictionary, known_args.scenario, known_args.pdfq))
 
 
-def model_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
+def model_unc(args=None, additional_dictionary=None, pdf_scenario='hera', pdfq='1_9_squared'):
 	"""get model uncertainties"""
-	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_"+pdfname+"__"+common.pdfq+".root"
+	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_"+pdfname+"__"+pdfq+".root"
 	n_max = 9
 	exp_unc = 'exp_unc'
 	nicks = ["nick"+str(i) for i in range(n_max)]
@@ -44,7 +45,7 @@ def model_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
 
 			'plot_modules': ['ExportRoot'],
 			'output_dir': common.pdf_dir,
-			'filename': pdf_scenario+'_model_' + flavour,
+			'filename': '_'.join([pdf_scenario, pdfq, 'model', flavour]),
 			'export_json': False,
 		}
 		if additional_dictionary is not None:
@@ -53,8 +54,8 @@ def model_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	return [PlottingJob(plots, args)]
 
 
-def par_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
-	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_"+pdfname+"__"+common.pdfq+".root"
+def par_unc(args=None, additional_dictionary=None, pdf_scenario='hera', pdfq='1_9_squared'):
+	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_"+pdfname+"__"+pdfq+".root"
 	"""get parametrisation uncertainties"""
 	variations = [0] + range(9, 19)
 	q_squared = 1.9
@@ -78,7 +79,7 @@ def par_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
 
 			'plot_modules': ['ExportRoot'],
 			'output_dir': common.pdf_dir,
-			'filename': pdf_scenario+'_par_' + flavour,
+			'filename': '_'.join([pdf_scenario, pdfq, 'par', flavour]),
 			'export_json': False,
 		}
 		if additional_dictionary is not None:
@@ -88,14 +89,14 @@ def par_unc(args=None, additional_dictionary=None, pdf_scenario='hera'):
 
 
 
-def combine_exp_model(args=None, additional_dictionary=None, pdf_scenario='hera'):
+def combine_exp_model(args=None, additional_dictionary=None, pdf_scenario='hera', pdfq='1_9_squared'):
 	""" combine model and experimental"""
-	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_"+pdfname+"__"+common.pdfq+".root"
+	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_"+pdfname+"__"+pdfq+".root"
 	plots = []
 	for flavour in common.pdf_unc_flavours:
 		d = {
 			'files': [
-				os.path.join(common.pdf_dir, pdf_scenario+'_model_'+flavour+".root"),
+				os.path.join(common.pdf_dir, "_".join([pdf_scenario, pdfq, 'model',flavour])+".root"),
 				pdf_unc_basefile.format(0),
 			],
 			'folders': [''],
@@ -110,7 +111,7 @@ def combine_exp_model(args=None, additional_dictionary=None, pdf_scenario='hera'
 			
 			'plot_modules': ['ExportRoot'],
 			'output_dir': common.pdf_dir,
-			'filename': pdf_scenario+'_combined_exp_model_' + flavour,
+			'filename': "_".join([pdf_scenario, pdfq, 'combined', 'exp', 'model', flavour]),
 			'export_json': False,
 		}
 		if additional_dictionary is not None:
@@ -118,15 +119,15 @@ def combine_exp_model(args=None, additional_dictionary=None, pdf_scenario='hera'
 		plots.append(d)
 	return [PlottingJob(plots, args)]
 
-def combine_expmodel_par(args=None, additional_dictionary=None, pdf_scenario='hera'):
+def combine_expmodel_par(args=None, additional_dictionary=None, pdf_scenario='hera', pdfq='1_9_squared'):
 	""" combine exp/model and parameterisation uncertainty to final uncertainty"""
-	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_"+pdfname+"__"+common.pdfq+".root"
+	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_"+pdfname+"__"+pdfq+".root"
 	plots = []
 	for flavour in common.pdf_unc_flavours:
 		d = {
 			'files': [
-				os.path.join(common.pdf_dir, pdf_scenario+'_par_'+flavour+".root"),
-				os.path.join(common.pdf_dir, pdf_scenario+'_combined_exp_model_'+flavour+".root"),
+				os.path.join(common.pdf_dir, "_".join([pdf_scenario, pdfq, 'par', flavour])+".root"),
+				os.path.join(common.pdf_dir, "_".join([pdf_scenario, pdfq, 'combined', 'exp', 'model', flavour])+".root"),
 				pdf_unc_basefile.format(0),
 			],
 			'folders': [''],
@@ -140,7 +141,7 @@ def combine_expmodel_par(args=None, additional_dictionary=None, pdf_scenario='he
 		
 			'plot_modules': ['ExportRoot'],
 			'output_dir': common.pdf_dir,
-			'filename': pdf_scenario+'_combined_exp_model_par_' + flavour,
+			'filename': "_".join([pdf_scenario, pdfq, 'combined', 'exp', 'model', 'par', flavour]),
 			'export_json': False,
 		}
 	

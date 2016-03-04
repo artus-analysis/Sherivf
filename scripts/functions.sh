@@ -37,7 +37,9 @@ alias make_allplots="merlin.py --py allplots"
 make_pdfuncs()
 {
 	for i in hera2 hera2_abszy hera2_zy hera2_zpt hera2_zpt_bins; do
-		merlin.py --py make_pdf_unc --scenario ${i} --max 1 $@ &
+		for q in 1_9_squared 10_0_squared 91_2; do
+			merlin.py --py make_pdf_unc --scenario ${i} --max 1 --pdfq $q $@ &
+		done
 	done
 }
 clear_pdfuncs()
