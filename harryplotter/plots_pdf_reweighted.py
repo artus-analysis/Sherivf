@@ -41,6 +41,7 @@ def nnpdf(args=None, additional_dictionary=None):
 			'x_expressions': [flavour],
 			# formatting
 			'x_log': True,
+			'x_errors': [False],
 			'zorder': [20, 30],
 			'markers': ['fill']*6,
 			'title': common.pdfsetdict.get(pdfset, pdfset),
@@ -58,20 +59,21 @@ def nnpdf(args=None, additional_dictionary=None):
 				'ConvertToHistogram',
 				'StatisticalErrors',
 				'Ratio',
+				'ConvertToTGraphErrors'
 			],
 			'convert_nicks': nicks,
 			'ratio_numerator_nicks': ['reweighted'],
 			'ratio_denominator_nicks': ['original'],
 			'stat_error_relative': True,
 			'nicks_whitelist': ['tgraph', 'ratio'],
+			'convert_tgraph_nicks': ['ratio_reweighted_over_original'],
 			# formatting
 			'colors': [histo_colors['blue'], histo_colors['yellow'], 'black'],
 			'y_label': 'PDF relative uncertainty',
 			'y_subplot_label': 'Ratio rew./orig.\n',
-			'markers': ['fill']*2+['-'],
+			'markers': ['fill']*2+[' '],
 			'y_subplot_lims': [0.5, 1.5],
 			'alphas': [0.6],
-			'x_errors': [False],
 			'line_styles': ['-'],
 			'y_lims': [0, 0.45],
 			# output
