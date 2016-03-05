@@ -125,8 +125,8 @@ def electron_corr(args=None, additional_dictionary=None):
 		"pt": "ept",
 	}
 	bindict = {
-		"eta": ["12,0,2.4"],
-		"pt": ["10,25,125"],
+		"eta": ["24,0,2.4"],
+		"pt": ["20,25,125"],
 	}
 	rootdict = {
 		"eta": "abs(object.p4.Eta())",
@@ -161,6 +161,7 @@ def electron_corr(args=None, additional_dictionary=None):
 				"texts": [labeldict[index]],
 				"line_styles": ["-"],
 				"lines": [1.],
+				"step": True,
 				"colors": ['red', 'black'],
 				"markers": ['o', '.'],
 				"legend": ("upper left" if xquantity == 'eta' else "upper right"),
@@ -174,7 +175,7 @@ def electron_corr(args=None, additional_dictionary=None):
 		"folders": ["zcuts_{}/ntuple".format(common.algocorr)],
 		"tree_draw_options": ["prof"],
 		"x_expressions": ["abs(zy)"],
-		"x_bins": ["10,0,2.5"],
+		"x_bins": ["24,0,2.4"],
 		"y_expressions": ["zmass"],
 		# Formatting
 		"labels": ["corrected", "raw"],
@@ -182,6 +183,7 @@ def electron_corr(args=None, additional_dictionary=None):
 		"markers": ['o', '.'],
 		"line_styles": ["-"],
 		"lines": [91.19],
+		"step": True,
 		"colors": ['red', 'black'],
 		"legend": "upper left",
 		# Output
@@ -318,7 +320,9 @@ def electron_efficiencies_1d(args=None, additional_dictionary=None):
 					'labels': etalabels,
 					'markers': ['.'],
 					'y_errors': [True],
-					'x_errors': [True],
+					'line_styles': ['-'],
+					'step': True,
+					#'x_errors': [True],
 					'x_ticks': [25, 40, 60, 100, 200],
 					'legend': 'lower right',
 					# output
