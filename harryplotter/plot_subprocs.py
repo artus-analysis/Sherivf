@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from Excalibur.Plotting.utility.colors import histo_colors
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
 
 
@@ -30,5 +31,33 @@ def subprocs(args=None, additional_dictionary=None):
 		"subplot_grid": "horizontal",
 		# output		
 		"filename": "subprocs",
+	}
+	return [PlottingJob([d], args)]
+
+
+def production_channels(args=None, additional_dictionary=None):
+	""" Z+jet production channels"""
+	n = 5
+	d = {
+		"input_modules": ["InputInteractive"],
+		"x_expressions": [" ".join([str(0.5 + 1.5*i) for i in range(n)])],
+		"y_expressions": ["60.54 20.25 8.15 7.58 3.47"],
+		"y_errors": [None],
+		"x_errors": [None],
+		"legend": None,
+		"grid": 'horizontal',
+		#
+		#'analysis_modules': ['Prime'],
+		#formatting
+		"markers": ["fill"],
+		"colors": histo_colors['blue'],
+		"x_bins": [" ".join([str(1.5*i) + " " + str(1 + 1.5*i) for i in range(n)])],
+		"x_label": "\nProduction Channel",
+		"x_lims": [-0.5, n + 2.5],
+		"x_ticks": [0.5 + 1.5*i for i in range(n)],
+		"x_tick_labels": ["$gq$", r"$q\\bar{q}$", r"$qq\\prime$", "$gg$", "$qq$"],
+		"y_label": "Relative Contribution / %",
+		"y_lims": [0, 100],
+		"filename": "zjet_production-channels",
 	}
 	return [PlottingJob([d], args)]
