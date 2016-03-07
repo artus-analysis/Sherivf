@@ -81,7 +81,7 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='her
 	}
 	nicks = ["hera", "heracms"]
 	scenarios = ['hera2', scenario]
-	labels = ['HERA', r'HERA + CMS Z($\\rightarrow$ee)']*len(nicks),
+	labels = ['HERA', r'HERA + CMS Z($\\rightarrow$ee)']
 	for flavour in common.pdf_unc_flavours:
 		d = {
 			#input
@@ -90,21 +90,25 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='her
 			'x_expressions': ["expmodelpar"],
 			'nicks': nicks,
 			# analysis
-			'analysis_modules': ['RelUncertainty'],
+			'analysis_modules': ['RelUncertainty', 'UncDiff'],
 			'rel_nicks': nicks,
-			'subplot_nicks': [i+'_rel' for i in nicks],
+			'subplot_nicks': [i+'_rel' for i in nicks]+['unc_diff'],
+			'unc_diff_nicks': [i+'_rel' for i in nicks],
 			# formatting
-			'labels': labels,
+			'labels': labels + [None]*2 + ['difference'],
 			'x_log': True,
 			'y_subplot_lims': [-0.45, 0.45],
 			'zorder': [20, 30],
-			'markers': ['fill']*6,
+			'markers': ['fill']*4+[' '],
+			'x_errors': [True]*4+[False],
+			'y_errors': [True]*4+[False],
 			'line_styles': '-',
 			'x_label': r'$x$',
 			'y_label': 'xfxQ2',
 			'y_subplot_label': 'Rel. Uncertainty',
-			'alphas': [0.4],
-			'colors': [histo_colors['blue'], histo_colors['yellow']]*2,
+			'alphas': [0.5],
+			'colors': [histo_colors['blue'], histo_colors['yellow']]*2+['black'],
+			'subplot_legend': 'upper center',
 			'texts': ["\n".join([flavour.replace("_", " "), text])],
 			'x_lims': [1e-4, 0.9],
 			# output
