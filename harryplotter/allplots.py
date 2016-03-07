@@ -17,6 +17,7 @@ import plots_uncertainties
 import plots_unfolded
 import plots_pdf_uncertainties
 import branching
+import plot_subprocs
 
 
 def allplots(args=None):
@@ -80,6 +81,7 @@ def allplots(args=None):
 		plots_pdf_reweighted.nnpdf_zpt_bins_91,
 		plots_pdf_uncertainties.plot_pdf_unc_comparison_zy,
 		plots_pdf_uncertainties.plot_pdf_uncs_hera2_zy,
+		plot_subprocs.subprocs,
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -128,6 +130,7 @@ def allplots(args=None):
 		"nnpdf_zpt_bins_91",
 		"pdf_uncertainties_comparison_zy",
 		"pdf_uncertainties_hera2_zy",
+		"subprocs",
 	][plot_min:plot_max]
 
 	if number:
