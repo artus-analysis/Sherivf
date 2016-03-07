@@ -38,7 +38,7 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	for flavour in common.pdf_unc_flavours:
 		d = {
 			# input
-			'files': [os.path.join(common.pdf_dir, pdf_scenario+'_combined_exp_model_par_'+flavour+".root")],
+			'files': [os.path.join(common.pdf_dir, pdf_scenario+"_"+common.pdfq+'_combined_exp_model_par_'+flavour+".root")],
 			'folders': [''],
 			'x_expressions': nicks,
 			'nicks': nicks,
@@ -85,7 +85,7 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='her
 	for flavour in common.pdf_unc_flavours:
 		d = {
 			#input
-			'files': [os.path.join(common.pdf_dir, scenario+'_combined_exp_model_par_'+flavour+".root") for scenario in scenarios],
+			'files': [os.path.join(common.pdf_dir, scenario+"_"+common.pdfq+'_combined_exp_model_par_'+flavour+".root") for scenario in scenarios],
 			'folders': [''],
 			'x_expressions': ["expmodelpar"],
 			'nicks': nicks,

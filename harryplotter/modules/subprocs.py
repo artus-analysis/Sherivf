@@ -5,6 +5,7 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import Artus.HarryPlotter.analysisbase as analysisbase
+import Artus.HarryPlotter.plotbase as plotbase
 
 
 class Subprocs(analysisbase.AnalysisBase):
@@ -29,3 +30,9 @@ class Subprocs(analysisbase.AnalysisBase):
 		qqprime = 1 - gg - gq - qq - qqbar
 		for channel in ['gq', 'qqbar', 'qqprime', 'gg', 'qq']:
 			print channel, "{:.2f} % ". format(100 * eval(channel))
+
+class SetAxisBelow(plotbase.PlotBase):
+	def run(self, plotData):
+		for ax in plotData.plot.axes:
+			ax.set_axisbelow(True)
+

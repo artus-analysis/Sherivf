@@ -81,7 +81,7 @@ def allplots(args=None):
 		plots_pdf_reweighted.nnpdf_zpt_bins_91,
 		plots_pdf_uncertainties.plot_pdf_unc_comparison_zy,
 		plots_pdf_uncertainties.plot_pdf_uncs_hera2_zy,
-		plot_subprocs.subprocs,
+		plot_subprocs.subprocs,  # 45
 		plot_subprocs.production_channels,
 	][plot_min:plot_max]
 	
@@ -132,7 +132,7 @@ def allplots(args=None):
 		"pdf_uncertainties_comparison_zy",
 		"pdf_uncertainties_hera2_zy",
 		"subprocs",
-		"production_channels",
+		"subprocs",
 	][plot_min:plot_max]
 
 	if number:
@@ -147,6 +147,7 @@ def allplots(args=None):
 			plots = function(args)
 		for plot in plots[0].plots:
 			plot['www'] = os.path.join(known_args.www_dir, wwwdir)
+			plot['rasterized'] = True
 		plotting_jobs += plots
 
 	return plotting_jobs
