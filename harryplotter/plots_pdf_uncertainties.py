@@ -95,7 +95,7 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='her
 			'subplot_nicks': [i+'_rel' for i in nicks]+['unc_diff'],
 			'unc_diff_nicks': [i+'_rel' for i in nicks],
 			# formatting
-			'labels': labels + [None]*2 + ['difference'],
+			'labels': labels + [None]*2 + ['Uncertainty diff.'],
 			'x_log': True,
 			'y_subplot_lims': [-0.45, 0.45],
 			'zorder': [20, 30],
