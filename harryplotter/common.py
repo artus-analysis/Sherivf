@@ -128,12 +128,11 @@ ybin_plotlabels = ["${0}<|y_Z|<{1}$".format(low, up) for low, up in zip(ybins[:-
 
 ### Uncertainties
 variations = ["", "_edown", "_eup", "_bkgrup", "_bkgrdown", "_ptup", "_ptdown"]  # for sys uncert estimation
-uncertainties = ["_e", "_bkgr", "_unf", "_pt"]
+uncertainties = ["_e", "_bkgr", "_pt"]
 uncertainties_with_lumi = uncertainties + ['_lumi']
 unc_labelsdict = {
 	'_e': 'Electron ID/trigger efficiency',
 	'_bkgr': 'Background',
-	'_unf': 'Unfolding',
 	'_lumi': 'Luminosity',
 	'_pt': r'Electron p$_\\mathrm{T}$ scale',
 }
@@ -174,9 +173,6 @@ lumi = 19.712
 lumi_uncertainty = 0.026
 
 sherivf_output_dir = os.environ['SHERIVFDIR'] + "/latest_sherivf_output/"
-
-#unfolding_variations = [0, -1, 1]
-unfolding_variations = ['_unfdown', '_unfup']
 
 
 # PDF

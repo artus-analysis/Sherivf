@@ -83,6 +83,7 @@ def allplots(args=None):
 		plots_pdf_uncertainties.plot_pdf_uncs_hera2_zy,
 		plot_subprocs.subprocs,  # 45
 		plot_subprocs.production_channels,
+		plots_unfolded.correlation_matrix
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -133,6 +134,7 @@ def allplots(args=None):
 		"pdf_uncertainties_hera2_zy",
 		"subprocs",
 		"subprocs",
+		"correlation_matrix",
 	][plot_min:plot_max]
 
 	if number:

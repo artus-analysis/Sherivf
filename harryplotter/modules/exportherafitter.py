@@ -44,7 +44,6 @@ class ExportHerafitter(plotbase.PlotBase):
 		self.plotting_options.add_argument("--hera-stat", type=float, default=1.,
 		    help="multiplicator for stat uncertainties")
 		self.plotting_options.add_argument("--hera-lumifile", type=str)
-		self.plotting_options.add_argument("--hera-unffile", type=str)
 		self.plotting_options.add_argument("--hera-bkgrfile", type=str)
 		self.plotting_options.add_argument("--hera-effile", type=str)
 		self.plotting_options.add_argument("--hera-quantity", type=str, help="quantity")
@@ -88,7 +87,6 @@ class ExportHerafitter(plotbase.PlotBase):
 				root_object.GetBinContent(i),
 				plotData.plotdict["hera_stat"]*(100*(root_object.GetBinError(i)/root_object.GetBinContent(i) if root_object.GetBinContent(i)>0. else 0.)),  # stat
 				plotData.plotdict["root_objects"]['lumi'].GetBinContent(i),
-				plotData.plotdict["root_objects"]['unf'].GetBinContent(i),
 				plotData.plotdict["root_objects"]['bkgr'].GetBinContent(i),
 				plotData.plotdict["root_objects"]['e'].GetBinContent(i),
 				plotData.plotdict["root_objects"]['pt'].GetBinContent(i),

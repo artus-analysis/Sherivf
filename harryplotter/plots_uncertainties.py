@@ -114,7 +114,7 @@ def plot_uncertainties(args=None):
 				'line_styles': ['-'],
 				'step': [True],
 				'y_errors': [False],
-				'legend_order': [4,2,3,6,5,1,0],
+				'legend_order': [4,2,3,5,1,0],
 			}
 			if quantity == 'zpt':
 				d['y_lims'] = [0, 5]

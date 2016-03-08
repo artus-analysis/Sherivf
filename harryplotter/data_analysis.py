@@ -51,7 +51,7 @@ def subtract_backgrounds(args=None):
 def unfold(args=None):
 	"""Unfold Z(->ee) distributions and save as root. All combinations of n jet categories, rapidity bins, MC samples and quantities (y, mass, pT) are plotted."""
 
-	known_args, args = parsertools.parser_list_tool(args, ['ybins', 'mcs', 'quantities', 'iterations'])
+	known_args, args = parsertools.parser_list_tool(args, ['ybins', 'mcs', 'quantities', 'iterations', 'variations', 'methods'])
 
 	# some variables
 	path = common.bkgr_path
@@ -68,28 +68,25 @@ def unfold(args=None):
 			['mc_ee.root', 'mc_ee_powheg.root']
 		], known_args.no_mcs)):
 			for quantity in parsertools.get_list_slice([common.data_quantities], known_args.no_quantities)[0]:
-				for method in ['dagostini', 'binbybin', 'inversion']:
+				for method in parsertools.get_list_slice([['dagostini', 'binbybin', 'inversion']], known_args.no_methods)[0]:
 					for iteration in parsertools.get_list_slice([range(1, 1+max_iterations)], known_args.no_iterations)[0]:
-						for variation in common.variations + common.unfolding_variations:
-							if variation == '_unfdown':
-								unfolding_variation = -1
-								input_var = ""
-							elif variation == '_unfup':
-								unfolding_variation = 1
-								input_var = ""
-							else:
-								unfolding_variation = 0
-								input_var = variation
+						for variation in parsertools.get_list_slice([common.variations], known_args.no_quantities)[0]:
 							if (variation != '') and (method != common.default_unfolding_method):
 								continue
 							elif (iteration > 1) and (method != 'dagostini'):
 								continue
+							if (mc_label == common.default_mc) and (method == common.default_unfolding_method) and (variation == '') and (ybin=='1' or quantity=='zpt'):
+								toy_method = 'both'
+								toy_n = 10000
+							else:
+								toy_method='none'
+								toy_n = 1
 							folder = common.unffolder(quantity)
 							bins = common.unfbins[quantity]
 							d = {
 								'x_expressions': ['data']+[common.root_quantity(quantity).replace("z", "genz"), common.root_quantity(quantity), common.root_quantity(quantity).replace("z", "genz")],
 								'y_expressions': [None, common.root_quantity(quantity), None, None],
-								'files': ["1_background-subtracted/" + quantity + "_" + ybinsuffix + input_var + ".root"]+[path + "/work/" + mc_unfold]+[path + "/work/" + mc]*2,
+								'files': ["1_background-subtracted/" + quantity + "_" + ybinsuffix + variation + ".root"]+[path + "/work/" + mc_unfold]+[path + "/work/" + mc]*2,
 								'nicks': [
 									'data_reco',
 									'responsematrix',
@@ -110,8 +107,9 @@ def unfold(args=None):
 								'unfolding_mc_reco': 'mc_reco',
 								'unfolding_new_nicks': ['data_unfolded', 'mc_unfolded'],
 								'unfolding_iterations': iteration,
-								'unfolding_variation': unfolding_variation,
 								'libRooUnfold': '~/home/RooUnfold/libRooUnfold.so',
+								'unfolding_toy_method': toy_method,
+								'unfolding_toy_n': toy_n,
 								#output
 								'plot_modules': ['ExportRoot'],
 								'filename': "_".join([quantity, mc_label.lower(), ybinsuffix]) + variation + "_" + str(iteration) + ('' if method == common.default_unfolding_method else "_"+method),
@@ -133,7 +131,7 @@ def zee_divide(args=None):
 				["1"] + common.ybin_weights,
 				["inclusive"] + common.ybin_labels
 	], known_args.no_ybins)):
-			for variation in common.variations+common.unfolding_variations:
+			for variation in common.variations:
 				filename = '{}_{}_{}_{}'.format(quantity, common.default_mc, ybinsuffix+variation, common.iterations_to_use)
 				d = {
 					'files': [common.unfold_path + '/' + filename + '.root'],
@@ -164,7 +162,7 @@ def herafile(args=None, additional_dictionary=None, pdflabel=""):
 			if (quantity is not 'zpt') and (ybin is not ""):
 				continue
 			uncfile = "4_systematic/{}_{}_{}_{}_1.root"
-			nicks = ['sigma', 'lumi', 'bkgr', 'unf', 'e', 'pt']
+			nicks = ['sigma', 'lumi', 'bkgr', 'e', 'pt']
 			d = {
 				# input
 				"x_expressions": ['nick0'] + ['ratio']*(len(nicks)-1),
@@ -175,7 +173,6 @@ def herafile(args=None, additional_dictionary=None, pdflabel=""):
 					'3_divided/{}_{}_{}_1.root'.format(quantity, common.default_mc, ybinsuffix),
 					uncfile.format(quantity, common.default_mc, ybinsuffix, 'lumi'),
 					uncfile.format(quantity, common.default_mc, ybinsuffix, 'bkgr'),
-					uncfile.format(quantity, common.default_mc, ybinsuffix, 'unf'),
 					uncfile.format(quantity, common.default_mc, ybinsuffix, 'e'),
 					uncfile.format(quantity, common.default_mc, ybinsuffix, 'pt'),
 				],
