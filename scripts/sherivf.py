@@ -6,7 +6,17 @@
 sherivf.py
 """
 
-import sys, os, glob, shutil, time, subprocess, argparse, socket, multiprocessing
+import argparse
+import glob
+import multiprocessing
+import os
+import shutil
+import socket
+import stat
+import subprocess
+import sys
+import time
+
 from tools import run_gc, print_and_call, copyfile, get_env, query_yes_no, format_time
 
 
