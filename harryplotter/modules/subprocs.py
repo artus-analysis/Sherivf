@@ -27,9 +27,9 @@ class Subprocs(analysisbase.AnalysisBase):
 		qq = 0
 		for i in range(1,6) + range(7, 12):
 			qq += th2.GetBinContent(i, i)  # diagonal upwards
-		qqprime = 1 - gg - gq - qq - qqbar
+		qqprime = th2.Integral() - gg - gq - qq - qqbar
 		for channel in ['gq', 'qqbar', 'qqprime', 'gg', 'qq']:
-			print channel, "{:.2f} % ". format(100 * eval(channel))
+			print channel, "{:.2f} % ". format(eval(channel))
 
 class SetAxisBelow(plotbase.PlotBase):
 	def run(self, plotData):

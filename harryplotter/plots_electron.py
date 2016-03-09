@@ -277,7 +277,7 @@ def electron_efficiencies_2d(args=None, additional_dictionary=None):
 								['Reconstruction', 'ID', 'HLT']):
 			for datamc in ['data', 'mc']:
 				d = {
-					'files': [datamc + "_" + step + "_WP" + ID + '.root'],
+					'files': ['electron_sf/'+datamc + "_" + step + "_WP" + ID + '.root'],
 					'folders': [""],
 					'x_expressions': 'efficiency_2d',
 					# formatting
@@ -308,7 +308,7 @@ def electron_efficiencies_1d(args=None, additional_dictionary=None):
 								['Reconstruction', 'ID', 'HLT']):
 			for datamc in ['data', 'mc']:
 				d = {
-					'files': [datamc + "_" + step + "_WP" + ID + '.root'],
+					'files': ['electron_sf/'+datamc + "_" + step + "_WP" + ID + '.root'],
 					'folders': [""],
 					'x_expressions': ['efficiency_etabin{0}'.format(i) for i in range(len(etabins)-1)],
 					# formatting

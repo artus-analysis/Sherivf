@@ -8,7 +8,7 @@ def subprocs(args=None, additional_dictionary=None):
 	"""2D plot of subprocs (from fastnlo)"""
 	flavs = 'duscb'
 	allflavs = [r'$\\bar{{{0}}}$'.format(f) for f in flavs[::-1]] + ['$g$'] + [r"${0}$".format(f) for f in flavs]
-	axlabel = "Rel. Contribution / %"
+	axlabel = r"Rel. Contribution / %"
 	d = {
 		# input
 		"x_expressions": ["name"],
