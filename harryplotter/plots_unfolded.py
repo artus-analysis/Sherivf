@@ -232,8 +232,8 @@ def correlation_matrix(args=None):
 			#'analysis_modules': ['NormalizeColumnsToUnity'],
 			# formatting
 			#'y_lims': lims,
-			'x_label': 'gen' + quantity,
-			'y_label': 'reco' + quantity,
+			'x_label': quantity,
+			'y_label': quantity,
 			'z_lims':[-1, 1],
 			'z_label': 'Correlation Coefficient',
 			'colormap': 'bwr',
