@@ -90,30 +90,38 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='her
 			'x_expressions': ["expmodelpar"],
 			'nicks': nicks,
 			# analysis
-			'analysis_modules': ['RelUncertainty', 'UncDiff'],
+			'analysis_modules': ['RelUncertainty'],
 			'rel_nicks': nicks,
-			'subplot_nicks': [i+'_rel' for i in nicks]+['unc_diff'],
+			'subplot_nicks': [i+'_rel' for i in nicks],
 			'unc_diff_nicks': [i+'_rel' for i in nicks],
 			# formatting
-			'labels': labels + [None]*2 + ['Uncertainty diff.'],
+			'labels': labels + [None]*2,
 			'x_log': True,
 			'y_subplot_lims': [-0.45, 0.45],
 			'zorder': [20, 30],
-			'markers': ['fill']*4+[' '],
-			'x_errors': [True]*4+[False],
-			'y_errors': [True]*4+[False],
+			'markers': ['fill']*4,
+			'x_errors': [True]*4,
+			'y_errors': [True]*4,
 			'line_styles': '-',
 			'x_label': r'$x$',
 			'y_label': 'xfxQ2',
 			'y_subplot_label': 'Rel. Uncertainty',
 			'alphas': [0.5],
-			'colors': [histo_colors['blue'], histo_colors['yellow']]*2+['black'],
+			'colors': [histo_colors['blue'], histo_colors['yellow']]*2,
 			'subplot_legend': 'upper center',
 			'texts': ["\n".join([flavour.replace("_", " "), text])],
 			'x_lims': [1e-4, 0.9],
 			# output
 			'filename': '_'.join([flavour, scenario, 'cms']),
 		}
+		if False:  # add line with diff of uncertainties
+			d['analysis_modules'] += ['UncDiff']
+			d['subplot_nicks'] += ['unc_diff']
+			d['labels'] += ['Uncertainty diff.']
+			d['x_errors'] += [None]
+			d['y_errors'] += [None]
+			d['y_errors'] += [' ']
+			d['colors'] += ['black']
 		if flavour in y_lims:
 			d['y_lims'] = y_lims[flavour]
 		if 'valence' in flavour.lower():

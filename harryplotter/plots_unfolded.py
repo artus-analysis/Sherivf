@@ -235,7 +235,7 @@ def correlation_matrix(args=None):
 			'x_label': 'gen' + quantity,
 			'y_label': 'reco' + quantity,
 			'z_lims':[-1, 1],
-			'z_label': 'Correlation',
+			'z_label': 'Correlation Coefficient',
 			'colormap': 'bwr',
 			'rasterized': True,
 			# output

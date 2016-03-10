@@ -24,7 +24,7 @@ def sherpa(args=None, additional_dictionary=None):
 			d = {
 				# input
 				"files": [
-					"latest_sherivf_output/Rivet.root",
+					common.sherivf_output_dir + "/Rivet.root",
 					os.environ['EXCALIBURPATH'] + '/work/mc_ee.root',
 					os.environ['EXCALIBURPATH'] + '/work/data_ee.root',
 				],
@@ -98,7 +98,7 @@ def sherpa_mc(args=None, additional_dictionary=None):
 		minzpt = common.lims('zpt')[0]
 		d = {
 			# input
-			#"yoda_files": ["latest_sherivf_output/Rivet.yoda"],
+			#"yoda_files": [common.sherivf_output_dir + "/Rivet.yoda"],
 			"weights": ["1", "({})".format("&&".join([
 				"(ngenelectrons>1)",
 				"(geneminuspt>25&&genepluspt>25)",
@@ -109,7 +109,7 @@ def sherpa_mc(args=None, additional_dictionary=None):
 				"(genzmass>81&&genzmass<101)",
 			]))],
 			"files": [
-				os.environ['SHERIVFDIR'] + "/latest_sherivf_output/Rivet.root",
+				common.sherivf_output_dir + "/Rivet.root",
 				os.environ['EXCALIBURPATH'] + '/work/mc_ee_gen.root',
 			],
 			"folders": [

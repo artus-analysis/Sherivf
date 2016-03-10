@@ -142,6 +142,7 @@ unc_labelsdict = {
 excaliburpath = os.environ['EXCALIBURPATH']
 bkgr_path = excaliburpath
 sherpa_results = os.path.join(os.environ['SHERIVFDIR'], 'results/MCgrid_CMS_2015_Zee_zjet/')
+sherivf_output_dir = sherpa_results
 
 subtract_dir = "1_background-subtracted"
 unfold_path = "2_unfolded"
@@ -171,8 +172,6 @@ xseclabels = {
 
 lumi = 19.712
 lumi_uncertainty = 0.026
-
-sherivf_output_dir = os.environ['SHERIVFDIR'] + "/latest_sherivf_output/"
 
 
 # PDF
