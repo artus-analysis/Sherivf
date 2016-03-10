@@ -29,10 +29,10 @@ alias configure_fastjet="./configure --prefix=$HOME/local  --enable-allcxxplugin
 
 # BLACKHAT
 # blackhat libraries can become quite large - install in storage space
-alias configure_blackhat="./configure --prefix=/storage/a/dhaitz/blackhat --with-QDpath=$HOME/local"
+alias configure_blackhat="./configure --prefix=/storage/a/${USER}/blackhat --with-QDpath=$HOME/local"
 
 # SHERPA
-alias configure_sherpa="./configure --prefix=$HOME/local --with-sqlite3=install --enable-hepmc2=$HOME/local/ --enable-rivet=$HOME/local/ --enable-blackhat=/storage/a/dhaitz/blackhat   --enable-fastjet=$HOME/local/"
+alias configure_sherpa="./configure --prefix=$HOME/local --with-sqlite3=install --enable-hepmc2=$HOME/local/ --enable-rivet=$HOME/local/ --enable-blackhat=/storage/a/${USER}/blackhat   --enable-fastjet=$HOME/local/"
 
 
 #####
@@ -45,6 +45,8 @@ alias configure_fastnlo="./configure --prefix=$HOME/local --enable-pyext  PYTHON
 #MCgrid
 alias configure_mcgrid="./configure --prefix=$HOME/local CXXFLAGS='-DFASTNLO_ENABLED=1'"
 
-# HERAfitter
-alias configure_herafitter="./configure --enable-lhapdf  LDFLAGS=\"-L/usr/users/dhaitz/local/lib/ -lblas -llapack -ltmglib\"  --enable-nnpdfWeight"
+#YAML
+#TODO
 
+# xFitter
+alias configure_xfitter="./configure --prefix=$HOME/local CFLAGS=\"-I/usr/users/${USER}/local/include\" LDFLAGS=\"-L/usr/users/${USER}/local/lib/ -I/usr/users/${USER}/local/include -lblas -lyaml\" --enable-process --enable-lhapdf"

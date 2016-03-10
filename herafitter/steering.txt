@@ -66,7 +66,7 @@
 * Main steering cards
 *
 &xFitter 
-  RunningMode = 'Fit'
+  RunningMode = '@RUNNINGMODE@'
 
   TheoryType = 'DGLAP' ! 'DGLAP'  -- colinear evolution
                        ! 'DIPOLE' -- dipole model 
@@ -266,7 +266,7 @@
 * (Optional) LHAPDF sttering card
 *
 &lhapdf
-  LHAPDFSET  = 'CT10nlo' ! LHAPDF grid file 
+  LHAPDFSET  = '@PDFSET@' ! LHAPDF grid file 
   ILHAPDFSET = 0               ! Set number withing PdfSet
 &End
 
