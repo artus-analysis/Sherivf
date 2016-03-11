@@ -104,6 +104,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				'ratio_denominator_nicks': ['nick0'],
 				'ratio_numerator_nicks':[common.sherpa_results+"/{}.tab_{}_{}".format(ybin+replaced_quantity, i, member) for i in pdf_sets],
 				# formatting
+				'legend_order': [0, 3, 4, 5, 1, 2],
 				'labels': ['Data'] + labels,
 				'legend': 'upper right',
 				'markers': ['o'] + ['-',]*N*2,
