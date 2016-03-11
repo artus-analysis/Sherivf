@@ -5,7 +5,7 @@ import os
 
 import common
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
-
+from Excalibur.Plotting.utility.colors import histo_colors
 
 def sherpa_fastnlo(args=None):
 	"""Compare Sherpa directly with fastNLO"""
@@ -221,37 +221,33 @@ def fastnlo_pdfunc(args=None, additional_dictionary=None):
 			replaced_quantity = common.qdict.get(quantity, quantity)
 			d = {
 				# input
-				'input_modules': ['InputRootZJet', 'InputFastNLO'],
+				'input_modules': [ 'InputFastNLO'],
 				# input fastNLO
 				'pdf_sets': [pdfset],
 				'members': [0],
 				'fastnlo_files': [common.sherpa_results+"/{0}.tab".format(ybin+replaced_quantity)],
 				'uncertainty_style': style,
 				'uncertainty_type': 'PDF',
-				# input root
-				'files': [common.divided_path + '/' + '_'.join([quantity, common.default_mc, ybinsuffix, '1']) + '.root'],
-				'folders': '',
-				'x_expressions': 'nick0',
 				# analysis
-				'analysis_modules': ['Ratio'],
+				'analysis_modules': ['RelUncertainty'],
 				# formatting
-				'labels': ['Data', common.pdfsetdict.get(pdfset, pdfset), 'ratio'],
+				'subplot_nicks': ['rel'],
 				'y_label': common.xseclabels[quantity],
 				'line_styles': [None, '-', None],
-				'markers': ['.', 'fill', '.'],
+				'markers': ['fill'],
 				'energies': [8],
 				'step': True,
-				'alphas': [0.5],
-				'lumis': [common.lumi],
+				'alphas': [0.8],
+				'colors': histo_colors['blue'],
 				'x_label': quantity,
-				'y_subplot_lims': [0.75, 1.25],
-				'y_subplot_label': 'Data/Sim.',
+				'y_subplot_lims': [-0.05, 0.05],
+				'y_subplot_label': 'PDF Uncertainty',
 				'texts': [ybinplotlabel],
 				# output
 				'filename': 'pdfunc_' + ybin + quantity,
-				'www_title': 'Data and fastNLO with PDFUncertainties',
-				'www_text': ('Unfolded data compared to fastNLO table evaluated with {}.'.format(common.pdfsetdict.get(pdfset))
-					+ r" \'{}\' uncertainty style is used.".format(style)),
+				#'www_title': 'Data and fastNLO with PDFUncertainties',
+				#'www_text': ('Unfolded data compared to fastNLO table evaluated with {}.'.format(common.pdfsetdict.get(pdfset))
+				#	+ r" \'{}\' uncertainty style is used.".format(style)),
 			}
 			if quantity == 'zpt':
 				d['y_log'] = True

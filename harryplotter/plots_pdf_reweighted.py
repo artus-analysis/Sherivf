@@ -24,14 +24,13 @@ def nnpdf(args=None, additional_dictionary=None):
 	y_lims = {
 		#'gluon': [0.01, 10],
 	}
-	n_replicas= 1000
 	pdfset = 'NNPDF30_nlo_as_0118_nolhc_1000'
 	labels = ['Original', 'Reweighted']
 	nicks = [label.lower() for label in labels]
 	for flavour in common.pdf_unc_flavours:
 		files = [
 			'pdf_sets/{0}__{1}.root'.format(pdfset, q),
-			'results/nnpdf_{2}/{0}_Zee_chi2_nRep{3}__{1}.root'.format(pdfset, q, mode, n_replicas),
+			'results/nnpdf_{2}/{0}_Zee_chi2__{1}.root'.format(pdfset, q, mode),
 		]
 		qlabel = r'$Q{0}$ = {1} GeV$^2$'.format(('^2' if 'squared' in q else ''), q.replace('_squared', '').replace('_', '.'))
 		filename = '_'.join(['nnpdf_{}', flavour, q])
