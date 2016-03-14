@@ -171,7 +171,7 @@ xseclabels = {
 }
 
 hera_title = "HERA 1+2"
-hera_cms_title = hera_title + r" and CMS Z($\\rightarrow$ee)+jet"
+hera_cms_title = hera_title + r" and CMS Z+jet"
 
 lumi = 19.712
 lumi_uncertainty = 0.026
