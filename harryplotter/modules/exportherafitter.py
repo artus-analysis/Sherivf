@@ -26,8 +26,7 @@ class HerafitterContainer(plotdata.PlotContainer):
 		self.string = self.header + self.values + "\n"
 
 	def save(self, filename):
-		textfile_name = os.path.splitext(filename)[0] + ".txt"
-		with open(textfile_name, "w") as output_file:
+		with open(filename, "w") as output_file:
 			output_file.write(self.string)
 
 

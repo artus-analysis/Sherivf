@@ -151,7 +151,7 @@ def zee_divide(args=None):
 	return [PlottingJob(plots, args)]
 
 
-def herafile(args=None, additional_dictionary=None, pdflabel=""):
+def herafile(args=None, additional_dictionary=None):
 	"""make herafile"""
 	plots = []
 	for quantity in common.data_quantities:
@@ -183,6 +183,38 @@ def herafile(args=None, additional_dictionary=None, pdflabel=""):
 				# output
 				"plot_modules": ['ExportHerafitter'],
 				"filename": 'CMS_Zee_HFinput_{}_{}'.format(quantity, ybinsuffix),
+				"output_dir": "/usr/users/dhaitz/home/qcd/sherivf/herafitter",
+
+				# output
+				"export_json": False,
+			}
+			if additional_dictionary is not None:
+				d.update(additional_dictionary)
+			plots.append(d)
+	return [PlottingJob(plots, args)]
+
+
+def heracorrelationfile(args=None, additional_dictionary=None):
+	"""make herafile"""
+	plots = []
+	for quantity in common.data_quantities:
+		for ybin, ybinsuffix in zip(
+			[""] + ["y{}_".format(i) for i in range(len(common.ybins))],
+			["inclusive"] + common.ybin_labels
+		):
+			if (quantity is not 'zpt') and (ybin is not ""):
+				continue
+			d = {
+				# input
+				"x_expressions": ['data_unfolded_corr'],
+				"folders": [""],
+				"files": [
+					'2_unfolded/{}_{}_{}_1.root'.format(quantity, common.default_mc, ybinsuffix),
+				],
+				'export_corr_quantity': quantity,
+				# output
+				"plot_modules": ['ExportCorrelation'],
+				"filename": 'CMS_Zee_correlation_{}_{}'.format(quantity, ybinsuffix),
 				"output_dir": "/usr/users/dhaitz/home/qcd/sherivf/herafitter",
 
 				# output

@@ -9,6 +9,7 @@ make_analysis(){
 	merlin.py --py zee_divide $@
 	merlin.py --py uncertainties $@
 	merlin.py --py herafile $@
+	merlin.py --py heracorrelationfile $@
 }
 
 clear_analysis(){

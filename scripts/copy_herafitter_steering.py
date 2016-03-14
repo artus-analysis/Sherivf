@@ -26,6 +26,13 @@ values = {
 	'zy': [valuefile.format('zy', 'inclusive')],
 	'zpt_bins': [valuefile.format('zpt', ptbin) for ptbin in common.ybin_labels[:-1]],
 }
+corrfile = "'" + os.environ['SHERIVFDIR'] + "/herafitter/CMS_Zee_correlation_{0}_{1}.corr'"
+corrs = {
+	'abszy': [corrfile.format('abszy', 'inclusive')],
+	'zpt': [corrfile.format('zpt', 'inclusive')],
+	'zy': [corrfile.format('zy', 'inclusive')],
+	'zpt_bins': [corrfile.format('zpt', ptbin) for ptbin in common.ybin_labels[:-1]],
+}
 
 
 
@@ -109,9 +116,12 @@ def copy_herafile(mode, value, batch, targetdir, fast=False, keys={}):
 	print "Copy steering file to", target
 
 	datafiles = modes[mode] + (values[value] if value else [])
+	corrfiles = (corrs[value] if value else [])
 	settings = {
 		'@NFILES@': str(len(datafiles)),
-		'@FILES@': ",\n   ".join(datafiles),
+		'@FILES@': ",\n      ".join(datafiles),
+		'@CORRFILES@': ",\n      ".join(corrfiles),
+		'@NCORRFILES@': str(len(corrfiles)),
 		'@DOREWEIGHTING@': str((mode == 'nnpdf')),
 		'@PDFSET@': 'NNPDF23_nlo_as_0118',
 		'@NREPLICAS@': 100,

@@ -24,10 +24,11 @@
 
 &InCorr
   ! Number of correlation (statistical, systematical or full) files
-    NCorrFiles = 0
+    NCorrFiles = @NCORRFILES@
  
   ! Correlation files:
-  !  CorrFileNames(1) = 'datafiles/hera/H1_NormInclJets_HighQ2_99-07___H1_NormInclJets_HighQ2_99-07.corr'
+    CorrFileNames = 
+        @CORRFILES@
 &End
 
 &CovarToNuisance
