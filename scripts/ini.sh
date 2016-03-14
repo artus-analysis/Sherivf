@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
-export HERADIR=$SHERIVFDIR/../herafitter-1.1.1
+export HERADIR=$SHERIVFDIR/../xFitter-1.2.0
 
 # additional excalibur cfgs: vary electron scale etc. etc.
 export EXCALIBURCONFIGS=$(dirname $(readlink -mf ${BASH_SOURCE[0]})):$EXCALIBURCONFIGS

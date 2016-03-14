@@ -9,13 +9,12 @@ import common
 
 import tools
 
-heradir = os.environ['HERADIR']
 steeringfile = os.path.join(os.environ['SHERIVFDIR'], "herafitter/steering.txt")
 
+xdir = os.path.join(os.environ['HERADIR'], "datafiles/hera/h1zeusCombined/inclusiveDis/1506.06042/")
+#xdir = "/portal/ekpcms6/home/dhaitz/qcd//xFitter-1.2.0/datafiles/hera/h1zeusCombined/inclusiveDis/1506.06042/"
 modes = {
-	'hera': ["'{}/datafiles/hera/H1ZEUS_{}_HERA1.0.dat'".format(heradir, i) for i in ["NC_e-p", "NC_e+p", "CC_e-p", "CC_e+p"]],
-	'hera2':["'{}/hera2/{}.dat'".format(os.environ['SHERIVFDIR'], f) for f in [
-			"CCem", "CCep", "NCem_318", "NCep_225", "NCep_252", "NCep_300", "NCep_318"]],
+	'hera2':["'{}'".format(os.path.join(xdir, f)) for f in os.listdir(xdir)],
 	'nnpdf':[],
 }
 
@@ -39,11 +38,11 @@ corrs = {
 def main():
 	"""main"""
 	parser = argparse.ArgumentParser()
-	parser.add_argument('-m', '--mode', type=str, default='hera', help="mode", choices=modes.keys())
+	parser.add_argument('-m', '--mode', type=str, default='hera2', help="mode", choices=modes.keys())
 	parser.add_argument('-v', '--value', type=str, default=None, help="Value", choices=values.keys())
 	parser.add_argument('-b', '--batch', action="store_true", help="batch mode, i.e. dont copy defaults", )
 	parser.add_argument('-f', '--fast', action="store_true", help="RT FAST scheme (instead of RT)")
-	parser.add_argument('-d', '--dir', type=str, default=heradir, help="dir to copy steering file to")
+	parser.add_argument('-d', '--dir', type=str, default=os.getcwd(), help="dir to copy steering file to")
 	args = parser.parse_args()
 	copy_herafile(args.mode, args.value, args.batch, args.dir, args.fast)
 
