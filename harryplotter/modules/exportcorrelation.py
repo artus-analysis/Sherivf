@@ -31,6 +31,8 @@ class ExportCorrelation(plotbase.PlotBase):
 		super(ExportCorrelation, self).modify_argument_parser(parser, args)
 		self.plotting_options.add_argument("--export-corr-quantity", type=str,
 		    help="quantity [Default: %(default)s].")
+		self.plotting_options.add_argument("--export-corr-name", type=str,
+		    help="name [Default: %(default)s].")
 
 	def prepare_args(self, parser, plotData):
 		plotData.plotdict["formats"] = ["corr"]
@@ -39,8 +41,8 @@ class ExportCorrelation(plotbase.PlotBase):
 	def create_canvas(self, plotData):
 		plotData.plot = CorrelationContainer()
 		plotData.plot.string = """&StatCorr
-   Name1 = 'CMS Zee'
-   Name2 = 'CMS Zee'
+   Name1 = '@NAME@'
+   Name2 = '@NAME@'
 
    NIdColumns1 = 2
    NIdColumns2 = 2
@@ -52,7 +54,7 @@ class ExportCorrelation(plotbase.PlotBase):
 
    MatrixType = 'Statistical correlations'
 &End
-"""
+""".replace('@NAME@', plotData.plotdict["export_corr_name"])
 
 	def make_plots(self, plotData):
 		histo = plotData.plotdict["root_objects"].values()[0]

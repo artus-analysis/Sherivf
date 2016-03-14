@@ -211,13 +211,13 @@ def heracorrelationfile(args=None, additional_dictionary=None):
 				"files": [
 					'2_unfolded/{}_{}_{}_1.root'.format(quantity, common.default_mc, ybinsuffix),
 				],
-				'export_corr_quantity': quantity,
 				# output
 				"plot_modules": ['ExportCorrelation'],
 				"filename": 'CMS_Zee_correlation_{}_{}'.format(quantity, ybinsuffix),
 				"output_dir": "/usr/users/dhaitz/home/qcd/sherivf/herafitter",
-
 				# output
+				"export_corr_name": "CMS Zee jets 2012 " +ybin+quantity,
+				'export_corr_quantity': quantity,
 				"export_json": False,
 			}
 			if additional_dictionary is not None:
