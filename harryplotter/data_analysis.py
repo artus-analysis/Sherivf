@@ -70,53 +70,56 @@ def unfold(args=None):
 			for quantity in parsertools.get_list_slice([common.data_quantities], known_args.no_quantities)[0]:
 				for method in parsertools.get_list_slice([['dagostini', 'binbybin', 'inversion']], known_args.no_methods)[0]:
 					for iteration in parsertools.get_list_slice([range(1, 1+max_iterations)], known_args.no_iterations)[0]:
-						for variation in parsertools.get_list_slice([common.variations], known_args.no_quantities)[0]:
-							if (variation != '') and (method != common.default_unfolding_method):
-								continue
-							elif (iteration > 1) and (method != 'dagostini'):
-								continue
-							if (mc_label == common.default_mc) and (method == common.default_unfolding_method) and (variation == '') and (ybin=='1' or quantity=='zpt'):
-								toy_method = 'both'
-								toy_n = 10000
-							else:
-								toy_method='none'
-								toy_n = 1
-							folder = common.unffolder(quantity)
-							bins = common.unfbins[quantity]
-							d = {
-								'x_expressions': ['data']+[common.root_quantity(quantity).replace("z", "genz"), common.root_quantity(quantity), common.root_quantity(quantity).replace("z", "genz")],
-								'y_expressions': [None, common.root_quantity(quantity), None, None],
-								'files': ["1_background-subtracted/" + quantity + "_" + ybinsuffix + variation + ".root"]+[path + "/work/" + mc_unfold]+[path + "/work/" + mc]*2,
-								'nicks': [
-									'data_reco',
-									'responsematrix',
-									'mc_reco',
-									'mc_gen',
-								],
-								'lumis': [common.lumi],
-								'folders': ['']+['{}_{}/ntuple'.format(folder, common.algocorr)]*3,
-								'weights': "weight*({0}&&hlt)".format(ybin),
-								'x_bins': [bins],
-								'y_bins': [None, bins, None, None],
-								# analysis
-								'analysis_modules': ['Unfolding'],
-								'unfolding': ['data_reco', 'mc_reco'],
-								'unfolding_responsematrix': 'responsematrix',
-								'unfolding_method': method,
-								'unfolding_mc_gen': 'mc_gen',
-								'unfolding_mc_reco': 'mc_reco',
-								'unfolding_new_nicks': ['data_unfolded', 'mc_unfolded'],
-								'unfolding_iterations': iteration,
-								'libRooUnfold': '~/home/RooUnfold/libRooUnfold.so',
-								'unfolding_toy_method': toy_method,
-								'unfolding_toy_n': toy_n,
-								#output
-								'plot_modules': ['ExportRoot'],
-								'filename': "_".join([quantity, mc_label.lower(), ybinsuffix]) + variation + "_" + str(iteration) + ('' if method == common.default_unfolding_method else "_"+method),
-								'output_dir': common.unfold_path,
-								'export_json': False,
-							}
-							plots.append(d)
+						for variation in parsertools.get_list_slice([common.variations], known_args.no_variations)[0]:
+
+							for toy_method in ['both', 'response', 'data']:
+
+								if (variation != '') and (method != common.default_unfolding_method):
+									continue
+								elif (iteration > 1) and (method != 'dagostini'):
+									continue
+								if (mc_label == common.default_mc) and (method == common.default_unfolding_method) and (variation == '') and (ybin=='1' or quantity=='zpt'):
+									#toy_method = 'both'
+									toy_n = 100000
+								else:
+									toy_method='none'
+									toy_n = 1
+								folder = common.unffolder(quantity)
+								bins = common.unfbins[quantity]
+								d = {
+									'x_expressions': ['data']+[common.root_quantity(quantity).replace("z", "genz"), common.root_quantity(quantity), common.root_quantity(quantity).replace("z", "genz")],
+									'y_expressions': [None, common.root_quantity(quantity), None, None],
+									'files': ["1_background-subtracted/" + quantity + "_" + ybinsuffix + variation + ".root"]+[path + "/work/" + mc_unfold]+[path + "/work/" + mc]*2,
+									'nicks': [
+										'data_reco',
+										'responsematrix',
+										'mc_reco',
+										'mc_gen',
+									],
+									'lumis': [common.lumi],
+									'folders': ['']+['{}_{}/ntuple'.format(folder, common.algocorr)]*3,
+									'weights': "weight*({0}&&hlt)".format(ybin),
+									'x_bins': [bins],
+									'y_bins': [None, bins, None, None],
+									# analysis
+									'analysis_modules': ['Unfolding'],
+									'unfolding': ['data_reco', 'mc_reco'],
+									'unfolding_responsematrix': 'responsematrix',
+									'unfolding_method': method,
+									'unfolding_mc_gen': 'mc_gen',
+									'unfolding_mc_reco': 'mc_reco',
+									'unfolding_new_nicks': ['data_unfolded', 'mc_unfolded'],
+									'unfolding_iterations': iteration,
+									'libRooUnfold': '~/home/RooUnfold/libRooUnfold.so',
+									'unfolding_toy_method': toy_method,
+									'unfolding_toy_n': toy_n,
+									#output
+									'plot_modules': ['ExportRoot'],
+									'filename': "_".join([quantity, mc_label.lower(), ybinsuffix, toy_method]) + variation + "_" + str(iteration) + ('' if method == common.default_unfolding_method else "_"+method),
+									'output_dir': common.unfold_path,
+									'export_json': False,
+								}
+								plots.append(d)
 	return [PlottingJob(plots, args)]
 
 
