@@ -57,21 +57,16 @@ def divided_ptspectrum(args=None):
 			'colors': colors,
 			'y_label': common.xseclabels[quantity],
 			'energies': [8],
-			'labels': labels,
 			'markers': ['o', 'D', 'x', '*', 'd', 's'][:nbins]+["."]*nmc,
 			'line_styles': [None]*nbins + ['-']*nmc,
 			'step': True,
 			'filename': quantity,
-			
-			'www_title': '',
-			'www_text': ' ',
 		}
 		if quantity == 'zpt':
 			d['y_log'] = True
 			d['x_log'] = common.zpt_xlog
 			d['x_ticks'] = common.zpt_ticks
 			d['y_lims'] = [1e-5, 1e5]
-			d['save_legend'] = quantity + '_legend'
 			d['legend'] = None
 			#ratio
 			d.update({
@@ -83,6 +78,12 @@ def divided_ptspectrum(args=None):
 				'y_subplot_lims': [0.5, 1.5],
 				'y_subplot_label': 'Data/Sim. Ratio\n',
 			})
+		if True:
+			d['plot_modules'] = ['PlotMplZJet', 'PlotMplLegendTable']
+			d["legend_table_column_headers"] = ['Data', 'Sim.']
+			d["legend_table_row_headers"] = labels[:nmc]
+			d["legend_table_filename"] = quantity + '_legend'
+			d['legend_table_phantomtext'] = r"$1^5$"
 		plots.append(d)
 	return [PlottingJob(plots, args)]
 
