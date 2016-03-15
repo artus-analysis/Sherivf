@@ -55,7 +55,7 @@ def divided_ptspectrum(args=None):
 			'y_errors': [True]*nbins+[False]*nmc,
 			'lumis': [common.lumi],
 			'colors': colors,
-			'y_label': common.xseclabels[quantity],
+			'y_label': common.xseclabels_bin[quantity],
 			'energies': [8],
 			'markers': ['o', 'D', 'x', '*', 'd', 's'][:nbins]+["."]*nmc,
 			'line_styles': [None]*nbins + ['-']*nmc,

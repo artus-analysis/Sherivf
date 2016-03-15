@@ -107,7 +107,7 @@ def plot_uncertainties(args=None):
 				'square_add_nicks': ['nick0'] + types,
 				# formatting
 				'texts': [ybinplotlabel],
-				'y_label': 'Uncertainty / %',
+				'y_label': 'Relative Uncertainty / %',
 				'x_label': quantity,
 				'labels': labels,
 				'markers': ['o', 'd', '*', '.', 'D'],

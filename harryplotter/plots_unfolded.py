@@ -68,13 +68,8 @@ def response_matrix(args=None):
 			'x_expressions': ['responsematrix'],
 			'analysis_modules': ['NormalizeColumnsToUnity'],
 			# formatting
-			#'y_bins': common.bins[quantity],
-			#'x_bins': common.bins[quantity],
-			#'x_lims': lims,
-			#'y_lims': lims,
 			'x_label': 'gen' + quantity,
 			'y_label': 'reco' + quantity,
-			'energies': [8],
 			'z_log': True,
 			'z_lims':[1e-3, 1],
 			'z_label': 'Response',
@@ -148,23 +143,6 @@ def unfolding_comparison(args=None):
 	return [PlottingJob(plots, args)]
 
 
-def unfolded_to_hera(args=None):
-	""" take unfolded data and convert it into herafitter format"""
-	plots = []
-	d = {
-		'files': ['2_unfolded/zpt_{}_inclusive_{}.root'.format(common.default_mc, iterations_to_use)],
-		'folders': [''],
-		'x_expressions': ['data_unfolded'],
-		# output
-		'plot_modules': 'ExportHerafitter',
-		'header_file': '/usr/users/dhaitz/home/qcd/sherivf/herafitter/herafitter_header.txt',
-		'filename': 'CMS_Zee_HFinput',
-		'output_dir': 'herafitter/',
-	}
-	plots.append(d)
-	return [PlottingJob(plots, args)]
-
-
 def unfolded_mc_comparison(args=None):
 	""" compare the result of the unfolding procedure for diff MCs or diff algos """
 	plots = []
@@ -176,6 +154,7 @@ def unfolded_mc_comparison(args=None):
 			'filename': 'unfolding_samples_'+quantity,
 			'analysis_modules': ['Ratio'],
 			'labels': ['Response matrix from {} sample'.format(mc) for mc in  [s.capitalize() for s in common.mcs]],
+			'markers': ['o', 'fill',  'o'],
 		}
 		# method comparison
 		methods = [''] + ['_'+m for m in common.other_methods]
@@ -190,6 +169,7 @@ def unfolded_mc_comparison(args=None):
 			'ratio_numerator_nicks': ['inv', 'dago'],
 			'ratio_denominator_nicks': ['bbb'],
 			# formatting
+			'y_rel_lims': [0, 1.4],
 			'y_subplot_label': 'Ratio to bin-by-bin',
 			'labels': ['Matrix inversion',r"Iterative d$\\prime$Agostini ({0} iterations)".format(iterations[1]), 'Bin-by-bin'] + ['inv/bbb', 'dago/bbb'],
 			'filename': 'unfolding_methods_'+quantity,
@@ -210,7 +190,7 @@ def unfolded_mc_comparison(args=None):
 				dic['y_log'] = True
 				dic['x_log'] = common.zpt_xlog
 				dic['x_ticks'] = common.zpt_ticks
-				dic['y_lims'] = [1, 10e6]
+				dic['y_lims'] = [1, 10e7]
 			plots.append(dic)
 	return [PlottingJob(plots, args)]
 
@@ -230,7 +210,6 @@ def correlation_matrix(args=None):
 			'y_bins': common.bins[quantity],
 			#'analysis_modules': ['NormalizeColumnsToUnity'],
 			# formatting
-			#'y_lims': lims,
 			'x_label': quantity,
 			'y_label': quantity,
 			'z_lims':[-1, 1],

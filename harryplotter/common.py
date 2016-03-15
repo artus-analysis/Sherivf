@@ -123,7 +123,7 @@ qdict = {
 ybins = np.arange(0, 2.8, 0.4)
 ybin_labels = [r"{0:02d}y{1:02d}".format(int(10*low), int(10*up)) for low, up in zip(ybins[:-1], ybins[1:])]
 ybin_weights = ["abs(zy)\geq<{1}&&abs(zy)>{0}".format(low, up) for low, up in zip(ybins[:-1], ybins[1:])]
-ybin_plotlabels = [(r"${0}\\leq|\\mathit{{y}}_Z|<{1}$".format(low, up) if (low > 0.) else "$|y_Z|<{0}$".format(up))  for low, up in zip(ybins[:-1], ybins[1:])]
+ybin_plotlabels = [(r"${0}\\leq|\\mathit{{y}}_Z|<{1}$".format(low, up) if (low > 0.) else r"      $\\,|\\mathit{{y}}_Z|<{0}$".format(up))  for low, up in zip(ybins[:-1], ybins[1:])]
 
 
 ### Uncertainties
@@ -168,6 +168,13 @@ xseclabels = {
 	'zy': 'xsecy',
 	'zmass': 'xsecm',
 	'zphi': 'xsecphi'
+}
+xseclabels_bin = {
+	'zpt': 'xsecpt_bin',
+	'abszy': 'xsecabsy_bin',
+	'zy': 'xsecy_bin',
+	'zmass': 'xsecm_bin',
+	'zphi': 'xsecphi_bin'
 }
 
 hera_title = "HERA 1+2"
