@@ -66,10 +66,10 @@ def response_matrix(args=None):
 			'files': [common.unfold_path + '/' + '_'.join([quantity, common.default_mc, ybin, '1']) + '.root'],
 			'folders': [''],
 			'x_expressions': ['responsematrix'],
-			'analysis_modules': ['NormalizeColumnsToUnity'],
+			'analysis_modules': ['NormalizeRowsToUnity'],
 			# formatting
-			'x_label': 'gen' + quantity,
-			'y_label': 'reco' + quantity,
+			'y_label': 'gen' + quantity,
+			'x_label': 'reco' + quantity,
 			'z_log': True,
 			'z_lims':[1e-3, 1],
 			'z_label': 'Response',
@@ -153,6 +153,7 @@ def unfolded_mc_comparison(args=None):
 			'files': ['2_unfolded/{0}_{1}_inclusive_{2}.root'.format(quantity, mc, iterations) for mc in common.mcs],
 			'filename': 'unfolding_samples_'+quantity,
 			'analysis_modules': ['Ratio'],
+			'y_subplot_label': 'Ratio {}/{}'.format(common.mcs[0], common.mcs[1]),
 			'labels': ['Response matrix from {} sample'.format(mc) for mc in  [s.capitalize() for s in common.mcs]],
 			'markers': ['o', 'fill',  'o'],
 		}

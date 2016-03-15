@@ -36,7 +36,7 @@ def subtract_backgrounds(args=None):
 					'x_bins': [bins],
 					'files': [path+'/work/data_ee{}.root'.format(datasuffix)] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds],
 					'nicks': ['data'],
-					'weights': ["({0}*{1})".format(ybin, additional_weight)] + ["{addweight}*{scalefactor}*(hlt&&({ybin}))".format(ybin=ybin, scalefactor=mc_scalefactor, addweight=additional_weight)]*len(backgrounds),
+					'weights': ["({0}*{1})".format(ybin, additional_weight)] + ["({addweight})*({scalefactor})*(hlt&&({ybin}))".format(ybin=ybin, scalefactor=mc_scalefactor, addweight=additional_weight)]*len(backgrounds),
 					'folders': ['{}_{}Res/ntuple'.format(folder, common.algocorr)] + ['{}_{}/ntuple'.format(folder, common.algocorr)]*len(backgrounds),
 					#output
 					'plot_modules': ['ExportRoot'],
@@ -70,7 +70,7 @@ def unfold(args=None):
 			for quantity in parsertools.get_list_slice([common.data_quantities], known_args.no_quantities)[0]:
 				for method in parsertools.get_list_slice([['dagostini', 'binbybin', 'inversion']], known_args.no_methods)[0]:
 					for iteration in parsertools.get_list_slice([range(1, 1+max_iterations)], known_args.no_iterations)[0]:
-						for variation in parsertools.get_list_slice([common.variations], known_args.no_quantities)[0]:
+						for variation in parsertools.get_list_slice([common.variations], known_args.no_variations)[0]:
 							if (variation != '') and (method != common.default_unfolding_method):
 								continue
 							elif (iteration > 1) and (method != 'dagostini'):
@@ -84,8 +84,8 @@ def unfold(args=None):
 							folder = common.unffolder(quantity)
 							bins = common.unfbins[quantity]
 							d = {
-								'x_expressions': ['data']+[common.root_quantity(quantity).replace("z", "genz"), common.root_quantity(quantity), common.root_quantity(quantity).replace("z", "genz")],
-								'y_expressions': [None, common.root_quantity(quantity), None, None],
+								'x_expressions': ['data']+[common.root_quantity(quantity), common.root_quantity(quantity), common.root_quantity(quantity).replace("z", "genz")],
+								'y_expressions': [None, common.root_quantity(quantity).replace("z", "genz"), None, None],
 								'files': ["1_background-subtracted/" + quantity + "_" + ybinsuffix + variation + ".root"]+[path + "/work/" + mc_unfold]+[path + "/work/" + mc]*2,
 								'nicks': [
 									'data_reco',
