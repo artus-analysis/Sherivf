@@ -100,8 +100,9 @@ def unfolding_comparison(args=None):
 	plots = []
 
 	ybin = 'inclusive'
-	labels = ['Data Reco', 'MC Reco', 'MC Gen', 'Data Unfolded', 'MC Unfolded']
+	labels = ['Data Reco', 'Data Unfolded']
 	expressions = [label.lower().replace(" ", "_") for label in labels]
+	labels = [l.replace(' Reco', '') for l in labels]
 
 	for iterations in range(1, 5):
 		for quantity in common.data_quantities:
@@ -116,18 +117,16 @@ def unfolding_comparison(args=None):
 				'nicks': expressions,
 				# formatting
 				'labels': labels,
-				'markers': ['o']*2+['fill']+['.']*2+['o']*2+['.']*2,
-				'line_styles': [None]*3 + ['-']*2+[None]*2+['-']*2,
-				'step': [True],
-				'marker_colors': ['black', 'red'],
-				'zorder': [10,10,2,10,10],
+				'markers': ['o', 'fill'],
+				'marker_colors': ['black'],
+				'lumis': [19.71],
 				'energies': [8],
 				'legend': 'upper right',
 				'x_lims': common.lims(quantity),
-				'y_subplot_lims': [0.9, 1.1],
-				#'lumis': [common.lumi],
+				'y_subplot_lims': [0.95, 1.05],
+				'x_bins': common.bins[quantity],
 				'x_label': quantity,
-				#'title': str(iterations) + " iteration" + ("s" if iterations != 1 else ""),
+				'y_errors': [True, True, False],
 				# output
 				'filename': "_".join(['unfolded', quantity, str(iterations)]),
 				'www_title': 'Unfolding',
