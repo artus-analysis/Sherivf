@@ -30,7 +30,7 @@ def divided_ptspectrum(args=None):
 			for index, ybin in enumerate(common.ybin_labels[:(-cut_bins if cut_bins>0 else 99)]):
 				filenames.append(common.sherivf_output_dir + "/Rivet.root")
 				x_expressions.append("y{}_{}".format(index, quantity))
-				nicks.append(quantity+str(index))
+				nicks.append('mc'+str(index))
 		ntotal = len(filenames)
 		nmc = ntotal - nbins
 		colors = ['black', 'red', 'blue', 'green', 'purple', 'orange', 'cyan'][:nbins]*(ntotal/nbins)
@@ -61,6 +61,7 @@ def divided_ptspectrum(args=None):
 			'line_styles': [None]*nbins + ['-']*nmc,
 			'step': True,
 			'filename': quantity,
+			'zorder': [30]*nmc+[20]*nmc,
 		}
 		if quantity == 'zpt':
 			d['y_log'] = True
@@ -73,8 +74,8 @@ def divided_ptspectrum(args=None):
 				'analysis_modules': ['ScaleErrors', 'Ratio'],
 				'scale_error_nicks': nicks[nbins:],
 				'scale_error_factors': [0],
-				'ratio_numerator_nicks': [n for n in nicks if quantity not in n],
-				'ratio_denominator_nicks': [n for n in nicks if quantity in n],
+				'ratio_numerator_nicks': [n for n in nicks if 'mc' not in n],
+				'ratio_denominator_nicks': [n for n in nicks if 'mc' in n],
 				'y_subplot_lims': [0.5, 1.5],
 				'y_subplot_label': 'Data/Sim. Ratio\n',
 			})

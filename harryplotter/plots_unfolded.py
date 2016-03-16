@@ -91,11 +91,11 @@ def response_matrix(args=None):
 
 
 def unfolding_comparison(args=None):
-	"""Comparison between reco,gen,unfolded for Data and MC"""
+	"""Comparison between reco,unfolded for"""
 	plots = []
 
 	ybin = 'inclusive'
-	labels = ['Data Reco', 'Data Unfolded']
+	labels = ['Data Unfolded', 'Data Reco']
 	expressions = [label.lower().replace(" ", "_") for label in labels]
 	labels = [l.replace(' Reco', '') for l in labels]
 
@@ -112,16 +112,16 @@ def unfolding_comparison(args=None):
 				'nicks': expressions,
 				# formatting
 				'labels': labels,
-				'markers': ['o', 'fill'],
-				'marker_colors': ['black'],
 				'lumis': [19.71],
 				'energies': [8],
+				'markers': ['o', '-'],
+				'line_styles': [None, '-'],
+				'step': True,
 				'legend': 'upper right',
 				'x_lims': common.lims(quantity),
 				'y_subplot_lims': [0.95, 1.05],
 				'x_bins': common.bins[quantity],
 				'x_label': quantity,
-				'y_errors': [True, True, False],
 				# output
 				'filename': "_".join(['unfolded', quantity, str(iterations)]),
 				'www_title': 'Unfolding',
@@ -135,8 +135,6 @@ def unfolding_comparison(args=None):
 			# ratio to MC gen
 			d.update({
 				'analysis_modules': ['Ratio'],
-				'ratio_numerator_nicks': [e for e in expressions if "unfolded" in e],
-				'ratio_denominator_nicks': [e for e in expressions if "reco" in e],
 				'y_subplot_label': 'Unfolded/Reco',
 			})
 			plots.append(d)
@@ -153,9 +151,11 @@ def unfolded_mc_comparison(args=None):
 			'files': ['2_unfolded/{0}_{1}_inclusive_{2}.root'.format(quantity, mc, iterations) for mc in common.mcs],
 			'filename': 'unfolding_samples_'+quantity,
 			'analysis_modules': ['Ratio'],
-			'y_subplot_label': 'Ratio {}/{}'.format(common.mcs[0], common.mcs[1]),
+			'y_subplot_label': 'Ratio {}/{}'.format(common.mcs[0].capitalize(), common.mcs[1].capitalize()),
 			'labels': ['Response matrix from {} sample'.format(mc) for mc in  [s.capitalize() for s in common.mcs]],
-			'markers': ['o', 'fill',  'o'],
+			'markers': ['o', '-'],
+			'line_styles': [None, '-'],
+			'step': True,
 		}
 		# method comparison
 		methods = [''] + ['_'+m for m in common.other_methods]
@@ -164,24 +164,27 @@ def unfolded_mc_comparison(args=None):
 		iterations = [1, 4, 1]
 		dic2 = {
 			'files': ['2_unfolded/{0}_{3}_inclusive_{2}{1}.root'.format(quantity, method, iteration, common.default_mc) for method, iteration in zip(methods, iterations)],
-			'x_bins': common.bins[quantity],
 			'nicks': ['inv', 'dago', 'bbb'],
 			'analysis_modules': ['Ratio'],
-			'ratio_numerator_nicks': ['inv', 'dago'],
-			'ratio_denominator_nicks': ['bbb'],
+			'ratio_numerator_nicks': ['dago', 'bbb'],
+			'ratio_denominator_nicks': ['inv'],
 			# formatting
 			'y_rel_lims': [0, 1.4],
-			'y_subplot_label': 'Ratio to bin-by-bin',
-			'labels': ['Matrix inversion',r"Iterative d$\\prime$Agostini ({0} iterations)".format(iterations[1]), 'Bin-by-bin'] + ['inv/bbb', 'dago/bbb'],
+			'y_subplot_label': 'Ratio to matrix inv.',
+			'labels': ['Matrix inversion',r"Iterative d$\\prime$Agostini ({0} iterations)".format(iterations[1]), 'Bin-by-bin'] + ['dago/inv', 'bbb/inv'],
 			'filename': 'unfolding_methods_'+quantity,
 			'step': True,
-			'colors': ['black', 'red', colors.histo_colors['blue'], 'black', 'red'],
-			'markers': ['o', '-',  'fill',  '-', '-'],
-			'line_styles': [None, '-', None, '--', '-'],
+			'colors': [colors.histo_colors['blue'], 'black', 'red', 'black', 'red'],
+			'markers': ['fill', 'o',  '-',  '-', '-'],
+			'line_styles': [None, None, '-', '-', '-'],
+			'zorder': [10,30,20],
 		}
 		for dic in [dic1, dic2]:
 			dic.update({
+				'lumis': [19.71],
+				'energies': [8],
 				'x_lims': common.lims(quantity),
+				'x_bins': common.bins[quantity],
 				'x_expressions': 'data_unfolded',
 				'folders': [''],
 				'x_label': quantity,

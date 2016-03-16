@@ -33,16 +33,16 @@ def sherpa_fastnlo(args=None):
 				# analysis
 				'analysis_modules': ['Ratio'],
 				# formatting
-				"markers": ["fill", "o", "."],
+				"markers": ["fill", "o", "o"],
 				"x_label": quantity,
 				"y_label": common.xseclabels[quantity],
-				"y_subplot_lims": [0.999, 1.001],
+				"y_subplot_lims": [0.99, 1.01],
 				"energies": [8],
 				"y_errors": [False],
 				"labels": ['Sherpa', 'Sherpa+fastNLO', 'ratio'],
 				"marker_colors": ['red'],
 				"y_subplot_label": "Sherpa/fastNLO",
-				"texts": [pdfset + "\n" + ybinplotlabel],
+				"texts": [ybinplotlabel],
 				# filename
 				'filename': ybin+quantity.lower(),
 				'www_title': 'Sherpa vs fastNLO',
