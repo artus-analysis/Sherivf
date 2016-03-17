@@ -7,7 +7,7 @@
    Reaction       = 'FastNLO jets'
 
    NDATA          = @NDATA@
-   NColumn        = 9
+   NColumn        = 8
    ColumnType     = 'Bin' , 'Bin'  , 'Sigma', 'Error', 'Error', 'Error', 'Error', 'Error'
    ColumnName     = '@QUANTITY@low', '@QUANTITY@high', 'Sigma', 'stat' , 'lumi',    'bkgr',  'ef',    'pt'
    NInfo          = 4

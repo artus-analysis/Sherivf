@@ -88,7 +88,7 @@ class NNPDF(object):
 		#second step: produce LHA file
 		#
 		stdout_process_file = open("stdout_process.txt", "w")
-		fit_process_success = tools.print_and_call(["xfitter-process", "reweight", "1000", "hera/pdf_BAYweights.dat", "/storage/a/dhaitz/PDFsets/"+pdfset, newset], stdout=stdout_process_file)
+		fit_process_success = tools.print_and_call(["xfitter-process", "reweight", str(n_replicas), "hera/pdf_BAYweights.dat", "/storage/a/dhaitz/PDFsets/"+pdfset, newset], stdout=stdout_process_file)
 
 
 		# evaluate PDF
