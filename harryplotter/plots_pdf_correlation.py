@@ -26,6 +26,7 @@ def pdf_correlations(args=None, additional_dictionary=None):
 					"rasterized": True,
 					"texts": [common.pdfsetdict.get(pdfset, pdfset)+r"\n$\\mathit{Q}=\\mathit{m}_Z$ (91.2 GeV)"],
 					"title": flavour,
+					'rasterized': True,
 					# output
 					"filename": "_".join([flavour.replace(" ", "-"), quantity, pdfset]),
 					"www_title": "Correlations",

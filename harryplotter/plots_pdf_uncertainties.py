@@ -30,7 +30,7 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 		'hera2_zpt_bins': common.hera_cms_title + r" ($p_\\mathrm{T}$ in bins of |y|)",
 	}
 	title = titles.get(pdf_scenario, "")
-	text = r"$\\mathit{{Q}}^2 = {} \\/ GeV{}$".format(".".join(common.pdfq.split("_")[:-1]), ("^2" if "squared" in common.pdfq else ""))
+	text = r"$\\mathit{{Q}}^2 = {} \\/ GeV{}$".format(".".join(common.pdfq.split("_")[:2]), ("^2" if "squared" in common.pdfq else ""))
 	y_lims = {
 		'gluon': [0, 4],
 	}
@@ -54,7 +54,7 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 			'markers': ['fill']*2*len(nicks),
 			'alphas': [0.7, 0.9, 0.7]*len(nicks),
 			'line_styles': '-',
-			'x_label': r'$x$',
+			'x_label': 'x',
 			'y_label': 'xfxQ2',
 			'y_subplot_label': 'Rel. Uncertainty',
 			'colors': [histo_colors[c] for c in ["red", "yellow", "green"]]*len(nicks),
@@ -75,7 +75,7 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='hera2_abszy'):
 	""" comparison between hera and hera+CMS with total uncertainties"""
 	plots = []
-	text = r"$\\mathit{{Q}}^2 = {} \\/ GeV{}$".format(".".join(common.pdfq.split("_")[:-1]), ("^2" if "squared" in common.pdfq else ""))
+	text = r"$\\mathit{{Q}}^2 = {} \\/ GeV{}$".format(".".join(common.pdfq.split("_")[:2]), ("^2" if "squared" in common.pdfq else ""))
 	y_lims = {
 		'gluon': [0, 4],
 	}
@@ -104,11 +104,11 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='her
 				'x_errors': [True]*4,
 				'y_errors': [True]*4,
 				'line_styles': '-',
-				'x_label': r'$x$',
+				'x_label': 'x',
 				'y_label': 'xfxQ2',
 				'y_subplot_label': 'Rel. Uncertainty',
-				'alphas': [0.5],
-				'colors': [histo_colors['blue'], histo_colors['yellow']]*2,
+				'alphas': [0.7],
+				'colors': [histo_colors['blue'], histo_colors['red']]*2,
 				'subplot_legend': 'upper center',
 				'texts': ["\n".join([flavour.replace("_", " "), text])],
 				'x_lims': [1e-4, 0.9],

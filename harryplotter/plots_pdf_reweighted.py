@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import copy
+import os
 
 import Excalibur.Plotting.utility.colors as colors
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
@@ -137,5 +138,49 @@ def nnpdf_zpt_bins_2(args=None):
 def nnpdf_zpt_bins_10(args=None):
 	return nnpdf(args, {'q': '10_0_squared', 'mode': 'zpt_bins'})
 
-if __name__ == '__main__':
-	nnpdf()
+
+def alphas(args=None, additional_dictionary=None):
+	"""   """
+	plots = []
+	res_dir = "/usr/users/dhaitz/home/qcd/sherivf/results"
+	dirs = os.listdir(res_dir)
+	quantities = [d.replace('nnpdf_', '') for d in dirs if 'nnpdf_' in d]
+	
+
+	for quantity in quantities:
+		d = {
+			"files": [res_dir + "/nnpdf_" + quantity + "/palpha.root"],
+			"folders": [""],
+			"legend": "None",
+			"markers": ["fill"],
+			"x_expressions": ["palp"],
+			"x_label": r"$\\alpha$",
+			"x_lims": [0.0, 5.0],
+			"y_label": "arb. unit",
+			"filename": "alpha_"+quantity,
+		}
+		plots.append(d)
+	return [PlottingJob(plots, args)]
+
+
+def weights(args=None, additional_dictionary=None):
+	"""   """
+	plots = []
+	res_dir = "/usr/users/dhaitz/home/qcd/sherivf/results"
+	dirs = os.listdir(res_dir)
+	quantities = [d.replace('nnpdf_', '') for d in dirs if 'nnpdf_' in d]
+	for quantity in quantities:
+		d = {
+			"files": [res_dir + "/nnpdf_" + quantity + "/weights.root"],
+			"folders": [""],
+			"markers": ["fill"],
+			"legend": "None",
+			"x_expressions": ["wH"],
+			"x_log": True,
+			"y_errors": [False],
+			"y_label": "Entries",
+			"x_label": "Weight",
+			"filename": "weights_"+quantity,
+		}
+		plots.append(d)
+	return [PlottingJob(plots, args)]

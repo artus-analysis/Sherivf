@@ -83,7 +83,10 @@ def allplots(args=None):
 		plots_pdf_uncertainties.plot_pdf_uncs_hera2_zy,
 		plot_subprocs.subprocs,  # 45
 		plot_subprocs.production_channels,
-		plots_unfolded.correlation_matrix
+		plots_unfolded.correlation_matrix,
+		plots_pdf_reweighted.weights,
+		plots_pdf_reweighted.alphas,
+		# 50
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -135,6 +138,8 @@ def allplots(args=None):
 		"subprocs",
 		"subprocs",
 		"correlation_matrix",
+		"weights",
+		"alphas",
 	][plot_min:plot_max]
 
 	if numbers is not None:
@@ -154,7 +159,6 @@ def allplots(args=None):
 			plots = function(args)
 		for plot in plots[0].plots:
 			plot['www'] = os.path.join(known_args.www_dir, wwwdir)
-			plot['rasterized'] = True
 		plotting_jobs += plots
 
 	return plotting_jobs
