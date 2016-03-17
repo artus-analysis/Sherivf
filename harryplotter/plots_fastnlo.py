@@ -207,8 +207,8 @@ def fastnlo_pdfunc(args=None, additional_dictionary=None):
 	"""Evaluate fastNLO table for n members of a PDF set."""
 	plots = []
 
-	pdfset = 'NNPDF30_nlo_as_0118_nolhc'
-	style = 'kMCSampling'
+	pdfset = 'CT14nlo'
+	style = 'kHessianAsymmetric'
 
 	for quantity in common.quantities:
 		for ybin, ybinsuffix, ybinplotlabel in zip(
@@ -243,6 +243,7 @@ def fastnlo_pdfunc(args=None, additional_dictionary=None):
 				'y_subplot_lims': [-0.05, 0.05],
 				'y_subplot_label': 'PDF Uncertainty',
 				'texts': [ybinplotlabel],
+				'title': common.pdfsetdict[pdfset],
 				# output
 				'filename': 'pdfunc_' + ybin + quantity,
 				#'www_title': 'Data and fastNLO with PDFUncertainties',
@@ -290,8 +291,8 @@ def fastnlo_pdfmembers(args=None, additional_dictionary=None):
 				'x_expressions': 'nick0',
 				# analysis
 				'analysis_modules': ['Ratio'],
-				'ratio_numerator_nicks': ['nick0'],
-				'ratio_denominator_nicks': map(str, range(n_members)),
+				'ratio_denominator_nicks': ['nick0'],
+				'ratio_numerator_nicks': map(str, range(n_members)),
 				# formatting
 				'labels': ['Data', 'PDF set members'] + [None]*(2*n_members-1),
 				'markers': ['o'] +[' ']*n_members*2,
@@ -309,7 +310,7 @@ def fastnlo_pdfmembers(args=None, additional_dictionary=None):
 				'title': common.pdfsetdict[pdfset],
 				
 				'y_subplot_lims': [0.75, 1.25],
-				'y_subplot_label': 'Data/Sim.',
+				'y_subplot_label': 'Sim./Data',
 
 				# output
 				'filename': ybin+quantity,

@@ -28,12 +28,12 @@ def allplots(args=None):
 	parser.add_argument('--www-dir', type=str, default="zee", help="www dir")
 	parser.add_argument('--start', type=int, default=0, help="start")
 	parser.add_argument('--end', type=int, default=999, help="end")
-	parser.add_argument('--number', type=int, default=None, help="number")
+	parser.add_argument('--numbers', type=int, default=None, nargs='+', help="number")
 	known_args, args = parser.parse_known_args(**({'args':args} if args is not None else {}))
 
 	plot_min = known_args.start
 	plot_max = known_args.end
-	number = known_args.number
+	numbers = known_args.numbers
 
 	functions = [
 		plots_pdf.pdfs_thesis,  # 0
@@ -137,8 +137,13 @@ def allplots(args=None):
 		"correlation_matrix",
 	][plot_min:plot_max]
 
-	if number:
-		functions, wwwdirs = functions[number:number+1], wwwdirs[number:number+1]
+	if numbers is not None:
+		new_functions, new_wwwdirs = [], []
+		for number in numbers:
+			new_functions.append(functions[number])
+			new_wwwdirs.append(wwwdirs[number])
+		functions, wwwdirs = new_functions, new_wwwdirs
+		#	wwwdirs = functions[number:number+1], wwwdirs[number:number+1]
 
 	for function, wwwdir in zip(functions, wwwdirs):
 		if function == plots_bkgrs.zee_bkgrs:

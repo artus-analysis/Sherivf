@@ -36,13 +36,14 @@ def divided_ptspectrum(args=None):
 		colors = ['black', 'red', 'blue', 'green', 'purple', 'orange', 'cyan'][:nbins]*(ntotal/nbins)
 		factors = [10**x for x in range(nbins)][::-1]
 		labels = []
-		for ybin, factor in zip(common.ybin_plotlabels[:(-cut_bins if cut_bins>0 else 99)], factors):
+		for ybin, factor in zip(common.ybin_plotlabels_space[:(-cut_bins if cut_bins>0 else 99)], factors):
 			if factor > 1:
 				exp = int(math.log10(factor))
 				exp = ("" if exp == 1 else "^{"+str(exp)+"}")
 				labels += [r"{0} ($\\times10{1}$)".format(ybin, exp)]
 			else:
 				labels += [ybin]
+		invert_binwidth = 1./0.4
 		labels += [None]*nmc
 		d = {
 			'files': filenames,
@@ -50,7 +51,7 @@ def divided_ptspectrum(args=None):
 			'x_expressions': x_expressions,
 			'nicks': nicks,
 			# formatting
-			'scale_factors': factors,
+			'scale_factors': [invert_binwidth * f for f in factors],
 			'x_label': quantity,
 			'y_errors': [True]*nbins+[False]*nmc,
 			'lumis': [common.lumi],
@@ -67,7 +68,7 @@ def divided_ptspectrum(args=None):
 			d['y_log'] = True
 			d['x_log'] = common.zpt_xlog
 			d['x_ticks'] = common.zpt_ticks
-			d['y_lims'] = [1e-5, 1e5]
+			d['y_lims'] = [invert_binwidth*1e-5, invert_binwidth*1e5]
 			d['legend'] = None
 			#ratio
 			d.update({

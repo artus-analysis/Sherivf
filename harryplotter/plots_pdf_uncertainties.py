@@ -114,7 +114,7 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='her
 				'x_lims': [1e-4, 0.9],
 				'title': ("Only experimental uncertainties" if only_exp else ""),
 				# output
-				'filename': '_'.join([flavour, scenario, ("exp" if only_exp else "expmodelpar")]),
+				'filename': '_'.join([flavour, ("exp" if only_exp else "expmodelpar")]),
 			}
 			if False:  # add line with diff of uncertainties
 				d['analysis_modules'] += ['UncDiff']
