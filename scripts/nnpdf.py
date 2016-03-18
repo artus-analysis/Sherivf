@@ -28,7 +28,6 @@ class NNPDF(object):
 		steering_dict = {'@PDFSET@': pdfset,'@NREPLICAS@': str(n_replicas), '@RUNNINGMODE@': 'LHAPDF Analysis'}
 		
 		# create dir and copy necessary files
-		os.makedirs(self.args.output_dir + "/output/"+newset)
 		os.makedirs(self.args.output_dir + "/input_steering")
 		copy_herafitter_steering.copy_herafile('nnpdf', self.args.value, False, self.args.output_dir, keys=steering_dict)
 		for hfile in self.hfiles:

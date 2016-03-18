@@ -19,7 +19,7 @@
   TheoryInfoFile = '/portal/ekpcms6/home/dhaitz/qcd/sherivf/results/MCgrid_CMS_2015_Zee_zjet/@THEORYFILE@.tab'
    TheoryType     = 'FastNLO'
 
-   Percent        = True*7
+   Percent        = True*5
 &End
 &PlotDesc
    PlotN = 1
