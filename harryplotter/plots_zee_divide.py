@@ -15,6 +15,7 @@ def divided_ptspectrum(args=None):
 	plots = []
 
 	cut_bins = 0  # n outer bins to be cut away
+	pdfset = 'CT14nlo'
 
 	nbins = len(common.ybin_plotlabels[:(-cut_bins if cut_bins>0 else 99)])
 
@@ -26,12 +27,8 @@ def divided_ptspectrum(args=None):
 			filenames.append('{}/{}_{}_{}_{}.root'.format(common.divided_path, quantity, common.default_mc, ybin, common.iterations_to_use))
 			x_expressions.append('nick0')
 			nicks.append(str(index))
-		if quantity == 'zpt':
-			for index, ybin in enumerate(common.ybin_labels[:(-cut_bins if cut_bins>0 else 99)]):
-				filenames.append(common.sherivf_output_dir + "/Rivet.root")
-				x_expressions.append("y{}_{}".format(index, quantity))
-				nicks.append('mc'+str(index))
-		ntotal = len(filenames)
+
+		ntotal = 2*len(filenames)
 		nmc = ntotal - nbins
 		colors = ['black', 'red', 'blue', 'green', 'purple', 'orange', 'cyan'][:nbins]*(ntotal/nbins)
 		factors = [10**x for x in range(nbins)][::-1]
@@ -70,9 +67,22 @@ def divided_ptspectrum(args=None):
 			d['x_ticks'] = common.zpt_ticks
 			d['y_lims'] = [invert_binwidth*1e-5, invert_binwidth*1e5]
 			d['legend'] = None
-			#ratio
+			fastnlo_files = []
+			fastnlo_nicks = []
+			for index, ybin in enumerate(common.ybin_labels[:(-cut_bins if cut_bins>0 else 99)]):
+				fastnlo_files.append(common.sherpa_results+"/y{0}_{1}.tab".format(index, quantity))
+				fastnlo_nicks.append('mc'+str(index))
+			nicks = nicks + fastnlo_nicks
 			d.update({
-				'analysis_modules': ['ScaleErrors', 'Ratio'],
+				'input_modules': ['InputRootZJet', 'InputFastNLO'],
+				'pdf_sets': [pdfset],
+				'members': [0],
+				'fastnlo_files': fastnlo_files,
+				'fastnlo_nicks': fastnlo_nicks,
+				#analysis
+				'analysis_modules': ['ScaleErrors', 'ScaleHistograms', 'Ratio'],
+				'scale_nicks': fastnlo_nicks,
+				'scales': [invert_binwidth * f for f in factors],
 				'scale_error_nicks': nicks[nbins:],
 				'scale_error_factors': [0],
 				'ratio_numerator_nicks': [n for n in nicks if 'mc' not in n],
