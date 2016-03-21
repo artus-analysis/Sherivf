@@ -85,6 +85,8 @@ def zee_bkgrs(args=None):
 								d['x_label'] = 'eemass'
 							if normalized:
 								d['y_lims'] = [0, 1]
+								d['y_label'] = 'Relative contribution to total background'
+								d['legend'] = 'upper center'
 							plots.append(d)
 
 	return [PlottingJob(plots, args)]

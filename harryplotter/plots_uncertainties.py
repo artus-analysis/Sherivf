@@ -106,7 +106,7 @@ def plot_uncertainties(args=None):
 				'stat_error_relative_percent': True,
 				'square_add_nicks': ['nick0'] + types,
 				# formatting
-				'texts': [ybinplotlabel],
+				'title': ybinplotlabel,
 				'y_label': 'Relative Uncertainty / %',
 				'x_label': quantity,
 				'labels': labels,
@@ -126,6 +126,8 @@ def plot_uncertainties(args=None):
 			elif quantity == 'abszy':
 				d['legend'] = 'upper left'
 				d['y_lims'] = [0, 5]
+			if ybin != '':
+				d['y_lims'] = [0, 15]
 			plots.append(d)
 	return [PlottingJob(plots, args)]
 
