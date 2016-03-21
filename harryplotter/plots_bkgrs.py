@@ -49,37 +49,43 @@ def zee_bkgrs(args=None):
 				], known_args.no_mcs)):
 					# different quantities
 					for quantity in parsertools.get_list_slice(common.data_quantities + ['njets30'], known_args.no_quantities):
-						d = {
-							# input
-							'x_expressions': common.root_quantity(quantity),
-							'x_bins': [common.bins[quantity]],
-							'files': ([path+'/work/data_ee.root', path+mc] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds])[(0 if signal else 2):],
-							"nicks": (['data','mc']+backgrounds_merged)[(0 if signal else 2):],
-							'folders': (['zcuts_{}Res/ntuple'.format(common.algocorr)] + ['zcuts_{}/ntuple'.format(common.algocorr)]*n_mcs)[(0 if signal else 2):],
-							'weights': (["(({}) && ({}))".format(ybin, njetweight)] + ["(hlt && ({}) && ({}))".format(ybin, njetweight)]*n_mcs)[(0 if signal else 2):],
-							'scale_factors': [1. if signal else common.lumi],
-							# formatting
-							'legend': 'upper right',
-							"labels": (["Data", r"DY$\\rightarrow ee$"]+[common.bkgr_labels[item] for item in backgrounds_merged_short])[(0 if signal else 2):],
-							"markers": (['o'] + ['fill']*n_mcs_merged_short)[(0 if signal else 2):],
-							'stacks': (['data'] + ['mc']*n_mcs_merged_short)[(0 if signal else 2):],
-							"bar_colors": [colors.histo_colors[color] for color in [common.bkgr_colors[item] for item in ['mc']+backgrounds_merged_short]][(0 if signal else 1):],
-							'y_log': (True if quantity == "zpt" else False),
-							'texts': [ybinlabel, njetlabel],
-							'texts_x':[0.03],
-							'texts_y': [0.97, 0.87],
-							# output
-							'filename': quantity + "_" + mc_label+ybinsuffix+njetsuffix + ("" if signal else "_only_bkgrs"),
-							'www_text': "Backgrounds as a function of different quantities, with and without signal samples",
-							'www_title': "Background Contributions",
-						}
-						if quantity == 'zpt':
-							d['x_log'] = common.zpt_xlog
-							if common.zpt_xlog:
-								d['x_ticks'] = common.zpt_ticks
-						if quantity == 'zmass' and not signal:
-							d['x_label'] = 'eemass'
-						plots.append(d)
+						for normalized in [True, False]:
+							if normalized and signal:
+								continue
+							d = {
+								# input
+								'x_expressions': common.root_quantity(quantity),
+								'x_bins': [common.bins[quantity]],
+								'files': ([path+'/work/data_ee.root', path+mc] + [path+'/work/background_ee_{}.root'.format(item) for item in backgrounds])[(0 if signal else 2):],
+								"nicks": (['data','mc']+backgrounds_merged)[(0 if signal else 2):],
+								'folders': (['zcuts_{}Res/ntuple'.format(common.algocorr)] + ['zcuts_{}/ntuple'.format(common.algocorr)]*n_mcs)[(0 if signal else 2):],
+								'weights': (["(({}) && ({}))".format(ybin, njetweight)] + ["(hlt && ({}) && ({}))".format(ybin, njetweight)]*n_mcs)[(0 if signal else 2):],
+								'scale_factors': [1. if signal else common.lumi],
+								# formatting
+								"analysis_modules": (['NormalizeSumOfBinsToUnity'] if normalized else []),
+								'legend': 'upper right',
+								"labels": (["Data", r"DY$\\rightarrow ee$"]+[common.bkgr_labels[item] for item in backgrounds_merged_short])[(0 if signal else 2):],
+								"markers": (['o'] + ['fill']*n_mcs_merged_short)[(0 if signal else 2):],
+								'stacks': (['data'] + ['mc']*n_mcs_merged_short)[(0 if signal else 2):],
+								"bar_colors": [colors.histo_colors[color] for color in [common.bkgr_colors[item] for item in ['mc']+backgrounds_merged_short]][(0 if signal else 1):],
+								'y_log': (True if (quantity == "zpt" and not normalized) else False),
+								'texts': [ybinlabel, njetlabel],
+								'texts_x':[0.03],
+								'texts_y': [0.97, 0.87],
+								# output
+								'filename': quantity + "_" + mc_label+ybinsuffix+njetsuffix + ("" if signal else "_only_bkgrs") + ("_norm" if normalized else ""),
+								'www_text': "Backgrounds as a function of different quantities, with and without signal samples",
+								'www_title': "Background Contributions",
+							}
+							if quantity == 'zpt':
+								d['x_log'] = common.zpt_xlog
+								if common.zpt_xlog:
+									d['x_ticks'] = common.zpt_ticks
+							if quantity == 'zmass' and not signal:
+								d['x_label'] = 'eemass'
+							if normalized:
+								d['y_lims'] = [0, 1]
+							plots.append(d)
 
 	return [PlottingJob(plots, args)]
 
