@@ -24,10 +24,10 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	plots = []
 	titles = {
 		'hera2': common.hera_title,
-		'hera2_abszy': common.hera_cms_title + r" |$y$|",
-		'hera2_zy': common.hera_cms_title + r" $y$",
-		'hera2_zpt': common.hera_cms_title + r" $p_\\mathrm{T}$",
-		'hera2_zpt_bins': common.hera_cms_title + r" ($p_\\mathrm{T}$ in bins of |y|)",
+		'hera2_abszy': common.hera_cms_title,
+		'hera2_zy': common.hera_cms_title,
+		'hera2_zpt': common.hera_cms_title,
+		'hera2_zpt_bins': common.hera_cms_title,
 	}
 	title = titles.get(pdf_scenario, "")
 	text = r"$\\mathit{{Q}}^2 = {} \\/ GeV{}$".format(".".join(common.pdfq.split("_")[:2]), ("^2" if "squared" in common.pdfq else ""))
