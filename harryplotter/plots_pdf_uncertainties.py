@@ -68,6 +68,11 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 			d['y_lims'] = y_lims[flavour]
 		if 'valence' in flavour:
 			d['legend'] = 'center left'
+		elif flavour in ['d_quark', 'u_quark']:
+			d['legend'] = 'lower left'
+			d['y_lims'] = [0, 0.9]
+		elif 'sea' in flavour:
+			d['y_lims'] = [0, 3.5]
 		if additional_dictionary is not None:
 			d.update(additional_dictionary)
 		plots.append(d)
