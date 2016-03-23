@@ -179,7 +179,7 @@ def electron_corr(args=None, additional_dictionary=None):
 		"y_expressions": ["zmass"],
 		# Formatting
 		"labels": ["corrected", "raw"],
-		"y_lims": [90.4, 93.0],
+		"y_lims": [90.7, 93.2],
 		"markers": ['o', '.'],
 		"line_styles": ["-"],
 		"lines": [91.19],
@@ -284,7 +284,7 @@ def electron_efficiencies_2d(args=None, additional_dictionary=None):
 					'x_log': True,
 					'x_label': 'ept',
 					'y_label': 'eabseta',
-					'z_label': label + " Efficiency",
+					'z_label': label.replace('ID', 'Identification') + " Efficiency",
 					'x_ticks': [25, 40, 60, 100, 200],
 					'z_lims': [0.6, 1],
 					# output
@@ -314,11 +314,11 @@ def electron_efficiencies_1d(args=None, additional_dictionary=None):
 					# formatting
 					'x_log': True,
 					'x_label': 'ept',
-					'y_label': label + " Efficiency",
+					'y_label': label.replace('ID', 'Identification') + " Efficiency",
 					'y_lims': [0, 1.1],
 					'lines': [1.0],
 					'labels': etalabels,
-					'markers': ['.'],
+					#'markers': ['.'],
 					'y_errors': [True],
 					'line_styles': ['-'],
 					'step': True,

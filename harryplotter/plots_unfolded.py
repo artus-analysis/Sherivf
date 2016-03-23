@@ -58,35 +58,38 @@ def different_iterations(args=None):
 def response_matrix(args=None):
 	""" plot response matrix"""
 	plots = []
-	ybin = 'inclusive'
 	for quantity in common.data_quantities:
-		lims = common.lims(quantity)
-		d = {
-			# input
-			'files': [common.unfold_path + '/' + '_'.join([quantity, common.default_mc, ybin, '1']) + '.root'],
-			'folders': [''],
-			'x_expressions': ['responsematrix'],
-			'analysis_modules': ['NormalizeRowsToUnity'],
-			# formatting
-			'y_label': 'gen' + quantity,
-			'x_label': 'reco' + quantity,
-			'z_log': True,
-			'z_lims':[1e-3, 1],
-			'z_label': 'Response',
-			'rasterized': True,
-			# output
-			'filename': 'responsematrix_' + quantity,
-			'www_title': 'Response Matrices',
-			'www_text': r"Unfolding response matrices from Unfolding for Z y,mass,pT with log and scalar z-axis",
-		}
-		if quantity == 'zpt' and common.zpt_xlog:
-			d['y_log'] = True
-			d['x_log'] = True
-			d['x_ticks'] = common.zpt_ticks
-			d['y_ticks'] = common.zpt_ticks
-			d['x_bins'] = common.bins[quantity]
-			d['y_bins'] = common.bins[quantity]
-		plots.append(d)
+		for ybin, ybinplotlabel in zip(["inclusive"] + common.ybin_labels, [""] + common.ybin_plotlabels):
+			if (quantity is not 'zpt') and (ybin is not "inclusive"):
+				continue
+			lims = common.lims(quantity)
+			d = {
+				# input
+				'files': [common.unfold_path + '/' + '_'.join([quantity, common.default_mc, ybin, '1']) + '.root'],
+				'folders': [''],
+				'x_expressions': ['responsematrix'],
+				'analysis_modules': ['NormalizeRowsToUnity'],
+				# formatting
+				'y_label': 'gen' + quantity,
+				'x_label': 'reco' + quantity,
+				'z_log': True,
+				'z_lims':[1e-3, 1],
+				'z_label': 'Response',
+				'rasterized': True,
+				'texts': [ybinplotlabel],
+				# output
+				'filename': 'responsematrix_' + quantity + ("" if ybin=='inclusive' else "_"+ybin),
+				'www_title': 'Response Matrices',
+				'www_text': "",
+			}
+			if quantity == 'zpt' and common.zpt_xlog:
+				d['y_log'] = True
+				d['x_log'] = True
+				d['x_ticks'] = common.zpt_ticks
+				d['y_ticks'] = common.zpt_ticks
+				d['x_bins'] = common.bins[quantity]
+				d['y_bins'] = common.bins[quantity]
+			plots.append(d)
 	return [PlottingJob(plots, args)]
 
 
@@ -101,43 +104,47 @@ def unfolding_comparison(args=None):
 
 	for iterations in range(1, 5):
 		for quantity in common.data_quantities:
-			filename = common.unfold_path + '/' + '_'.join([quantity, common.default_mc, ybin, str(iterations)]) + '.root'
-			if (common.default_unfolding_method != 'dagostini') and (iterations > 1):
-				continue
-			d = {
-				# input
-				'files': [filename],
-				'folders': [''],
-				'x_expressions': expressions,
-				'nicks': expressions,
-				# formatting
-				'labels': labels,
-				'lumis': [19.71],
-				'energies': [8],
-				'markers': ['o', '-'],
-				'line_styles': [None, '-'],
-				'step': True,
-				'legend': 'upper right',
-				'x_lims': common.lims(quantity),
-				'y_subplot_lims': [0.95, 1.05],
-				'x_bins': common.bins[quantity],
-				'x_label': quantity,
-				# output
-				'filename': "_".join(['unfolded', quantity, str(iterations)]),
-				'www_title': 'Unfolding',
-				'www_text': 'Comparison of Data and MC at reco-, gen- and unfolded-level for different unfolding iterations',
-			}
-			if quantity == 'zpt':
-				d['y_log'] = True
-				d['x_log'] = common.zpt_xlog
-				d['y_lims'] = [1, 1e7]
-				d['x_ticks'] = common.zpt_ticks
-			# ratio to MC gen
-			d.update({
-				'analysis_modules': ['Ratio'],
-				'y_subplot_label': 'Unfolded/Reco',
-			})
-			plots.append(d)
+			for ybin, ybinplotlabel in zip(["inclusive"] + common.ybin_labels, [""] + common.ybin_plotlabels):
+				if (quantity is not 'zpt') and (ybin is not "inclusive"):
+					continue
+				filename = common.unfold_path + '/' + '_'.join([quantity, common.default_mc, ybin, str(iterations)]) + '.root'
+				if (common.default_unfolding_method != 'dagostini') and (iterations > 1):
+					continue
+				d = {
+					# input
+					'files': [filename],
+					'folders': [''],
+					'x_expressions': expressions,
+					'nicks': expressions,
+					# formatting
+					'labels': labels,
+					'lumis': [common.lumi],
+					'energies': [8],
+					'markers': ['o', '-'],
+					'line_styles': [None, '-'],
+					'step': True,
+					'legend': 'upper right',
+					'x_lims': common.lims(quantity),
+					'y_subplot_lims': [0.95, 1.05],
+					'x_bins': common.bins[quantity],
+					'x_label': quantity,
+					'texts': [ybinplotlabel],
+					# output
+					'filename': "_".join(['unfolded', quantity, str(iterations)])+("" if ybin=='inclusive' else "_"+ybin),
+					'www_title': 'Unfolding',
+					'www_text': 'Comparison of Data and MC at reco-, gen- and unfolded-level for different unfolding iterations',
+				}
+				if quantity == 'zpt':
+					d['y_log'] = True
+					d['x_log'] = common.zpt_xlog
+					d['y_lims'] = [1, 1e7]
+					d['x_ticks'] = common.zpt_ticks
+				# ratio to MC gen
+				d.update({
+					'analysis_modules': ['Ratio'],
+					'y_subplot_label': 'Unfolded/Reco',
+				})
+				plots.append(d)
 	return [PlottingJob(plots, args)]
 
 
@@ -145,57 +152,62 @@ def unfolded_mc_comparison(args=None):
 	""" compare the result of the unfolding procedure for diff MCs or diff algos """
 	plots = []
 	for quantity in ['zpt', 'abszy']:
-		# MC comparison
-		iterations = 1
-		dic1 = {
-			'files': ['2_unfolded/{0}_{1}_inclusive_{2}.root'.format(quantity, mc, iterations) for mc in common.mcs],
-			'filename': 'unfolding_samples_'+quantity,
-			'analysis_modules': ['Ratio'],
-			'y_subplot_label': 'Ratio {}/{}'.format(common.mcs[0].capitalize(), common.mcs[1].capitalize()),
-			'labels': ['Response matrix from {} sample'.format(mc) for mc in  [s.capitalize() for s in common.mcs]],
-			'markers': ['o', '-'],
-			'line_styles': [None, '-'],
-			'step': True,
-		}
-		# method comparison
-		methods = [''] + ['_'+m for m in common.other_methods]
-		# ['', '_dagostini', '_binbybin']
+		for ybin, ybinplotlabel in zip(["inclusive"] + common.ybin_labels, [""] + common.ybin_plotlabels):
+			if (quantity is not 'zpt') and (ybin is not "inclusive"):
+				continue
+
+			# MC comparison
+			iterations = 1
+			dic1 = {
+				'files': ['2_unfolded/{0}_{1}_{3}_{2}.root'.format(quantity, mc, iterations, ybin) for mc in common.mcs],
+				'filename': 'unfolding_samples_'+quantity+("" if ybin=='inclusive' else "_"+ybin),
+				'analysis_modules': ['Ratio'],
+				'y_subplot_label': '{}/{}'.format(common.mcs[0].capitalize(), common.mcs[1].capitalize()),
+				'labels': ['Response matrix from {} sample'.format(mc) for mc in  [s.capitalize() for s in common.mcs]],
+				'markers': ['o', '-'],
+				'line_styles': [None, '-'],
+				'step': True,
+			}
+			# method comparison
+			methods = [''] + ['_'+m for m in common.other_methods]
+			# ['', '_dagostini', '_binbybin']
 		
-		iterations = [1, 4, 1]
-		dic2 = {
-			'files': ['2_unfolded/{0}_{3}_inclusive_{2}{1}.root'.format(quantity, method, iteration, common.default_mc) for method, iteration in zip(methods, iterations)],
-			'nicks': ['inv', 'dago', 'bbb'],
-			'analysis_modules': ['Ratio'],
-			'ratio_numerator_nicks': ['dago', 'bbb'],
-			'ratio_denominator_nicks': ['inv'],
-			# formatting
-			'y_rel_lims': [0, 1.4],
-			'y_subplot_label': 'Ratio to matrix inv.',
-			'labels': ['Matrix inversion',r"Iterative d$\\prime$Agostini ({0} iterations)".format(iterations[1]), 'Bin-by-bin'] + ['dago/inv', 'bbb/inv'],
-			'filename': 'unfolding_methods_'+quantity,
-			'step': True,
-			'colors': [colors.histo_colors['blue'], 'black', 'red', 'black', 'red'],
-			'markers': ['fill', 'o',  '-',  '-', '-'],
-			'line_styles': [None, None, '-', '-', '-'],
-			'zorder': [10,30,20],
-		}
-		for dic in [dic1, dic2]:
-			dic.update({
-				'lumis': [19.71],
-				'energies': [8],
-				'x_lims': common.lims(quantity),
-				'x_bins': common.bins[quantity],
-				'x_expressions': 'data_unfolded',
-				'folders': [''],
-				'x_label': quantity,
-				'y_subplot_lims': [0.95, 1.05],
-			})
-			if quantity == 'zpt':
-				dic['y_log'] = True
-				dic['x_log'] = common.zpt_xlog
-				dic['x_ticks'] = common.zpt_ticks
-				dic['y_lims'] = [1, 10e7]
-			plots.append(dic)
+			iterations = [1, 4, 1]
+			dic2 = {
+				'files': ['2_unfolded/{0}_{3}_{4}_{2}{1}.root'.format(quantity, method, iteration, common.default_mc, ybin) for method, iteration in zip(methods, iterations)],
+				'nicks': ['inv', 'dago', 'bbb'],
+				'analysis_modules': ['Ratio'],
+				'ratio_numerator_nicks': ['dago', 'bbb'],
+				'ratio_denominator_nicks': ['inv'],
+				# formatting
+				'y_rel_lims': [0, 1.4],
+				'y_subplot_label': 'Ratio to matrix inv.',
+				'labels': ['Matrix inversion',r"Iterative d$\\prime$Agostini ({0} iterations)".format(iterations[1]), 'Bin-by-bin'] + ['dago/inv', 'bbb/inv'],
+				'filename': 'unfolding_methods_'+quantity+("" if ybin=='inclusive' else "_"+ybin),
+				'step': True,
+				'colors': [colors.histo_colors['blue'], 'black', 'red', 'black', 'red'],
+				'markers': ['fill', 'o',  '-',  '-', '-'],
+				'line_styles': [None, None, '-', '-', '-'],
+				'zorder': [10,30,20],
+			}
+			for dic in [dic1, dic2]:
+				dic.update({
+					'lumis': [19.71],
+					'energies': [8],
+					'x_lims': common.lims(quantity),
+					'x_bins': common.bins[quantity],
+					'x_expressions': 'data_unfolded',
+					'folders': [''],
+					'x_label': quantity,
+					'y_subplot_lims': [0.95, 1.05],
+					'title': ybinplotlabel,
+				})
+				if quantity == 'zpt':
+					dic['y_log'] = True
+					dic['x_log'] = common.zpt_xlog
+					dic['x_ticks'] = common.zpt_ticks
+					dic['y_lims'] = [1, 10e7]
+				plots.append(dic)
 	return [PlottingJob(plots, args)]
 
 
@@ -212,7 +224,6 @@ def correlation_matrix(args=None):
 			'x_expressions': ['data_unfolded_corr'],
 			'x_bins': common.bins[quantity],
 			'y_bins': common.bins[quantity],
-			#'analysis_modules': ['NormalizeColumnsToUnity'],
 			# formatting
 			'x_label': quantity,
 			'y_label': quantity,

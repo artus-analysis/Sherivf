@@ -140,6 +140,8 @@ def signal_background_ratio(args=None):
 						d['x_log'] = common.zpt_xlog
 						if common.zpt_xlog:
 							d['x_ticks'] = common.zpt_ticks
+					elif quantity == 'zmass':
+						d['x_label'] = 'eemass'
 	return [PlottingJob(plots, args)]
 
 
