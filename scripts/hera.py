@@ -12,7 +12,7 @@ import copy_herafitter_steering
 
 class Hera(object):
 	def __init__(self):
-		self.default_mode = 'hera2'
+		self.mode = 'hera2'
 		self.default_value = None
 		self.default_config = "herafitter.conf"
 		self.default_storage_path = '/storage/a/dhaitz/hera/'
@@ -29,7 +29,7 @@ class Hera(object):
 		tools.run_gc(self.args.output_dir + "/" + self.args.config, self.args.output_dir)
 		self.gctime = time.time() - self.gctime
 
-		tools.create_result_linkdir(self.args.output_dir+"/output/", self.args.mode + ('_' + self.args.value if self.args.value else ''))
+		tools.create_result_linkdir(self.args.output_dir+"/output/", self.mode + ('_' + self.args.value if self.args.value else ''))
 
 
 	def copy_gc_files(self):
@@ -37,7 +37,7 @@ class Hera(object):
 			tools.copyfile(gcfile, self.args.output_dir+'/'+os.path.basename(gcfile),{
 				'@OUTDIR@': self.args.output_dir+'/output',
 			})
-		copy_herafitter_steering.copy_herafile(self.args.mode, self.args.value, True, self.args.output_dir)
+		copy_herafitter_steering.copy_herafile(self.mode, self.args.value, True, self.args.output_dir)
 
 
 	def create_output_dir(self):
@@ -50,7 +50,6 @@ class Hera(object):
 		parser = argparse.ArgumentParser(
 			description="%(prog)s is the main analysis program.", epilog="Have fun.")
 
-		parser.add_argument('-m', '--mode', type=str, default=self.default_mode, help="mode", choices=copy_herafitter_steering.modes.keys())
 		parser.add_argument('-v', '--value', type=str, default=self.default_value, help="Value", choices=copy_herafitter_steering.values.keys())
 		parser.add_argument('-c', '--config', type=str, default=self.default_config,
 			help="default:" + self.default_config)
@@ -58,7 +57,7 @@ class Hera(object):
 		
 		self.args = parser.parse_args()
 		if self.args.output_dir is None:
-			self.args.output_dir = (self.args.mode + ('_' + self.args.value if self.args.value else '') + "_" + time.strftime("%Y-%m-%d_%H-%M"))
+			self.args.output_dir = (self.mode + ('_' + self.args.value if self.args.value else '') + "_" + time.strftime("%Y-%m-%d_%H-%M"))
 		self.args.output_dir = self.default_storage_path + "/" + self.args.output_dir
 
 if __name__ == "__main__":
