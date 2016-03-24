@@ -117,7 +117,7 @@ def plot_uncertainties(args=None):
 				'legend_order': [4,2,3,5,1,0],
 			}
 			if quantity == 'zpt':
-				d['y_lims'] = [0, 6]
+				d['y_lims'] = [0, 5]
 				#d['x_lims'] = common.lims[quantity]
 				d['x_log'] = common.zpt_xlog
 				if common.zpt_xlog:
@@ -125,7 +125,7 @@ def plot_uncertainties(args=None):
 				d['legend'] = 'upper left'
 			elif quantity == 'abszy':
 				d['legend'] = 'upper left'
-				d['y_lims'] = [0, 6]
+				d['y_lims'] = [0, 5]
 			if ybin != '':
 				d['y_lims'] = [0, 15]
 			plots.append(d)

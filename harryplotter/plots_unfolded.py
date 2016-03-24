@@ -155,7 +155,6 @@ def unfolded_mc_comparison(args=None):
 		for ybin, ybinplotlabel in zip(["inclusive"] + common.ybin_labels, [""] + common.ybin_plotlabels):
 			if (quantity is not 'zpt') and (ybin is not "inclusive"):
 				continue
-
 			# MC comparison
 			iterations = 1
 			dic1 = {
@@ -214,33 +213,36 @@ def unfolded_mc_comparison(args=None):
 def correlation_matrix(args=None):
 	""" plot correlation matrix"""
 	plots = []
-	ybin = 'inclusive'
 	for quantity in common.data_quantities:
-		lims = common.lims(quantity)
-		d = {
-			# input
-			'files': [common.unfold_path + '/' + '_'.join([quantity, common.default_mc, ybin, '1']) + '.root'],
-			'folders': [''],
-			'x_expressions': ['data_unfolded_corr'],
-			'x_bins': common.bins[quantity],
-			'y_bins': common.bins[quantity],
-			# formatting
-			'x_label': quantity,
-			'y_label': quantity,
-			'z_lims':[-1, 1],
-			'z_label': 'Correlation Coefficient',
-			'colormap': 'bwr',
-			'rasterized': True,
-			# output
-			'filename': 'correlationmatrix_' + quantity,
-			'www_title': 'Correlation Matrices',
-		}
-		if quantity == 'zpt' and common.zpt_xlog:
-			d['y_log'] = True
-			d['x_log'] = True
-			d['x_ticks'] = common.zpt_ticks
-			d['y_ticks'] = common.zpt_ticks
-			d['x_bins'] = common.bins[quantity]
-			d['y_bins'] = common.bins[quantity]
-		plots.append(d)
-	return [PlottingJob(plots, args)]
+		for ybin, ybinplotlabel in zip(["inclusive"] + common.ybin_labels, [""] + common.ybin_plotlabels):
+			if (quantity is not 'zpt') and (ybin is not "inclusive"):
+				continue
+			lims = common.lims(quantity)
+			d = {
+				# input
+				'files': [common.unfold_path + '/' + '_'.join([quantity, common.default_mc, ybin, '1']) + '.root'],
+				'folders': [''],
+				'x_expressions': ['data_unfolded_corr'],
+				'x_bins': common.bins[quantity],
+				'y_bins': common.bins[quantity],
+				# formatting
+				'x_label': quantity,
+				'y_label': quantity,
+				'z_lims':[-1, 1],
+				'z_label': 'Correlation Coefficient',
+				'colormap': 'bwr',
+				'rasterized': True,
+				'title': ybinplotlabel,
+				# output
+				'filename': 'correlationmatrix_' + quantity+("" if ybin=='inclusive' else "_"+ybin),
+				'www_title': 'Correlation Matrices',
+			}
+			if quantity == 'zpt' and common.zpt_xlog:
+				d['y_log'] = True
+				d['x_log'] = True
+				d['x_ticks'] = common.zpt_ticks
+				d['y_ticks'] = common.zpt_ticks
+				d['x_bins'] = common.bins[quantity]
+				d['y_bins'] = common.bins[quantity]
+			plots.append(d)
+		return [PlottingJob(plots, args)]

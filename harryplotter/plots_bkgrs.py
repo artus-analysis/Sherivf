@@ -68,7 +68,7 @@ def zee_bkgrs(args=None):
 								"markers": (['o'] + ['fill']*n_mcs_merged_short)[(0 if signal else 2):],
 								'stacks': (['data'] + ['mc']*n_mcs_merged_short)[(0 if signal else 2):],
 								"bar_colors": [colors.histo_colors[color] for color in [common.bkgr_colors[item] for item in ['mc']+backgrounds_merged_short]][(0 if signal else 1):],
-								'y_log': (True if (quantity == "zpt" and not normalized) else False),
+								'y_log': (True if (quantity == "zdt" and not normalized and not signal) else False),
 								'texts': [ybinlabel, njetlabel],
 								'texts_x':[0.03],
 								'texts_y': [0.97, 0.87],
@@ -81,12 +81,11 @@ def zee_bkgrs(args=None):
 								d['x_log'] = common.zpt_xlog
 								if common.zpt_xlog:
 									d['x_ticks'] = common.zpt_ticks
-							if quantity == 'zmass' and not signal:
-								d['x_label'] = 'eemass'
+							d['x_label'] = quantity.replace('z', 'ee')
 							if normalized:
 								d['y_lims'] = [0, 1]
 								d['y_label'] = 'Relative contribution to total background'
-								d['legend'] = 'upper center'
+								d['legend'] = 'None'
 							plots.append(d)
 
 	return [PlottingJob(plots, args)]
