@@ -92,7 +92,7 @@ def divided_ptspectrum(args=None):
 			})
 		if True:
 			d['plot_modules'] = ['PlotMplZJet', 'PlotMplLegendTable']
-			d["legend_table_column_headers"] = ['Data', 'Sim.']
+			d["legend_table_column_headers"] = ['Data', common.pdfsetdict[pdfset].replace(' NLO', '')]
 			d["legend_table_row_headers"] = labels[:nmc]
 			d["legend_table_filename"] = quantity + '_legend'
 			d['legend_table_phantomtext'] = r"$1^5$"

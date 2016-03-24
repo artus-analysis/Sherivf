@@ -188,6 +188,7 @@ lumi_uncertainty = 0.026
 
 # PDF
 pdfq = "1_9_squared"
+pdfqs = ["1_9_squared", "91_2", "10_0_squared"]
 pdf_unc_flavours = [pdf_2_root.partondict[f].replace(' ', '_') for f in pdf_2_root.default_flavours]
 results_dir = os.environ['SHERIVFDIR']+"/results/"
 
