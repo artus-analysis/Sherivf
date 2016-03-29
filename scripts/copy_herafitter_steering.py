@@ -58,10 +58,7 @@ def copy_herafile(mode, value, batch, targetdir, fast=False, keys={}):
 		'@HF_SCHEME@': 'RT OPT'+(' FAST' if fast else ''),
 		'@PDFStyle@': 'HERAPDF',
 		'@DOBANDS@': 'True',
-		'@ALPHAS@': '0.118',
-		'@ALPHAS_S@': '0.0',
 		'@FS@': '0.40',
-		'@FC@': '0.',
 		'@RUNNINGMODE@': 'Fit',
 		'@PDFSET@': 'CT10nlo',
 		# parameters

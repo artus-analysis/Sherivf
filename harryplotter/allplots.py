@@ -86,7 +86,7 @@ def allplots(args=None):
 		plots_unfolded.correlation_matrix,
 		plots_pdf_reweighted.weights,
 		plots_pdf_reweighted.alphas,
-		plots_pdf_uncertainties.plot_pdf_unc_comparison_all,# 50
+		plots_pdf_uncertainties.plot_pdf_unc_comparison_all,  # 50
 	][plot_min:plot_max]
 	
 	wwwdirs = [

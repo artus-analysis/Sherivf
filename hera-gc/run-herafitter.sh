@@ -34,22 +34,13 @@ grep ErrorType hf_pdf/hf_pdf.info -n
 sed -i 's/replicas/hessian/g' hf_pdf/hf_pdf.info
 echo -e "\n\n"
 
-if [ @DOBANDS@ == 'False' ]; then
-	echo -e "\n no errors on pdfs \n"
-	ERRORS="-m 1"
-else
-	ERRORS=""
-fi
-
 for q in 1.9 10.0 91.2; do
 	for squared in "" "--q2"; do
-		pdf_2_root.py -p hf_pdf -q ${q} ${squared} $ERRORS
+		pdf_2_root.py -p hf_pdf -q ${q} ${squared}
 	done
 done
-mv *.root ..
-mv fittedresults.txt Results.txt ..
+mv *.root fittedresults.txt Results.txt ..
 cd ..
-
 
 
 
