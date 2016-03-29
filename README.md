@@ -22,7 +22,8 @@ fastNLO output: fnlo_yZ.tab
 * convert to root: `evaluate_fnlotable.py -i fnlo.tab`
 * make all correlation root files (needed for correlation plots): `calculate_all_correlations`
 
-`hera.py`
+`sherivf.py`
+30000000 -> 10h job
 
 
 Evaluate PDF sets and save as root files:
@@ -45,4 +46,5 @@ make sure the Excalibur outputs are present
 * NNPDF reweighting with `nnpdf.py`
 * from the outputs, create PDF root file with `make_pdfuncs`
 * delete PDF root files with `clear_pdfuncs`
+
 
