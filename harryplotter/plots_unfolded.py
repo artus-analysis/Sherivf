@@ -98,7 +98,7 @@ def unfolding_comparison(args=None):
 	plots = []
 
 	ybin = 'inclusive'
-	labels = ['Data Unfolded', 'Data Reco']
+	labels = ['Data unfolded', 'Data Reco']
 	expressions = [label.lower().replace(" ", "_") for label in labels]
 	labels = [l.replace(' Reco', '') for l in labels]
 

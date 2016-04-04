@@ -136,7 +136,7 @@ unc_labelsdict = {
 	'_e': 'Electron ID/trigger efficiency',
 	'_bkgr': 'Background',
 	'_lumi': 'Luminosity',
-	'_pt': r'Electron \\mathit{p}$_\\mathrm{T}$ scale',
+	'_pt': r'Electron $\\mathit{p}_\\mathrm{T}$ scale',
 }
 
 

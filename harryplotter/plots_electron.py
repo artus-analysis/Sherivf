@@ -32,7 +32,7 @@ def z_hlt(args=None, additional_dictionary=None):
 			"z_expressions": ["hlt"],
 			"y_bins": [ptbins_str],
 			"x_bins": [ptbins_str],
-			"z_label": "HLT Efficiency",
+			"z_label": "HLT efficiency",
 			"weights": etabins[etabin],
 			
 			'z_lims': [0.9, 1],
@@ -78,7 +78,7 @@ def electron_id(args=None, additional_dictionary=None):
 		"tree_draw_options": ["prof"],
 		"x_bins": ["20,25,125"],
 
-		"y_label": "ID Efficiency",
+		"y_label": "ID efficiency",
 		"x_label": "e1pt",
 		"y_lims": [0, 1],
 		#"plot_modules": ['PlotMplZJet', 'PlotMplRectangle'],
@@ -105,7 +105,7 @@ def electron_id(args=None, additional_dictionary=None):
 		d = dict(d)
 		d["z_expressions"] = [ID]
 		d["filename"] = ID
-		d['z_label'] = label + " ID Efficiency"
+		d['z_label'] = label + " ID efficiency"
 		d['y_label'] = "e1pt"
 		if additional_dictionary is not None:
 			d.update(additional_dictionary)
@@ -231,7 +231,7 @@ def electron_trigger_sf(args=None, additional_dictionary=None):
 				"x_label": "ept",
 				"x_lims": [10.0, 50.0],
 				"y_label": "eabseta",
-				"z_label": "Trigger+ID Efficiency Scale Factors",
+				"z_label": "Trigger+ID efficiency scale factors",
 				"z_lims": [1, 2],
 				"title": ID + " ID in " + typ,
 				# output
@@ -257,7 +257,7 @@ def electron_scale_unc(args=None, additional_dictionary=None):
 		"scale_factors": [100],
 		"x_label": "ept",
 		"x_log": True,
-		"z_label": r"Electron $\\mathit{p}_T$ Scale Uncertainty / %",
+		"z_label": r"Electron $\\mathit{p}_T$ scale uncertainty / %",
 		"x_ticks": [5, 10, 20, 50, 100, 200],
 		# output
 		"filename": "electron_pt_scalefactors",
@@ -284,7 +284,7 @@ def electron_efficiencies_2d(args=None, additional_dictionary=None):
 					'x_log': True,
 					'x_label': 'ept',
 					'y_label': 'eabseta',
-					'z_label': label.replace('ID', 'Identification') + " Efficiency",
+					'z_label': label.replace('ID', 'Identification') + " efficiency",
 					'x_ticks': [25, 40, 60, 100, 200],
 					'z_lims': [0.6, 1],
 					# output
@@ -314,7 +314,7 @@ def electron_efficiencies_1d(args=None, additional_dictionary=None):
 					# formatting
 					'x_log': True,
 					'x_label': 'ept',
-					'y_label': label.replace('ID', 'Identification') + " Efficiency",
+					'y_label': label.replace('ID', 'Identification').replace('HLT', 'Trigger') + " efficiency",
 					'y_lims': [0, 1.1],
 					'lines': [1.0],
 					'labels': etalabels,

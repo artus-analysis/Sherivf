@@ -90,7 +90,7 @@ def plot_uncertainties(args=None):
 			for unc in common.uncertainties_with_lumi:
 				files += [common.systematic_path + "/" + quantity+'_{}_{}{}_1.root'.format(common.default_mc, ybinsuffix, unc)]
 			n_source = len(common.uncertainties_with_lumi)
-			labels = ['Statistical'] + [common.unc_labelsdict[unc] for unc in types] + ['TOTAL']
+			labels = ['Statistical'] + [common.unc_labelsdict[unc] for unc in types] + ['Total']
 			d = {
 				# input
 				'files': files,
@@ -107,7 +107,7 @@ def plot_uncertainties(args=None):
 				'square_add_nicks': ['nick0'] + types,
 				# formatting
 				'title': ybinplotlabel,
-				'y_label': 'Relative Uncertainty / %',
+				'y_label': 'Relative uncertainty / %',
 				'x_label': quantity,
 				'labels': labels,
 				'markers': ['o', 'd', '*', '.', 'D'],
@@ -132,12 +132,13 @@ def plot_uncertainties(args=None):
 	return [PlottingJob(plots, args)]
 
 
-def scale_uncertainties(args=None, additional_dictionary=None):
+def scale_pdf_uncertainties(args=None, additional_dictionary=None):
 	"""fastNLO prediction with scale uncertainty"""
 	plots = []
 
-	pdfset = 'CT10nlo'
-	style = 'kAsymmetricSixPoint'
+	pdfset = 'CT14nlo'
+	scalestyle = 'kAsymmetricSixPoint'
+	pdfstyle = 'kHessianAsymmetric'
 
 	for quantity in common.quantities:
 		for ybin, ybinsuffix, ybinplotlabel in zip(
@@ -153,39 +154,43 @@ def scale_uncertainties(args=None, additional_dictionary=None):
 				'input_modules': ['InputFastNLO'],
 				# input fastNLO
 				'pdf_sets': [pdfset],
-				'fastnlo_nicks': ['nick'],
+				'fastnlo_nicks': ['nick0', 'nick1'],
 				'members': [0],
 				'fastnlo_files': [common.sherivf_output_dir+"/{0}.tab".format(ybin+replaced_quantity)],
-				'uncertainty_style': style,
-				'uncertainty_type': 'Scale',
+				'uncertainty_styles': [scalestyle, pdfstyle],
+				'uncertainty_types': ['Scale', 'PDF'],
 				# analysis
 				'analysis_modules': ['RelUncertainty'],
-				'rel_nicks': ['nick'],
-				'subplot_nicks': ['nick_rel'],
+				'rel_nicks': ['nick0', 'nick1'],
+				'subplot_nicks': ['rel'],
 				'y_subplot_lims': [-0.5, 0.5],
 				# formatting
 				'y_label': common.xseclabels[quantity],
 				'line_styles': [None, '-', None],
 				'markers': ['fill'],
 				'energies': [8],
-				'colors': histo_colors['blue'],
+				'colors': [histo_colors['blue'], histo_colors['red']],
 				'step': True,
 				'alphas': [0.5],
-				'title': '6p Scale Uncertainty',
-				'y_subplot_label': 'Rel. Uncertainty',
+				'zorder': [30, 40],
+				'hatches': [None, '//'],
+				#'title': '6p Scale Uncertainty',
+				'x_lims': common.lims(quantity),
+				'y_subplot_label': 'Rel. uncertainty',
 				'x_label': quantity,
-				'texts': [ybinplotlabel],
+				'labels': ['Scale uncertainty', 'PDF uncertainty'],
+				'texts': ['\n'.join(['6p scale variation', common.pdfsetdict[pdfset], ybinplotlabel])],
 				# output
-				'filename': 'scale-unc_'+ybin+quantity,
-				'www_title': 'Evaluation of fastNLO table with scale uncertainties',
-				'www_text': '{} uncertainty and {} used'.format(style, pdfset),
+				'filename': 'scale-pdf-unc_'+ybin+quantity,
 			}
 			if quantity == 'zpt':
 				d['y_log'] = True
 				d['x_log'] = common.zpt_xlog
 				if common.zpt_xlog:
 					d['x_ticks'] = common.zpt_ticks
-				d['y_lims'] = [common.zpt_miny, 1e1]
+				d['y_lims'] = [common.zpt_miny, 5e1]
+			elif quantity == 'abszy':
+				d['y_lims'] = [0, 60]
 			plots.append(d)
 
 	return [PlottingJob(plots, args)]

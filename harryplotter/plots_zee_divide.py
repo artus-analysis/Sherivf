@@ -88,7 +88,7 @@ def divided_ptspectrum(args=None):
 				'ratio_numerator_nicks': [n for n in nicks if 'mc' not in n],
 				'ratio_denominator_nicks': [n for n in nicks if 'mc' in n],
 				'y_subplot_lims': [0.5, 1.5],
-				'y_subplot_label': 'Data/Sim. Ratio\n',
+				'y_subplot_label': 'Data/Sim. ratio\n',
 			})
 		if True:
 			d['plot_modules'] = ['PlotMplZJet', 'PlotMplLegendTable']

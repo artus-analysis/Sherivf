@@ -56,7 +56,7 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 			'line_styles': '-',
 			'x_label': 'x',
 			'y_label': 'xfxQ2',
-			'y_subplot_label': 'Rel. Uncertainty',
+			'y_subplot_label': 'Rel. uncertainty',
 			'colors': [histo_colors[c] for c in ["red", "yellow", "green"]]*len(nicks),
 			'title': title,
 			'texts': ["\n".join([flavour.replace("_", " "), text])],
@@ -114,7 +114,7 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='her
 					'line_styles': '-',
 					'x_label': 'x',
 					'y_label': 'xfxQ2',
-					'y_subplot_label': 'Rel. Uncertainty',
+					'y_subplot_label': 'Rel. uncertainty',
 					'alphas': [0.7],
 					'colors': [histo_colors['blue'], histo_colors['red']]*2,
 					'subplot_legend': 'upper center',
@@ -153,7 +153,7 @@ def plot_pdf_unc_comparison_zpt_bins(args=None, additional_dictionary=None):
 
 
 def plot_pdf_unc_comparison_all(args=None, additional_dictionary=None, scenario='hera2_zpt_bins'):
-	""" comparison between hera and hera+CMS with total uncertainties"""
+	""" ALL flavours: comparison between hera and hera+CMS with total uncertainties"""
 	plots = []
 	text = r"$\\mathit{{Q}}^2 = {} \\/ GeV{}$".format(".".join(common.pdfq.split("_")[:2]), ("^2" if "squared" in common.pdfq else ""))
 	nicks = []
@@ -165,7 +165,7 @@ def plot_pdf_unc_comparison_all(args=None, additional_dictionary=None, scenario=
 		'sea_quarks': 0.25,
 	}
 	flavours = ['gluon', 'd_valence_quark', 'u_valence_quark', 'sea_quarks']
-	texts = [r'$g \\times {}$'.format(scaledict['gluon']), '$d_v$', '$u_v$', r'$sea \\times {}$'.format(scaledict['sea_quarks'])]
+	texts = [r'$g (\\times {})$'.format(scaledict['gluon']), '$d_v$', '$u_v$', r'$sea (\\times {})$'.format(scaledict['sea_quarks'])]
 	for flavour in flavours:
 		for scenario in scenarios:
 			nicks += [flavour + '_' + scenario]
@@ -195,7 +195,7 @@ def plot_pdf_unc_comparison_all(args=None, additional_dictionary=None, scenario=
 			'line_styles': '-',
 			'x_label': 'x',
 			'y_label': 'xfxQ2',
-			'y_subplot_label': 'Rel. Uncertainty',
+			'y_subplot_label': 'Rel. uncertainty',
 			'alphas': [0.7],
 			'colors': [histo_colors['blue'], histo_colors['red']]*2,
 			'texts': [text]+texts,

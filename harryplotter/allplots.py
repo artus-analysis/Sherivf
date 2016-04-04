@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import argparse, os
+import argparse, os, matplotlib
 
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
+
 
 import plots_electron
 import plots_fastnlo
@@ -22,6 +23,9 @@ import plot_subprocs
 
 def allplots(args=None):
 	"""make allplots"""
+	
+	matplotlib.rcParams['lines.markersize'] = 10
+	
 	plotting_jobs = []
 
 	parser = argparse.ArgumentParser()
@@ -49,10 +53,10 @@ def allplots(args=None):
 		plots_sherpa.sherpa,  # 10
 		plots_sherpa.sherpa_mc,
 		plots_fastnlo.fastnlo_pdfsets,
-		plots_fastnlo.fastnlo_pdfunc,
+		plots_pdf_uncertainties.plot_pdf_unc_comparison_all,
 		plots_fastnlo.sherpa_fastnlo,
 		plots_pdf_reweighted.nnpdf_zpt_10,  # 15
-		plots_uncertainties.scale_uncertainties,
+		plots_uncertainties.scale_pdf_uncertainties,
 		plots_fastnlo.k_factors,
 		plots_uncertainties.plot_uncertainties,
 		plots_zee_divide.divided_ptspectrum,
@@ -86,7 +90,7 @@ def allplots(args=None):
 		plots_unfolded.correlation_matrix,
 		plots_pdf_reweighted.weights,
 		plots_pdf_reweighted.alphas,
-		plots_pdf_uncertainties.plot_pdf_unc_comparison_all,  # 50
+		# 50
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -103,10 +107,10 @@ def allplots(args=None):
 		"sherpa",
 		"sherpa_mc",
 		"fastnlo_pdfsets",
-		"fastnlo_pdfuncertainties",
+		"pdf_all",
 		"fastnlo_sherpa",
 		"nnpdf_zpt_10",
-		"scale_uncertainty",
+		"scale_pdf_uncertainty",
 		"k_factors",
 		"uncertainties",
 		"spectra_in_ybins",
@@ -140,7 +144,6 @@ def allplots(args=None):
 		"correlation_matrix",
 		"weights",
 		"alphas",
-		"pdf_all",
 	][plot_min:plot_max]
 
 	if numbers is not None:

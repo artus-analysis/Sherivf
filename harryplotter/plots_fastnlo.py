@@ -364,7 +364,7 @@ def k_factors(args=None, additional_dictionary=None):
 				'energies': [8],
 				'step': True,
 				'labels': ['NLO', 'ratio', 'LO'],
-				'y_subplot_label': 'k Factor',
+				'y_subplot_label': 'k factor',
 				'y_subplot_lims': [0, 2],
 				'x_label': quantity,
 				'texts': [ybinplotlabel],
