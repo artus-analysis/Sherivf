@@ -19,18 +19,19 @@ modes = {
 }
 
 valuefile = "'" + os.environ['SHERIVFDIR'] + "/herafitter/CMS_Zee_HFinput_{0}_{1}.txt'"
+cut_bins = 1
 values = {
 	'abszy': [valuefile.format('abszy', 'inclusive')],
 	'zpt': [valuefile.format('zpt', 'inclusive')],
 	'zy': [valuefile.format('zy', 'inclusive')],
-	'zpt_bins': [valuefile.format('zpt', ptbin) for ptbin in common.ybin_labels[:-1]],
+	'zpt_bins': [valuefile.format('zpt', ptbin) for ptbin in common.ybin_labels[:-cut_bins]],
 }
 corrfile = "'" + os.environ['SHERIVFDIR'] + "/herafitter/CMS_Zee_correlation_{0}_{1}.corr'"
 corrs = {
 	'abszy': [corrfile.format('abszy', 'inclusive')],
 	'zpt': [corrfile.format('zpt', 'inclusive')],
 	'zy': [corrfile.format('zy', 'inclusive')],
-	'zpt_bins': [corrfile.format('zpt', ptbin) for ptbin in common.ybin_labels[:-1]],
+	'zpt_bins': [corrfile.format('zpt', ptbin) for ptbin in common.ybin_labels[:-cut_bins]],
 }
 
 
