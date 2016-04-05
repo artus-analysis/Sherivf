@@ -172,7 +172,7 @@ def scale_pdf_uncertainties(args=None, additional_dictionary=None):
 				'colors': [histo_colors['blue'], histo_colors['red']],
 				'step': True,
 				'alphas': [0.5],
-				'zorder': [30, 40],
+				'zorder': [1.30, 1.40],
 				'hatches': [None, '//'],
 				#'title': '6p Scale Uncertainty',
 				'x_lims': common.lims(quantity),

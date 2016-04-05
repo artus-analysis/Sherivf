@@ -90,7 +90,7 @@ def allplots(args=None):
 		plots_unfolded.correlation_matrix,
 		plots_pdf_reweighted.weights,
 		plots_pdf_reweighted.alphas,
-		# 50
+		plots_unfolded.stat_unf_contribution  # 50
 	][plot_min:plot_max]
 	
 	wwwdirs = [
@@ -144,6 +144,7 @@ def allplots(args=None):
 		"correlation_matrix",
 		"weights",
 		"alphas",
+		"stat_unf_contribution",
 	][plot_min:plot_max]
 
 	if numbers is not None:

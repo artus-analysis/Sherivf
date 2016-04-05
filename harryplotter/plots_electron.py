@@ -318,7 +318,7 @@ def electron_efficiencies_1d(args=None, additional_dictionary=None):
 					'y_lims': [0, 1.1],
 					'lines': [1.0],
 					'labels': etalabels,
-					#'markers': ['.'],
+					'markers': ['.', '^', 'd', '*', 'v'],
 					'y_errors': [True],
 					'line_styles': ['-'],
 					'step': True,

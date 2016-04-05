@@ -50,7 +50,7 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 			'labels': ['Exp. Unc.', 'Model Unc.', 'Par. Unc.']*len(nicks),
 			'x_log': True,
 			'y_subplot_lims': [-0.45, 0.45],
-			'zorder': [30, 20, 10]*3,
+			'zorder': [1.30, 1.20, 1.10]*3,
 			'markers': ['fill']*2*len(nicks),
 			'alphas': [0.7, 0.9, 0.7]*len(nicks),
 			'line_styles': '-',
@@ -107,7 +107,7 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='her
 					'labels': labels + [None]*2,
 					'x_log': True,
 					'y_subplot_lims': [-0.45, 0.45],
-					'zorder': [20, 30],
+					'zorder': [1.2, 1.3],
 					'markers': ['fill']*4,
 					'x_errors': [True]*4,
 					'y_errors': [True]*4,
@@ -165,7 +165,7 @@ def plot_pdf_unc_comparison_all(args=None, additional_dictionary=None, scenario=
 		'sea_quarks': 0.25,
 	}
 	flavours = ['gluon', 'd_valence_quark', 'u_valence_quark', 'sea_quarks']
-	texts = [r'$g (\\times {})$'.format(scaledict['gluon']), '$d_v$', '$u_v$', r'$sea (\\times {})$'.format(scaledict['sea_quarks'])]
+	texts = [r'$g$ $(\\!\\times {})$'.format(scaledict['gluon']), '$d_v$', '$u_v$', r'$sea$ $(\\!\\times {})$'.format(scaledict['sea_quarks'])]
 	for flavour in flavours:
 		for scenario in scenarios:
 			nicks += [flavour + '_' + scenario]
@@ -188,7 +188,7 @@ def plot_pdf_unc_comparison_all(args=None, additional_dictionary=None, scenario=
 			# formatting
 			'labels': labels + [None]*2*len(flavours),
 			'x_log': True,
-			'zorder': [20, 30],
+			'zorder': [1.1, 1.2],
 			'markers': ['fill']*4,
 			'x_errors': [True]*4,
 			'y_errors': [True]*4,

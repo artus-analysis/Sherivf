@@ -117,7 +117,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				'step': [True],
 				'lumis': [common.lumi],
 				'x_label': quantity,
-				'y_subplot_label': 'Sim./Data',
+				'y_subplot_label': 'theodata',
 				'y_subplot_lims': [0.75, 1.25],
 				'texts': [ybinplotlabel],
 				# output
@@ -173,7 +173,7 @@ def fastnlo_tables(args=None, additional_dictionary=None):
 				'ratio_denominator_nicks': ['data'],
 				# formatting
 				'labels': ['data', 'merged', 'individual tables']+[None]*2*(N-1),
-				'zorder': [40] + ([30] + [20]*N)*2,
+				'zorder': [1.40] + ([1.30] + [1.20]*N)*2,
 				'markers': ['o'] + ['-']*(N+1)*2,
 				'y_errors': [True] + [False]*2*(N+1),
 				'colors': ['black'] + (['red'] + ['blue']*N)*2,
@@ -184,7 +184,7 @@ def fastnlo_tables(args=None, additional_dictionary=None):
 				'step': [True],
 				'subplot_fraction': (90 if subplot else 10),
 				'x_label': quantity,
-				'y_subplot_label': 'Ratio sim./data',
+				'y_subplot_label': 'theodata',
 				'y_subplot_lims': [0.4, 1.5],
 				# output
 				'filename': "fastnlo_tables_"+('subplot_' if subplot else '')+quantity,
@@ -312,7 +312,7 @@ def fastnlo_pdfmembers(args=None, additional_dictionary=None):
 				'title': common.pdfsetdict[pdfset],
 				
 				'y_subplot_lims': [0.75, 1.25],
-				'y_subplot_label': 'Sim./Data',
+				'y_subplot_label': 'theodata',
 
 				# output
 				'filename': ybin+quantity,
@@ -335,7 +335,7 @@ def k_factors(args=None, additional_dictionary=None):
 	"""fastNLO LO and NLO cross section"""
 	plots = []
 
-	pdfset = 'CT10nlo'
+	pdfset = 'CT14nlo'
 
 	for quantity in common.quantities:
 		for ybin, ybinsuffix, ybinplotlabel in zip(
@@ -359,8 +359,10 @@ def k_factors(args=None, additional_dictionary=None):
 				'ratio_result_nicks': ['lo'],
 				# formatting
 				'y_label': common.xseclabels[quantity],
-				'markers': ['fill', '.', '.'],
-				'line_styles': [None, None, '-'],
+				'markers': ['o', 'o', 'd'],
+				#'marker_fill_styles': ['full', 'full', 'none'],
+				"colors": ['black', 'black', 'red'],
+				'line_styles': ['-'],
 				'energies': [8],
 				'step': True,
 				'labels': ['NLO', 'ratio', 'LO'],

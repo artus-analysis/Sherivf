@@ -59,7 +59,7 @@ def divided_ptspectrum(args=None):
 			'line_styles': [None]*nbins + ['-']*nmc,
 			'step': True,
 			'filename': quantity,
-			'zorder': [30]*nmc+[20]*nmc,
+			'zorder': [1.30]*nmc+[1.20]*nmc,
 		}
 		if quantity == 'zpt':
 			d['y_log'] = True
@@ -87,8 +87,8 @@ def divided_ptspectrum(args=None):
 				'scale_error_factors': [0],
 				'ratio_numerator_nicks': [n for n in nicks if 'mc' not in n],
 				'ratio_denominator_nicks': [n for n in nicks if 'mc' in n],
-				'y_subplot_lims': [0.5, 1.5],
-				'y_subplot_label': 'Data/Sim. ratio\n',
+				'y_subplot_lims': [0.7, 1.3],
+				'y_subplot_label': 'datatheo',
 			})
 		if True:
 			d['plot_modules'] = ['PlotMplZJet', 'PlotMplLegendTable']

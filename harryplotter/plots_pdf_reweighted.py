@@ -42,7 +42,7 @@ def nnpdf(args=None, additional_dictionary=None):
 			# formatting
 			'x_log': True,
 			'x_errors': [False],
-			'zorder': [20, 30],
+			'zorder': [1.20, 1.30],
 			'markers': ['fill']*6,
 			'title': common.pdfsetdict.get(pdfset, pdfset),
 			'x_label': r'$x$',

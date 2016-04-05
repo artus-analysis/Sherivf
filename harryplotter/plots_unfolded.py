@@ -187,7 +187,7 @@ def unfolded_mc_comparison(args=None):
 				'colors': [colors.histo_colors['blue'], 'black', 'red', 'black', 'red'],
 				'markers': ['fill', 'o',  '-',  '-', '-'],
 				'line_styles': [None, None, '-', '-', '-'],
-				'zorder': [10,30,20],
+				'zorder': [1.10,1.30,1.20],
 			}
 			for dic in [dic1, dic2]:
 				dic.update({
@@ -246,3 +246,40 @@ def correlation_matrix(args=None):
 				d['y_bins'] = common.bins[quantity]
 			plots.append(d)
 		return [PlottingJob(plots, args)]
+
+
+def stat_unf_contribution(args=None):
+	""" plot stat unf both contrib"""
+	plots = []
+	for quantity in common.data_quantities:
+		for ybin, ybinplotlabel in zip(["inclusive"] + common.ybin_labels, [""] + common.ybin_plotlabels):
+			if (quantity is not 'zpt') and (ybin is not "inclusive"):
+				continue
+			d = {
+				"files": ['2_unfolded/{0}_{3}_{1}_{2}1.root'.format(quantity, ybin, a, common.default_mc) for a in ['', 'vary-data_', 'vary-response_']],
+				"folders": [""],
+				"x_expressions": ["data_unfolded"],
+				'x_bins': common.bins[quantity],
+				# ana
+				"analysis_modules": ["StatisticalErrors"],
+				"stat_error_relative": True,
+				"stat_error_relative_percent": True,
+				# plot
+				"labels": ["Vary data and response matrix entries", "Vary only data", "Vary only response matrix"],
+				"legend": "upper left",
+				"line_styles": ["-"],
+				"line_widths": [1],
+				"markers": ["fill", "d", "o"],
+				"step": True,
+				"y_rel_lims": [0.9, 1.3],
+				'x_label': quantity,
+				'title': ybinplotlabel,
+				"y_label": "Stat. uncertainty for unfolded data / %",
+				"filename": "stat_unc_{}_{}".format(quantity, ybin),
+			}
+			if quantity == 'zpt' and common.zpt_xlog:
+				d['x_log'] = True
+				d['x_ticks'] = common.zpt_ticks
+			plots.append(d)
+	return [PlottingJob(plots, args)]
+
