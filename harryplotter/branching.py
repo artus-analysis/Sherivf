@@ -13,7 +13,10 @@ def branching_ratio(args=None, additional_dictionary=None):
 		"y_expressions": ["69.91 20", "10.09", "6.73", "3.37"],
 		"y_errors": ["0.06 0.06"]+["0.01"]*3,
 		"x_errors": [None],
+		#analysis
+		"plot_modules": ["PlotMplZJet", "SetAxisBelow"],
 		#formatting
+		'zorder': [20],
 		"markers": ["fill"],
 		"colors": [histo_colors[color] for color in ['blue', 'yellow', 'green', 'brown']],
 		"labels": [None] + ['$e^+e^-$', r'$\\mu^+\\mu^-$', r'$\\tau^+\\tau^-$'],
