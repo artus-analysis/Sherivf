@@ -40,7 +40,7 @@ def zee_bkgrs(args=None):
 			for ybin, ybinlabel, ybinsuffix in zip(*parsertools.get_list_slice([
 						["1"] + common.ybin_weights,
 						[""] + common.ybin_plotlabels,
-						["_inclusive"] + common.ybin_labels
+						["inclusive"] + common.ybin_labels
 			], known_args.no_ybins)):
 			# iterate over MC samples
 				for mc, mc_label in zip(*parsertools.get_list_slice([
@@ -73,7 +73,7 @@ def zee_bkgrs(args=None):
 								'texts_x':[0.03],
 								'texts_y': [0.97, 0.87],
 								# output
-								'filename': quantity + "_" + mc_label+ybinsuffix+njetsuffix + ("" if signal else "_only_bkgrs") + ("_norm" if normalized else ""),
+								'filename': quantity + "_" + mc_label+"_"+ybinsuffix+njetsuffix + ("" if signal else "_only_bkgrs") + ("_norm" if normalized else ""),
 								'www_text': "Backgrounds as a function of different quantities, with and without signal samples",
 								'www_title': "Background Contributions",
 							}
@@ -129,6 +129,7 @@ def signal_background_ratio(args=None):
 						'x_errors': [False, False, True],
 						'y_subplot_lims': [0, 0.1],
 						'y_log': log,
+						'texts': [ybinlabel],
 						#
 						'filename': quantity + "_" + ybinsuffix+njetsuffix + ('_log' if log else ''),
 						'www_text': " ",

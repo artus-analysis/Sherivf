@@ -157,9 +157,9 @@ def allplots(args=None):
 
 	for function, wwwdir in zip(functions, wwwdirs):
 		if function == plots_bkgrs.zee_bkgrs:
-			plots = function(args + ["--no-njets", "--no-ybins", "--no-mcs"])
+			plots = function(args + ["--no-njets", "--no-mcs"])
 		elif function == plots_bkgrs.signal_background_ratio:
-			plots = function(args + ["--no-njets", "--no-ybins"])
+			plots = function(args + ["--no-njets"])
 		else:
 			plots = function(args)
 		for plot in plots[0].plots:
