@@ -8,7 +8,7 @@
 
 import time, sys, os, glob, argparse, subprocess
 
-import tools
+import sherivftools
 import copy_herafitter_steering
 import pdf_2_root
 
@@ -31,7 +31,7 @@ class NNPDF(object):
 		os.makedirs(self.args.output_dir + "/input_steering")
 		copy_herafitter_steering.copy_herafile('nnpdf', self.args.value, False, self.args.output_dir, keys=steering_dict)
 		for hfile in self.hfiles:
-			tools.copyfile('hera-gc/'+hfile, self.args.output_dir+'/'+os.path.basename(hfile),
+			sherivftools.copyfile('hera-gc/'+hfile, self.args.output_dir+'/'+os.path.basename(hfile),
 			{
 				'@MCHARM@': '1.4',
 				'@MBOTTOM@': '4.75',
@@ -82,12 +82,12 @@ class NNPDF(object):
 		os.chdir(self.args.output_dir)
 		os.makedirs(newset)
 		stdout_file = open("stdout.txt", "w")
-		fit_success = tools.print_and_call(["xfitter"], stdout=stdout_file)
+		fit_success = sherivftools.print_and_call(["xfitter"], stdout=stdout_file)
 		
 		#second step: produce LHA file
 		#
 		stdout_process_file = open("stdout_process.txt", "w")
-		fit_process_success = tools.print_and_call(["xfitter-process", "reweight", str(n_replicas), "hera/pdf_BAYweights.dat", "/storage/a/dhaitz/PDFsets/"+pdfset, newset], stdout=stdout_process_file)
+		fit_process_success = sherivftools.print_and_call(["xfitter-process", "reweight", str(n_replicas), "hera/pdf_BAYweights.dat", "/storage/a/dhaitz/PDFsets/"+pdfset, newset], stdout=stdout_process_file)
 
 
 		# evaluate PDF
@@ -110,7 +110,7 @@ class NNPDF(object):
 
 		# create link
 		print "Output dir", self.args.output_dir
-		linkdir = tools.get_env('SHERIVFDIR')+'/results'
+		linkdir = sherivftools.get_env('SHERIVFDIR')+'/results'
 		if not os.path.exists(linkdir):
 			os.makedirs(linkdir)
 		linkdir += '/nnpdf_'+self.args.value
@@ -128,12 +128,12 @@ class NNPDF(object):
 		self.args = parser.parse_args()
 		if self.args.output_dir is None:
 			self.args.output_dir = (self.args.value + "_" + time.strftime("%Y-%m-%d_%H-%M"))
-		self.args.output_dir = tools.get_env('SHERIVF_STORAGE_PATH') + 'nnpdf/' + self.args.output_dir
+		self.args.output_dir = sherivftools.get_env('SHERIVF_STORAGE_PATH') + 'nnpdf/' + self.args.output_dir
 
 
 if __name__ == "__main__":
 	start_time = time.time()
 	nnpdf = NNPDF()
 	nnpdf.run()
-	print "---        NNPDF took {}  ---".format(tools.format_time(time.time() - start_time))
+	print "---        NNPDF took {}  ---".format(sherivftools.format_time(time.time() - start_time))
 

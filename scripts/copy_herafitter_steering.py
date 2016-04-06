@@ -7,7 +7,7 @@ import argparse
 import os
 import common
 
-import tools
+import sherivftools
 
 steeringfile = os.path.join(os.environ['SHERIVFDIR'], "herafitter/steering.txt")
 
@@ -128,7 +128,7 @@ def copy_herafile(mode, value, batch, targetdir, fast=False, keys={}):
 	if not batch:  # for GC, dont replace the HF values
 		settings.update(defaults_local)
 	settings.update(keys)
-	tools.copyfile(steeringfile, target, settings)
+	sherivftools.copyfile(steeringfile, target, settings)
 
 
 if __name__ == "__main__":

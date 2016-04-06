@@ -17,7 +17,7 @@ import subprocess
 import sys
 import time
 
-from tools import run_gc, print_and_call, copyfile, get_env, query_yes_no, format_time
+from sherivftools import run_gc, print_and_call, copyfile, get_env, query_yes_no, format_time
 
 
 class Sherivf(object):
