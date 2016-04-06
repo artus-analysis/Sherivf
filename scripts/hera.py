@@ -46,6 +46,7 @@ class Hera(object):
 		self.gctime = time.time()
 		gc_success = sherivftools.run_gc(self.output_dir + "/" + self.config, self.output_dir)
 		self.gctime = time.time() - self.gctime
+		print "gc_success", gc_success
 		if gc_success:
 			sherivftools.create_result_linkdir(self.output_dir+"/output/", self.mode + ('_' + self.args.value if self.args.value else ''))
 		#TODO merge outputs to get exp/model/par uncertainties
