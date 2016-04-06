@@ -22,38 +22,33 @@ class Hera(object):
 
 
 	def get_arguments(self):
-		parser = argparse.ArgumentParser(
-			description="%(prog)s is the main analysis program.", epilog="Have fun.")
-
+		parser = argparse.ArgumentParser(description="%(prog)s is the main analysis program.", epilog="Have fun.")
 		parser.add_argument('-v', '--value', type=str, default=self.default_value, help="Value", choices=copy_herafitter_steering.values.keys())
-		parser.add_argument('-o', '--output-dir', type=str, default=None, help="")
-		
 		self.args = parser.parse_args()
-		if self.args.output_dir is None:
-			self.args.output_dir = (self.mode + ('_' + self.args.value if self.args.value else '') + "_" + time.strftime("%Y-%m-%d_%H-%M"))
-		self.args.output_dir = self.default_storage_path + "/" + self.args.output_dir
+		self.output_dir = self.default_storage_path + "/" + (self.mode + ('_' + self.args.value if self.args.value else '') + "_" + time.strftime("%Y-%m-%d_%H-%M"))
 
 
 	def run(self):
-		# create gc-dir and copy necessary files
-		print "Output directory:", self.args.output_dir
-		os.makedirs(self.args.output_dir + "/work." + self.config.replace(".conf", ""))
-		os.makedirs(self.args.output_dir + "/output")
+		# create gc-dirs
+		print "Output directory:", self.output_dir
+		os.makedirs(self.output_dir + "/work." + self.config.replace(".conf", ""))
+		os.makedirs(self.output_dir + "/output")
 		
+		# copy necessary files
 		self.list_of_gc_files = [sherivftools.get_env('SHERIVFDIR') + '/hera-gc/' + f for f in self.files_to_copy]
 		for gcfile in self.list_of_gc_files:
-			sherivftools.copyfile(gcfile, self.args.output_dir+'/'+os.path.basename(gcfile),{
-				'@OUTDIR@': self.args.output_dir+'/output',
+			sherivftools.copyfile(gcfile, self.output_dir+'/'+os.path.basename(gcfile),{
+				'@OUTDIR@': self.output_dir+'/output',
 			})
-		copy_herafitter_steering.copy_herafile(self.mode, self.args.value, True, self.args.output_dir)
-
+		copy_herafitter_steering.copy_herafile(self.mode, self.args.value, True, self.output_dir)
+		
 		# run GC
 		self.gctime = time.time()
-		gc_success = sherivftools.run_gc(self.args.output_dir + "/" + self.config, self.args.output_dir)
+		gc_success = sherivftools.run_gc(self.output_dir + "/" + self.config, self.output_dir)
 		self.gctime = time.time() - self.gctime
 		if gc_success:
-			sherivftools.create_result_linkdir(self.args.output_dir+"/output/", self.mode + ('_' + self.args.value if self.args.value else ''))
-
+			sherivftools.create_result_linkdir(self.output_dir+"/output/", self.mode + ('_' + self.args.value if self.args.value else ''))
+		#TODO merge outputs to get exp/model/par uncertainties
 
 
 if __name__ == "__main__":
