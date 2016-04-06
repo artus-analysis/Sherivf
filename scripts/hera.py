@@ -14,19 +14,19 @@ class Hera(object):
 	def __init__(self):
 		self.mode = 'hera2'
 		self.default_value = None
-		self.default_config = "herafitter.conf"
+		self.config = "herafitter.conf"
 		self.default_storage_path = '/storage/a/dhaitz/hera/'
 		self.get_arguments()
 
 	def run(self):
 		# create gc-dir and copy necessary files
 		self.create_output_dir()
-		files_to_copy = [self.default_config, 'minuit.in.txt', 'herapdf_par.conf', 'ewparam.txt','run-herafitter.sh']
+		files_to_copy = [self.config, 'minuit.in.txt', 'herapdf_par.conf', 'ewparam.txt','run-herafitter.sh']
 		self.list_of_gc_files = [sherivftools.get_env('SHERIVFDIR') + '/hera-gc/' + f for f in files_to_copy]
 		self.copy_gc_files()
 
 		self.gctime = time.time()
-		sherivftools.run_gc(self.args.output_dir + "/" + self.args.config, self.args.output_dir)
+		sherivftools.run_gc(self.args.output_dir + "/" + self.config, self.args.output_dir)
 		self.gctime = time.time() - self.gctime
 
 		sherivftools.create_result_linkdir(self.args.output_dir+"/output/", self.mode + ('_' + self.args.value if self.args.value else ''))
@@ -42,7 +42,7 @@ class Hera(object):
 
 	def create_output_dir(self):
 		print "Output directory:", self.args.output_dir
-		os.makedirs(self.args.output_dir + "/work." + self.args.config.replace(".conf", ""))
+		os.makedirs(self.args.output_dir + "/work." + self.config.replace(".conf", ""))
 		os.makedirs(self.args.output_dir + "/output")
 
 
@@ -51,8 +51,7 @@ class Hera(object):
 			description="%(prog)s is the main analysis program.", epilog="Have fun.")
 
 		parser.add_argument('-v', '--value', type=str, default=self.default_value, help="Value", choices=copy_herafitter_steering.values.keys())
-		parser.add_argument('-c', '--config', type=str, default=self.default_config,
-			help="default:" + self.default_config)
+
 		parser.add_argument('-o', '--output-dir', type=str, default=None, help="")
 		
 		self.args = parser.parse_args()
