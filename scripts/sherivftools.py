@@ -19,7 +19,7 @@ def create_result_linkdir(outputdir, linkname):
 def run_gc(config, output_dir):
 	commands = ['go.py', config]
 	try:
-		print_and_call(commands)
+		return print_and_call(commands)
 	except KeyboardInterrupt:
 		print output_dir
 		exit(1)

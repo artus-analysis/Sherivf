@@ -11,39 +11,14 @@ import copy_herafitter_steering
 
 
 class Hera(object):
+
 	def __init__(self):
 		self.mode = 'hera2'
 		self.default_value = None
 		self.config = "herafitter.conf"
-		self.default_storage_path = '/storage/a/dhaitz/hera/'
+		self.files_to_copy = [self.config, 'minuit.in.txt', 'herapdf_par.conf', 'ewparam.txt','run-herafitter.sh']
+		self.default_storage_path = get_env('HERA_STORAGE_PATH')
 		self.get_arguments()
-
-	def run(self):
-		# create gc-dir and copy necessary files
-		self.create_output_dir()
-		files_to_copy = [self.config, 'minuit.in.txt', 'herapdf_par.conf', 'ewparam.txt','run-herafitter.sh']
-		self.list_of_gc_files = [sherivftools.get_env('SHERIVFDIR') + '/hera-gc/' + f for f in files_to_copy]
-		self.copy_gc_files()
-
-		self.gctime = time.time()
-		sherivftools.run_gc(self.args.output_dir + "/" + self.config, self.args.output_dir)
-		self.gctime = time.time() - self.gctime
-
-		sherivftools.create_result_linkdir(self.args.output_dir+"/output/", self.mode + ('_' + self.args.value if self.args.value else ''))
-
-
-	def copy_gc_files(self):
-		for gcfile in self.list_of_gc_files:
-			sherivftools.copyfile(gcfile, self.args.output_dir+'/'+os.path.basename(gcfile),{
-				'@OUTDIR@': self.args.output_dir+'/output',
-			})
-		copy_herafitter_steering.copy_herafile(self.mode, self.args.value, True, self.args.output_dir)
-
-
-	def create_output_dir(self):
-		print "Output directory:", self.args.output_dir
-		os.makedirs(self.args.output_dir + "/work." + self.config.replace(".conf", ""))
-		os.makedirs(self.args.output_dir + "/output")
 
 
 	def get_arguments(self):
@@ -51,13 +26,35 @@ class Hera(object):
 			description="%(prog)s is the main analysis program.", epilog="Have fun.")
 
 		parser.add_argument('-v', '--value', type=str, default=self.default_value, help="Value", choices=copy_herafitter_steering.values.keys())
-
 		parser.add_argument('-o', '--output-dir', type=str, default=None, help="")
 		
 		self.args = parser.parse_args()
 		if self.args.output_dir is None:
 			self.args.output_dir = (self.mode + ('_' + self.args.value if self.args.value else '') + "_" + time.strftime("%Y-%m-%d_%H-%M"))
 		self.args.output_dir = self.default_storage_path + "/" + self.args.output_dir
+
+
+	def run(self):
+		# create gc-dir and copy necessary files
+		print "Output directory:", self.args.output_dir
+		os.makedirs(self.args.output_dir + "/work." + self.config.replace(".conf", ""))
+		os.makedirs(self.args.output_dir + "/output")
+		
+		self.list_of_gc_files = [sherivftools.get_env('SHERIVFDIR') + '/hera-gc/' + f for f in self.files_to_copy]
+		for gcfile in self.list_of_gc_files:
+			sherivftools.copyfile(gcfile, self.args.output_dir+'/'+os.path.basename(gcfile),{
+				'@OUTDIR@': self.args.output_dir+'/output',
+			})
+		copy_herafitter_steering.copy_herafile(self.mode, self.args.value, True, self.args.output_dir)
+
+		# run GC
+		self.gctime = time.time()
+		gc_success = sherivftools.run_gc(self.args.output_dir + "/" + self.config, self.args.output_dir)
+		self.gctime = time.time() - self.gctime
+		if gc_success:
+			sherivftools.create_result_linkdir(self.args.output_dir+"/output/", self.mode + ('_' + self.args.value if self.args.value else ''))
+
+
 
 if __name__ == "__main__":
 	start_time = time.time()
