@@ -10,6 +10,7 @@ import Artus.HarryPlotter.analysisbase as analysisbase
 import Artus.HarryPlotter.utility.roottools as roottools
 
 class GraphEnvelope(analysisbase.AnalysisBase):
+	"""construct new tgraph from envelop of graphs"""
 
 	def modify_argument_parser(self, parser, args):
 		super(GraphEnvelope, self).modify_argument_parser(parser, args)

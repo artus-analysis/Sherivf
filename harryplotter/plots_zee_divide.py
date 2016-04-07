@@ -87,7 +87,7 @@ def divided_ptspectrum(args=None):
 				'scale_error_factors': [0],
 				'ratio_numerator_nicks': [n for n in nicks if 'mc' not in n],
 				'ratio_denominator_nicks': [n for n in nicks if 'mc' in n],
-				'y_subplot_lims': [0.7, 1.3],
+				'y_subplot_lims': [0.7001, 1.3],
 				'y_subplot_label': 'datatheo',
 			})
 		if True:

@@ -39,10 +39,8 @@ def model_unc(args=None, additional_dictionary=None, pdf_scenario='hera', pdfq='
 			'analysis_modules': ['GraphEnvelope'],
 			'envelope_center_nick': nicks[0],
 			'envelope_nicks': nicks[1:],
-			
 			'nicks_whitelist': ['envelope', exp_unc],
 			'labels': ['model', 'exp'],
-
 			'plot_modules': ['ExportRoot'],
 			'output_dir': common.pdf_dir,
 			'filename': '_'.join([pdf_scenario, pdfq, 'model', flavour]),
@@ -73,10 +71,8 @@ def par_unc(args=None, additional_dictionary=None, pdf_scenario='hera', pdfq='1_
 			'analysis_modules': ['GraphEnvelope'],
 			'envelope_center_nick': nicks[0],
 			'envelope_nicks': nicks[1:],
-			
 			'nicks_whitelist': ['envelope', exp_unc],
 			'labels': ['par', 'exp'],
-
 			'plot_modules': ['ExportRoot'],
 			'output_dir': common.pdf_dir,
 			'filename': '_'.join([pdf_scenario, pdfq, 'par', flavour]),
@@ -86,7 +82,6 @@ def par_unc(args=None, additional_dictionary=None, pdf_scenario='hera', pdfq='1_
 			d.update(additional_dictionary)
 		plots.append(d)
 	return [PlottingJob(plots, args)]
-
 
 
 def combine_exp_model(args=None, additional_dictionary=None, pdf_scenario='hera', pdfq='1_9_squared'):
@@ -102,13 +97,9 @@ def combine_exp_model(args=None, additional_dictionary=None, pdf_scenario='hera'
 			'folders': [''],
 			'x_expressions': ['model', flavour],
 			'nicks': ['model', 'exp'],
-			
 			'analysis_modules': ['CombineTGraphs'],
-			
 			'combine_nicks': ['exp', 'model'],
-			
 			'labels': ['model', 'exp', 'expmodel'],
-			
 			'plot_modules': ['ExportRoot'],
 			'output_dir': common.pdf_dir,
 			'filename': "_".join([pdf_scenario, pdfq, 'combined', 'exp', 'model', flavour]),
@@ -118,6 +109,7 @@ def combine_exp_model(args=None, additional_dictionary=None, pdf_scenario='hera'
 			d.update(additional_dictionary)
 		plots.append(d)
 	return [PlottingJob(plots, args)]
+
 
 def combine_expmodel_par(args=None, additional_dictionary=None, pdf_scenario='hera', pdfq='1_9_squared'):
 	""" combine exp/model and parameterisation uncertainty to final uncertainty"""
@@ -133,18 +125,14 @@ def combine_expmodel_par(args=None, additional_dictionary=None, pdf_scenario='he
 			'folders': [''],
 			'x_expressions': ['par', 'expmodel', flavour],
 			'nicks': ['par', 'expmodel', 'exp'],
-			
 			'analysis_modules': ['CombineTGraphs'],
 			'combine_nicks': ['par', 'expmodel'],
-		
 			'labels': ['par', 'expmodel', 'exp', 'expmodelpar'],
-		
 			'plot_modules': ['ExportRoot'],
 			'output_dir': common.pdf_dir,
 			'filename': "_".join([pdf_scenario, pdfq, 'combined', 'exp', 'model', 'par', flavour]),
 			'export_json': False,
 		}
-	
 		if additional_dictionary is not None:
 			d.update(additional_dictionary)
 		plots.append(d)
