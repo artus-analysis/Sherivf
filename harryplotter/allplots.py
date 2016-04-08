@@ -92,7 +92,7 @@ def allplots(args=None):
 		plots_pdf_reweighted.alphas,
 		plots_unfolded.stat_unf_contribution  # 50
 	][plot_min:plot_max]
-	
+
 	wwwdirs = [
 		"pdfs",
 		"correlations",

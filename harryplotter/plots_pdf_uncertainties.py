@@ -87,58 +87,59 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='her
 	}
 	nicks = ["hera", "heracms"]
 	scenarios = ['hera2', scenario]
-	labels = [common.hera_title, common.hera_cms_title]
+	labels = [common.hera_title, common.hera_cms_title_short]
 	for pdfq in common.pdfqs:
 		text = r"$\\mathit{{Q}}^2 = {} \\/ GeV{}$".format(".".join(pdfq.split("_")[:2]), ("^2" if "squared" in pdfq else ""))
 		for only_exp in [True, False]:
 			for flavour in common.pdf_unc_flavours:
-				d = {
-					#input
-					'files': [os.path.join(common.pdf_dir, scenario+"_"+pdfq+'_combined_exp_model_par_'+flavour+".root") for scenario in scenarios],
-					'folders': [''],
-					'x_expressions': [("exp" if only_exp else "expmodelpar")],
-					'nicks': nicks,
-					# analysis
-					'analysis_modules': ['RelUncertainty'],
-					'rel_nicks': nicks,
-					'subplot_nicks': [i+'_rel' for i in nicks],
-					'unc_diff_nicks': [i+'_rel' for i in nicks],
-					# formatting
-					'labels': labels + [None]*2,
-					'x_log': True,
-					'y_subplot_lims': [-0.45, 0.45],
-					'zorder': [1.2, 1.3],
-					'markers': ['fill']*4,
-					'x_errors': [True]*4,
-					'y_errors': [True]*4,
-					'line_styles': '-',
-					'x_label': 'x',
-					'y_label': 'xfxQ2',
-					'y_subplot_label': 'Rel. uncertainty',
-					'alphas': [0.7],
-					'colors': [histo_colors['blue'], histo_colors['red']]*2,
-					'subplot_legend': 'upper center',
-					'texts': ["\n".join([flavour.replace("_", " "), text])],
-					'x_lims': [1e-4, 0.9],
-					'title': ("Only experimental uncertainties" if only_exp else ""),
-					# output
-					'filename': '_'.join([flavour, ("exp" if only_exp else "expmodelpar"), pdfq]),
-				}
-				if False:  # add line with diff of uncertainties
-					d['analysis_modules'] += ['UncDiff']
-					d['subplot_nicks'] += ['unc_diff']
-					d['labels'] += ['Uncertainty diff.']
-					d['x_errors'] += [None]
-					d['y_errors'] += [None]
-					d['y_errors'] += [' ']
-					d['colors'] += ['black']
-				if flavour in y_lims:
-					d['y_lims'] = y_lims[flavour]
-				if 'valence' in flavour.lower():
-					d['legend'] = 'center left'
-				if additional_dictionary is not None:
-					d.update(additional_dictionary)
-				plots.append(d)
+				for _print in [True, False]:
+					d = {
+						#input
+						'files': [os.path.join(common.pdf_dir, scenario+"_"+pdfq+'_combined_exp_model_par_'+flavour+".root") for scenario in scenarios],
+						'folders': [''],
+						'x_expressions': [("exp" if only_exp else "expmodelpar")],
+						'nicks': nicks,
+						# analysis
+						'analysis_modules': ['RelUncertainty'],
+						'rel_nicks': nicks,
+						'subplot_nicks': [i+'_rel' for i in nicks],
+						'unc_diff_nicks': [i+'_rel' for i in nicks],
+						# formatting
+						'labels': labels + [None]*2,
+						'x_log': True,
+						'y_subplot_lims': [-0.45, 0.45],
+						'zorder': [1.2, 1.3],
+						'markers': ['fill']*4,
+						'x_errors': [True]*4,
+						'y_errors': [True]*4,
+						'line_styles': '-',
+						'x_label': 'x',
+						'y_label': 'xfxQ2',
+						'y_subplot_label': 'Rel. uncertainty',
+						'alphas': [(0.5 if _print else 0.7)],
+						'colors': [histo_colors['blue'], histo_colors['red']]*2,
+						'subplot_legend': 'upper center',
+						'texts': ["\n".join([flavour.replace("_", " "), text])],
+						'x_lims': [1e-4, 0.9],
+						'title': ("Only experimental uncertainties" if only_exp else ""),
+						# output
+						'filename': '_'.join([flavour, ("exp" if only_exp else "expmodelpar"), pdfq])+('_print' if _print else ''),
+					}
+					if False:  # add line with diff of uncertainties
+						d['analysis_modules'] += ['UncDiff']
+						d['subplot_nicks'] += ['unc_diff']
+						d['labels'] += ['Uncertainty diff.']
+						d['x_errors'] += [None]
+						d['y_errors'] += [None]
+						d['y_errors'] += [' ']
+						d['colors'] += ['black']
+					if flavour in y_lims:
+						d['y_lims'] = y_lims[flavour]
+					if 'valence' in flavour.lower():
+						d['legend'] = 'center left'
+					if additional_dictionary is not None:
+						d.update(additional_dictionary)
+					plots.append(d)
 	return [PlottingJob(plots, args)]
 
 def plot_pdf_unc_comparison_zpt(args=None, additional_dictionary=None):
@@ -174,49 +175,52 @@ def plot_pdf_unc_comparison_all(args=None, additional_dictionary=None, scenario=
 				scales += [scaledict[flavour]]
 			else:
 				scales += [1]
-	labels = [common.hera_title, common.hera_cms_title]
+	labels = [common.hera_title, common.hera_cms_title_short]
 	for only_exp in [True, False]:
-		d = {
-			#input
-			'files': files,
-			'folders': [''],
-			'x_expressions': [("exp" if only_exp else "expmodelpar")],
-			'nicks': nicks,
-			'analysis_modules': ['ScaleHistograms'],
-			'scale_nicks': nicks,
-			'scales': scales,
-			# formatting
-			'labels': labels + [None]*2*len(flavours),
-			'x_log': True,
-			'zorder': [1.1, 1.2],
-			'markers': ['fill']*4,
-			'x_errors': [True]*4,
-			'y_errors': [True]*4,
-			'line_styles': '-',
-			'x_label': 'x',
-			'y_label': 'xfxQ2',
-			'y_subplot_label': 'Rel. uncertainty',
-			'alphas': [0.7],
-			'colors': [histo_colors['blue'], histo_colors['red']]*2,
-			'texts': [text]+texts,
-			'texts_x':[0.03, 0.5, 0.8, 0.85, 0.02],
-			'texts_y':[0.97, 0.78, 0.48, 0.8, 0.80],
-			'x_lims': [1e-4, 0.9],
-			'y_lims': [0, 1],
-			'title': ("Only experimental uncertainties" if only_exp else ""),
-			# output
-			'filename': ("exp" if only_exp else "expmodelpar"),
-		}
-		if False:  # add line with diff of uncertainties
-			d['analysis_modules'] += ['UncDiff']
-			d['subplot_nicks'] += ['unc_diff']
-			d['labels'] += ['Uncertainty diff.']
-			d['x_errors'] += [None]
-			d['y_errors'] += [None]
-			d['y_errors'] += [' ']
-			d['colors'] += ['black']
-		if additional_dictionary is not None:
-			d.update(additional_dictionary)
-		plots.append(d)
+		for _print in [True, False]:
+			d = {
+				#input
+				'files': files,
+				'folders': [''],
+				'x_expressions': [("exp" if only_exp else "expmodelpar")],
+				'nicks': nicks,
+				'analysis_modules': ['ScaleHistograms'],
+				'scale_nicks': nicks,
+				'scales': scales,
+				# formatting
+				'labels': labels + [None]*2*len(flavours),
+				'x_log': True,
+				'zorder': [1.1, 1.2],
+				'markers': ['fill']*4,
+				'x_errors': [True]*4,
+				'y_errors': [True]*4,
+				'line_styles': '-',
+				'x_label': 'x',
+				'y_label': 'xfxQ2',
+				'y_subplot_label': 'Rel. uncertainty',
+				'alphas': [(0.5 if _print else 0.7)],
+				'colors': [histo_colors['blue'], histo_colors['red']]*2,
+				#'facecolors': [histo_colors['blue'], 'none'],
+				'texts': [text]+texts,
+				'texts_x':[0.03, 0.5, 0.8, 0.85, 0.02],
+				'texts_y':[0.97, 0.78, 0.48, 0.8, 0.80],
+				'x_lims': [1e-4, 0.9],
+				'y_lims': [0, 1],
+				#'hatches': [None, 'XXXX']*4,
+				'title': ("Only experimental uncertainties" if only_exp else ""),
+				# output
+				'filename': ("exp" if only_exp else "expmodelpar")+('_print' if _print else ''),
+			}
+			if False:  # add line with diff of uncertainties
+				d['analysis_modules'] += ['UncDiff']
+				d['subplot_nicks'] += ['unc_diff']
+				d['labels'] += ['Uncertainty diff.']
+				d['x_errors'] += [None]
+				d['y_errors'] += [None]
+				d['y_errors'] += [' ']
+				d['colors'] += ['black']
+			if additional_dictionary is not None:
+				d.update(additional_dictionary)
+			plots.append(d)
 	return [PlottingJob(plots, args)]
 
