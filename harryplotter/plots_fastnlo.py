@@ -33,14 +33,17 @@ def sherpa_fastnlo(args=None):
 				# analysis
 				'analysis_modules': ['Ratio'],
 				# formatting
-				"markers": ["fill", "o", "o"],
+				"markers": [".", "o", "o"],
 				"x_label": quantity,
 				"y_label": common.xseclabels[quantity],
 				"y_subplot_lims": [0.99, 1.01],
 				"energies": [8],
 				"y_errors": [False],
 				"labels": ['Sherpa', 'Sherpa+fastNLO', 'ratio'],
-				"marker_colors": ['red'],
+				"marker_colors": ['black', 'red', 'black'],
+				"line_styles": ['-', None, None],
+				"step": True,
+				"zorder": [10,20,10],
 				"y_subplot_label": "Sherpa/fastNLO",
 				"texts": [ybinplotlabel],
 				# filename
@@ -70,7 +73,8 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 	pdf_sets = [
 		'CT14nlo', 
 		'NNPDF30_nlo_as_0118',
-		'abm11_3n_nlo',
+		#'abm11_4n_nlo',
+		'abm12lhc_5_nlo',
 		#'cteq66', 'MSTW2008nlo68cl',
 		'HERAPDF20_NLO_EIG',
 		'MMHT2014nlo68clas118',
@@ -106,7 +110,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				'ratio_denominator_nicks': ['nick0'],
 				'ratio_numerator_nicks':[common.sherpa_results+"/{}.tab_{}_{}".format(ybin+replaced_quantity, i, member) for i in pdf_sets],
 				# formatting
-				'legend_order': [0, 3, 4, 5, 1, 2],
+				'legend_order': [0, 4, 5, 1, 2, 3],
 				'labels': ['Data'] + labels,
 				'legend': 'upper right',
 				'markers': ['o'] + ['-',]*N*2,

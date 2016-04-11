@@ -206,7 +206,7 @@ def plot_pdf_unc_comparison_all(args=None, additional_dictionary=None, scenario=
 				'texts_y':[0.97, 0.78, 0.48, 0.8, 0.80],
 				'x_lims': [1e-4, 0.9],
 				'y_lims': [0, 1],
-				#'hatches': [None, 'XXXX']*4,
+				#'hatches': [None, '////']*4,
 				'title': ("Only experimental uncertainties" if only_exp else ""),
 				# output
 				'filename': ("exp" if only_exp else "expmodelpar")+('_print' if _print else ''),

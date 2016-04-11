@@ -124,6 +124,7 @@ def signal_background_ratio(args=None):
 						'ratio_denominator_nicks': ['signal'],
 						#
 						'markers': ['fill']*2+['.'],
+						'colors': [colors.histo_colors['blue'], colors.histo_colors['red'], 'black'],
 						'labels': ['Signal', 'Background', 'Ratio'],
 						'y_subplot_label': 'Background/Signal',
 						'x_errors': [False, False, True],
