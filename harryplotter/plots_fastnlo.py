@@ -139,6 +139,8 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				if common.zpt_xlog:
 					d['x_ticks'] = common.zpt_ticks
 				d['y_lims'] = [common.zpt_miny, 1e1]
+			elif quantity == 'abszy':
+				d['y_rel_lims'] = [0.9, 1.3]
 			plots.append(d)
 
 	return [PlottingJob(plots, args)]
