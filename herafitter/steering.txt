@@ -151,7 +151,7 @@
 *
 &ExtraMinimisationParameters
    name  = 'alphas',      'fs',   'fcharm'
-   value =  0.118 ,    @FS@,   0.0
+   value =  @ALPHAS@ ,    @FS@,   0.0
    step  =  0.0,   0.0 ,   0.     ! set to 0 to avoid minimisation 
 &End
 

@@ -24,14 +24,14 @@ def make_pdf_unc(args=None, additional_dictionary=None, scenario='hera'):
 def model_unc(args=None, additional_dictionary=None, pdf_scenario='hera', pdfq='1_9_squared'):
 	"""get model uncertainties"""
 	pdf_unc_basefile = common.results_dir+pdf_scenario+ "/job_{}_"+pdfname+"__"+pdfq+".root"
-	n_max = 9
+	numbers = range(9) + [18, 19] 
 	exp_unc = 'exp_unc'
-	nicks = ["nick"+str(i) for i in range(n_max)]
+	nicks = ["nick"+str(i) for i in numbers] 
 	plots = []
 	for flavour in common.pdf_unc_flavours:
 		d = {
 			 # input
-			'files': [pdf_unc_basefile.format(i) for i in range(n_max)],
+			'files': [pdf_unc_basefile.format(i) for i in numbers],
 			'folders': [''],
 			'x_expressions': [flavour],
 			'nicks': nicks,
