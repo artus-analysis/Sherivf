@@ -30,7 +30,7 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 		'hera2_zpt_bins': common.hera_cms_title,
 	}
 	title = titles.get(pdf_scenario, "")
-	text = r"$\\mathit{{Q}}^2 = {} \\/ GeV{}$".format(".".join(common.pdfq.split("_")[:2]), ("^2" if "squared" in common.pdfq else ""))
+	text = r"$\\mathit{{Q}}{1} = {0} \\/ GeV{1}$".format(".".join(common.pdfq.split("_")[:2]), ("^2" if "squared" in common.pdfq else ""))
 	y_lims = {
 		'gluon': [0, 4],
 	}
@@ -89,7 +89,7 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='her
 	scenarios = ['hera2', scenario]
 	labels = [common.hera_title, common.hera_cms_title_short]
 	for pdfq in common.pdfqs:
-		text = r"$\\mathit{{Q}}^2 = {} \\/ GeV{}$".format(".".join(pdfq.split("_")[:2]), ("^2" if "squared" in pdfq else ""))
+		text = r"$\\mathit{{Q}}{1} = {0} \\/ GeV{1}$".format(".".join(pdfq.split("_")[:2]), ("^2" if "squared" in pdfq else ""))
 		for only_exp in [True, False]:
 			for flavour in common.pdf_unc_flavours:
 				for _print in [True, False]:
@@ -156,7 +156,7 @@ def plot_pdf_unc_comparison_zpt_bins(args=None, additional_dictionary=None):
 def plot_pdf_unc_comparison_all(args=None, additional_dictionary=None, scenario='hera2_zpt_bins'):
 	""" ALL flavours: comparison between hera and hera+CMS with total uncertainties"""
 	plots = []
-	text = r"$\\mathit{{Q}}^2 = {} \\/ GeV{}$".format(".".join(common.pdfq.split("_")[:2]), ("^2" if "squared" in common.pdfq else ""))
+	text = r"$\\mathit{{Q}}{1} = {0} \\/ GeV{1}$".format(".".join(common.pdfq.split("_")[:2]), ("^2" if "squared" in common.pdfq else ""))
 	nicks = []
 	scenarios = ['hera2', scenario]
 	files = []
