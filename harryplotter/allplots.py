@@ -19,6 +19,7 @@ import plots_unfolded
 import plots_pdf_uncertainties
 import branching
 import plot_subprocs
+import plots_pdf_comparison
 
 
 def allplots(args=None):
@@ -90,7 +91,8 @@ def allplots(args=None):
 		plots_unfolded.correlation_matrix,
 		plots_pdf_reweighted.weights,
 		plots_pdf_reweighted.alphas,
-		plots_unfolded.stat_unf_contribution  # 50
+		plots_unfolded.stat_unf_contribution,  # 50
+		plots_pdf_comparison.pdf_comparison,
 	][plot_min:plot_max]
 
 	wwwdirs = [
@@ -145,6 +147,7 @@ def allplots(args=None):
 		"weights",
 		"alphas",
 		"stat_unf_contribution",
+		"pdf_comparison",
 	][plot_min:plot_max]
 
 	if numbers is not None:
