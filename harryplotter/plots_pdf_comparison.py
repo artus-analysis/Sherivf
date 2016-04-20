@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from Excalibur.Plotting.utility.toolsZJet import PlottingJob
+from Excalibur.Plotting.utility.colors import histo_colors
 import common
+
 
 def pdf_comparison(args=None, additional_dictionary=None):
 	""" PDF comparison for different PDF sets."""
@@ -25,6 +27,7 @@ def pdf_comparison(args=None, additional_dictionary=None):
 			"labels": [p[1] for p in pdfs],
 			"legend": "upper left",
 			"line_styles": ["-"],  # "line_styles": ["-", ":", "-.", "--"],
+			"colors": ['black', histo_colors['red'], histo_colors['blue'], histo_colors['green']],
 			"markers": [" "],
 			"x_label": "x",
 			"x_log": True,
