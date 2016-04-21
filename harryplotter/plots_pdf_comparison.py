@@ -11,8 +11,8 @@ def pdf_comparison(args=None, additional_dictionary=None):
 	text  = r"$\\mathit{{Q}}{1} = {0} \\/ GeV{1}$".format(".".join(common.pdfq.split("_")[:2]), ("^2" if "squared" in common.pdfq else ""))
 	for flavour in common.pdf_unc_flavours:
 		pdfs = [
-			["5_pdfunc/hera2_1_9_squared_combined_exp_model_par_{0}.root".format(flavour), "HERA", "expmodelpar"],
-			["5_pdfunc/hera2_zpt_bins_1_9_squared_combined_exp_model_par_{0}.root".format(flavour), "HERA+CMS", "expmodelpar"],
+			["results/hera2/pdf_1_9_squared.root", "HERA", "exp_"+flavour],
+			["results/hera2_zpt_bins/pdf_1_9_squared.root", "HERA+CMS", "exp_"+flavour],
 			["pdf_sets/CT14nlo__1_9_squared.root", "CT14", flavour],
 			["pdf_sets/NNPDF30_nlo_as_0118__1_9_squared.root", "NNPDF 3.0", flavour],
 			# ["pdf_sets/HERAPDF15NLO_EIG__1_9_squared.root", "HERAPDF15NLO_EIG", flavour],

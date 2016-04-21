@@ -34,13 +34,13 @@ def plot_pdf_uncs(args=None, additional_dictionary=None, pdf_scenario='hera'):
 	y_lims = {
 		'gluon': [0, 4],
 	}
-	nicks = ["exp", "expmodel", "expmodelpar"]
+	nicks = ["exp", "exp_mod", "exp_mod_par"]
 	for flavour in common.pdf_unc_flavours:
 		d = {
 			# input
-			'files': [os.path.join(common.pdf_dir, pdf_scenario+"_"+common.pdfq+'_combined_exp_model_par_'+flavour+".root")],
+			'files': [os.path.join("results/"+pdf_scenario+"/pdf_" +common.pdfq+ ".root")],
 			'folders': [''],
-			'x_expressions': nicks,
+			'x_expressions': [nick+"_"+flavour for nick in nicks],
 			'nicks': nicks,
 			# analysis
 			'analysis_modules': ['RelUncertainty'],
@@ -95,9 +95,9 @@ def plot_pdf_unc_comparison(args=None, additional_dictionary=None, scenario='her
 				for _print in [True, False]:
 					d = {
 						#input
-						'files': [os.path.join(common.pdf_dir, scenario+"_"+pdfq+'_combined_exp_model_par_'+flavour+".root") for scenario in scenarios],
+						'files': [os.path.join("results/"+scenario+"/pdf_" +common.pdfq+ ".root") for scenario in scenarios],
 						'folders': [''],
-						'x_expressions': [("exp" if only_exp else "expmodelpar")],
+						'x_expressions': [("exp" if only_exp else "exp_mod_par")+"_"+flavour],
 						'nicks': nicks,
 						# analysis
 						'analysis_modules': ['RelUncertainty'],
@@ -157,32 +157,36 @@ def plot_pdf_unc_comparison_all(args=None, additional_dictionary=None, scenario=
 	""" ALL flavours: comparison between hera and hera+CMS with total uncertainties"""
 	plots = []
 	text = r"$\\mathit{{Q}}{1} = {0} \\/ GeV{1}$".format(".".join(common.pdfq.split("_")[:2]), ("^2" if "squared" in common.pdfq else ""))
-	nicks = []
+
 	scenarios = ['hera2', scenario]
-	files = []
-	scales = []
 	scaledict = {
 		'gluon': 0.25,
 		'sea_quarks': 0.25,
 	}
 	flavours = ['gluon', 'd_valence_quark', 'u_valence_quark', 'sea_quarks']
 	texts = [r'$g$ $(\\!\\times {})$'.format(scaledict['gluon']), '$d_v$', '$u_v$', r'$sea$ $(\\!\\times {})$'.format(scaledict['sea_quarks'])]
-	for flavour in flavours:
-		for scenario in scenarios:
-			nicks += [flavour + '_' + scenario]
-			files += [os.path.join(common.pdf_dir, scenario+"_"+common.pdfq+'_combined_exp_model_par_'+flavour+".root")],
-			if flavour in scaledict.keys():
-				scales += [scaledict[flavour]]
-			else:
-				scales += [1]
 	labels = [common.hera_title, common.hera_cms_title_short]
 	for only_exp in [True, False]:
+		x_expressions = []
+		scales = []
+		nicks = []
+		files = []
+		for flavour in flavours:
+			for scenario in scenarios:
+				x_expressions += [("exp" if only_exp else "exp_mod_par") + "_" + flavour]
+				nicks += [flavour + '_' + scenario]
+				if flavour in scaledict.keys():
+					scales += [scaledict[flavour]]
+				else:
+					scales += [1]
+		for scenario in scenarios:
+			files += [os.path.join("results/"+scenario+"/pdf_" +common.pdfq+ ".root")],
 		for _print in [True, False]:
 			d = {
 				#input
-				'files': files,
+				'files': files*len(flavours),
 				'folders': [''],
-				'x_expressions': [("exp" if only_exp else "expmodelpar")],
+				'x_expressions': x_expressions,
 				'nicks': nicks,
 				'analysis_modules': ['ScaleHistograms'],
 				'scale_nicks': nicks,
@@ -190,16 +194,16 @@ def plot_pdf_unc_comparison_all(args=None, additional_dictionary=None, scenario=
 				# formatting
 				'labels': labels + [None]*2*len(flavours),
 				'x_log': True,
-				'zorder': [1.1, 1.2],
-				'markers': ['fill']*4,
-				'x_errors': [True]*4,
-				'y_errors': [True]*4,
+				'zorder': [1.1, 1.2]*len(flavours),
+				'markers': ['fill']*2*len(flavours),
+				'x_errors': [True]*2*len(flavours),
+				'y_errors': [True]*2*len(flavours),
 				'line_styles': '-',
 				'x_label': 'x',
 				'y_label': 'xfxQ2',
 				'y_subplot_label': 'Rel. uncertainty',
 				'alphas': [(0.5 if _print else 0.7)],
-				'colors': [histo_colors['blue'], histo_colors['red']]*2,
+				'colors': [histo_colors['blue'], histo_colors['red']]*len(flavours),
 				#'facecolors': [histo_colors['blue'], 'none'],
 				'texts': [text]+texts,
 				'texts_x':[0.03, 0.5, 0.8, 0.85, 0.02],
