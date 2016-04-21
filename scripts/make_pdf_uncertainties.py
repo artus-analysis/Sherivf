@@ -7,7 +7,10 @@ import ROOT
 import math
 import Artus.HarryPlotter.utility.roottools as roottools
 
-def main(central, model, parametrization, output=None):
+
+q_values = ['1_9_squared', '10_0_squared', '91_2']
+
+def make_pdf_uncertainties(central, model, parametrization, output=None):
 	"""main"""
 	output_filename = (output or "pdf.root")
 	file_created = False
@@ -86,10 +89,10 @@ def combine_tgraphs(root_objects):
 
 if __name__ == "__main__":
 
-	for q in ['1_9_squared', '10_0_squared', '91_2']:
+	for q in q_values:
 		base = "job_{}_hf_pdf__" + q + ".root"
 		output_filename = "pdf_" + q + ".root"
-		main(
+		make_pdf_uncertainties(
 			base.format("0"),
 			[base.format(str(n)) for n in range(1, 9)+[18, 19]],
 			[base.format(str(n)) for n in range(9, 18)],

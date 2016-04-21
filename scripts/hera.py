@@ -8,6 +8,7 @@
 import time, sys, os, glob, argparse, subprocess
 import sherivftools
 import copy_herafitter_steering
+import make_pdf_uncertainties
 
 
 class Hera(object):
@@ -48,10 +49,19 @@ class Hera(object):
 		self.gctime = time.time()
 		gc_exitcode= sherivftools.run_gc(self.output_dir + "/" + self.config, self.output_dir)
 		self.gctime = time.time() - self.gctime
-		print "gc_exitcode", gc_exitcode
 		if gc_exitcode == 0:
 			sherivftools.create_result_linkdir(self.output_dir+"/output/", self.mode + ('_' + self.args.value if self.args.value else ''))
-		#TODO merge outputs to get exp/model/par uncertainties
+
+		# merge outputs to get exp/model/par uncertainties
+		for q in make_pdf_uncertainties.q_values:
+			base = self.output_dir+"/output/job_{}_hf_pdf__" + q + ".root"
+			output_filename = self.output_dir+"/output/"+pdf_" + q + ".root"
+			make_pdf_uncertainties.make_pdf_uncertainties(
+				base.format("0"),
+				[base.format(str(n)) for n in range(1, 9)+[18, 19]],
+				[base.format(str(n)) for n in range(9, 18)],
+				output_filename
+			)
 
 
 if __name__ == "__main__":
