@@ -55,7 +55,7 @@ class Hera(object):
 		# merge outputs to get exp/model/par uncertainties
 		for q in make_pdf_uncertainties.q_values:
 			base = self.output_dir+"/output/job_{}_hf_pdf__" + q + ".root"
-			output_filename = self.output_dir+"/output/"+pdf_" + q + ".root"
+			output_filename = self.output_dir+"/output/pdf_" + q + ".root"
 			make_pdf_uncertainties.make_pdf_uncertainties(
 				base.format("0"),
 				[base.format(str(n)) for n in range(1, 9)+[18, 19]],
