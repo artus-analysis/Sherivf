@@ -12,7 +12,7 @@ def pdf_comparison(args=None, additional_dictionary=None):
 	for flavour in common.pdf_unc_flavours:
 		pdfs = [
 			["results/hera2/pdf_1_9_squared.root", "HERA", "exp_"+flavour],
-			["results/hera2_zpt_bins/pdf_1_9_squared.root", "HERA+CMS", "exp_"+flavour],
+			["results/hera2_zpt_bins/pdf_1_9_squared.root", "HERA and CMS Z+jet", "exp_"+flavour],
 			["pdf_sets/CT14nlo__1_9_squared.root", "CT14", flavour],
 			["pdf_sets/NNPDF30_nlo_as_0118__1_9_squared.root", "NNPDF 3.0", flavour],
 			# ["pdf_sets/HERAPDF15NLO_EIG__1_9_squared.root", "HERAPDF15NLO_EIG", flavour],
@@ -39,7 +39,7 @@ def pdf_comparison(args=None, additional_dictionary=None):
 			"filename": "pdf_comparison_"+flavour,
 		}
 		if flavour == "gluon":
-			d["y_lims"] = [0.0, 3.5]
+			d["y_lims"] = [0.0, 4]
 			d["legend"] = "upper right"
 		elif "valence" in flavour:
 			d["legend"] = "center left"
