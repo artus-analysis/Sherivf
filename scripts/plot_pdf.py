@@ -1,32 +1,114 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""  plot pdf """
+""" plot pdf """
 
 import ROOT
+import matplotlib
 import matplotlib.pyplot as plt
 
 
-def plot_pdf():
+def plot_pdf(input_filename, output_filename, flavour):
 	"""main"""
-	output_filename = "pdf.png"
-	input_filename = "results/hera2/pdf_1_9_squared.root"
+	
+	# get input
+	print "Open", input_filename
 	rootfile = ROOT.TFile(input_filename, "READ")
-	expmodelpar = rootfile.Get("expmodelpar")
+	exp = rootfile.Get("exp_"+flavour)
+	exp_mod = rootfile.Get("exp_mod_"+flavour)
+	exp_mod_par = rootfile.Get("exp_mod_par_"+flavour)
+	colors = ['#68A55A', '#FAA75B', '#D35658']  # green, yellow, red
 	
-	#TODO convert ROOT histo to mpl format
-	
+	# prepare figure
+	set_matplotlib_params()
 	fig = plt.figure()
-	ax = fig.add_subplot(1, 1, 1)
-	ax.set_xlabel('x')
-	ax.set_ylabel('PDF')
-	ax.set_xlims(1e-4, 0.9)
+	ax1, ax2 = [plt.subplot2grid((4,1), (0, 0), rowspan=3), plt.subplot2grid((4,1), (3, 0))]
+	for ax in [ax1, ax2]:
+		ax.set_xlim(1e-4, 0.9)
+		ax.set_xscale('log', nonposx='clip')
+	ax2.set_xlabel(r'$x$', position=(1., 0.), va='top', ha='right')
+	ax1.set_ylabel('$x$f($x,Q^2$)', position=(0., 1.), va='top', ha='right')
+	ax2.set_ylabel('Rel. uncertainty', position=(0., 1.), va='top', ha='right')
+	ax1.set_xticklabels([])
+	ax2.set_ylim(-0.45, 0.45)
+	ax1.text(0.05, 0.95, flavour, size=16, transform=ax1.transAxes, ha="left", va="top")
 
-	#TODO plot PDF
 
+	# iterate over ROOT objects
+	for color, histo, alpha in zip(colors, [exp_mod_par, exp_mod, exp], [0.7, 0.9, 0.7]):
+		# convert ROOT histo to mpl format
+		x, y, yerrlow, yerrhigh = get_values_from_tgraphasymmerrors(histo)
+
+		# draw PDF
+		ax1.plot(x, y, color=color)
+		ax1.fill_between(x,
+					[(y_val-error) for y_val, error in zip(y, yerrlow)],
+					[(y_val+error) for y_val, error in zip(y, yerrhigh)],
+					color=color,
+					alpha=alpha,
+				)
+		ax2.fill_between(x,
+					[(error/y_val) for y_val, error in zip(y, yerrlow)],
+					[(-error/y_val) for y_val, error in zip(y, yerrhigh)],
+					color=color,
+					alpha=alpha,
+				)
+		ax1.set_ylim(0, max(ax.get_xlim()[1], max(y)*1.2))
+	
+	# finish
+	print "Writing to", output_filename
 	fig.savefig(output_filename, bbox_inches='tight')
 	plt.close()
 
 
+def set_matplotlib_params():
+	# Matplotlib settings
+	matplotlib.rcParams['mathtext.fontset'] = 'stixsans'
+	matplotlib.rcParams['mathtext.default'] = 'rm'
+	# figure
+	matplotlib.rcParams['figure.figsize'] = 7., 7.
+	# axes
+	matplotlib.rcParams['axes.linewidth'] = 1
+	matplotlib.rcParams['axes.labelsize'] = 20
+	matplotlib.rcParams['xtick.major.pad'] = 7
+	matplotlib.rcParams['ytick.major.pad'] = 7
+	matplotlib.rcParams['xtick.labelsize'] = 16
+	matplotlib.rcParams['xtick.major.size'] = 6
+	matplotlib.rcParams['xtick.major.width'] = 0.8
+	matplotlib.rcParams['xtick.minor.size'] = 4
+	matplotlib.rcParams['xtick.minor.width'] = 0.5
+	matplotlib.rcParams['ytick.labelsize'] = 16
+	matplotlib.rcParams['ytick.major.width'] = 0.8
+	matplotlib.rcParams['ytick.major.size'] = 6
+	matplotlib.rcParams['ytick.minor.size'] = 3.5
+	matplotlib.rcParams['ytick.minor.width'] = 0.5
+	matplotlib.rcParams['lines.markersize'] = 8
+	# default color cycleexp
+	matplotlib.rcParams["axes.formatter.limits"] = [-5, 5]
+	# legend
+	matplotlib.rcParams['legend.numpoints'] = 1
+	matplotlib.rcParams['legend.fontsize'] = 16
+	matplotlib.rcParams['legend.labelspacing'] = 0.3
+	# Saving
+	matplotlib.rcParams['savefig.dpi'] = 150
+
+
+def get_values_from_tgraphasymmerrors(rootgraph):
+	x, y, yerrlow, yerrhigh = [], [], [], []
+	for i in range(rootgraph.GetN()):
+			tmpX, tmpY = ROOT.Double(0), ROOT.Double(0)
+			rootgraph.GetPoint(i, tmpX, tmpY)
+			x += [tmpX]
+			y += [tmpY]
+			yerrhigh += [rootgraph.GetErrorYhigh(i)]
+			yerrlow += [rootgraph.GetErrorYlow(i)]
+	return x, y, yerrlow, yerrhigh
+
+
 if __name__ == "__main__":
-	plot_pdf()
+	plot_pdf(
+		"results/hera2/pdf_1_9_squared.root",
+		"pdf.png",
+		"gluon"
+	)
+
