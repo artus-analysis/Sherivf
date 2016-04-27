@@ -68,13 +68,13 @@ def response_matrix(args=None):
 				'files': [common.unfold_path + '/' + '_'.join([quantity, common.default_mc, ybin, '1']) + '.root'],
 				'folders': [''],
 				'x_expressions': ['responsematrix'],
-				'analysis_modules': ['NormalizeRowsToUnity'],
+				#'analysis_modules': ['NormalizeRowsToUnity'],
 				# formatting
 				'y_label': 'gen' + quantity,
 				'x_label': 'reco' + quantity,
 				'z_log': True,
-				'z_lims':[1e-3, 1],
-				'z_label': 'Response',
+				#'z_lims':[1e-3, 1],
+				'z_label': 'Events',
 				'rasterized': True,
 				'texts': [ybinplotlabel],
 				# output
