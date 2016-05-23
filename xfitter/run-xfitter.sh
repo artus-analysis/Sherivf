@@ -2,7 +2,7 @@
 
 source $MY_LANDINGZONE/gc-run.lib || exit 101
 
-# set env
+# set environment
 WDIR=$PWD
 cd /portal/ekpcms6/home/dhaitz/artus/CMSSW
 export SCRAM_ARCH=`ls bin`
@@ -12,28 +12,18 @@ cd /portal/ekpcms6/home/dhaitz/qcd/sherivf
 . scripts/ini.sh
 cd $WDIR
 
+# run xfitter
 echo -e "\nFit:"
 xfitter
-
-echo -e "\nafter fit: "
-ls -lt
-
 xfitter-draw --3panels --ratio-to-theory --bands --relative-errors hera/
 mv hera/plots.pdf .
 
-echo -e "\nhera: "
 cd hera/
-ls -lt
-
-
-echo -e "\nhf_pdf:"
-ls -lt hf_pdf/
-
 echo -e "\n\nErrorType:"
 grep ErrorType hf_pdf/hf_pdf.info -n
 sed -i 's/replicas/hessian/g' hf_pdf/hf_pdf.info
-echo -e "\n\n"
 
+# evaluate PDFs
 for q in 1.9 10.0 91.2; do
 	for squared in "" "--q2"; do
 		pdf_2_root.py -p hf_pdf -q ${q} ${squared}
@@ -41,10 +31,5 @@ for q in 1.9 10.0 91.2; do
 done
 mv *.root fittedresults.txt Results.txt minuit.out.txt ..
 cd ..
-
-
-
-echo -e "\nFiles: "
-ls -lt
 
 exit 0

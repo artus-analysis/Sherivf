@@ -2,33 +2,33 @@ set title
 new EKPPDF
 parameters 
    1   'Ag'                        0.0000   0.000000e+00
-   2   'Bg'                        @BG@     @BG_S@
-   3   'Cg'                        @CG@     @CG_S@
+   2   'Bg'                        -0.014834     0.162664
+   3   'Cg'                        9.106839     1.167720
    4   'Dg'                        0.0000   @DG_S@
    5   'Eg'                        0.0000   @EG_S@
-   7   'Aprig'                     @APRIG@  @APRIG_S@
-   8   'Bprig'                     @BPRIG@  @BPRIG_S@
-   9   'Cprig'                     @CPRIG@  @CPRIG_S@
+   7   'Aprig'                     1.043590  1.015050
+   8   'Bprig'                     -0.166400   0.082139
+   9   'Cprig'                     25.000  0.000
   11   'Auv'                       0.0000   0.000000e+00
-  12   'Buv'                       @BUV@    @BUV_S@
-  13   'Cuv'                       @CUV@    @CUV_S@
-  14   'Duv'                       @DUV@    @DUV_S@
-  15   'Euv'                       @EUV@    @EUV_S@
+  12   'Buv'                        0.713453    0.038249
+  13   'Cuv'                       4.840721    0.087541
+  14   'Duv'                       0.0    @DUV_S@
+  15   'Euv'                       13.405266    2.273558
   16   'Fuv'                       0.0000   0.000000e+00
   21   'Adv'                       0.0000   0.000000e+00
-  22   'Bdv'                       @BDV@    @BDV_S@
-  23   'Cdv'                       @CDV@    @CDV_S@
+  22   'Bdv'                       0.805766    0.096782
+  23   'Cdv'                       4.079602     0.396485
   24   'Ddv'                       0.0000   @DDV_S@
   25   'Edv'                       0.0000   @EDV_S@
   26   'Fdv'                       0.0000   0.000000e+00
   31   'AUbar'                     0.0000   0.000000e+00
-  32   'BUbar'                     @BUBAR@  @BUBAR_S@
-  33   'CUbar'                     @CUBAR@  @CUBAR_S@
-  34   'DUbar'                     @DUBAR@  @DUBAR_S@
+  32   'BUbar'                     0.0000   0.000000e+00
+  33   'CUbar'                     8.055252  0.840420
+  34   'DUbar'                     11.900269  2.960542
   35   'EUbar'                     0.0000   @EUBAR_S@
-  41   'ADbar'                     @ADBAR@  @ADBAR_S@
-  42   'BDbar'                     @BDBAR@  @BDBAR_S@
-  43   'CDbar'                     @CDBAR@  @CDBAR_S@
+  41   'ADbar'                     0.175618  0.010753
+  42   'BDbar'                     -0.172358  0.007237
+  43   'CDbar'                      4.885482 1.423895
   44   'DDbar'                     0.0000   @DDBAR_S@
   45   'EDbar'                     0.0000   @EDBAR_S@
   51   'AU'                        0.0000   0.000000e+00

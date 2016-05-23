@@ -17,7 +17,7 @@ class Hera(object):
 		self.mode = 'hera2'
 		self.default_value = None
 		self.config = "xfitter.conf"
-		self.files_to_copy = [self.config, 'minuit.in.txt', 'herapdf_par.conf', 'ewparam.txt','run-xfitter.sh']
+		self.files_to_copy = [self.config, 'minuit.in.txt', 'ewparam.txt','run-xfitter.sh']
 		self.default_storage_path = sherivftools.get_env('HERA_STORAGE_PATH')
 		self.get_arguments()
 
