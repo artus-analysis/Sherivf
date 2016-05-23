@@ -48,4 +48,4 @@ make sure the Excalibur outputs are present
 * delete PDF root files with `clear_pdfuncs`
 
 
-![My image](dhaitz.github.com/sherivf/test.jpg)
+![My image](test.png?raw=true)
