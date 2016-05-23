@@ -50,7 +50,7 @@ class Xfit(object):
 		# put together steering.txt and copy
 		steeringfile = os.path.join(os.environ['SHERIVFDIR'], "xfitter/steering.txt")
 		target = os.path.join(self.output_dir, os.path.basename(steeringfile))
-		datafiles = ["'{}'".format(os.path.join(os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/"), f)) for f in os.listdir(os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/"))]
+		datafiles = ["'{0}'".format(os.path.join(os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/"), f)) for f in os.listdir(os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/"))]
 		corrfiles = []
 		if self.mode == 'cms':
 			datafiles += [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_HFinput_{0}_{1}.txt'").format('zpt', ptbin) for ptbin in common.ybin_labels[:-1]]
@@ -72,7 +72,7 @@ class Xfit(object):
 		
 		# merge outputs to get exp/model/par uncertainties
 		for q in make_pdf_uncertainties.q_values:
-			base = self.output_dir+"/output/job_{}_hf_pdf__" + q + ".root"
+			base = self.output_dir+"/output/job_{0}_hf_pdf__" + q + ".root"
 			output_filename = self.output_dir+"/pdf_" + q + ".root"
 			make_pdf_uncertainties.make_pdf_uncertainties(
 				base.format("0"),
