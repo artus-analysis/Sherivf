@@ -9,16 +9,15 @@ import common
 
 import sherivftools
 
-steeringfile = os.path.join(os.environ['SHERIVFDIR'], "herafitter/steering.txt")
+steeringfile = os.path.join(os.environ['SHERIVFDIR'], "xfitter/steering.txt")
 
-xdir = os.path.join(os.environ['HERADIR'], "datafiles/hera/h1zeusCombined/inclusiveDis/1506.06042/")
-#xdir = "/portal/ekpcms6/home/dhaitz/qcd//xFitter-1.2.0/datafiles/hera/h1zeusCombined/inclusiveDis/1506.06042/"
+xdir = os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/")
 modes = {
 	'hera2':["'{}'".format(os.path.join(xdir, f)) for f in os.listdir(xdir)],
 	'nnpdf':[],
 }
 
-valuefile = "'" + os.environ['SHERIVFDIR'] + "/herafitter/CMS_Zee_HFinput_{0}_{1}.txt'"
+valuefile = "'" + os.environ['SHERIVFDIR'] + "/datafiles/CMS_Zee_HFinput_{0}_{1}.txt'"
 cut_bins = 1
 values = {
 	'abszy': [valuefile.format('abszy', 'inclusive')],
@@ -26,7 +25,7 @@ values = {
 	'zy': [valuefile.format('zy', 'inclusive')],
 	'zpt_bins': [valuefile.format('zpt', ptbin) for ptbin in common.ybin_labels[:-cut_bins]],
 }
-corrfile = "'" + os.environ['SHERIVFDIR'] + "/herafitter/CMS_Zee_correlation_{0}_{1}.corr'"
+corrfile = "'" + os.environ['SHERIVFDIR'] + "/datafiles/CMS_Zee_correlation_{0}_{1}.corr'"
 corrs = {
 	'abszy': [corrfile.format('abszy', 'inclusive')],
 	'zpt': [corrfile.format('zpt', 'inclusive')],

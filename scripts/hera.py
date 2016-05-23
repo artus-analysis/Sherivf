@@ -38,7 +38,7 @@ class Hera(object):
 		os.makedirs(self.output_dir + "/output")
 		
 		# copy necessary files
-		self.list_of_gc_files = [sherivftools.get_env('SHERIVFDIR') + '/hera-gc/' + f for f in self.files_to_copy]
+		self.list_of_gc_files = [sherivftools.get_env('SHERIVFDIR') + '/xfitter/' + f for f in self.files_to_copy]
 		for gcfile in self.list_of_gc_files:
 			sherivftools.copyfile(gcfile, self.output_dir+'/'+os.path.basename(gcfile),{
 				'@OUTDIR@': self.output_dir+'/output',

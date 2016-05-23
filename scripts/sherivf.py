@@ -135,12 +135,12 @@ class Sherivf(object):
 		# define configs to use
 		self.args.configfile = 'sherpa-rivet_{0}.conf'.format(self.args.batch)
 		self.args.list_of_gc_cfgs = [
-			self.sherivf_path + '/' + 'gc_configs/sherpa-rivet_base.conf',
-			self.sherivf_path + '/' + 'gc_configs/run-sherpa.sh',
-			self.sherivf_path + '/' + 'gc_configs/sherpa-rivet_{0}.conf'.format(self.args.batch)
+			self.sherivf_path + '/' + 'sherpa/sherpa-rivet_base.conf',
+			self.sherivf_path + '/' + 'sherpa/run-sherpa.sh',
+			self.sherivf_path + '/' + 'sherpa/sherpa-rivet_{0}.conf'.format(self.args.batch)
 		]
 		if 'ekp' in socket.gethostname().lower():
-			self.args.list_of_gc_cfgs.append(self.sherivf_path + '/' + 'gc_configs/sherpa-rivet_ekp-base.conf')
+			self.args.list_of_gc_cfgs.append(self.sherivf_path + '/' + 'sherpa/sherpa-rivet_ekp-base.conf')
 		if self.args.batch == 'ekpcloud':
 			self.args.output_dir = self.args.output_dir.replace("/a/", "/ekpcloud_local/")
 
