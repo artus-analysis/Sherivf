@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-	create a workdir and all files, start herafitter in parallel with GC including all uncertainties
+	create a workdir and all files, start xfitter in parallel with GC including all uncertainties
 """
 
 import time, sys, os, glob, argparse, subprocess
@@ -16,10 +16,8 @@ class Hera(object):
 	def __init__(self):
 		self.mode = 'hera2'
 		self.default_value = None
-		#self.config = "herafitter_scan.conf"
-		self.config = "herafitter.conf"
-		self.files_to_copy = [self.config, 'minuit.in.txt', 'herapdf_par.conf', 'ewparam.txt','run-herafitter.sh']
-		#self.files_to_copy = [self.config, 'minuit.in.txt', 'herapdf_par_scan.conf', 'ewparam.txt','run-herafitter.sh']
+		self.config = "xfitter.conf"
+		self.files_to_copy = [self.config, 'minuit.in.txt', 'herapdf_par.conf', 'ewparam.txt','run-xfitter.sh']
 		self.default_storage_path = sherivftools.get_env('HERA_STORAGE_PATH')
 		self.get_arguments()
 
@@ -69,5 +67,5 @@ if __name__ == "__main__":
 	hera = Hera()
 	hera.run()
 	if hasattr(hera, "gctime"):
-		print "---        Hera took {}  ---".format(sherivftools.format_time(time.time() - start_time))
+		print "---     xFitter took {}  ---".format(sherivftools.format_time(time.time() - start_time))
 		print "--- GridControl took {}  ---".format(sherivftools.format_time(hera.gctime))
