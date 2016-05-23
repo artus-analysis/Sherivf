@@ -81,6 +81,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 		#'PDF4LHC15_nlo_100'
 		]
 	labels = [common.pdfsetdict.get(i, i) for i in pdf_sets]
+	labels = [l.replace(" NLO", "") for l in labels]
 	N = len(pdf_sets)
 	member = 0
 	colors = ['red', 'blue', 'green', 'purple', 'orange', 'cyan'][:N]
@@ -107,8 +108,8 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				'x_expressions': 'nick0',
 				# analysis
 				"analysis_modules": ["Ratio"],
-				'ratio_denominator_nicks': ['nick0'],
-				'ratio_numerator_nicks':[common.sherpa_results+"/{}.tab_{}_{}".format(ybin+replaced_quantity, i, member) for i in pdf_sets],
+				'ratio_numerator_nicks': ['nick0'],
+				'ratio_denominator_nicks':[common.sherpa_results+"/{}.tab_{}_{}".format(ybin+replaced_quantity, i, member) for i in pdf_sets],
 				# formatting
 				'legend_order': [0, 4, 5, 1, 2, 3],
 				'labels': ['Data'] + labels,
@@ -121,7 +122,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				'step': [True],
 				'lumis': [common.lumi],
 				'x_label': quantity,
-				'y_subplot_label': 'theodata',
+				'y_subplot_label': 'datatheo',
 				'y_subplot_lims': [0.75, 1.25],
 				'texts': [ybinplotlabel],
 				# output
@@ -139,6 +140,7 @@ def fastnlo_pdfsets(args=None, additional_dictionary=None):
 				if common.zpt_xlog:
 					d['x_ticks'] = common.zpt_ticks
 				d['y_lims'] = [common.zpt_miny, 1e1]
+				d['y_subplot_label'] = "Data/ Theory\n"
 			elif quantity == 'abszy':
 				d['y_rel_lims'] = [0.9, 1.3]
 			plots.append(d)

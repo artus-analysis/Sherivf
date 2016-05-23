@@ -8,7 +8,7 @@ def subprocs(args=None, additional_dictionary=None):
 	"""2D plot of subprocs (from fastnlo)"""
 	flavs = 'duscb'
 	allflavs = [r'$\\bar{{{0}}}$'.format(f) for f in flavs[::-1]] + ['$g$'] + [r"${0}$".format(f) for f in flavs]
-	axlabel = r"Rel. Contribution / %"
+	axlabel = r"Rel. contribution / %"
 	d = {
 		# input
 		"x_expressions": ["name"],
@@ -58,7 +58,7 @@ def production_channels(args=None, additional_dictionary=None):
 		"x_lims": [-0.5, n + 2.5],
 		"x_ticks": [0.5 + 1.5*i for i in range(n)],
 		"x_tick_labels": labels,
-		"y_label": "Rel. contribution / %",
+		"y_label": "Relative contribution / %",
 		"y_lims": [0, 100],
 		"filename": "zjet_production-channels",
 		"plot_modules": ['PlotMplZJet', 'SetAxisBelow'],

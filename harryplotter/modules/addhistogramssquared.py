@@ -25,21 +25,22 @@ class AddHistogramsSquared(analysisbase.AnalysisBase):
 
 	def run(self, plotData=None):
 		super(AddHistogramsSquared, self).run(plotData)
+		for index, nicks in enumerate(plotData.plotdict["square_add_nicks"]):
+			root_objects = [plotData.plotdict["root_objects"][nick] for nick in nicks.split(" ")]
+			result_histo = root_objects[0].Clone("square_added")
 
-		root_objects = [plotData.plotdict["root_objects"][nick] for nick in plotData.plotdict["square_add_nicks"]]
-		result_histo = root_objects[0].Clone("square_added")
+			#TODO add checks that all histos have same binning?
 
-		#TODO add checks that all histos have same binning?
+			# loop over bins, add contents quadratically, then extract square root:
+			for i in range(1, result_histo.GetNbinsX()+1):
+				content = 0.
+				for histogram in root_objects:
+						content += histogram.GetBinContent(i)**2
+				content = math.sqrt(content)
 
-		# loop over bins, add contents quadratically, then extract square root:
-		for i in range(1, result_histo.GetNbinsX()+1):
-			content = 0.
-			for histogram in root_objects:
-					content += histogram.GetBinContent(i)**2
-			content = math.sqrt(content)
+				result_histo.SetBinContent(i, content)
+				result_histo.SetBinError(i, 0) #TODO also add errors ?
 
-			result_histo.SetBinContent(i, content)
-			result_histo.SetBinError(i, 0) #TODO also add errors ?
-
-		plotData.plotdict["root_objects"]['square_added'] = result_histo
-		plotData.plotdict['nicks'].append('square_added')
+			name = 'square_added_' + str(index)
+			plotData.plotdict["root_objects"][name] = result_histo
+			plotData.plotdict['nicks'].append(name)

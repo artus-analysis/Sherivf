@@ -98,53 +98,61 @@ def unfolding_comparison(args=None):
 	plots = []
 
 	ybin = 'inclusive'
-	labels = ['Data unfolded', 'Data Reco']
-	expressions = [label.lower().replace(" ", "_") for label in labels]
-	labels = [l.replace(' Reco', '') for l in labels]
 
-	for iterations in range(1, 5):
-		for quantity in common.data_quantities:
-			for ybin, ybinplotlabel in zip(["inclusive"] + common.ybin_labels, [""] + common.ybin_plotlabels):
-				if (quantity is not 'zpt') and (ybin is not "inclusive"):
-					continue
-				filename = common.unfold_path + '/' + '_'.join([quantity, common.default_mc, ybin, str(iterations)]) + '.root'
-				if (common.default_unfolding_method != 'dagostini') and (iterations > 1):
-					continue
-				d = {
-					# input
-					'files': [filename],
-					'folders': [''],
-					'x_expressions': expressions,
-					'nicks': expressions,
-					# formatting
-					'labels': labels,
-					'lumis': [common.lumi],
-					'energies': [8],
-					'markers': ['o', '-'],
-					'line_styles': [None, '-'],
-					'step': True,
-					'legend': 'upper right',
-					'x_lims': common.lims(quantity),
-					'y_subplot_lims': [0.95, 1.05],
-					'x_bins': common.bins[quantity],
-					'x_label': quantity,
-					'texts': [ybinplotlabel],
-					# output
-					'filename': "_".join(['unfolded', quantity, str(iterations)])+("" if ybin=='inclusive' else "_"+ybin),
-					'www_title': 'Unfolding',
-					'www_text': 'Comparison of Data and MC at reco-, gen- and unfolded-level for different unfolding iterations',
-				}
-				if quantity == 'zpt':
-					d['y_log'] = True
-					d['x_log'] = common.zpt_xlog
-					d['y_lims'] = [1, 1e7]
-					d['x_ticks'] = common.zpt_ticks
-				# ratio to MC gen
-				d.update({
-					'analysis_modules': ['Ratio'],
-					'y_subplot_label': 'Unfolded/Reco',
-				})
-				plots.append(d)
+	for only_reco in [True, False]:
+		labels =  ['Data Reco', 'Data unfolded'][:(1 if only_reco else 99)]
+		expressions = [label.lower().replace(" ", "_") for label in labels]
+		labels = [l.replace(' Reco', '') for l in labels]
+		if only_reco:
+			labels = ['']
+		else:
+			labels = ['Before unfolding', 'After unfolding']
+		for iterations in range(1, 5):
+			for quantity in common.data_quantities:
+				for ybin, ybinplotlabel in zip(["inclusive"] + common.ybin_labels, [""] + common.ybin_plotlabels):
+					if (quantity is not 'zpt') and (ybin is not "inclusive"):
+						continue
+					filename = common.unfold_path + '/' + '_'.join([quantity, common.default_mc, ybin, str(iterations)]) + '.root'
+					if (common.default_unfolding_method != 'dagostini') and (iterations > 1):
+						continue
+					d = {
+						# input
+						'files': [filename],
+						'folders': [''],
+						'x_expressions': expressions,
+						'nicks': expressions,
+						# formatting
+						'labels': labels,
+						'lumis': [common.lumi],
+						'energies': [8],
+						'markers': ['o', '-'],
+						'line_styles': [None, '-'],
+						'step': True,
+						'legend': 'upper right',
+						'x_lims': common.lims(quantity),
+						'y_subplot_lims': [0.95, 1.05],
+						'x_bins': common.bins[quantity],
+						'x_label': quantity,
+						'texts': [ybinplotlabel],
+						# output
+						'filename': "_".join(['unfolded', quantity, str(iterations)])+("" if ybin=='inclusive' else "_"+ybin)+('_onlyreco' if only_reco else ''),
+						'www_title': 'Unfolding',
+						'www_text': 'Comparison of Data and MC at reco-, gen- and unfolded-level for different unfolding iterations',
+					}
+					if quantity == 'zpt':
+						d['y_log'] = True
+						d['x_log'] = common.zpt_xlog
+						d['y_lims'] = [1, 1e7]
+						d['x_ticks'] = common.zpt_ticks
+					# ratio to MC gen
+					if not only_reco:
+						d.update({
+							'analysis_modules': ['Ratio'],
+							'y_subplot_label': 'Before/after unfolding',
+						})
+					else:
+						d['x_errors'] = True
+					plots.append(d)
 	return [PlottingJob(plots, args)]
 
 
