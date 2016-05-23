@@ -21,6 +21,9 @@ alias configure_fastjet="./configure --prefix=$HOME/local  --enable-allcxxplugin
 
 # RIVET
 
+
+
+
 #####
 # Sherpa stuff
 #####
@@ -28,11 +31,16 @@ alias configure_fastjet="./configure --prefix=$HOME/local  --enable-allcxxplugin
 # QDNUM
 
 # BLACKHAT
-# blackhat libraries can become quite large - install in storage space
+# blackhat libraries can become quite large -> install in storage space
 alias configure_blackhat="./configure --prefix=/storage/a/${USER}/blackhat --with-QDpath=$HOME/local"
 
 # SHERPA
+# https://sherpa.hepforge.org/trac/wiki
+# wget http://www.hepforge.org/archive/sherpa/SHERPA-MC-2.2.0.tar.gz  && tar -xvf SHERPA-MC-2.2.0.tar.gz
 alias configure_sherpa="./configure --prefix=$HOME/local --with-sqlite3=install --enable-hepmc2=$HOME/local/ --enable-rivet=$HOME/local/ --enable-blackhat=/storage/a/${USER}/blackhat   --enable-fastjet=$HOME/local/"
+
+
+
 
 
 #####

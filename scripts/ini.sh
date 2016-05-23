@@ -1,11 +1,12 @@
 #!/bin/bash
 
-# source ROOT if not sourced
-
-export ROOTSYS=/cvmfs/sft.cern.ch/lcg/app/releases/ROOT/5.34.13/x86_64-slc6-gcc48-opt/root/
-export GCCLIBS=/cvmfs/sft.cern.ch/lcg/external/gcc/4.7.2/x86_64-slc5/lib64/
-export LD_LIBRARY_PATH=$GCCLIBS:$LD_LIBRARY_PATH
-. $ROOTSYS/bin/thisroot.sh
+# source ROOT if not set
+if [ -z $ROOT_INCLUDE_PATH ]; then
+	export ROOTSYS=/cvmfs/sft.cern.ch/lcg/app/releases/ROOT/5.34.13/x86_64-slc6-gcc48-opt/root/
+	export GCCLIBS=/cvmfs/sft.cern.ch/lcg/external/gcc/4.7.2/x86_64-slc5/lib64/
+	export LD_LIBRARY_PATH=$GCCLIBS:$LD_LIBRARY_PATH
+	. $ROOTSYS/bin/thisroot.sh
+fi
 
 
 export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
