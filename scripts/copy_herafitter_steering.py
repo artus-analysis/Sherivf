@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""copy herafitter steering file and replace certain parameters according to fit mode"""
+"""copy xfitter steering file and replace certain parameters according to fit mode"""
 
 import argparse
 import os
@@ -14,25 +14,22 @@ steeringfile = os.path.join(os.environ['SHERIVFDIR'], "xfitter/steering.txt")
 xdir = os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/")
 modes = {
 	'hera2':["'{}'".format(os.path.join(xdir, f)) for f in os.listdir(xdir)],
-	'nnpdf':[],
 }
 
-valuefile = "'" + os.environ['SHERIVFDIR'] + "/datafiles/CMS_Zee_HFinput_{0}_{1}.txt'"
-cut_bins = 1
+valuefile = "'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_HFinput_{0}_{1}.txt'"
 values = {
 	'abszy': [valuefile.format('abszy', 'inclusive')],
 	'zpt': [valuefile.format('zpt', 'inclusive')],
 	'zy': [valuefile.format('zy', 'inclusive')],
-	'zpt_bins': [valuefile.format('zpt', ptbin) for ptbin in common.ybin_labels[:-cut_bins]],
+	'zpt_bins': [valuefile.format('zpt', ptbin) for ptbin in common.ybin_labels[:-1]],
 }
-corrfile = "'" + os.environ['SHERIVFDIR'] + "/datafiles/CMS_Zee_correlation_{0}_{1}.corr'"
+corrfile = "'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_correlation_{0}_{1}.corr'"
 corrs = {
 	'abszy': [corrfile.format('abszy', 'inclusive')],
 	'zpt': [corrfile.format('zpt', 'inclusive')],
 	'zy': [corrfile.format('zy', 'inclusive')],
-	'zpt_bins': [corrfile.format('zpt', ptbin) for ptbin in common.ybin_labels[:-cut_bins]],
+	'zpt_bins': [corrfile.format('zpt', ptbin) for ptbin in common.ybin_labels[:-1]],
 }
-
 
 
 def main():
@@ -49,63 +46,7 @@ def main():
 
 def copy_herafile(mode, value, batch, targetdir, fast=False, keys={}):
 
-	print "Preparing Herafitter for {0} mode {1} ".format(mode, ('with {0} values'.format(value) if value else ''))
-
-	defaults_local = {
-		# for HERA Fit
-		'@Q02@': '1.9',
-		'@Q2MIN@': '7.5',
-		'@HF_SCHEME@': 'RT OPT'+(' FAST' if fast else ''),
-		'@PDFStyle@': 'HERAPDF',
-		'@DOBANDS@': 'True',
-		'@FS@': '0.40',
-		'@RUNNINGMODE@': 'Fit',
-		'@PDFSET@': 'CT10nlo',
-		# parameters
-		'@BG': 0,
-		'@BG_S': 0,
-		'@CG': 0,
-		'@CG_S': 0,
-		'@DG_S': 0,
-		'@EG_S': 0,
-		'@APRIG': 0,
-		'@APRIG_S': 0,
-		'@BPRIG': 0,
-		'@BPRIG_S': 0,
-		'@CPRIG': 0,
-		'@CPRIG_S': 0,
-		'@BUV': 0,
-		'@BUV_S': 0,
-		'@CUV': 0,
-		'@CUV_S': 0,
-		'@DUV': 0,
-		'@DUV_S': 0,
-		'@EUV': 0,
-		'@EUV_S': 0,
-		'@BDV': 0,
-		'@BDV_S': 0,
-		'@CDV': 0,
-		'@CDV_S': 0,
-		'@DDV_S': 0,
-		'@EDV_S': 0,
-		'@BUBAR': 0,
-		'@BUBAR_S': 0,
-		'@CUBAR': 0,
-		'@CUBAR_S': 0,
-		'@DUBAR': 0,
-		'@DUBAR_S': 0,
-		'@EUBAR_S': 0,
-		'@ADBAR': 0,
-		'@ADBAR_S': 0,
-		'@BDBAR': 0,
-		'@BDBAR_S': 0,
-		'@CDBAR': 0,
-		'@CDBAR_S': 0,
-		'@DDBAR_S': 0,
-		'@EDBAR_S@': 0,
-	}
-	defaults_global = {
-	}
+	print "Preparing xfitter for {0} mode {1} ".format(mode, ('with {0} values'.format(value) if value else ''))
 
 	# copy
 	target = os.path.join(targetdir, os.path.basename(steeringfile))
@@ -118,14 +59,8 @@ def copy_herafile(mode, value, batch, targetdir, fast=False, keys={}):
 		'@FILES@': ",\n      ".join(datafiles),
 		'@CORRFILES@': ",\n      ".join(corrfiles),
 		'@NCORRFILES@': str(len(corrfiles)),
-		'@DOREWEIGHTING@': str((mode == 'nnpdf')),
-		'@PDFSET@': 'NNPDF23_nlo_as_0118',
-		'@NREPLICAS@': 100,
 		# NNPDF Rew.
 	}
-	settings.update(defaults_global)
-	if not batch:  # for GC, dont replace the HF values
-		settings.update(defaults_local)
 	settings.update(keys)
 	sherivftools.copyfile(steeringfile, target, settings)
 
