@@ -15,7 +15,6 @@ if ( [[ $HOSTNAME == *"naf"* ]] || [[ $HOSTNAME == *"bird"* ]] ); then
 	export PKG_CONFIG_PATH=$SHERIVFDIR/../mcgrid:$PKG_CONFIG_PATH
 	export LOCALHOME=/afs/desy.de/user/d/${USER}/
 else
-	export SHERIVFDIR=/portal/ekpcms6/home/${USER}/qcd/sherivf
 	export SHERIVF_STORAGE_PATH=/storage/a/${USER}/sherivf/
 	export HERA_STORAGE_PATH=/storage/a/${USER}/hera/
 	export PKG_CONFIG_PATH=$SHERIVFDIR/../enrico/mcgrid/mcgrid/:$PKG_CONFIG_PATH
