@@ -102,3 +102,8 @@ def format_time(seconds):
 		return "{0:.0f} minutes".format(seconds/60.)
 	else:
 		return "{0:.0f} hours {1:.0f} minutes".format(int(seconds/3600.), (seconds/60. % 60))
+
+def tgraph_get_point(tgraph, i):
+		tmpX, tmpY = ROOT.Double(0), ROOT.Double(0)
+		tgraph.GetPoint(i, tmpX, tmpY)
+		return float(tmpX), float(tmpY)

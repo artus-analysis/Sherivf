@@ -5,7 +5,7 @@
 
 import ROOT
 import math
-import Artus.HarryPlotter.utility.roottools as roottools
+import sherivftools
 
 
 q_values = ['1_9_squared', '10_0_squared', '91_2']
@@ -57,9 +57,9 @@ def make_envelope(central, objects):
 	for i in range(1, n_bins+1):
 		values = []
 		for obj in objects:
-			xvalue, value = roottools.RootTools.tgraph_get_point(obj, i-1)
+			xvalue, value = sherivftools.tgraph_get_point(obj, i-1)
 			values.append(value)
-		x, y = roottools.RootTools.tgraph_get_point(center_histo, i-1)
+		x, y = sherivftools.tgraph_get_point(center_histo, i-1)
 		graph.SetPoint(i-1, x, y)
 		# y errors low/high as difference to the min/max values
 		graph.SetPointEYhigh(i-1, max(values) - y)
