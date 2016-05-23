@@ -17,7 +17,7 @@ import subprocess
 import sys
 import time
 
-from sherivftools import run_gc, print_and_call, copyfile, get_env, query_yes_no, format_time
+import sherivftools
 
 
 class Sherivf(object):
@@ -25,8 +25,8 @@ class Sherivf(object):
 	def __init__(self):
 
 		self.default_config = 'ekpcluster'
-		self.default_storage_path = get_env('SHERIVF_STORAGE_PATH')
-		self.sherivf_path = get_env('SHERIVFDIR')
+		self.default_storage_path = sherivftools.get_env('SHERIVF_STORAGE_PATH')
+		self.sherivf_path = sherivftools.get_env('SHERIVFDIR')
 		self.get_arguments()
 		self.fastnlo_outputs = [os.path.basename(f).replace('.txt', ('.txt' if self.args.warmup else '.tab')) for f in glob.glob(os.path.join(self.sherivf_path,'fastnlo',self.args.rivet, '*.txt' ))]
 
@@ -67,7 +67,7 @@ class Sherivf(object):
 				self.create_output_dir()
 				self.copy_gc_configs()
 			self.gctime = time.time()
-			run_gc(self.args.output_dir + "/" + self.args.configfile, self.args.output_dir)
+			sherivftools.run_gc(self.args.output_dir + "/" + self.args.configfile, self.args.output_dir)
 			self.gctime = time.time() - self.gctime
 
 			outputs = self.merge_outputs()
@@ -179,7 +179,7 @@ class Sherivf(object):
 			for wfile in warmupfiles:
 				shutil.copy(wfile, ph_path)
 		
-		print_and_call(["Sherpa", "-e "+str(self.args.n_events)])
+		sherivftools.print_and_call(["Sherpa", "-e "+str(self.args.n_events)])
 		
 		# copy warmup and event count files
 		if self.args.warmup:
@@ -193,7 +193,7 @@ class Sherivf(object):
 		# convert yoda to root
 		if os.path.isfile('Rivet.yoda'):
 			print "Convert Rivet output from YODA to ROOT"
-			print_and_call(['yoda_2_root.py', 'Rivet.yoda'])
+			sherivftools.print_and_call(['yoda_2_root.py', 'Rivet.yoda'])
 
 		print "Sherpa was run in", test_dir
 
@@ -218,7 +218,7 @@ class Sherivf(object):
 		]
 
 		for gcfile in self.args.list_of_gc_cfgs:
-			copyfile(gcfile, self.args.output_dir+'/'+os.path.basename(gcfile),{
+			sherivftools.copyfile(gcfile, self.args.output_dir+'/'+os.path.basename(gcfile),{
 				'@NEVENTS@': self.args.n_events,
 				'@NJOBS@': self.args.n_jobs,
 				'@OUTDIR@': self.args.output_dir+'/output',
@@ -236,11 +236,11 @@ class Sherivf(object):
 			#merge yoda files
 			yoda_files = glob.glob(self.args.output_dir+'/output/'+'*.yoda')
 			commands = ['yodamerge'] + yoda_files + ['-o', self.args.output_dir+'/Rivet.yoda']
-			print_and_call(commands)
+			sherivftools.print_and_call(commands)
 			#apply scalefactor
 			scalefactor = 1./len(yoda_files)
 			commands = ['yodascale', '-c', "'.* {0}x'".format(scalefactor), '-i', self.args.output_dir+'/Rivet.yoda']
-			print_and_call(commands)
+			sherivftools.print_and_call(commands)
 			outputs.append(self.args.output_dir+'/Rivet.yoda')
 		except OSError as e:
 			print "Could not merge Rivet outputs ({0}): {1}".format(e.errno, e.strerror)
@@ -254,7 +254,7 @@ class Sherivf(object):
 				outputs.append(self.args.output_dir+'/{0}.tab'.format(quantity))
 			# merge in parallel
 			pool = multiprocessing.Pool(processes=len(commands_list))
-			results = pool.map_async(print_and_call, commands_list)
+			results = pool.map_async(sherivftools.print_and_call, commands_list)
 			res = results.get(9999999) # 9999999 is needed for KeyboardInterrupt to work: http://stackoverflow.com/questions/1408356/keyboard-interrupts-with-pythons-multiprocessing-pool
 		except OSError as e:
 			print "Could not merge fastNLO outputs ({0}): {1}".format(e.errno, e.strerror)
@@ -267,13 +267,13 @@ class Sherivf(object):
 		read in via env var RIVET_COMPILER_FLAGS"""
 		os.chdir(os.path.join(self.sherivf_path, 'rivet'))
 		print "Compiling Rivet Plugin {0}".format(self.args.rivet)
-		print_and_call([
+		sherivftools.print_and_call([
 			'rivet-buildplugin', 
 			"{path}/Rivet_{analysis}.so {path}/{analysis}.cc".format(
 				analysis=self.args.rivet,
 				path=os.path.join(self.sherivf_path, 'rivet', self.args.rivet)
 			),
-			get_env("RIVET_COMPILER_FLAGS")
+			sherivftools.get_env("RIVET_COMPILER_FLAGS")
 		])
 
 
@@ -287,14 +287,14 @@ class Sherivf(object):
 			files_to_delete.remove('Run.dat')
 			if len(files_to_delete) > 0:
 				rm_command = ["rm", "-rf"] + files_to_delete
-				if query_yes_no("Delete {0}?".format(" ".join(files_to_delete))):
-					print_and_call(rm_command)
-			if print_and_call(["Sherpa", "-e "+str(self.args.n_events)]):
+				if sherivftools.query_yes_no("Delete {0}?".format(" ".join(files_to_delete))):
+					sherivftools.print_and_call(rm_command)
+			if sherivftools.print_and_call(["Sherpa", "-e "+str(self.args.n_events)]):
 				print "Sucessfully ran Sherpa in directory", directory
 
 			#check for 'makelibs' (produced by AMEGIC)
-			if os.path.isfile('makelibs') and query_yes_no("Compile makelibs?"):
-				if print_and_call(["./makelibs"]):
+			if os.path.isfile('makelibs') and sherivftools.query_yes_no("Compile makelibs?"):
+				if sherivftools.print_and_call(["./makelibs"]):
 					print "Sucessfully compiled libraries with './makelibs'"
 
 		except OSError:
@@ -307,5 +307,5 @@ if __name__ == "__main__":
 	sherivf = Sherivf()
 	sherivf.run()
 	if hasattr(sherivf, "gctime"):
-		print "---	 Sherivf took {0} ---".format(format_time(time.time() - start_time))
-		print "--- GridControl took {0} ---".format(format_time(sherivf.gctime))
+		print "---	 Sherivf took {0} ---".format(sherivftools.format_time(time.time() - start_time))
+		print "--- GridControl took {0} ---".format(sherivftools.format_time(sherivf.gctime))
