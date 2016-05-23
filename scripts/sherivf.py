@@ -24,10 +24,7 @@ class Sherivf(object):
 
 	def __init__(self):
 
-		if 'naf' in socket.gethostname().lower():
-			self.default_config = 'naf'
-		elif 'ekp' in socket.gethostname().lower():
-			self.default_config = 'ekpcluster'
+		self.default_config = 'ekpcluster'
 		self.default_storage_path = get_env('SHERIVF_STORAGE_PATH')
 		self.sherivf_path = get_env('SHERIVFDIR')
 		self.get_arguments()

@@ -9,17 +9,11 @@ fi
 export MCGRID_OUTPUT_PATH=$PWD
 export MCGRID_PHASESPACE_PATH=$PWD
 
-if ( [[ $HOSTNAME == *"naf"* ]] || [[ $HOSTNAME == *"bird"* ]] ); then
-	export SHERIVFDIR=/afs/desy.de/user/d/${USER}/qcd/sherivf
-	export SHERIVF_STORAGE_PATH=/nfs/dust/cms/user/${USER}/sherivf/
-	export PKG_CONFIG_PATH=$SHERIVFDIR/../mcgrid:$PKG_CONFIG_PATH
-	export LOCALHOME=/afs/desy.de/user/d/${USER}/
-else
-	export SHERIVF_STORAGE_PATH=/storage/a/${USER}/sherivf/
-	export HERA_STORAGE_PATH=/storage/a/${USER}/hera/
-	export PKG_CONFIG_PATH=$SHERIVFDIR/../enrico/mcgrid/mcgrid/:$PKG_CONFIG_PATH
-	export LOCALHOME=/usr/users/${USER}/
-fi
+
+export SHERIVF_STORAGE_PATH=/storage/a/${USER}/sherivf/
+export HERA_STORAGE_PATH=/storage/a/${USER}/hera/
+export PKG_CONFIG_PATH=$SHERIVFDIR/../enrico/mcgrid/mcgrid/:$PKG_CONFIG_PATH
+export LOCALHOME=/usr/users/${USER}/
 
 # Rivet
 export PATH=$SHERIVFDIR/../Rivet-2.2.0/bin/:$SHERIVFDIR/scripts:$PATH:/usr/users/${USER}/local/bin
