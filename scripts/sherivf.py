@@ -12,7 +12,6 @@ import multiprocessing
 import os
 import shutil
 import socket
-import stat
 import subprocess
 import sys
 import time

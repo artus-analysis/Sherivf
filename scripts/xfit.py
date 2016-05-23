@@ -5,7 +5,13 @@
 	create a workdir and all files, start xfitter in parallel with GC to calculate all uncertainties
 """
 
-import time, sys, os, glob, argparse, subprocess
+import time
+import sys
+import os
+import glob
+import argparse
+import subprocess
+
 import sherivftools
 import make_pdf_uncertainties
 
