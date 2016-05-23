@@ -6,6 +6,7 @@ import sys
 
 
 def create_result_linkdir(outputdir, linkname):
+	"""Create a link to a directory""""
 	print "Output dir", outputdir
 	linkdir = get_env('SHERIVFDIR')+'/results/'
 	if not os.path.exists(linkdir):
@@ -17,6 +18,7 @@ def create_result_linkdir(outputdir, linkname):
 
 
 def run_gc(config, output_dir):
+	"""Run grid control."""
 	commands = ['go.py', config]
 	try:
 		return print_and_call(commands)
@@ -34,7 +36,7 @@ def print_and_call(commands, **kwargs):
 
 
 def copyfile(source, target, replace={}):
-	# copy file with replace dict
+	"""copy file, use the replace-dictionary to replace values """
 	try:
 		with open(source) as f:
 			text = f.read()
@@ -49,6 +51,7 @@ def copyfile(source, target, replace={}):
 
 
 def get_env(variable):
+	""" Read environmenr variable from shell."""
 	try:
 		return os.environ[variable]
 	except:
