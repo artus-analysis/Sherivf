@@ -4,12 +4,16 @@
 # Rivet stuff
 #####
 
-# YODA
+# YODA 1.6.1
 # dont install with CMSSW sourced - the BOOST version there is too old
-alias configure_yoda=" ./configure --prefix=$HOME/local"  # --enable-root"
+# https://yoda.hepforge.org/
+# wget http://www.hepforge.org/archive/yoda/YODA-1.6.1.tar.gz && tar -xvf YODA-1.6.1.tar.gz
+alias configure_yoda="./configure --prefix=$HOME/local"
 
 # LHAPDF
+# wget http://www.hepforge.org/archive/lhapdf/LHAPDF-6.1.6.tar.gz && tar -xvf LHAPDF-6.1.6.tar.gz
 # dont install with CMSSW sourced - the BOOST version there is too old
+alias configure_lhapdf="./configure --prefix=$HOME/local"
 
 # HEPMC
 alias configure_hepmc="./configure --prefix=$HOME/local --with-momentum=GEV --with-length=MM"
@@ -28,16 +32,20 @@ alias configure_fastjet="./configure --prefix=$HOME/local  --enable-allcxxplugin
 # Sherpa stuff
 #####
 
-# QDNUM
 
 # BLACKHAT
 # blackhat libraries can become quite large -> install in storage space
-alias configure_blackhat="./configure --prefix=/storage/a/${USER}/blackhat --with-QDpath=$HOME/local"
+# https://blackhat.hepforge.org/trac/wiki/BlackHatInstallation
+# wget http://www.hepforge.org/archive/blackhat/blackhat-0.9.9.tar.gz && tar -xzf blackhat-0.9.9.tar.gz
+alias configure_blackhat="./configure --prefix=/storage/a/${USER}/blackhat"
+#./configure --prefix=/storage/a/${USER}/software/blackhat --with-QDpath=/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/qd/2.3.13/
 
-# SHERPA
+
+# SHERPA 2.2.0
 # https://sherpa.hepforge.org/trac/wiki
 # wget http://www.hepforge.org/archive/sherpa/SHERPA-MC-2.2.0.tar.gz  && tar -xvf SHERPA-MC-2.2.0.tar.gz
 alias configure_sherpa="./configure --prefix=$HOME/local --with-sqlite3=install --enable-hepmc2=$HOME/local/ --enable-rivet=$HOME/local/ --enable-blackhat=/storage/a/${USER}/blackhat   --enable-fastjet=$HOME/local/"
+#./configure --prefix=$HOME/local  --enable-hepmc2=/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/hepmc/2.06.07/ --enable-rivet=/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/rivet/2.4.0-giojec --enable-blackhat=/storage/a/dhaitz/software/blackhat  --enable-fastjet=/cvmfs/cms.cern.ch/slc6_amd64_gcc530/external/fastjet/3.1.0 
 
 
 
