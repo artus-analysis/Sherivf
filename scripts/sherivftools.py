@@ -33,7 +33,12 @@ def run_gc(config, output_dir):
 
 def print_and_call(commands, **kwargs):
 	print " ".join(commands)
-	return subprocess.call(commands, **kwargs)
+	try:
+		print subprocess.call(commands, **kwargs)
+	except OSError as e:
+		print e
+		print "Command '{0}' could not be executed successfully! EXIT".format(" ".join(commands))
+		sys.exit(1)
 
 
 def copyfile(source, target, replace={}):

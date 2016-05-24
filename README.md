@@ -25,6 +25,8 @@ fastNLO output: fnlo_yZ.tab
 `sherivf.py`
 30000000 -> 10h job
 
+sherivf.py -n 100
+
 
 Evaluate PDF sets and save as root files:
 * `pdf_2_root.py --folder pdf_sets -p NNPDF23_nlo_as_0118`
