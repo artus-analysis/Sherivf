@@ -34,12 +34,10 @@ class Sherivf(object):
 		"""Main function."""
 		if self.args.compile:  # compilation
 			self.compile_rivet_plugin()
-			return
 		elif self.args.integrate:  # integration run
 			self.sherpa_integration_run()
 		elif self.args.batch is None:  # local
 			self.local()
-			return
 		else:  # batch
 			self.batch()
 
