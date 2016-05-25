@@ -22,24 +22,21 @@ import sherivftools
 class Sherivf(object):
 
 	def __init__(self):
-
-		self.default_config = 'ekpcluster'
-		self.default_storage_path = sherivftools.get_env('SHERIVF_STORAGE_PATH')
 		self.sherivf_path = sherivftools.get_env('SHERIVFDIR')
 		self.get_arguments()
 		self.fastnlo_outputs = [os.path.basename(f).replace('.txt', ('.txt' if self.args.warmup else '.tab')) for f in glob.glob(os.path.join(self.sherivf_path,'fastnlo',self.args.rivet, '*.txt' ))]
 
 
 	def run(self):
-		"""Main function."""
-		if self.args.compile:  # compilation
+		"""Main function. Decide between compilation, integration, local production or batch production mode."""
+		if self.args.compile:
 			self.compile_rivet_plugin()
-		elif self.args.integrate:  # integration run
+		elif self.args.integrate:
 			self.sherpa_integration_run()
-		elif self.args.batch is None:  # local
-			self.local()
-		else:  # batch
+		elif self.args.batch:
 			self.batch()
+		else:
+			self.local()
 
 
 	def batch(self):
@@ -77,7 +74,6 @@ class Sherivf(object):
 			link = link_dir+'/'+self.args.rivet + '_' + self.args.sherpa
 			subprocess.call(['rm', '-f', link])
 			subprocess.call(['ln', '-sf', self.args.output_dir, link])
-			subprocess.call(['yoda_2_root.py', link + '/Rivet.yoda'])
 
 
 	def delete_latest_output_dir(self):
@@ -95,17 +91,17 @@ class Sherivf(object):
 
 	def get_arguments(self):
 		parser = argparse.ArgumentParser(
-			description="%(prog)s is the main analysis program.", epilog="Have fun.")
+			description="%(prog)s is the wrapper for Monte Carlo production and generation of fastNLO tables.", epilog="Have fun.")
 
 		# for batch mode
-		parser.add_argument('-b', '--batch', type=str, nargs="?", const=self.default_config,
-			help="batch mode. cfg optional")
+		parser.add_argument('-b', '--batch', type=str, nargs="?", const='ekpcluster',
+			help="batch mode. cfg optional [Default: %(default)s]")
 		parser.add_argument('-d', '--delete', action='store_true',
 			help="delete the latest output and jobs still running")
 		parser.add_argument('-r', '--resume', action='store_true',
 			help="resume the grid-control run.")
 		parser.add_argument('-j', '--n-jobs', type=str, default='1',
-			help="n jobs")
+			help="n jobs [Default: %(default)s]")
 
 		# cfgs: sherpa, analysis
 		parser.add_argument('-s', '--sherpa', type=str, default='zjet',
@@ -113,16 +109,16 @@ class Sherivf(object):
 		parser.add_argument('-i', '--integrate', action="store_true",
 			help="Integration run for Sherpa. [Default: %(default)s]")
 		parser.add_argument('--rivet', type=str, default='MCgrid_CMS_2015_Zee',
-			help="name of rivet analysis")
+			help="name of rivet analysis [Default: %(default)s]")
 		parser.add_argument('-c', '--compile', action='store_true',
 			help="if set, compile analysis")
 
 		parser.add_argument('-w', '--warmup', action='store_true', default=False,
 			help="if set, do warmup run")
 		parser.add_argument('-n', '--n-events', type=str, default='1000',
-			help="n events")
-		parser.add_argument('--output-dir', type=str, help="output directory",
-			default=self.default_storage_path)
+			help="n events [Default: %(default)s]")
+		parser.add_argument('--output-dir', type=str, help="output directory [Default: %(default)s]",
+			default=sherivftools.get_env('SHERIVF_STORAGE_PATH'))
 
 		self.args = parser.parse_args()
 
@@ -133,10 +129,11 @@ class Sherivf(object):
 			self.sherivf_path + '/' + 'sherpa/run-sherpa.sh',
 			self.sherivf_path + '/' + 'sherpa/sherpa-rivet_{0}.conf'.format(self.args.batch)
 		]
-		if 'ekp' in socket.gethostname().lower():
-			self.args.list_of_gc_cfgs.append(self.sherivf_path + '/' + 'sherpa/sherpa-rivet_ekp-base.conf')
-		if self.args.batch == 'ekpcloud':
-			self.args.output_dir = self.args.output_dir.replace("/a/", "/ekpcloud_local/")
+		self.args.list_of_gc_cfgs.append(self.sherivf_path + '/' + 'sherpa/sherpa-rivet_ekp-base.conf')
+		if self.args.batch == 'ekpcloud':  # jobs on cloud can only write on ekpcloud_local, not regular storage
+			path_list = self.args.output_dir.split('/')
+			path_list[path_list.index('storage')+1] = 'ekpcloud_local'
+			self.args.output_dir = "/".join(path_list)
 
 
 	def local(self):
@@ -176,6 +173,7 @@ class Sherivf(object):
 			for wfile in warmupfiles:
 				shutil.copy(wfile, ph_path)
 		
+		# execute Sherpa
 		sherivftools.print_and_call(["Sherpa", "-e "+str(self.args.n_events)])
 		
 		# copy warmup and event count files
@@ -186,11 +184,6 @@ class Sherivf(object):
 				shutil.copy(f, ph_target_dir)
 			shutil.copy(os.path.join(test_dir, self.args.rivet+".str.evtcount"), ph_target_dir)
 			print "Copied warmup files to", ph_target_dir
-
-		# convert yoda to root
-		if os.path.isfile('Rivet.yoda'):
-			print "Convert Rivet output from YODA to ROOT"
-			sherivftools.print_and_call(['yoda_2_root.py', 'Rivet.yoda'])
 
 		print "Sherpa was run in", test_dir
 
