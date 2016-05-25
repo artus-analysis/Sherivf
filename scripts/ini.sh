@@ -9,8 +9,8 @@ if [ -z $ROOT_INCLUDE_PATH ]; then
 fi
 
 # use up-to-date GCC version from CVMFS
-#. /cvmfs/cms.cern.ch/slc6_amd64_gcc472/external/gcc/4.7.2/etc/profile.d/init.sh
-. /cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/gcc/4.9.1-cms/etc/profile.d/init.sh
+alias set_gcc_472=". /cvmfs/cms.cern.ch/slc6_amd64_gcc472/external/gcc/4.7.2/etc/profile.d/init.sh"
+alias set_gcc_491=". /cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/gcc/4.9.1-cms/etc/profile.d/init.sh"
 
 
 # take software from CVMFS
@@ -20,7 +20,7 @@ export HEPMC_CVMFS=hepmc/2.06.07-cms
 export RIVET_CVMFS=rivet/2.2.1-kpegke
 export FASTJET_CVMFS=fastjet/3.1.0
 export QD_CVMFS=qd/2.3.13-cms
-for SOFTWARE in lhapdf/6.1.5 $YODA_CVMFS $HEPMC_CVMFS $FASTJET_CVMFS $RIVET_CVMFS $QD_CVMFS; do
+for SOFTWARE in lhapdf/6.1.5 $YODA_CVMFS $HEPMC_CVMFS $FASTJET_CVMFS $RIVET_CVMFS; do
 	. /cvmfs/cms.cern.ch/$ARCHITECTURE/external/$SOFTWARE/etc/profile.d/init.sh
 done
 

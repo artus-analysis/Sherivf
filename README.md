@@ -25,15 +25,15 @@ bild mit software and howto
 
 Install in storage:
 
-
-    wget http://www.hepforge.org/archive/blackhat/blackhat-0.9.9.tar.gz && tar -xzf
-
+    wget http://www.hepforge.org/archive/blackhat/blackhat-0.9.9.tar.gz
+    tar -xzf blackhat-0.9.9.tar.gz
     ./configure --prefix=/storage/a/${USER}/software/blackhat --with-QDpath=/cvmfs/cms.cern.ch/slc6_amd64_gcc472/external/$QD_CVMFS
 
 #### SHERPA 2.2.0
 https://sherpa.hepforge.org/trac/wiki
 
-    wget http://www.hepforge.org/archive/sherpa/SHERPA-MC-2.2.0.tar.gz  && tar -xvf 
+    wget http://www.hepforge.org/archive/sherpa/SHERPA-MC-2.2.0.tar.gz
+    tar -xvf SHERPA-MC-2.2.0.tar.gz
     ./configure --prefix=$HOME/local  --enable-hepmc2=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$HEPMC_CVMFS --enable-rivet=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$RIVET_CVMFS --enable-blackhat=/storage/a/dhaitz/software/blackhat  --enable-fastjet=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$FASTJET_CVMFS 
 
 #### fastNLO 2.3.1pre-2212
