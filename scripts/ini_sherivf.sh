@@ -19,7 +19,7 @@ export YODA_CVMFS=yoda/1.3.1
 export HEPMC_CVMFS=hepmc/2.06.07-cms
 export RIVET_CVMFS=rivet/2.2.1-kpegke
 export FASTJET_CVMFS=fastjet/3.1.0
-export QD_CVMFS=qd/2.3.13-cms
+export QD_CVMFS=qd/2.3.13
 for SOFTWARE in lhapdf/6.1.5 $YODA_CVMFS $HEPMC_CVMFS $FASTJET_CVMFS $RIVET_CVMFS; do
 	. /cvmfs/cms.cern.ch/$ARCHITECTURE/external/$SOFTWARE/etc/profile.d/init.sh
 done
