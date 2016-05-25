@@ -12,14 +12,20 @@ fi
 #. /cvmfs/cms.cern.ch/slc6_amd64_gcc472/external/gcc/4.7.2/etc/profile.d/init.sh
 . /cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/gcc/4.9.1-cms/etc/profile.d/init.sh
 
+
+# take software from CVMFS
 export ARCHITECTURE=slc6_amd64_gcc491
-for SOFTWARE in lhapdf/6.1.5 yoda/1.3.1 hepmc/2.06.07-cms fastjet/3.1.0 qd/2.3.13-cms/ rivet/2.2.1-kpegke/; do
+export YODA_CVMFS=yoda/1.3.1
+export HEPMC_CVMFS=hepmc/2.06.07-cms
+export RIVET_CVMFS=rivet/2.2.1-kpegke
+export FASTJET_CVMFS=fastjet/3.1.0
+export QD_CVMFS=qd/2.3.13-cms
+for SOFTWARE in lhapdf/6.1.5 $YODA_CVMFS $HEPMC_CVMFS $FASTJET_CVMFS $RIVET_CVMFS $QD_CVMFS; do
 	. /cvmfs/cms.cern.ch/$ARCHITECTURE/external/$SOFTWARE/etc/profile.d/init.sh
 done
 
 
 export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
-. $SHERIVFDIR/scripts/configures.sh
 
 export PATH=$SHERIVFDIR/scripts:$HOME/local/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/local/lib:$LD_LIBRARY_PATH
@@ -33,13 +39,11 @@ export HERA_STORAGE_PATH=$STORAGE_PATH/hera/
 #export MCGRID_OUTPUT_PATH=$PWD
 #export MCGRID_PHASESPACE_PATH=$PWD
 
-#export PKG_CONFIG_PATH=$SHERIVFDIR/../enrico/mcgrid/mcgrid/:$PKG_CONFIG_PATH
-export PKG_CONFIG_PATH=/storage/a/dhaitz/software/mcgrid-2.0:$PKG_CONFIG_PATH
-#export LOCALHOME=/usr/users/${USER}/
+
+export PKG_CONFIG_PATH=/storage/a/dhaitz/software/mcgrid-2.0:$PKG_CONFIG_PATH  #TODO
 
 # Rivet
 #export PATH=$SHERIVFDIR/../Rivet-2.2.0/bin/:/usr/users/${USER}/local/bin:$PATH
-#export PATH=$HOME/local/bin:$PATH
 #export RIVET_ANALYSIS_PATH=$PWD:$RIVET_ANALYSIS_PATH
 #if [ -e $SHERIVFDIR/../Rivet-2.2.0/rivetenv.sh ]
 #then
