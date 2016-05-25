@@ -27,22 +27,12 @@ public:
 
 		/// Initialise and register projections here
 		Cut cut = (
-			#if USE_MUONS
-			(Cuts::pT >= 20.*GeV) &
-			(Cuts::etaIn(-2.3, 2.3))
-			#else
 			(Cuts::pT >= 25.*GeV)
 			& (Cuts::etaIn(-2.4, -1.566) | Cuts::etaIn(-1.442, 1.442) | Cuts::etaIn(1.566, 2.4))
-			#endif
 		);
 
 		ZFinder zfinder(FinalState(), cut,
-			#if USE_MUONS
-			PID::MUON,
-			#else
-			PID::ELECTRON,
-			#endif
-			81*GeV, 111*GeV, 0.2, ZFinder::CLUSTERNODECAY, ZFinder::TRACK);
+			PID::ELECTRON, 81*GeV, 111*GeV, 0.2, ZFinder::CLUSTERNODECAY, ZFinder::TRACK);
 		addProjection(zfinder, "ZFinder");
 
 		// electrons
@@ -70,7 +60,6 @@ public:
 		_h_pTZ_4 = bookHisto1D("y4_zpt", bin_edges);
 		_h_pTZ_5 = bookHisto1D("y5_zpt", bin_edges);
 
-		#if USE_FNLO
 		MSG_INFO("Using fastnlo");
 		const string steeringFileName = "MCgrid_CMS_2015_Zee.str";
 
@@ -104,7 +93,6 @@ public:
 		_fnlo_pTZ_4 = MCgrid::bookGrid(_h_pTZ_4, histoDir(), config_fnlo_8);
 		_fnlo_pTZ_5 = MCgrid::bookGrid(_h_pTZ_5, histoDir(), config_fnlo_9);
 		MSG_INFO("fastnlo init done");
-		#endif
 	}
 
 
@@ -125,14 +113,12 @@ public:
 			double phiZ = zfinder.bosons()[0].momentum().phi()-pi;
 
 			// electron histos
-			#ifndef USE_MUONS
 			if (particles.size() > 0)
 			{
 				_h_pTe->fill(particles[0].pt(), weight);
 				_h_etae->fill(particles[0].eta(), weight);
 				_h_phie->fill(particles[0].phi()-pi, weight);
 			}
-			#endif
 				// Z histos
 				_h_pTZ->fill(pTZ, weight);
 				_h_yZ->fill(yZ, weight);
@@ -143,47 +129,33 @@ public:
 				// Z y bins
 				if (std::abs(yZ) < m_ybins[0]){
 					_h_pTZ_0->fill(pTZ, weight);
-					#if USE_FNLO
 						_fnlo_pTZ_0->fill(pTZ, event);
-					#endif
 				}
 				else if (std::abs(yZ) < m_ybins[1]){
 					_h_pTZ_1->fill(pTZ, weight);
-					#if USE_FNLO
 						_fnlo_pTZ_1->fill(pTZ, event);
-					#endif
 				}
 				else if (std::abs(yZ) < m_ybins[2]){
 					_h_pTZ_2->fill(pTZ, weight);
-					#if USE_FNLO
 						_fnlo_pTZ_2->fill(pTZ, event);
-					#endif
 				}
 				else if (std::abs(yZ) < m_ybins[3]){
 					_h_pTZ_3->fill(pTZ, weight);
-					#if USE_FNLO
 						_fnlo_pTZ_3->fill(pTZ, event);
-					#endif
 				}
 				else if (std::abs(yZ) < m_ybins[4]){
 					_h_pTZ_4->fill(pTZ, weight);
-					#if USE_FNLO
 						_fnlo_pTZ_4->fill(pTZ, event);
-					#endif
 				}
 				else if (std::abs(yZ) < m_ybins[5]){
 					_h_pTZ_5->fill(pTZ, weight);
-					#if USE_FNLO
 						_fnlo_pTZ_5->fill(pTZ, event);
-					#endif
 				}
-			#if USE_FNLO
 				_fnlo_pTZ->fill(pTZ, event);
 				_fnlo_yZ->fill(yZ, event);
 				_fnlo_absyZ->fill(fabs(yZ), event);
 				_fnlo_mZ->fill(mZ, event);
 
-			#endif
 		}
 		else {
 			MSG_DEBUG("no unique lepton pair found: " << zfinder.bosons().size() << " weight: " << weight);
@@ -196,7 +168,6 @@ public:
 	void finalize() {
 
 		double normfactor = crossSection()/sumOfWeights();
-		MSG_INFO("xsec: " << crossSection() << " sumW: " << sumOfWeights() << " ratio: " << crossSection()/sumOfWeights());
 
 		// scale rivet
 		scale(_h_yZ, normfactor);
@@ -216,7 +187,6 @@ public:
 		scale(_h_etae, normfactor);
 		scale(_h_phie, normfactor);
 
-		#if USE_FNLO
 		//scale fastnlo
 		_fnlo_pTZ->scale(normfactor);
 		_fnlo_yZ->scale(normfactor);
@@ -241,7 +211,6 @@ public:
 		_fnlo_pTZ_3->exportgrid();
 		_fnlo_pTZ_4->exportgrid();
 		_fnlo_pTZ_5->exportgrid();
-		#endif
 
 		// Clear event handler
 		MCgrid::PDFHandler::CheckOutAnalysis(histoDir());
@@ -271,7 +240,6 @@ private:
 	Histo1DPtr _h_phie;
 	
 	// Grids
-	#if USE_FNLO
 	MCgrid::gridPtr _fnlo_pTZ;
 	MCgrid::gridPtr _fnlo_yZ;
 	MCgrid::gridPtr _fnlo_absyZ;
@@ -283,7 +251,6 @@ private:
 	MCgrid::gridPtr _fnlo_pTZ_3;
 	MCgrid::gridPtr _fnlo_pTZ_4;
 	MCgrid::gridPtr _fnlo_pTZ_5;
-	#endif
 };
 
 
