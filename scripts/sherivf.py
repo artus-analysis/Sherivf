@@ -255,6 +255,7 @@ class Sherivf(object):
 	def compile_rivet_plugin(self):
 		""" compile the Rivet plugin via rivet-buildplugin. compiler flags are
 		read in via env var RIVET_COMPILER_FLAGS"""
+		compiler_flags = sherivftools.get_env("RIVET_COMPILER_FLAGS")
 		os.chdir(os.path.join(self.sherivf_path, 'rivet'))
 		print "Compiling Rivet Plugin {0}".format(self.args.rivet)
 		sherivftools.print_and_call([
@@ -263,7 +264,7 @@ class Sherivf(object):
 				analysis=self.args.rivet,
 				path=os.path.join(self.sherivf_path, 'rivet', self.args.rivet)
 			),
-			sherivftools.get_env("RIVET_COMPILER_FLAGS")
+			compiler_flags
 		])
 
 

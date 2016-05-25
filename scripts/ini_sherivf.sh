@@ -27,13 +27,13 @@ export QD_CVMFS=qd/2.3.13
 . /cvmfs/cms.cern.ch/$ARCHITECTURE_47/external/$QD_CVMFS/etc/profile.d/init.sh
 
 
-# some paths
+# some environment paths
 export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
 export PATH=$SHERIVFDIR/scripts:$HOME/local/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/local/lib:$LD_LIBRARY_PATH
 #export LD_LIBRARY_PATH=$HOME/local/lib:$HOME/local/lib/SHERPA-MC:$LD_LIBRARY_PATH
 
-# output paths
+# output paths for batch mode
 export STORAGE_PATH=/storage/a/${USER}
 export SHERIVF_STORAGE_PATH=$STORAGE_PATH/sherivf/
 export HERA_STORAGE_PATH=$STORAGE_PATH/hera/
@@ -41,10 +41,11 @@ export HERA_STORAGE_PATH=$STORAGE_PATH/hera/
 
 
 
-export PKG_CONFIG_PATH=/storage/a/dhaitz/software/mcgrid-2.0:$PKG_CONFIG_PATH  #TODO
-
-export RIVET_COMPILER_FLAGS="-std=c++0x -Wl,--export-dynamic,-z,defs $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lYODA"
-
+export MC_GRID_DIR=$SHERIVFDIR/../mcgrid-2.0
+if [ -d "$MC_GRID_DIR" ]; then
+	export PKG_CONFIG_PATH=/storage/a/dhaitz/software/mcgrid-2.0:$PKG_CONFIG_PATH  #TODO
+	export RIVET_COMPILER_FLAGS="-std=c++0x -Wl,--export-dynamic,-z,defs $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lYODA"
+fi
 
 #export MCGRID_OUTPUT_PATH=$PWD
 #export MCGRID_PHASESPACE_PATH=$PWD
