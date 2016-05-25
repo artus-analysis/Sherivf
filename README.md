@@ -20,14 +20,15 @@ sherpa, blackhat
 bild mit software and howto
 
 #### BLACKHAT 0.9.9
-https://blackhat.hepforge.org/trac/wiki/BlackHatInstallation
-GCC version 4.7.2
-Install in storage
+* https://blackhat.hepforge.org/trac/wiki/BlackHatInstallation
+* GCC version 4.7.2
+* Install in storage
     wget http://www.hepforge.org/archive/blackhat/blackhat-0.9.9.tar.gz && tar -xzf
     ./configure --prefix=/storage/a/${USER}/software/blackhat --with-QDpath=/cvmfs/cms.cern.ch/slc6_amd64_gcc472/external/$QD_CVMFS
 
 #### SHERPA 2.2.0
-https://sherpa.hepforge.org/trac/wiki
+* https://sherpa.hepforge.org/trac/wiki
+
     wget http://www.hepforge.org/archive/sherpa/SHERPA-MC-2.2.0.tar.gz  && tar -xvf 
     ./configure --prefix=$HOME/local  --enable-hepmc2=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$HEPMC_CVMFS --enable-rivet=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$RIVET_CVMFS --enable-blackhat=/storage/a/dhaitz/software/blackhat  --enable-fastjet=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$FASTJET_CVMFS 
 
