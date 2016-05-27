@@ -4,7 +4,7 @@
 For Monte Carlo event generation and fastNLO table production:
 
 * Event generation
- * Sherpa 2.2.0
+ * [Sherpa 2.2.0](https://sherpa.hepforge.org/trac/wiki/SherpaDownloads/Sherpa-2.2.0)[(Documentation)](https://sherpa.hepforge.org/doc/SHERPA-MC-2.2.0.html)
  * Blackhat 0.9.9
 * Further event processing and fastNLO table production
  * Rivet 2.3
@@ -46,8 +46,6 @@ Blackhat libraries can become huge -> install in storage:
     . /cvmfs/cms.cern.ch/$ARCHITECTURE/external/gcc/4.9.1-cms/etc/profile.d/init.sh  # return to default compiler
     cd ..
 #### SHERPA 2.2.0
-https://sherpa.hepforge.org/trac/wiki
-
     wget http://www.hepforge.org/archive/sherpa/SHERPA-MC-2.2.0.tar.gz
     tar -xzf SHERPA-MC-2.2.0.tar.gz
     cd SHERPA-MC-2.2.0
