@@ -62,7 +62,7 @@ def get_env(variable):
 		return os.environ[variable]
 	except:
 		print variable, "is not in shell variables:", os.environ.keys()
-		print "Please source scripts/ini.sh!"
+		print "Please source scripts/ini_sherivf.sh!"
 		sys.exit(1)
 
 
