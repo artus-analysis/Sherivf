@@ -10,12 +10,10 @@ For Monte Carlo event generation and fastNLO table production:
  * Rivet 2.3
  * MCgrid 2.0
  * fastNLO 2.3.1pre-2125
-
-for PDF fits:
+* for PDF fits:
  * xFitter 1.2.0
 
 ## Installation
-Wiki page?
 many needed
 smaller tools (without special configuration) can be directly taken from CVMFS:
 QD, fastjet, LHAPDF, HepMC, YODA
@@ -36,7 +34,7 @@ First, set up sherivf (to set environment paths and get tools from CVMFS):
 * https://blackhat.hepforge.org/trac/wiki/BlackHatInstallation
 * GCC version 4.7.2
 
-Install in storage:
+Blackhat libraries can become huge -> install in storage:
 
     wget http://www.hepforge.org/archive/blackhat/blackhat-0.9.9.tar.gz
     tar -xzf blackhat-0.9.9.tar.gz
