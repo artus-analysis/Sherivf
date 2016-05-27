@@ -1,8 +1,8 @@
-# SheRivF
+# SheRivF 
 Sherpa,Rivet &amp; FastNLO configs
 
 ## Installation
-found in https://github.com/dhaitz/SheRivF/blob/master/INSTALLATION.md
+found [here](https://github.com/dhaitz/SheRivF/blob/master/INSTALLATION.md)
 
 ## Usage
  bild mit komplettem workflow

@@ -1,12 +1,18 @@
-# SheRivF
-Sherpa,Rivet &amp; FastNLO configs
-
+# Installation
 
 ## Needed:
-* Sherpa 2.2.0
-* Rivet 2.3
-* MCgrid 2.0
-* fastNLO 2.3.1pre-2125
+For Monte Carlo event generation and fastNLO table production:
+
+* Event generation
+ * Sherpa 2.2.0
+ * Blackhat 0.9.9
+* Further event processing and fastNLO table production
+ * Rivet 2.3
+ * MCgrid 2.0
+ * fastNLO 2.3.1pre-2125
+
+for PDF fits:
+ * xFitter 1.2.0
 
 ## Installation
 Wiki page?
