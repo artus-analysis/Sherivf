@@ -4,8 +4,8 @@
 For Monte Carlo event generation and fastNLO table production:
 
 * Event generation
- * [Sherpa 2.2.0](https://sherpa.hepforge.org/trac/wiki/SherpaDownloads/Sherpa-2.2.0)[(Documentation)](https://sherpa.hepforge.org/doc/SHERPA-MC-2.2.0.html)
- * Blackhat 0.9.9
+ * [Sherpa 2.2.0](https://sherpa.hepforge.org/trac/wiki/SherpaDownloads/Sherpa-2.2.0) [(Documentation)](https://sherpa.hepforge.org/doc/SHERPA-MC-2.2.0.html)
+ * [Blackhat 0.9.9](https://blackhat.hepforge.org/)
 * Further event processing and fastNLO table production
  * Rivet 2.3
  * MCgrid 2.0
