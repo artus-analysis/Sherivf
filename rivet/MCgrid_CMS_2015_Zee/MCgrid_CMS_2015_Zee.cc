@@ -25,22 +25,20 @@ public:
 	/// Book histograms and initialise projections before the run
 	void init() {
 
-		/// Initialise and register projections here
+		// electron cuts
 		Cut cut = (
 			(Cuts::pT >= 25.*GeV)
 			& (Cuts::etaIn(-2.4, -1.566) | Cuts::etaIn(-1.442, 1.442) | Cuts::etaIn(1.566, 2.4))
 		);
-
-		ZFinder zfinder(FinalState(), cut,
-			PID::ELECTRON, 81*GeV, 111*GeV, 0.2, ZFinder::CLUSTERNODECAY, ZFinder::TRACK);
+		// Z boson reconstruction
+		ZFinder zfinder(FinalState(), cut, PID::ELECTRON, 81*GeV, 111*GeV, 0.2, ZFinder::CLUSTERNODECAY, ZFinder::TRACK);
+		// register projections here
 		addProjection(zfinder, "ZFinder");
-
-		// electrons
 		IdentifiedFinalState electrons;
 		electrons.acceptId(PID::ELECTRON);
 		addProjection(electrons, "Electrons");
 
-		/// Book histograms here
+		/// Book RIVET histograms
 		std::vector<double> bin_edges = {30, 40, 50, 60, 80, 100, 120, 140, 170, 200, 1000};
 		m_ybins = {0.4, 0.8, 1.2, 1.6, 2.0, 2.4};
 		_h_pTZ = bookHisto1D("zpt", bin_edges);
@@ -60,7 +58,8 @@ public:
 		_h_pTZ_4 = bookHisto1D("y4_zpt", bin_edges);
 		_h_pTZ_5 = bookHisto1D("y5_zpt", bin_edges);
 
-		MSG_INFO("Using fastnlo");
+
+		/// Book fastNLO histograms/tables
 		const string steeringFileName = "MCgrid_CMS_2015_Zee.str";
 
 		MCgrid::subprocessConfig subproc(steeringFileName, MCgrid::BEAM_PROTON, MCgrid::BEAM_PROTON);
@@ -68,21 +67,23 @@ public:
 		MSG_INFO("Creating fastnloGridArch and fastnloConfig");
 		MCgrid::fastnloGridArch arch_fnlo(20, 6, "Lagrange", "Lagrange", "sqrtlog10", "loglog025");
 
-		MCgrid::fastnloConfig config_fnlo(1, subproc, arch_fnlo, 8000.);
-		MCgrid::fastnloConfig config_fnlo_2(1, subproc, arch_fnlo, 8000.);
-		MCgrid::fastnloConfig config_fnlo_3(1, subproc, arch_fnlo, 8000.);
-		// in bins
-		MCgrid::fastnloConfig config_fnlo_4(1, subproc, arch_fnlo, 8000.);
-		MCgrid::fastnloConfig config_fnlo_5(1, subproc, arch_fnlo, 8000.);
-		MCgrid::fastnloConfig config_fnlo_6(1, subproc, arch_fnlo, 8000.);
-		MCgrid::fastnloConfig config_fnlo_7(1, subproc, arch_fnlo, 8000.);
-		MCgrid::fastnloConfig config_fnlo_8(1, subproc, arch_fnlo, 8000.);
-		MCgrid::fastnloConfig config_fnlo_9(1, subproc, arch_fnlo, 8000.);
-		MCgrid::fastnloConfig config_fnlo_10(1, subproc, arch_fnlo, 8000.);
+		const float center_of_mass_energy = 8000.;
 
-		MSG_INFO("bookGrid for yZ. histoDir: " << histoDir());
+		MCgrid::fastnloConfig config_fnlo(1, subproc, arch_fnlo, center_of_mass_energy);
+		MCgrid::fastnloConfig config_fnlo_1(1, subproc, arch_fnlo, center_of_mass_energy);
+		MCgrid::fastnloConfig config_fnlo_2(1, subproc, arch_fnlo, center_of_mass_energy);
+		MCgrid::fastnloConfig config_fnlo_3(1, subproc, arch_fnlo, center_of_mass_energy);
+		// in bins
+		MCgrid::fastnloConfig config_fnlo_4(1, subproc, arch_fnlo, center_of_mass_energy);
+		MCgrid::fastnloConfig config_fnlo_5(1, subproc, arch_fnlo, center_of_mass_energy);
+		MCgrid::fastnloConfig config_fnlo_6(1, subproc, arch_fnlo, center_of_mass_energy);
+		MCgrid::fastnloConfig config_fnlo_7(1, subproc, arch_fnlo, center_of_mass_energy);
+		MCgrid::fastnloConfig config_fnlo_8(1, subproc, arch_fnlo, center_of_mass_energy);
+		MCgrid::fastnloConfig config_fnlo_9(1, subproc, arch_fnlo, center_of_mass_energy);
+
+		MSG_INFO("bookGrid. histoDir: " << histoDir());
 		_fnlo_pTZ = MCgrid::bookGrid(_h_pTZ, histoDir(), config_fnlo);
-		_fnlo_absyZ = MCgrid::bookGrid(_h_absyZ, histoDir(), config_fnlo_10);
+		_fnlo_absyZ = MCgrid::bookGrid(_h_absyZ, histoDir(), config_fnlo_1);
 		_fnlo_yZ = MCgrid::bookGrid(_h_yZ, histoDir(), config_fnlo_2);
 		_fnlo_mZ = MCgrid::bookGrid(_h_mZ, histoDir(), config_fnlo_3);
 
@@ -126,7 +127,7 @@ public:
 				_h_mZ->fill(mZ, weight);
 				_h_phiZ->fill(phiZ, weight);
 
-				// Z y bins
+				// Z pT in y bins
 				if (std::abs(yZ) < m_ybins[0]){
 					_h_pTZ_0->fill(pTZ, weight);
 						_fnlo_pTZ_0->fill(pTZ, event);
@@ -227,7 +228,11 @@ private:
 	Histo1DPtr _h_mZ;
 	Histo1DPtr _h_phiZ;
 
-	// in y bins
+	Histo1DPtr _h_pTe;
+	Histo1DPtr _h_etae;
+	Histo1DPtr _h_phie;
+
+	// pT in y bins
 	Histo1DPtr _h_pTZ_0;
 	Histo1DPtr _h_pTZ_1;
 	Histo1DPtr _h_pTZ_2;
@@ -235,11 +240,7 @@ private:
 	Histo1DPtr _h_pTZ_4;
 	Histo1DPtr _h_pTZ_5;
 
-	Histo1DPtr _h_pTe;
-	Histo1DPtr _h_etae;
-	Histo1DPtr _h_phie;
-	
-	// Grids
+	// fastNLO (MCgrid) grids
 	MCgrid::gridPtr _fnlo_pTZ;
 	MCgrid::gridPtr _fnlo_yZ;
 	MCgrid::gridPtr _fnlo_absyZ;
