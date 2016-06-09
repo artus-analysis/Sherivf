@@ -30,6 +30,8 @@ First, set up sherivf (to set environment paths and get tools from CVMFS):
     . scripts/ini_sherivf.sh
     cd ..
 
+### For event generation / fastNLO table production
+
 #### BLACKHAT 0.9.9
 * https://blackhat.hepforge.org/trac/wiki/BlackHatInstallation
 * GCC version 4.7.2
@@ -75,6 +77,29 @@ Blackhat libraries can become huge -> install in storage:
 
 
 
-#### xFitter
-    ./configure --prefix=$HOME/local CFLAGS=\"-I/usr/users/${USER}/local/include\" LDFLAGS=\"-L/usr/users/${USER}/local/lib/ -I/usr/users/${USER}/local/include -lblas -lyaml\" --enable-process --enable-lhapdf
 
+### For PDF fits
+
+#### QCDNUM 17-00/07 
+    wget http://www.nikhef.nl/user/h24/qcdnum-files/download/qcdnum170112.tar.gz
+    tar -xzf qcdnum170112.tar.gz
+    cd qcdnum-17-01-12
+    ./configure --prefix=$HOME/local
+    make -j 8
+    make install
+    cd ..
+
+
+#### xFitter 1.2.0
+    wget -U Mozilla/5.0 --no-check-certificate "https://wiki-zeuthen.desy.de/xFitter/xFitter/DownloadPage?action=AttachFile&do=get&target=xfitter-1.2.0.tgz" -O xfitter-1.2.0.tgz
+    tar -xzf xfitter-1.2.0.tgz
+    cd xFitter-1.2.0/
+    #./configure --prefix=$HOME/local --enable-lhapdf
+    #./configure --prefix=$HOME/local CFLAGS="-I/usr/users/${USER}/local/include" LDFLAGS="-L/usr/users/${USER}/local/lib/ -I/usr/users/${USER}/local/include -lblas -lyaml" --enable-process --enable-lhapdf
+    autoreconf
+    ./configure --prefix=$HOME/local --enable-lhapdf LDFLAGS="-L/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/lapack/3.3.1-cms/lib"
+    #. /cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/lapack/3.3.1-cms/etc/profile.d/init.sh
+    automake
+    make -j 8
+    make install
+    cd ..
