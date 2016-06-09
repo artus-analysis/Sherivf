@@ -72,7 +72,7 @@ First, set up SheRivf: Clone the repository and source the ini script to set the
     tar -xzf xfitter-1.2.0.tgz
     cd xFitter-1.2.0/
     autoreconf
-    ./configure --prefix=$HOME/local --enable-lhapdf LDFLAGS="-L/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/lapack/3.3.1-cms/lib"
+    ./configure --prefix=$HOME/local --enable-lhapdf LDFLAGS="-L/cvmfs/cms.cern.ch/$ARCHITECTURE/external/lapack/3.3.1-cms/lib"
     automake
     make -j 8
     make install

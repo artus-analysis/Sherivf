@@ -32,6 +32,7 @@ export QD_CVMFS=qd/2.3.13
 export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
 export PATH=$SHERIVFDIR/scripts:$HOME/local/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/local/lib:$HOME/local/lib/SHERPA-MC:$LD_LIBRARY_PATH
+export PYTHONPATH=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/lhapdf/6.1.5/lib/python2.7/site-packages/:$PYTHONPATH
 
 # output paths for batch mode
 export STORAGE_PATH=/storage/a/${USER}
