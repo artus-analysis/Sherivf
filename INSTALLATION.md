@@ -15,6 +15,8 @@ First, set up SheRivf: Clone the repository and source the ini script to set the
     . scripts/ini_sherivf.sh
     cd ..
 
+Then, install the needed programs by following the command-line instructions below:
+
 ## For event generation / fastNLO table production
 
 ### [Blackhat 0.9.9](https://blackhat.hepforge.org/trac/wiki/BlackHatInstallation)
