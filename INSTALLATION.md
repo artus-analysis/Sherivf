@@ -4,7 +4,8 @@ A bunch of software tools is needed for the generation of events, the creation o
 Some of the small tools with can be directly taken from the CernVM File System (CVMFS).
 The 'larger' programs like Sherpa need to be locally installed with special configuration as is detailed below.
 
-TODO: bild mit software and howto
+
+![Software](docs/software.png?raw=true)
 
 
 First, set up SheRivf: Clone the repository and source the ini script to set the environment paths and get tools from CVMFS:
