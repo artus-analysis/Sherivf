@@ -129,7 +129,6 @@ class Sherivf(object):
 			self.sherivf_path + '/' + 'sherpa/run-sherpa.sh',
 			self.sherivf_path + '/' + 'sherpa/sherpa-rivet_{0}.conf'.format(self.args.batch)
 		]
-		self.args.list_of_gc_cfgs.append(self.sherivf_path + '/' + 'sherpa/sherpa-rivet_ekp-base.conf')
 		if self.args.batch == 'ekpcloud':  # jobs on cloud can only write on ekpcloud_local, not regular storage
 			path_list = self.args.output_dir.split('/')
 			path_list[path_list.index('storage')+1] = 'ekpcloud_local'
