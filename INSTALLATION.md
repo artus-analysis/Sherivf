@@ -36,7 +36,7 @@ First, set up SheRivf: Clone the repository and source the ini script to set the
     make install
     cd ..
 
-### fastNLO 2.3.1pre-2212
+### [fastNLO 2.3.1pre-2212](http://fastnlo.hepforge.org/)
     wget http://fastnlo.hepforge.org/code/v23/fastnlo_toolkit-2.3.1pre-2212.tar.gz
     tar -xzf fastnlo_toolkit-2.3.1pre-2212.tar.gz
     cd fastnlo_toolkit-2.3.1pre-2212
@@ -45,7 +45,7 @@ First, set up SheRivf: Clone the repository and source the ini script to set the
     make install
     cd ..
 
-### MCgrid 2.0
+### [MCgrid 2.0](http://mcgrid.hepforge.org/)
     wget https://www.hepforge.org/archive/mcgrid/mcgrid-2.0.tar.gz
     tar -xzf mcgrid-2.0.tar.gz
     cd mcgrid-2.0
@@ -57,7 +57,7 @@ First, set up SheRivf: Clone the repository and source the ini script to set the
 
 ## For PDF fits
 
-### QCDNUM 17-00/07 
+### [QCDNUM 17-00/07](http://www.nikhef.nl/~h24/qcdnum/)
     wget http://www.nikhef.nl/user/h24/qcdnum-files/download/qcdnum170112.tar.gz
     tar -xzf qcdnum170112.tar.gz
     cd qcdnum-17-01-12
@@ -67,15 +67,12 @@ First, set up SheRivf: Clone the repository and source the ini script to set the
     cd ..
 
 
-### xFitter 1.2.0
+### [xFitter 1.2.0](https://wiki-zeuthen.desy.de/xFitter/)
     wget -U Mozilla/5.0 --no-check-certificate "https://wiki-zeuthen.desy.de/xFitter/xFitter/DownloadPage?action=AttachFile&do=get&target=xfitter-1.2.0.tgz" -O xfitter-1.2.0.tgz
     tar -xzf xfitter-1.2.0.tgz
     cd xFitter-1.2.0/
-    #./configure --prefix=$HOME/local --enable-lhapdf
-    #./configure --prefix=$HOME/local CFLAGS="-I/usr/users/${USER}/local/include" LDFLAGS="-L/usr/users/${USER}/local/lib/ -I/usr/users/${USER}/local/include -lblas -lyaml" --enable-process --enable-lhapdf
     autoreconf
     ./configure --prefix=$HOME/local --enable-lhapdf LDFLAGS="-L/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/lapack/3.3.1-cms/lib"
-    #. /cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/lapack/3.3.1-cms/etc/profile.d/init.sh
     automake
     make -j 8
     make install
