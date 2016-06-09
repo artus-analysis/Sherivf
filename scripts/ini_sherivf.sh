@@ -21,18 +21,20 @@ export HEPMC_CVMFS=hepmc/2.06.07-cms
 export RIVET_CVMFS=rivet/2.2.1-kpegke
 export FASTJET_CVMFS=fastjet/3.1.0
 export GSL_CVMFS=gsl/1.10-cms
-for SOFTWARE in lapack/3.3.1-cms lhapdf/6.1.5 $YODA_CVMFS $HEPMC_CVMFS $FASTJET_CVMFS $RIVET_CVMFS $GSL_CVMFS; do
+for SOFTWARE in py2-numpy/1.9.2-kpegke lapack/3.3.1-cms lhapdf/6.1.5 $YODA_CVMFS $HEPMC_CVMFS $FASTJET_CVMFS $RIVET_CVMFS $GSL_CVMFS; do
+	echo $SOFTWARE
 	. /cvmfs/cms.cern.ch/$ARCHITECTURE/external/$SOFTWARE/etc/profile.d/init.sh
 done
 export QD_CVMFS=qd/2.3.13
 . /cvmfs/cms.cern.ch/$ARCHITECTURE_47/external/$QD_CVMFS/etc/profile.d/init.sh
 
-
 # some environment paths
 export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
 export PATH=$SHERIVFDIR/scripts:$HOME/local/bin:$PATH
-export LD_LIBRARY_PATH=$HOME/local/lib:$HOME/local/lib/SHERPA-MC:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$HOME/local/lib:$HOME/local/lib/SHERPA-MC:/cvmfs/cms.cern.ch/$ARCHITECTURE/external/python/2.7.6-kpegke/lib/:$LD_LIBRARY_PATH
 export PYTHONPATH=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/lhapdf/6.1.5/lib/python2.7/site-packages/:$PYTHONPATH
+
+
 
 # output paths for batch mode
 export STORAGE_PATH=/storage/a/${USER}
