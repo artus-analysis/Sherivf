@@ -13,14 +13,15 @@ export ARCHITECTURE_47=slc6_amd64_gcc472
 export ARCHITECTURE=slc6_amd64_gcc491
 alias set_gcc_472=". /cvmfs/cms.cern.ch/$ARCHITECTURE_47/external/gcc/4.7.2/etc/profile.d/init.sh"
 alias set_gcc_491=". /cvmfs/cms.cern.ch/$ARCHITECTURE/external/gcc/4.9.1-cms/etc/profile.d/init.sh"
-set_gcc_491
+. /cvmfs/cms.cern.ch/$ARCHITECTURE/external/gcc/4.9.1-cms/etc/profile.d/init.sh
 
 # take software from CVMFS
 export YODA_CVMFS=yoda/1.3.1
 export HEPMC_CVMFS=hepmc/2.06.07-cms
 export RIVET_CVMFS=rivet/2.2.1-kpegke
 export FASTJET_CVMFS=fastjet/3.1.0
-for SOFTWARE in lhapdf/6.1.5 $YODA_CVMFS $HEPMC_CVMFS $FASTJET_CVMFS $RIVET_CVMFS; do
+export GSL_CVMFS=gsl/1.10-cms
+for SOFTWARE in lapack/3.3.1-cms lhapdf/6.1.5 $YODA_CVMFS $HEPMC_CVMFS $FASTJET_CVMFS $RIVET_CVMFS $GSL_CVMFS; do
 	. /cvmfs/cms.cern.ch/$ARCHITECTURE/external/$SOFTWARE/etc/profile.d/init.sh
 done
 export QD_CVMFS=qd/2.3.13
@@ -30,8 +31,7 @@ export QD_CVMFS=qd/2.3.13
 # some environment paths
 export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
 export PATH=$SHERIVFDIR/scripts:$HOME/local/bin:$PATH
-export LD_LIBRARY_PATH=$HOME/local/lib:$LD_LIBRARY_PATH
-#export LD_LIBRARY_PATH=$HOME/local/lib:$HOME/local/lib/SHERPA-MC:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$HOME/local/lib:$HOME/local/lib/SHERPA-MC:$LD_LIBRARY_PATH
 
 # output paths for batch mode
 export STORAGE_PATH=/storage/a/${USER}
@@ -46,6 +46,10 @@ if [ -d "$MC_GRID_DIR" ]; then
 	export PKG_CONFIG_PATH=/storage/a/dhaitz/software/mcgrid-2.0:$PKG_CONFIG_PATH  #TODO
 	export RIVET_COMPILER_FLAGS="-std=c++0x -Wl,--export-dynamic,-z,defs $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lYODA"
 fi
+
+
+
+
 
 #export MCGRID_OUTPUT_PATH=$PWD
 #export MCGRID_PHASESPACE_PATH=$PWD

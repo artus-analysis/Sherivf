@@ -216,6 +216,7 @@ class Sherivf(object):
 				'@CONFIG@': self.args.sherpa,
 				'@ANALYSIS@': self.args.rivet,
 				'@INPUTFILES@': "\n\t".join(inputfiles),
+				'@SHERIVFDIR@': sherivftools.get_env('SHERIVFDIR'),
 			})
 
 

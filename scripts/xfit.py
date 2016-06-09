@@ -29,7 +29,7 @@ class Xfit(object):
 
 	def get_arguments(self):
 		parser = argparse.ArgumentParser(description="%(prog)s is the main analysis program.", epilog="Have fun.")
-		parser.add_argument('mode', type=str, default=self.default_mode, help="Mode. Can be hera or cms", choices=['hera', 'cms'])
+		parser.add_argument('mode', type=str, default=self.default_mode, help="Mode. Can be hera or heracms", choices=['hera', 'heracms'])
 		self.args = parser.parse_args()
 		self.output_dir = self.default_storage_path + "/" + self.mode +  "_" + time.strftime("%Y-%m-%d_%H-%M")
 
@@ -45,6 +45,7 @@ class Xfit(object):
 		for gcfile in self.list_of_gc_files:
 			sherivftools.copyfile(gcfile, self.output_dir+'/'+os.path.basename(gcfile),{
 				'@OUTDIR@': self.output_dir+'/output',
+				'@SHERIVFDIR@': sherivftools.get_env('SHERIVFDIR'),
 			})
 		
 		# put together steering.txt and copy
@@ -52,7 +53,7 @@ class Xfit(object):
 		target = os.path.join(self.output_dir, os.path.basename(steeringfile))
 		datafiles = ["'{0}'".format(os.path.join(os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/"), f)) for f in os.listdir(os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/"))]
 		corrfiles = []
-		if self.mode == 'cms':
+		if self.mode == 'heracms':
 			datafiles += [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_HFinput_{0}_{1}.txt'").format('zpt', ptbin) for ptbin in common.ybin_labels[:-1]]
 			corrfiles += [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_correlation_{0}_{1}.corr'").format('zpt', ptbin) for ptbin in common.ybin_labels[:-1]]
 		settings = {  # these values are replaced in the steering file

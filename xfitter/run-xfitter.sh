@@ -1,16 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
-source $MY_LANDINGZONE/gc-run.lib || exit 101
 
-# set environment
-WDIR=$PWD
-cd /portal/ekpcms6/home/dhaitz/artus/CMSSW
-export SCRAM_ARCH=`ls bin`
-source /cvmfs/cms.cern.ch/cmsset_default.sh
-eval `scram runtime -sh`
-cd /portal/ekpcms6/home/dhaitz/qcd/sherivf
-. scripts/ini.sh
-cd $WDIR
+. @SHERIVFDIR@/scripts/ini_sherivf.sh
+
 
 # run xfitter
 echo -e "\nFit:"
