@@ -2,7 +2,7 @@
 
 A bunch of software tools is needed for the generation of events, the creation of fastNLO tables and PDF fits.
 Some of the small tools with can be directly taken from the CernVM File System (CVMFS).
-The 'larger' programs like Sherpa need to be locally installed with special configuration as is detailed below.
+The 'larger' programs like Sherpa need to be locally installed with special configuration as is detailed in the installation instructions below.
 
 
 ![Software](docs/software.png?raw=true)
