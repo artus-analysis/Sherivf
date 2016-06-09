@@ -7,6 +7,8 @@ The 'larger' programs like Sherpa need to be locally installed with special conf
 
 ![Software](docs/software.png?raw=true)
 
+<img src="docs/software.png?raw=true" alt="Software" style="width: 200px;"/>
+
 
 First, set up SheRivf: Clone the repository and source the ini script to set the environment paths and get tools from CVMFS:
 
