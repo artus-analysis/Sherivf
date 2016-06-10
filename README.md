@@ -1,11 +1,14 @@
 # SheRivF 
-Toolkit for Sherpa,Rivet and FastNLO configs.
+Toolkit for PDF studies with  Sherpa, Rivet, fastNLO and xFitter.
 
 TODO: bild mit komplettem workflow
 
 
 ## Installation instructions 
 can be found [here](https://github.com/dhaitz/SheRivF/blob/master/INSTALLATION.md).
+
+
+## Introduction to PDF fits
 
 
 ## Monte Carlo simulation and fastNLO table production
@@ -19,6 +22,11 @@ This is the main tool for event generation and fastNLO table production.
 It is a wrapper script, i.e. it mainly executes other commands in a convenient way for the user.
 It has different modes which are detailed below.
 After checkout, when using the default configuration, you can start with the *Local testing* step.
+Always make sure you are in the SheRivF directory and have sourced the ini script:
+
+    cd SheRivF
+    . scripts/ini_sherivf.sh
+
 
 * **Rivet analysis compilation**
 
