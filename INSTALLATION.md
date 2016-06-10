@@ -12,7 +12,7 @@ The 'larger' programs like Sherpa need to be locally installed with special conf
 
 First, set up SheRivf: Clone the repository and source the ini script to set the environment paths and get tools from CVMFS:
 
-    git clone git@github.com:dhaitz/SheRivF.git
+    git clone git@github.com:dhaitz/SheRivF.git  # or with https: git clone https://github.com/dhaitz/SheRivF.git
     cd SheRivF
     . scripts/ini_sherivf.sh
     cd ..
