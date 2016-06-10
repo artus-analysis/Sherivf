@@ -21,14 +21,17 @@ import sherivftools
 
 class Sherivf(object):
 
-	def __init__(self):
+	def __init__(self, rivet_analysis, sherpa_runcard):
+		self.rivet = rivet_analysis
+		self.sherpa = sherpa_runcard
 		self.sherivf_path = sherivftools.get_env('SHERIVFDIR')
 		self.get_arguments()
-		self.fastnlo_outputs = [os.path.basename(f).replace('.txt', ('.txt' if self.args.warmup else '.tab')) for f in glob.glob(os.path.join(self.sherivf_path,'fastnlo',self.args.rivet, '*.txt' ))]
+		self.fastnlo_outputs = [os.path.basename(f).replace('.txt', ('.txt' if self.args.warmup else '.tab')) for f in glob.glob(os.path.join(self.sherivf_path,'fastnlo',self.rivet, '*.txt' ))]
 
 
 	def run(self):
 		"""Main function. Decide between compilation, integration, local production or batch production mode."""
+		start_time = time.time()
 		if self.args.compile:
 			self.compile_rivet_plugin()
 		elif self.args.integrate:
@@ -37,6 +40,10 @@ class Sherivf(object):
 			self.batch()
 		else:
 			self.local()
+
+		print "---	 Sherivf took {0} ---".format(sherivftools.format_time(time.time() - start_time))
+		if hasattr(self, "gctime"):
+			print "--- GridControl took {0} ---".format(sherivftools.format_time(self.gctime))
 
 
 	def batch(self):
@@ -71,7 +78,7 @@ class Sherivf(object):
 			link_dir = os.path.join(self.sherivf_path, 'results')
 			if not os.path.exists(link_dir):
 				os.makedirs(link_dir)
-			link = link_dir+'/'+self.args.rivet + '_' + self.args.sherpa
+			link = link_dir+'/'+self.rivet + '_' + self.sherpa
 			subprocess.call(['rm', '-f', link])
 			subprocess.call(['ln', '-sf', self.args.output_dir, link])
 
@@ -142,9 +149,9 @@ class Sherivf(object):
 
 		# copy Sherpa/Rivet/fastNLO files to test directory
 		for filelist, function in zip([
-			['sherpa', self.args.sherpa],
-			['rivet', self.args.rivet, 'Rivet_{0}.so'.format(self.args.rivet)],
-			['fastnlo', self.args.rivet, self.args.rivet+'.str'],
+			['sherpa', self.sherpa],
+			['rivet', self.rivet, 'Rivet_{0}.so'.format(self.rivet)],
+			['fastnlo', self.rivet, self.rivet+'.str'],
 		], ["copytree", "copy", "copy"]):
 			try:
 				getattr(shutil, function)(os.path.join(self.sherivf_path, *filelist), test_dir)
@@ -156,16 +163,16 @@ class Sherivf(object):
 			os.environ[_dir] = test_dir
 
 		# paths for mc grid and Rivet
-		ph_path = os.path.join(test_dir, self.args.rivet, "phasespace")
-		ph_target_dir = os.path.join(self.sherivf_path, 'fastnlo', self.args.rivet)
+		ph_path = os.path.join(test_dir, self.rivet, "phasespace")
+		ph_target_dir = os.path.join(self.sherivf_path, 'fastnlo', self.rivet)
 		os.environ["RIVET_ANALYSIS_PATH"] = test_dir
 
 		# copy warmupfiles and event count file
 		if not self.args.warmup:
 			try:
-				shutil.copy(os.path.join(ph_target_dir, self.args.rivet+".str.evtcount"), test_dir)
+				shutil.copy(os.path.join(ph_target_dir, self.rivet+".str.evtcount"), test_dir)
 			except IOError:
-				print "could not copy", os.path.join(ph_target_dir, self.args.rivet+".str.evtcount")
+				print "could not copy", os.path.join(ph_target_dir, self.rivet+".str.evtcount")
 			warmupfiles = glob.glob(os.path.join(ph_target_dir, "*.txt"))
 			if not os.path.exists(ph_path):
 				os.makedirs(ph_path)
@@ -181,7 +188,7 @@ class Sherivf(object):
 				if not os.path.exists(ph_target_dir):
 					os.makedirs(ph_target_dir)
 				shutil.copy(f, ph_target_dir)
-			shutil.copy(os.path.join(test_dir, self.args.rivet+".str.evtcount"), ph_target_dir)
+			shutil.copy(os.path.join(test_dir, self.rivet+".str.evtcount"), ph_target_dir)
 			print "Copied warmup files to", ph_target_dir
 
 		print "Sherpa was run in", test_dir
@@ -201,9 +208,9 @@ class Sherivf(object):
 
 		# files to be copied by gc to workdir
 		inputfiles = [
-			os.path.join(self.sherivf_path, 'rivet', self.args.rivet, 'Rivet_{0}.so'.format(self.args.rivet)),
-			os.path.join(self.sherivf_path, 'sherpa', self.args.sherpa, '*.*'),
-			os.path.join(self.sherivf_path, 'fastnlo', self.args.rivet, '*.*'),
+			os.path.join(self.sherivf_path, 'rivet', self.rivet, 'Rivet_{0}.so'.format(self.rivet)),
+			os.path.join(self.sherivf_path, 'sherpa', self.sherpa, '*.*'),
+			os.path.join(self.sherivf_path, 'fastnlo', self.rivet, '*.*'),
 		]
 
 		for gcfile in self.args.list_of_gc_cfgs:
@@ -213,8 +220,8 @@ class Sherivf(object):
 				'@OUTDIR@': self.args.output_dir+'/output',
 				'@WARMUP@': ("rm *.txt"if self.args.warmup else ""),
 				'@OUTPUT@': "Rivet.yoda " + ' '.join(self.fastnlo_outputs),
-				'@CONFIG@': self.args.sherpa,
-				'@ANALYSIS@': self.args.rivet,
+				'@CONFIG@': self.sherpa,
+				'@ANALYSIS@': self.rivet,
 				'@INPUTFILES@': "\n\t".join(inputfiles),
 				'@SHERIVFDIR@': sherivftools.get_env('SHERIVFDIR'),
 			})
@@ -257,12 +264,12 @@ class Sherivf(object):
 		read in via env var RIVET_COMPILER_FLAGS"""
 		compiler_flags = sherivftools.get_env("RIVET_COMPILER_FLAGS")
 		os.chdir(os.path.join(self.sherivf_path, 'rivet'))
-		print "Compiling Rivet Plugin {0}".format(self.args.rivet)
+		print "Compiling Rivet Plugin {0}".format(self.rivet)
 		sherivftools.print_and_call([
 			'rivet-buildplugin', 
 			"{path}/Rivet_{analysis}.so {path}/{analysis}.cc".format(
-				analysis=self.args.rivet,
-				path=os.path.join(self.sherivf_path, 'rivet', self.args.rivet)
+				analysis=self.rivet,
+				path=os.path.join(self.sherivf_path, 'rivet', self.rivet)
 			),
 			compiler_flags
 		])
@@ -270,7 +277,7 @@ class Sherivf(object):
 
 	def sherpa_integration_run(self):
 		"""Switch to sherpa dir, delete files other than Run.dat, integrate"""
-		directory = os.path.join(self.sherivf_path, 'sherpa', self.args.sherpa)
+		directory = os.path.join(self.sherivf_path, 'sherpa', self.sherpa)
 		try:
 			print "Preparing for integration run in directory", directory
 			os.chdir(directory)
@@ -294,9 +301,5 @@ class Sherivf(object):
 
 
 if __name__ == "__main__":
-	start_time = time.time()
-	sherivf = Sherivf()
+	sherivf = Sherivf(rivet_analysis=, sherpa_runcard=)
 	sherivf.run()
-	if hasattr(sherivf, "gctime"):
-		print "---	 Sherivf took {0} ---".format(sherivftools.format_time(time.time() - start_time))
-		print "--- GridControl took {0} ---".format(sherivftools.format_time(sherivf.gctime))
