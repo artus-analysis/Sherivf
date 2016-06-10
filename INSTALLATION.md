@@ -22,16 +22,19 @@ Please install the programs in the same folder next to the SheRivF toolkit.
 The installation procedure has been tested on an SLC6 machine, namely the EKPCMS6.
 
 For batch submission of jobs necessary for PDF fits and large-scale MC production, [grid-control](https://ekptrac.physik.uni-karlsruhe.de/trac/grid-control) is used.
-It has to be installed and the `go.py` executable has to be in the bash PATH variable:
+It has to be installed and the `go.py` executable inside the grid-control directory has to be in the bash PATH variable:
 
     svn co https://ekptrac.physik.uni-karlsruhe.de/svn/grid-control/tags/stable/grid-control
-    export PATH=<path-to-grid-control-directory>:$PATH  # e.g. "export PATH=$HOME/grid-control:$PATH"
+    export PATH=<path-to-grid-control-directory>:$PATH  # e.g. "export PATH=$HOME/grid-control:$PATH", put this line into your .bashrc
 
 For general bash usage, the [bashrc](https://github.com/artus-analysis/bashrc) repository provides some useful commands and default settings.
 
 ## For event generation / fastNLO table production
 
 ### [Blackhat 0.9.9](https://blackhat.hepforge.org/trac/wiki/BlackHatInstallation)
+Blackhat libraries can become quite large and are therefore installed on a storage server.
+Make sure you have a directory on /storage/a/ or change the `prefix` argument for configure.
+
     wget http://www.hepforge.org/archive/blackhat/blackhat-0.9.9.tar.gz
     tar -xzf blackhat-0.9.9.tar.gz
     cd blackhat-0.9.9
@@ -46,7 +49,7 @@ For general bash usage, the [bashrc](https://github.com/artus-analysis/bashrc) r
     wget http://www.hepforge.org/archive/sherpa/SHERPA-MC-2.2.0.tar.gz
     tar -xzf SHERPA-MC-2.2.0.tar.gz
     cd SHERPA-MC-2.2.0
-    ./configure --prefix=$HOME/local  --enable-hepmc2=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$HEPMC_CVMFS --enable-rivet=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$RIVET_CVMFS --enable-blackhat=/storage/a/dhaitz/software/blackhat  --enable-fastjet=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$FASTJET_CVMFS 
+    ./configure --prefix=$HOME/local  --enable-hepmc2=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$HEPMC_CVMFS --enable-rivet=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$RIVET_CVMFS --enable-blackhat=/storage/a/${USER}/software/blackhat  --enable-fastjet=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$FASTJET_CVMFS 
     make -j 12
     make install
     cd ..

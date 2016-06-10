@@ -16,6 +16,10 @@ Sherpa is used for Monte Carlo event generation.
 The events are then passed to Rivet which implements analysis steps such as phase space cuts or Z boson reconstruction.
 MCgrid, a Rivet plugin, generates the fastNLO tables necessary for PDF fits.
 
+The important configuration files are:
+* The Sherpa runcard `sherpa/zjet/Run.dat`, which ...
+* The Rivet analysis `rivet/MCgrid_CMS_2015_Zee.cc`, which ...
+* The fastNLO steering file , which ...
 
 ### `sherivf.py`
 This is the main tool for event generation and fastNLO table production.
@@ -34,11 +38,11 @@ After every time something in the Rivet analysis file is changed:
 
     `sherivf.py --compile`
 
-This simply executes a compilation command in the for the Rivet analysis plugin.
+This simply executes a compilation command for the Rivet analysis plugin, located in `rivet/`.
 
 * **Integration run of sherpa**
 
-After every time some physical parameter in the Sherpa runcard is changed:
+After every time some physical parameter in the Sherpa runcard `sherpa/zjet/Run.dat` is changed:
 
     `sherivf.py --integrate`
 This deletes old integration files and executes a Sherpa phase space integration run.
