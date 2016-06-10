@@ -42,15 +42,7 @@ export PYTHONPATH=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$NUMPY_CVMFS/lib/pyt
 export STORAGE_PATH=/storage/a/${USER}
 export SHERIVF_STORAGE_PATH=$STORAGE_PATH/sherivf/
 export HERA_STORAGE_PATH=$STORAGE_PATH/hera/
-
-
-
-
-export MC_GRID_DIR=$SHERIVFDIR/../mcgrid-2.0
-if [ -d "$MC_GRID_DIR" ]; then
-	export PKG_CONFIG_PATH=/storage/a/dhaitz/software/mcgrid-2.0:$PKG_CONFIG_PATH  #TODO
-	export RIVET_COMPILER_FLAGS="-std=c++0x -Wl,--export-dynamic,-z,defs $(pkg-config mcgrid --cflags) $(pkg-config mcgrid --libs)  -lYODA"
-fi
+export RIVET_COMPILER_FLAGS="-std=c++0x -Wl,--export-dynamic,-z,defs -I/usr/users/$USER/local/include -L/usr/users/${USER}/local/lib -lmcgrid  -lYODA"
 
 
 
