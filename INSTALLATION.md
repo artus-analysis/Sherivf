@@ -2,7 +2,7 @@
 
 A bunch of software tools is needed for the generation of events, the creation of fastNLO tables and PDF fits.
 Some of the small tools with can be directly taken from the CernVM File System (CVMFS).
-The 'larger' programs like Sherpa need to be locally installed with special configuration as is detailed in the installation instructions below.
+The main programs like Sherpa need to be locally installed with special configuration as is detailed in the installation instructions below.
 
 
 ![Software](docs/software.png?raw=true)
@@ -20,6 +20,9 @@ First, set up SheRivf: Clone the repository and source the ini script to set the
 Then, install the needed programs by following the command-line instructions below.
 Please install the programs in the same folder next to the SheRivF toolkit.
 The installation procedure has been tested on an SLC6 machine, namely the EKPCMS6.
+Make sure you have enough free disk space.
+If possible, install in the `/home/$USER` directory.
+
 
 For batch submission of jobs necessary for PDF fits and large-scale MC production, [grid-control](https://ekptrac.physik.uni-karlsruhe.de/trac/grid-control) is used.
 It has to be installed and the `go.py` executable inside the grid-control directory has to be in the bash PATH variable:
@@ -33,7 +36,7 @@ For general bash usage, the [bashrc](https://github.com/artus-analysis/bashrc) r
 
 ### [Blackhat 0.9.9](https://blackhat.hepforge.org/trac/wiki/BlackHatInstallation)
 Blackhat libraries can become quite large and are therefore installed on a storage server.
-Make sure you have a directory on /storage/a/ or change the `prefix` argument for configure.
+Also, make sure you have sufficient disk space available in your home directory.
 
     wget http://www.hepforge.org/archive/blackhat/blackhat-0.9.9.tar.gz
     tar -xzf blackhat-0.9.9.tar.gz
