@@ -21,7 +21,7 @@ MCgrid, a Rivet plugin, generates the fastNLO tables necessary for PDF fits.
 This is the main tool for event generation and fastNLO table production.
 It is a wrapper script, i.e. it mainly executes other commands in a convenient way for the user.
 It has different modes which are detailed below.
-After checkout, when using the default configuration, you can start with the *Local testing* step.
+After checkout, when using the default configuration, you can skip the *Integration* and *Warmup* steps.
 Always make sure you are in the SheRivF directory and have sourced the ini script:
 
     cd SheRivF

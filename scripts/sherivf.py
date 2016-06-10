@@ -111,12 +111,8 @@ class Sherivf(object):
 			help="n jobs [Default: %(default)s]")
 
 		# cfgs: sherpa, analysis
-		parser.add_argument('-s', '--sherpa', type=str, default='zjet',
-			help="sherpa config in folder sherpa. [Default: %(default)s]")
 		parser.add_argument('-i', '--integrate', action="store_true",
 			help="Integration run for Sherpa. [Default: %(default)s]")
-		parser.add_argument('--rivet', type=str, default='MCgrid_CMS_2015_Zee',
-			help="name of rivet analysis [Default: %(default)s]")
 		parser.add_argument('-c', '--compile', action='store_true',
 			help="if set, compile analysis")
 
@@ -208,7 +204,7 @@ class Sherivf(object):
 
 		# files to be copied by gc to workdir
 		inputfiles = [
-			os.path.join(self.sherivf_path, 'rivet', self.rivet, 'Rivet_{0}.so'.format(self.rivet)),
+			os.path.join(self.sherivf_path, 'rivet', 'Rivet_{0}.so'.format(self.rivet)),
 			os.path.join(self.sherivf_path, 'sherpa', self.sherpa, '*.*'),
 			os.path.join(self.sherivf_path, 'fastnlo', self.rivet, '*.*'),
 		]
@@ -269,7 +265,7 @@ class Sherivf(object):
 			'rivet-buildplugin', 
 			"{path}/Rivet_{analysis}.so {path}/{analysis}.cc".format(
 				analysis=self.rivet,
-				path=os.path.join(self.sherivf_path, 'rivet', self.rivet)
+				path=os.path.join(self.sherivf_path, 'rivet')
 			),
 			compiler_flags
 		])
@@ -301,5 +297,5 @@ class Sherivf(object):
 
 
 if __name__ == "__main__":
-	sherivf = Sherivf(rivet_analysis=, sherpa_runcard=)
+	sherivf = Sherivf(rivet_analysis='MCgrid_CMS_2015_Zee', sherpa_runcard='zjet')
 	sherivf.run()
