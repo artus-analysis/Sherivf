@@ -8,6 +8,8 @@ The 'larger' programs like Sherpa need to be locally installed with special conf
 ![Software](docs/software.png?raw=true)
 
 
+
+
 First, set up SheRivf: Clone the repository and source the ini script to set the environment paths and get tools from CVMFS:
 
     git clone git@github.com:dhaitz/SheRivF.git
@@ -15,7 +17,17 @@ First, set up SheRivf: Clone the repository and source the ini script to set the
     . scripts/ini_sherivf.sh
     cd ..
 
-Then, install the needed programs by following the command-line instructions below:
+Then, install the needed programs by following the command-line instructions below.
+Please install the programs in the same folder next to the SheRivF toolkit.
+The installation procedure has been tested on an SLC6 machine, namely the EKPCMS6.
+
+For batch submission of jobs necessary for PDF fits and large-scale MC production, [grid-control](https://ekptrac.physik.uni-karlsruhe.de/trac/grid-control) is used.
+It has to be installed and the `go.py` executable has to be in the bash PATH variable:
+
+    svn co https://ekptrac.physik.uni-karlsruhe.de/svn/grid-control/tags/stable/grid-control
+    export PATH=<path-to-grid-control-directory>:$PATH  # e.g. "export PATH=$HOME/grid-control:$PATH"
+
+For general bash usage, the [bashrc](https://github.com/artus-analysis/bashrc) repository provides some useful commands and default settings.
 
 ## For event generation / fastNLO table production
 

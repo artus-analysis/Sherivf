@@ -34,7 +34,7 @@ def run_gc(config, output_dir):
 def print_and_call(commands, **kwargs):
 	print " ".join(commands)
 	try:
-		print subprocess.call(commands, **kwargs)
+		return subprocess.call(commands, **kwargs)
 	except OSError as e:
 		print e
 		print "Command '{0}' could not be executed successfully! EXIT".format(" ".join(commands))

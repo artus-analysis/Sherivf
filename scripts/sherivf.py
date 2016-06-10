@@ -146,7 +146,7 @@ class Sherivf(object):
 		# copy Sherpa/Rivet/fastNLO files to test directory
 		for filelist, function in zip([
 			['sherpa', self.sherpa],
-			['rivet', self.rivet, 'Rivet_{0}.so'.format(self.rivet)],
+			['rivet', 'Rivet_{0}.so'.format(self.rivet)],
 			['fastnlo', self.rivet, self.rivet+'.str'],
 		], ["copytree", "copy", "copy"]):
 			try:
