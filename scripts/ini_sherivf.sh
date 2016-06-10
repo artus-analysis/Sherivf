@@ -22,7 +22,7 @@ export RIVET_CVMFS=rivet/2.2.1-kpegke
 export FASTJET_CVMFS=fastjet/3.1.0
 export GSL_CVMFS=gsl/1.10-cms
 export NUMPY_CVMFS=py2-numpy/1.9.2-kpegke
-export LHAPDF_CVMFS=lhapdf/6.1.5
+export LHAPDF_CVMFS=lhapdf/6.1.5-cms
 export PYTHON_CVMFS=python/2.7.6-kpegke
 for SOFTWARE in $PYTHON_CVMFS $NUMPY_CVMFS lapack/3.3.1-cms $LHAPDF_CVMFS $YODA_CVMFS $HEPMC_CVMFS $FASTJET_CVMFS $RIVET_CVMFS $GSL_CVMFS; do
 	. /cvmfs/cms.cern.ch/$ARCHITECTURE/external/$SOFTWARE/etc/profile.d/init.sh

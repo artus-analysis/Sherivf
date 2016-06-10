@@ -51,10 +51,9 @@ def main(
 	lhapdf.pathsPrepend(os.getcwd())
 	lhapdf.setVerbosity(0)
 	print "LHAPDF paths",lhapdf.paths()
-	print "PDFset:", pdfset
 	pset = lhapdf.getPDFSet(pdfset)
+	print pset.description
 	n_members = pset.size
-	print n_members, "members in PDF set"
 	if members is not None:
 		n_members=members
 
