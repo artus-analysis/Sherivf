@@ -7,10 +7,14 @@ The main programs like Sherpa need to be locally installed with special configur
 
 ![Software](docs/software.png?raw=true)
 
+The installation procedure has been tested on an SLC6 machine, namely the EKPCMS6.
+Make sure you have enough free disk space.
+If possible, install in the `/home/$USER` directory:
 
+    mkdir /home/$USER/PDFstudies
+    cd $_  # '$_' is a bash variable for the argument to the previous command, here the created directory
 
-
-First, set up SheRivf: Clone the repository and source the ini script to set the environment paths and get tools from CVMFS:
+Now, set up SheRivf: Clone the repository and source the ini script to set the environment paths and get tools from CVMFS:
 
     git clone git@github.com:dhaitz/SheRivF.git  # or with https: git clone https://github.com/dhaitz/SheRivF.git
     cd SheRivF
@@ -19,9 +23,6 @@ First, set up SheRivf: Clone the repository and source the ini script to set the
 
 Then, install the needed programs by following the command-line instructions below.
 Please install the programs in the same folder next to the SheRivF toolkit.
-The installation procedure has been tested on an SLC6 machine, namely the EKPCMS6.
-Make sure you have enough free disk space.
-If possible, install in the `/home/$USER` directory.
 
 
 For batch submission of jobs necessary for PDF fits and large-scale MC production, [grid-control](https://ekptrac.physik.uni-karlsruhe.de/trac/grid-control) is used.

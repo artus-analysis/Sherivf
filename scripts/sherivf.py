@@ -25,22 +25,59 @@ class Sherivf(object):
 		self.rivet = rivet_analysis
 		self.sherpa = sherpa_runcard
 		self.sherivf_path = sherivftools.get_env('SHERIVFDIR')
+		self.mode_dict = {
+			"compile":	self.compile_rivet_plugin,
+			"integrate": self.sherpa_integration_run,
+			"warmup": self.warmup,
+			"local": self.local,
+			"batch": self.batch
+		}
 		self.get_arguments()
-		self.fastnlo_outputs = [os.path.basename(f).replace('.txt', ('.txt' if self.args.warmup else '.tab')) for f in glob.glob(os.path.join(self.sherivf_path,'fastnlo',self.rivet, '*.txt' ))]
+		self.fastnlo_outputs = [os.path.basename(f).replace('.txt', ('.txt' if (self.args.mode == 'warmup') else '.tab')) for f in glob.glob(os.path.join(self.sherivf_path,'fastnlo',self.rivet, '*.txt' ))]
+
+
+	def get_arguments(self):
+		parser = argparse.ArgumentParser(
+			description="%(prog)s is the wrapper for Monte Carlo production and generation of fastNLO tables.", epilog="Have fun.")
+
+		parser.add_argument('mode', type=str, default='local', choices=self.mode_dict.keys(),
+			help="mode. [Default: %(default)s]")
+
+		# for batch mode
+		parser.add_argument('-d', '--delete', action='store_true',
+			help="delete the latest output and jobs still running")
+		parser.add_argument('-r', '--resume', action='store_true',
+			help="resume the grid-control run.")
+		parser.add_argument('-j', '--n-jobs', type=str, default='1',
+			help="n jobs [Default: %(default)s]")
+		parser.add_argument('--output-dir', type=str, help="output directory [Default: %(default)s]",
+			default=sherivftools.get_env('SHERIVF_STORAGE_PATH'))
+		parser.add_argument('-b', '--batch', type=str, default='ekpcluster', choices=['ekpcluster'],
+			help="batch config. [Default: %(default)s]")
+
+		# for local and batch
+		parser.add_argument('-n', '--n-events', type=str, default='1000',
+			help="n events [Default: %(default)s]")
+
+		self.args = parser.parse_args()
+
+		# define configs to use
+		self.args.configfile = 'sherpa-rivet_{0}.conf'.format(self.args.batch)
+		self.args.list_of_gc_cfgs = [
+			self.sherivf_path + '/' + 'sherpa/sherpa-rivet_base.conf',
+			self.sherivf_path + '/' + 'sherpa/run-sherpa.sh',
+			self.sherivf_path + '/' + 'sherpa/sherpa-rivet_{0}.conf'.format(self.args.batch)
+		]
+		if self.args.batch == 'ekpcloud':  # jobs on cloud can only write on ekpcloud_local, not regular storage
+			path_list = self.args.output_dir.split('/')
+			path_list[path_list.index('storage')+1] = 'ekpcloud_local'
+			self.args.output_dir = "/".join(path_list)
 
 
 	def run(self):
 		"""Main function. Decide between compilation, integration, local production or batch production mode."""
 		start_time = time.time()
-		if self.args.compile:
-			self.compile_rivet_plugin()
-		elif self.args.integrate:
-			self.sherpa_integration_run()
-		elif self.args.batch:
-			self.batch()
-		else:
-			self.local()
-
+		self.mode_dict[self.args.mode]()  # start mode
 		print "---	 Sherivf took {0} ---".format(sherivftools.format_time(time.time() - start_time))
 		if hasattr(self, "gctime"):
 			print "--- GridControl took {0} ---".format(sherivftools.format_time(self.gctime))
@@ -96,49 +133,7 @@ class Sherivf(object):
 			print "Could not delete output directory {0} ({1}): {2}".format(self.args.output_dir, e.errno, e.strerror)
 
 
-	def get_arguments(self):
-		parser = argparse.ArgumentParser(
-			description="%(prog)s is the wrapper for Monte Carlo production and generation of fastNLO tables.", epilog="Have fun.")
-
-		# for batch mode
-		parser.add_argument('-b', '--batch', type=str, nargs="?", const='ekpcluster',
-			help="batch mode. cfg optional [Default: %(default)s]")
-		parser.add_argument('-d', '--delete', action='store_true',
-			help="delete the latest output and jobs still running")
-		parser.add_argument('-r', '--resume', action='store_true',
-			help="resume the grid-control run.")
-		parser.add_argument('-j', '--n-jobs', type=str, default='1',
-			help="n jobs [Default: %(default)s]")
-
-		# cfgs: sherpa, analysis
-		parser.add_argument('-i', '--integrate', action="store_true",
-			help="Integration run for Sherpa. [Default: %(default)s]")
-		parser.add_argument('-c', '--compile', action='store_true',
-			help="if set, compile analysis")
-
-		parser.add_argument('-w', '--warmup', action='store_true', default=False,
-			help="if set, do warmup run")
-		parser.add_argument('-n', '--n-events', type=str, default='1000',
-			help="n events [Default: %(default)s]")
-		parser.add_argument('--output-dir', type=str, help="output directory [Default: %(default)s]",
-			default=sherivftools.get_env('SHERIVF_STORAGE_PATH'))
-
-		self.args = parser.parse_args()
-
-		# define configs to use
-		self.args.configfile = 'sherpa-rivet_{0}.conf'.format(self.args.batch)
-		self.args.list_of_gc_cfgs = [
-			self.sherivf_path + '/' + 'sherpa/sherpa-rivet_base.conf',
-			self.sherivf_path + '/' + 'sherpa/run-sherpa.sh',
-			self.sherivf_path + '/' + 'sherpa/sherpa-rivet_{0}.conf'.format(self.args.batch)
-		]
-		if self.args.batch == 'ekpcloud':  # jobs on cloud can only write on ekpcloud_local, not regular storage
-			path_list = self.args.output_dir.split('/')
-			path_list[path_list.index('storage')+1] = 'ekpcloud_local'
-			self.args.output_dir = "/".join(path_list)
-
-
-	def local(self):
+	def local(self, warmup=False):
 		"""LOCAL EXECUTION (for Testing)"""
 		test_dir = os.path.join(self.sherivf_path, 'test', time.strftime("%Y-%m-%d_%H-%M-%S"))
 		print "Create directory", test_dir
@@ -164,7 +159,7 @@ class Sherivf(object):
 		os.environ["RIVET_ANALYSIS_PATH"] = test_dir
 
 		# copy warmupfiles and event count file
-		if not self.args.warmup:
+		if warmup:
 			try:
 				shutil.copy(os.path.join(ph_target_dir, self.rivet+".str.evtcount"), test_dir)
 			except IOError:
@@ -179,7 +174,7 @@ class Sherivf(object):
 		sherivftools.print_and_call(["Sherpa", "-e "+str(self.args.n_events)])
 		
 		# copy warmup and event count files
-		if self.args.warmup:
+		if warmup:
 			for f in glob.glob(ph_path+"/*.txt"):
 				if not os.path.exists(ph_target_dir):
 					os.makedirs(ph_target_dir)
@@ -189,6 +184,8 @@ class Sherivf(object):
 
 		print "Sherpa was run in", test_dir
 
+	def warmup(self):
+		self.local(warmup=True)
 
 	def create_output_dir(self):
 		"""
@@ -214,7 +211,7 @@ class Sherivf(object):
 				'@NEVENTS@': self.args.n_events,
 				'@NJOBS@': self.args.n_jobs,
 				'@OUTDIR@': self.args.output_dir+'/output',
-				'@WARMUP@': ("rm *.txt"if self.args.warmup else ""),
+				'@WARMUP@': ("rm *.txt"if (self.args.mode == 'warmup') else ""),
 				'@OUTPUT@': "Rivet.yoda " + ' '.join(self.fastnlo_outputs),
 				'@CONFIG@': self.sherpa,
 				'@ANALYSIS@': self.rivet,

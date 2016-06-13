@@ -36,7 +36,7 @@ Always make sure you are in the SheRivF directory and have sourced the ini scrip
 
 After every time something in the Rivet analysis file is changed:
 
-    sherivf.py --compile
+    sherivf.py compile
 
 This simply executes a compilation command for the Rivet analysis plugin, located in `rivet/`.
 
@@ -44,7 +44,7 @@ This simply executes a compilation command for the Rivet analysis plugin, locate
 
 After every time some physical parameter in the Sherpa runcard `sherpa/zjet/Run.dat` is changed:
 
-    sherivf.py --integrate
+    sherivf.py integrate
 This deletes old integration files and executes a Sherpa phase space integration run.
 This integration run is necessary if a Sherpa configuration is executed for the first time.
 
@@ -53,7 +53,7 @@ This integration run is necessary if a Sherpa configuration is executed for the 
 After every time something in the Sherpa runcard or the Rivet analysis is changed, the
 fastNLO warmup files have to be recreated:
 
-    sherivf.py --integrate
+    sherivf.py warmup
 
 The warmup files contain information on the ranges in x and Q^2 in the analysis bins.
 The output files are copied into the respective directories.
@@ -72,9 +72,9 @@ Creates a time-stamped output directory in `test/` which contains the Rivet outp
 
 For large-scale parallel MC production; get sufficient events even in sparsely poulated phase space regions
 
-    sherivf.py -n 1000000 -j 20 -b ekpcluster
+    sherivf.py batch -n 1000000 -j 20 -b ekpcluster
 
-`-j` specifies the number of events.
+`-j` specifies the number of jobs, `-b` the batch resource.
 
 create workdir, send jobs, merge fnlo, link
 
