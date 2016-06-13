@@ -25,18 +25,18 @@ public:
 	/// Book histograms and initialise projections before the run
 	void init() {
 
-		// electron cuts
+		// muon cuts
 		Cut cut = (
-			(Cuts::pT >= 25.*GeV)
-			& (Cuts::etaIn(-2.4, -1.566) | Cuts::etaIn(-1.442, 1.442) | Cuts::etaIn(1.566, 2.4))
+			(Cuts::pT >= 20.*GeV)
+			& (Cuts::etaIn(-2.3, 2.3))
 		);
 		// Z boson reconstruction
-		ZFinder zfinder(FinalState(), cut, PID::ELECTRON, 81*GeV, 111*GeV, 0.2, ZFinder::CLUSTERNODECAY, ZFinder::TRACK);
+		ZFinder zfinder(FinalState(), cut, PID::MUON, 81*GeV, 111*GeV, 0.2, ZFinder::CLUSTERNODECAY, ZFinder::TRACK);
 		// register projections here
 		addProjection(zfinder, "ZFinder");
-		IdentifiedFinalState electrons;
-		electrons.acceptId(PID::ELECTRON);
-		addProjection(electrons, "Electrons");
+		IdentifiedFinalState muons;
+		muons.acceptId(PID::MUON);
+		addProjection(muons, "Muons");
 
 		/// Book RIVET histograms
 		std::vector<double> bin_edges = {30, 40, 50, 60, 80, 100, 120, 140, 170, 200, 1000};
@@ -47,9 +47,9 @@ public:
 		_h_mZ = bookHisto1D("zmass", 20, 81, 101);
 		_h_phiZ = bookHisto1D("zphi", 32, -3.2, 3.2);
 
-		_h_pTe = bookHisto1D("eminuspt", 20, 20, 120);
-		_h_etae = bookHisto1D("eminuseta", 48, -2.4, 2.4);
-		_h_phie = bookHisto1D("eminusphi", 32, -3.2, 3.2);
+		_h_pTmu = bookHisto1D("muminuspt", 20, 20, 120);
+		_h_etamu = bookHisto1D("muminuseta", 48, -2.4, 2.4);
+		_h_phimu = bookHisto1D("muminusphi", 32, -3.2, 3.2);
 
 		_h_pTZ_0 = bookHisto1D("y0_zpt", bin_edges);
 		_h_pTZ_1 = bookHisto1D("y1_zpt", bin_edges);
@@ -67,7 +67,7 @@ public:
 		MSG_INFO("Creating fastnloGridArch and fastnloConfig");
 		MCgrid::fastnloGridArch arch_fnlo(20, 6, "Lagrange", "Lagrange", "sqrtlog10", "loglog025");
 
-		const float center_of_mass_energy = 8000.;
+		const float center_of_mass_energy = 13000.;
 
 		MCgrid::fastnloConfig config_fnlo(1, subproc, arch_fnlo, center_of_mass_energy);
 		MCgrid::fastnloConfig config_fnlo_1(1, subproc, arch_fnlo, center_of_mass_energy);
@@ -103,7 +103,7 @@ public:
 		// Handle event
 		MCgrid::PDFHandler::HandleEvent(event, histoDir());
 		const double weight = event.weight();
-		const Particles particles = applyProjection<FinalState>(event, "Electrons").particlesByPt(Cuts::pT>=0.5*GeV);
+		const Particles particles = applyProjection<FinalState>(event, "Muons").particlesByPt(Cuts::pT>=0.5*GeV);
 		const ZFinder& zfinder = applyProjection<ZFinder>(event, "ZFinder");
 
 		if (zfinder.bosons().size() == 1) {
@@ -113,12 +113,12 @@ public:
 			double mZ = zfinder.bosons()[0].momentum().mass();
 			double phiZ = zfinder.bosons()[0].momentum().phi()-pi;
 
-			// electron histos
+			// muon histos
 			if (particles.size() > 0)
 			{
-				_h_pTe->fill(particles[0].pt(), weight);
-				_h_etae->fill(particles[0].eta(), weight);
-				_h_phie->fill(particles[0].phi()-pi, weight);
+				_h_pTmu->fill(particles[0].pt(), weight);
+				_h_etamu->fill(particles[0].eta(), weight);
+				_h_phimu->fill(particles[0].phi()-pi, weight);
 			}
 				// Z histos
 				_h_pTZ->fill(pTZ, weight);
@@ -184,9 +184,9 @@ public:
 		scale(_h_pTZ_4, normfactor);
 		scale(_h_pTZ_5, normfactor);
 
-		scale(_h_pTe, normfactor);
-		scale(_h_etae, normfactor);
-		scale(_h_phie, normfactor);
+		scale(_h_pTmu, normfactor);
+		scale(_h_etamu, normfactor);
+		scale(_h_phimu, normfactor);
 
 		//scale fastnlo
 		_fnlo_pTZ->scale(normfactor);
@@ -228,9 +228,9 @@ private:
 	Histo1DPtr _h_mZ;
 	Histo1DPtr _h_phiZ;
 
-	Histo1DPtr _h_pTe;
-	Histo1DPtr _h_etae;
-	Histo1DPtr _h_phie;
+	Histo1DPtr _h_pTmu;
+	Histo1DPtr _h_etamu;
+	Histo1DPtr _h_phimu;
 
 	// pT in y bins
 	Histo1DPtr _h_pTZ_0;
