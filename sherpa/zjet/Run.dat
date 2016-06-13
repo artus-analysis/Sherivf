@@ -35,26 +35,26 @@
 (processes){
 
   ### The Born, virtual, integrated and real-subtracted pieces
-  Process 93 93 -> 11 -11 93;
+  Process 93 93 -> 13 -13 93;
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part B;
   Order (*,2);
   End process;
 
-  Process 93 93 -> 11 -11 93;
+  Process 93 93 -> 13 -13 93;
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part I;
   Order (*,2);
   End process;
 
-  Process 93 93 -> 11 -11 93;
+  Process 93 93 -> 13 -13 93;
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part V;
   Loop_Generator BlackHat;
   Order (*,2);
   End process;
 
-  Process 93 93 -> 11 -11 93;
+  Process 93 93 -> 13 -13 93;
   NLO_QCD_Mode Fixed_Order;
   NLO_QCD_Part RS;
   Order (*,2);
@@ -64,12 +64,12 @@
 
 
 (selector){
-  PTNLO 11 25 E_CMS
-  PTNLO -11 25 E_CMS
-  PseudoRapidityNLO 11 -2.4 2.4
-  PseudoRapidityNLO -11 -2.4 2.4
-  Mass 11 -11 81. 101.
-  PT2NLO 11 -11 30 E_CMS
+  PTNLO 13 20 E_CMS
+  PTNLO -13 20 E_CMS
+  PseudoRapidityNLO 13 -2.3 2.3
+  PseudoRapidityNLO -13 -2.3 2.3
+  Mass 13 -13 81. 101.
+  PT2NLO 13 -13 30 E_CMS
 }(selector)
 
 
