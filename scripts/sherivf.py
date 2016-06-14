@@ -143,7 +143,7 @@ class Sherivf(object):
 		for filelist, function in zip([
 			['sherpa', self.sherpa],
 			['rivet', 'Rivet_{0}.so'.format(self.rivet)],
-			['fastnlo', self.rivet, self.rivet+'.str'],
+			['fastnlo', self.rivet+'.str'],
 		], ["copytree", "copy", "copy"]):
 			try:
 				getattr(shutil, function)(os.path.join(self.sherivf_path, *filelist), test_dir)
@@ -156,7 +156,7 @@ class Sherivf(object):
 
 		# paths for mc grid and Rivet
 		ph_path = os.path.join(test_dir, self.rivet, "phasespace")
-		ph_target_dir = os.path.join(self.sherivf_path, 'fastnlo', self.rivet)
+		ph_target_dir = os.path.join(self.sherivf_path, 'fastnlo')
 		os.environ["RIVET_ANALYSIS_PATH"] = test_dir
 
 		# copy warmupfiles and event count file
