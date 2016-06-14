@@ -17,21 +17,29 @@ import make_pdf_uncertainties
 
 
 class Xfit(object):
-
+	
 	def __init__(self):
 		self.config = "xfitter.conf"
 		self.files_to_copy = [self.config, 'minuit.in.txt', 'ewparam.txt','run-xfitter.sh']
 		self.default_storage_path = sherivftools.get_env('HERA_STORAGE_PATH')
 		self.get_arguments()
-
-
+		# datafiles for HERA:
+		self.datafiles_hera = ["'{0}'".format(os.path.join(os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/"), f)) for f in os.listdir(os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/"))]
+		self.corrfiles_hera = []
+		# datafiles for CMS: zpt in rapidity bins:
+		self.rapidity_bins = ["{0:02d}".format(i) for i in range(0, 28, 4)]
+		self.rapidity_bins_strings = ["{0}y{1}".format(a,b) for a,b in zip(rapidity_bins[:-1], rapidity_bins[1:])]
+		self.datafiles += [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_HFinput_{0}_{1}.txt'").format('zpt', ptbin) for ptbin in rapidity_bins_strings[:-1]]
+		self.corrfiles += [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_correlation_{0}_{1}.corr'").format('zpt', ptbin) for ptbin in rapidity_bins_strings[:-1]]
+	
+	
 	def get_arguments(self):
 		parser = argparse.ArgumentParser(description="%(prog)s is the main analysis program.", epilog="Have fun.")
 		parser.add_argument('mode', type=str, default='hera', help="Mode. Can be hera or heracms", choices=['hera', 'heracms'])
 		self.args = parser.parse_args()
 		self.output_dir = self.default_storage_path + "/" + self.args.mode +  "_" + time.strftime("%Y-%m-%d_%H-%M")
-
-
+	
+	
 	def run(self):
 		# create gc-dirs
 		print "Output directory:", self.output_dir
@@ -49,13 +57,11 @@ class Xfit(object):
 		# put together steering.txt and copy
 		steeringfile = os.path.join(os.environ['SHERIVFDIR'], "xfitter/steering.txt")
 		target = os.path.join(self.output_dir, os.path.basename(steeringfile))
-		datafiles = ["'{0}'".format(os.path.join(os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/"), f)) for f in os.listdir(os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/"))]
-		corrfiles = []
+		datafiles = self.dataFiles_hera
+		corrfiles = self.corrfiles_hera
 		if self.args.mode == 'heracms':
-			bins = ["{0:02d}".format(i) for i in range(0, 28, 4)]
-			strbins = ["{0}y{1}".format(a,b) for a,b in zip(bins[:-1], bins[1:])]
-			datafiles += [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_HFinput_{0}_{1}.txt'").format('zpt', ptbin) for ptbin in strbins[:-1]]
-			corrfiles += [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_correlation_{0}_{1}.corr'").format('zpt', ptbin) for ptbin in strbins[:-1]]
+			datafiles += self.datafiles_cms
+			corrfiles += self.corrfiles_cms
 		settings = {  # these values are replaced in the steering file
 			'@NFILES@': str(len(datafiles)),
 			'@FILES@': ",\n      ".join(datafiles),

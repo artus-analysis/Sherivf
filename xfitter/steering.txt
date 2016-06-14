@@ -251,15 +251,6 @@
    CutValueMin(11)     = 0
    CutValueMax(11)     = 200
 
-   ProcessName(12)     = 'FastNLO jets'
-   Variable(12)        = 'abszyhigh'
-   CutValueMin(12)     = 0
-   CutValueMax(12)     = 2.0
-   
-   ProcessName(13)     = 'FastNLO jets'
-   Variable(13)        = 'zyhigh'
-   CutValueMin(13)     = -2.0
-   CutValueMax(13)     = 2.0
 &End
 
 
