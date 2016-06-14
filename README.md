@@ -110,9 +110,15 @@ function of Z pT, using the NNPDF 2.3 PDF set:
 
 
 **Statistical check of fastNLO tables**
-For sparsely populated (= only few events) bins 
+For sparsely populated (= only few events) bins, large NLO event weights 
+can bias the bin cross section.
+If you have a number of fastNLO tables, you can identify tables for which the
+cross section in a bin deviated by more than X sigma from the median of all tables:
 
     fnlostatana.py
+
+Use this is you have produced a lot of events but still have some fluctuations
+in the outer bins.
 
 **PDFs as ROOT graphs**
 
@@ -168,6 +174,8 @@ It has two modes:
 * `xfit.py heracms` to fit the combined HERA and CMS data
 
 The output are the fitted PDFs `pdf_?.root` at three scales: Q^2=1.9, Q^2=10.0 and Q=91.2 GeV.
+For debugging, have a look at the individual job log files as described in the
+*Batch mode* section for `sherivf.py`.
 
 The precise HERA data are the basis for PDF determination.
 With the inclusion of CMS data, i.e. for the comparison between the results from
