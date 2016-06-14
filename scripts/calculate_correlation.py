@@ -10,8 +10,12 @@ https://gist.github.com/claria/da98570014514f0ada89
 import os
 import sys
 import argparse
-import ROOT
 import numpy as np
+
+import ROOT
+ROOT.gROOT.SetBatch(True)
+ROOT.PyConfig.IgnoreCommandLineOptions = True
+ROOT.gErrorIgnoreLevel = ROOT.kError
 
 import lhapdf
 import fastnlo
@@ -21,14 +25,14 @@ lhapdf.setVerbosity(0)
 
 partons = {
     0: 'gluon',
-    -1: 'd antiquark',
-    -2: 'u antiquark',
+    #-1: 'd antiquark',
+    #-2: 'u antiquark',
     #            -3 : 'sbar',
     #            -4 : 'cbar',
     #            -5 : 'bbar',
     #            -6 : 'tbar',
-    1: 'd quark',
-    2: 'u quark',
+    #1: 'd quark',
+    #2: 'u quark',
     #            3 : 'strange',
     #            4 : 'charm',
     #            5 : 'bottom',
@@ -96,7 +100,7 @@ def get_fnlo(table, pdfset):
 	npdfmember = fnlo.GetNPDFMembers()
 
 	xs_nlo['xsnlo'] = np.zeros((npdfmember, fnlo.GetNObsBin()))
-	xs_nlo['scale'] = np.array(fnlo.GetQScales(1))
+	xs_nlo['scale'] = np.array(fnlo.GetQScales())
 
 	xs_nlo['y_low'] = [_bin[0] for _bin in fnlo.GetObsBinsBounds(0)]
 	xs_nlo['y_high'] = [_bin[1] for _bin in fnlo.GetObsBinsBounds(0)]
@@ -140,4 +144,4 @@ def get_pdf(pdfset, parton, q, xs):
 
 
 if __name__ == '__main__':
-	sys.exit(main())
+	main()

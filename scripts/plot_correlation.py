@@ -3,20 +3,33 @@
 
 """ plot pdf """
 
-import ROOT
-import numpy as np
+import argparse
 import matplotlib.pyplot as plt
+import numpy as np
+
+import ROOT
+ROOT.gROOT.SetBatch(True)
+ROOT.PyConfig.IgnoreCommandLineOptions = True
+ROOT.gErrorIgnoreLevel = ROOT.kError
 
 import plot_pdf
 
 
-def plot_pdf(input_filename, output_filename, flavour, y_label=""):
-	"""main"""
+def plot_correlation(input_filename, output_filename, flavour, y_label=""):
+	"""Script to make PDF correlation plots"""
+	
+	# get command line arguments
+	parser = argparse.ArgumentParser(description='Plots the correlation coefficient between PDFs and xs')
+	parser.add_argument('-i', '--input-filename', help='Input root file. [Default: %(default)s]', default=input_filename)
+	parser.add_argument('-o', '--output-filename', help='Output root file. [Default: %(default)s]', default=output_filename)
+	parser.add_argument('-f', '--flavour', help='Parton flavour. [Default: %(default)s]', default=flavour)
+	parser.add_argument('-y', '--y-label', help='y-axis label. [Default: %(default)s]', default=y_label)
+	args = parser.parse_args()
 	
 	# get input
-	print "Open", input_filename
-	rootfile = ROOT.TFile(input_filename, "READ")
-	roothisto = rootfile.Get(flavour)
+	print "Open", args.input_filename
+	rootfile = ROOT.TFile(args.input_filename, "READ")
+	roothisto = rootfile.Get(args.flavour)
 	
 	# prepare figure
 	plot_pdf.set_matplotlib_params()
@@ -24,8 +37,8 @@ def plot_pdf(input_filename, output_filename, flavour, y_label=""):
 	ax = fig.add_subplot(111)
 	ax.set_xscale('log', nonposx='clip')
 	ax.set_xlabel(r'$x$', position=(1., 0.), va='top', ha='right')
-	ax.set_ylabel(y_label, position=(0., 1.), va='top', ha='right')
-	ax.set_title(flavour, size=16)
+	ax.set_ylabel(args.y_label, position=(0., 1.), va='top', ha='right')
+	ax.set_title(args.flavour, size=16)
 	
 	# convert from ROOT to numpy
 	#x = np.array([roothisto.GetXaxis().GetBinCenter(i) for i in xrange(1, roothisto.GetNbinsX() +1)])
@@ -43,16 +56,15 @@ def plot_pdf(input_filename, output_filename, flavour, y_label=""):
 	ax.pcolormesh(np.concatenate((xl, xu[-1:])), np.concatenate((yl, yu[-1:])), bincontents, cmap='coolwarm', rasterized=True)
 	
 	# finish
-	print "Writing to", output_filename
-	fig.savefig(output_filename, bbox_inches='tight')
+	print "Writing to", args.output_filename
+	fig.savefig(args.output_filename, bbox_inches='tight')
 	plt.close()
 
 
 if __name__ == "__main__":
-	plot_pdf(
+	plot_correlation(
 		"/usr/users/dhaitz/home/qcd/sherivf/correlations/zpt_NNPDF23_nlo_as_0118.root",
 		"pdf.png",
 		"gluon",
 		"$\mathit{p}_{T,Z}$ / GeV"
 	)
-

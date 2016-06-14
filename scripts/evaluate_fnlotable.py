@@ -15,8 +15,9 @@ import fastnlo
 from fastnlo import fastNLOLHAPDF
  
 import ROOT
+ROOT.gROOT.SetBatch(True)
 ROOT.PyConfig.IgnoreCommandLineOptions = True
-from ROOT import TFile
+ROOT.gErrorIgnoreLevel = ROOT.kError
 
 
 def main(
@@ -26,7 +27,6 @@ def main(
 			#'../NNPDF21_100.LHgrid'
 			'CT10nlo.LHgrid'
 		),
-		lumi = 19789,  # in 1/pb
 	):
 
 	# init fnlo
@@ -35,7 +35,7 @@ def main(
 	fnlo.SetLHAPDFMember(member)
 	fnlo.CalcCrossSection()
 	output_filename = input_filename.replace(".tab", ("_"+str(member) if member != 0 else "")+".root")
-	out = TFile(output_filename, "RECREATE")
+	out = ROOT.TFile(output_filename, "RECREATE")
 
 
 	print "PDF member:", member, "  output_filename:", output_filename
@@ -49,7 +49,7 @@ def main(
 	xs = np.array(fnlo.GetCrossSection())
 	xs[xs <= 0.] = 0.  # ?
 	for i in range(0, fnlo.GetNDim0Bins()):
-		histo.SetBinContent(i+1, lumi*xs[i])  # multiply with lumi to get event count
+		histo.SetBinContent(i+1, xs[i])
 	histo.Write()
 
 
@@ -103,7 +103,6 @@ def main(
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-i', '--input-filename', type=str, default=argparse.SUPPRESS)
-	parser.add_argument('-l', '--lumi', type=float, default=argparse.SUPPRESS)
 	parser.add_argument('-p', '--pdf-set', type=str, default=argparse.SUPPRESS)
 	parser.add_argument('-m', '--member', type=int, default=argparse.SUPPRESS)
 	opt = parser.parse_args()
