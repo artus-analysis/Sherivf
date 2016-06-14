@@ -84,8 +84,8 @@ class Xfit(object):
 			output_filename = self.output_dir+"/pdf_" + q + ".root"
 			make_pdf_uncertainties.make_pdf_uncertainties(
 				base.format("0"),
-				[base.format(str(n)) for n in range(1, 9)+[18, 19]],
-				[base.format(str(n)) for n in range(9, 18)],
+				[base.format(str(n)) for n in range(1, 9)],
+				[base.format(str(n)) for n in range(9, 19)],
 				output_filename
 			)
 
