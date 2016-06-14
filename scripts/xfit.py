@@ -28,10 +28,10 @@ class Xfit(object):
 		self.corrfiles_hera = []
 		# datafiles for CMS: zpt in rapidity bins:
 		self.rapidity_bins = ["{0:02d}".format(i) for i in range(0, 28, 4)]
-		self.rapidity_bins_strings = ["{0}y{1}".format(a,b) for a,b in zip(rapidity_bins[:-1], rapidity_bins[1:])]
+		self.rapidity_bins_strings = ["{0}y{1}".format(a,b) for a,b in zip(self.rapidity_bins[:-1], self.rapidity_bins[1:])]
 		self.rapidity_bins_strings = self.rapidity_bins_strings[:-1]  # dont use the highest-rapidity bin
-		self.datafiles += [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_HFinput_{0}_{1}.txt'").format('zpt', ptbin) for ptbin in self.rapidity_bins_strings]
-		self.corrfiles += [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_correlation_{0}_{1}.corr'").format('zpt', ptbin) for ptbin in self.rapidity_bins_strings]
+		self.datafiles_cms = [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_HFinput_{0}_{1}.txt'").format('zpt', ptbin) for ptbin in self.rapidity_bins_strings]
+		self.corrfiles_cms = [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_correlation_{0}_{1}.corr'").format('zpt', ptbin) for ptbin in self.rapidity_bins_strings]
 	
 	
 	def get_arguments(self):
@@ -58,7 +58,7 @@ class Xfit(object):
 		# put together steering.txt and copy
 		steeringfile = os.path.join(os.environ['SHERIVFDIR'], "xfitter/steering.txt")
 		target = os.path.join(self.output_dir, os.path.basename(steeringfile))
-		datafiles = self.dataFiles_hera
+		datafiles = self.datafiles_hera
 		corrfiles = self.corrfiles_hera
 		if self.args.mode == 'heracms':
 			datafiles += self.datafiles_cms
