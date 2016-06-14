@@ -86,6 +86,8 @@ For debugging of individual jobs, the grid-control and job outputs are located i
 `gc.stdout`, `gc.stderr`, `job.stderr.gz` and `job.stdout.gz` files.
 
 ### Helper scripts
+Some handy scripts located in the `scripts/` folder:
+
 **fastNLO table evaluation**
 
 Calculate a cross section from a fastNLO table (with a certain PDF set)
@@ -104,7 +106,10 @@ Then, the ROOT 2D-histogram has to be plotted.
     plot_correlation.py -i zpt.root -f gluon -o zpt_gluon_corr.png
 
 
-* fnlostatana script
+**Statistical check of fastNLO tables**
+
+    fnlostatana.py
+
 **PDFs as ROOT graphs**
 
     pdf_2_root.py --folder pdf_sets -p NNPDF23_nlo_as_0118
