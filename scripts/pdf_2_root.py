@@ -67,12 +67,12 @@ def main(
 
 def getopt():
 	parser = argparse.ArgumentParser(description='evaluate PDF set')
-	parser.add_argument('-p', '--pdfset', help='LHAPDF PDF Filename', default='NNPDF30_nlo_as_0118')
+	parser.add_argument('-p', '--pdfset', help='LHAPDF PDF Filename. [Default: %(default)s]', default='NNPDF30_nlo_as_0118')
 	parser.add_argument('-o', '--output-filename', default=None)
 	parser.add_argument('-f', '--flavours', type=int, nargs="*", default=default_flavours)
-	parser.add_argument('-n', '--n-points', default=100, type=int, help="points in x")
-	parser.add_argument('-m', '--members', default=None, type=int, help="n members")
-	parser.add_argument('-q', '--q', default=91.2, type=float, help="Q")
+	parser.add_argument('-n', '--n-points', default=100, type=int, help="points in x. [Default: %(default)s]")
+	parser.add_argument('-m', '--members', default=None, type=int, help="n members. [Default: %(default)s]")
+	parser.add_argument('-q', '--q', default=91.2, type=float, help="Q value. [Default: %(default)s]")
 	parser.add_argument('--q2', action='store_true', help="Q2 instead of Q")
 	parser.add_argument('--folder', type=str, default=None)
 

@@ -116,8 +116,12 @@ For sparsely populated (= only few events) bins
 
 **PDFs as ROOT graphs**
 
-    pdf_2_root.py --folder pdf_sets -p NNPDF23_nlo_as_0118
+To get a PDF from a LHAPDF set a certain energy scale, use
 
+    pdf_2_root.py -p NNPDF30_nlo_as_0118 -q 91.2  # Q=91.2
+    pdf_2_root.py -p NNPDF30_nlo_as_0118 -q 1.9 --q2  # Q^2=1.9
+
+(ToDo: `--q2` to have a squared value: should this be made more intuitive?)
 
 
 
