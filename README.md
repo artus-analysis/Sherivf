@@ -159,11 +159,11 @@ storage, copies the necessary files there, launches grid-control, handles the
 outputs (creates the PDF uncertainties from the results of the different jobs)
 and creates a link to the working directory in `results/`.
 
-Two modes:
+It has two modes:
 * `xfit.py hera` to fit only HERA data
 * `xfit.py heracms` to fit the combined HERA and CMS data
 
-outputs?
+The output are the fitted PDFs `pdf_?.root` at three scales: Q^2=1.9, Q^2=10.0 and Q=91.2 GeV.
 
 The precise HERA data are the basis for PDF determination.
 With the inclusion of CMS data, i.e. for the comparison between the results from
@@ -188,12 +188,12 @@ This should probably be deactivated for 13 TeV studies.
 This accelerates the fitting procedure. 
 However, it yields slightly different values so don't use it for results
 you want to present.
-* To also fit alpha_s together with the PDFS, the value for the alphas *step*
+* To also fit alpha_s together with the PDFs, the value for the alphas *step*
  (the first value [here]( https://github.com/dhaitz/SheRivF/blob/7dae32703fce664112fd1bd637292a22253adc20/xfitter/steering.txt#L155))
 could be set to > 0.
 
 
 #### Plot the resulting PDFs:
 
-    plot_pdf.py -i /storage/a/dhaitz/hera//hera_2016-06-14_14-19/pdf_1_9_squared.root -f gluon -o out.png
+    plot_pdf.py -i results/hera/pdf_1_9_squared.root -f gluon -o out.png
 
