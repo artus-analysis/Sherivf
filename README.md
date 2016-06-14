@@ -156,11 +156,23 @@ not explicitly set, e.g. `Q02 = @Q02@`. This means the value is set by
 grid-control, perhaps for each job differently.
 See also the grid-control steering file  `xfitter/xfitter.conf`.
 
-Right now, 19 jobs are submitted:
+Right now, 19 jobs are submitted.
+The first job (job 0) is the central fit with the experimental errors.
+Jobs 1-8 are for the model uncertainties, 
+Jobs 9-18 for the parametrisation uncertainties.
 
-1. central fit
-2. vary strange quark fraction f_s downwards
-3. ...
+* Job 0: Central fit
+* Job 1: Vary strange quark fraction f_s downwards
+* Job 2: Vary strange quark fraction f_s upwards
+* Job 3: Vary charm quark mass downwards
+* Job 4: Vary charm quark mass upwards
+* Job 5: Vary bottom quark mass downwards
+* Job 6: Vary bottom quark mass upwards
+* Job 7: Vary mimimum Q^2 for DIS data downwards
+* Job 8: Vary mimimum Q^2 for DIS data upwards
+* Job 9: Vary the starting scale of the PDF fit Q_0^2 downwards
+* Job 10: Vary the starting scale of the PDF fit Q_0^2 upwards
+* Job 11 -- Job 18: For each job an additional parameter is added
 
 The script which manages the fitting is `xfit.py` (basically a wrapper to
  grid-control).
@@ -209,3 +221,5 @@ could be set to > 0.
 
     plot_pdf.py -i results/hera/pdf_1_9_squared.root -f gluon -o out.png
 
+ToDo: modify the script (or write a new one) to enable comparison plots, i.e.
+plot the total (experimental+model+parametrisation) uncertainties for two PDF sets.
