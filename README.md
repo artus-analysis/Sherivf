@@ -57,13 +57,14 @@ fastNLO warmup files have to be recreated:
 
 The warmup files contain information on the ranges in x and Q^2 in the analysis bins.
 The output files are copied into the respective directories.
+It might be necessary to increase the number of events 
 
 **Local testing**
 
 Full run of Sherpa and Rivet.
 Use this mode to check if everything works before starting batch production.
 
-    sherivf.py local -n 1000
+    sherivf.py local -n 10000
 
 Creates a time-stamped output directory in `test/` which contains the Rivet output (`Rivet.yoda`) and the fastNLO tables.
 `-n` specifies the number of events.
@@ -101,12 +102,15 @@ The red-blue PDF correlation plots are created with two scripts.
 First, the correlations have to be calculated with a fastNLO table and saved as 
 ROOT file.
 Then, the ROOT 2D-histogram has to be plotted.
+E.g., for the correlation plot of the gluon PDF and the cross section as a 
+function of Z pT, using the NNPDF 2.3 PDF set:
 
     calculate_correlation.py  -t results/MCgrid_CMS_2015_Zee_zjet/zpt.tab -p NNPDF23_nlo_as_0118 -o zpt.root
     plot_correlation.py -i zpt.root -f gluon -o zpt_gluon_corr.png
 
 
 **Statistical check of fastNLO tables**
+For sparsely populated (= only few events) bins 
 
     fnlostatana.py
 
@@ -159,6 +163,8 @@ Two modes:
 * `xfit.py hera` to fit only HERA data
 * `xfit.py heracms` to fit the combined HERA and CMS data
 
+outputs?
+
 The precise HERA data are the basis for PDF determination.
 With the inclusion of CMS data, i.e. for the comparison between the results from
 HERA-only and HERA+CMS, we are interested in two things:
@@ -189,5 +195,5 @@ could be set to > 0.
 
 #### Plot the resulting PDFs:
 
-    plot_pdf.py
+    plot_pdf.py -i /storage/a/dhaitz/hera//hera_2016-06-14_14-19/pdf_1_9_squared.root -f gluon -o out.png
 
