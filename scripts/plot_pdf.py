@@ -3,20 +3,32 @@
 
 """ plot pdf """
 
-import ROOT
+import argparse
 import matplotlib
 import matplotlib.pyplot as plt
+
+import ROOT
+ROOT.gROOT.SetBatch(True)
+ROOT.PyConfig.IgnoreCommandLineOptions = True
+ROOT.gErrorIgnoreLevel = ROOT.kError
 
 
 def plot_pdf(input_filename, output_filename, flavour):
 	"""main"""
 	
+	# add argparse for command line configuration
+	parser = argparse.ArgumentParser(description='Plots PDFs')
+	parser.add_argument('-i', '--input-filename', help='Input root file. [Default: %(default)s]', default=input_filename)
+	parser.add_argument('-o', '--output-filename', help='Output root file. [Default: %(default)s]', default=output_filename)
+	parser.add_argument('-f', '--flavour', help='Parton flavour. [Default: %(default)s]', default=flavour)
+	args = parser.parse_args()
+	
 	# get input
-	print "Open", input_filename
-	rootfile = ROOT.TFile(input_filename, "READ")
-	exp = rootfile.Get("exp_"+flavour)
-	exp_mod = rootfile.Get("exp_mod_"+flavour)
-	exp_mod_par = rootfile.Get("exp_mod_par_"+flavour)
+	print "Open", args.input_filename
+	rootfile = ROOT.TFile(args.input_filename, "READ")
+	exp = rootfile.Get("exp_"+args.flavour)
+	exp_mod = rootfile.Get("exp_mod_"+args.flavour)
+	exp_mod_par = rootfile.Get("exp_mod_par_"+args.flavour)
 	colors = ['#68A55A', '#FAA75B', '#D35658']  # green, yellow, red
 	
 	# prepare figure
@@ -31,7 +43,7 @@ def plot_pdf(input_filename, output_filename, flavour):
 	ax2.set_ylabel('Rel. uncertainty', position=(0., 1.), va='top', ha='right')
 	ax1.set_xticklabels([])
 	ax2.set_ylim(-0.45, 0.45)
-	ax1.text(0.05, 0.95, flavour, size=16, transform=ax1.transAxes, ha="left", va="top")
+	ax1.text(0.05, 0.95, args.flavour, size=16, transform=ax1.transAxes, ha="left", va="top")
 
 
 	# iterate over ROOT objects
@@ -56,8 +68,8 @@ def plot_pdf(input_filename, output_filename, flavour):
 		ax1.set_ylim(0, max(ax.get_xlim()[1], max(y)*1.2))
 	
 	# finish
-	print "Writing to", output_filename
-	fig.savefig(output_filename, bbox_inches='tight')
+	print "Writing to", args.output_filename
+	fig.savefig(args.output_filename, bbox_inches='tight')
 	plt.close()
 
 

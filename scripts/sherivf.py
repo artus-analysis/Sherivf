@@ -56,7 +56,7 @@ class Sherivf(object):
 			help="batch config. [Default: %(default)s]")
 
 		# for local and batch
-		parser.add_argument('-n', '--n-events', type=str, default='1000',
+		parser.add_argument('-n', '--n-events', type=str, default='100000',
 			help="n events [Default: %(default)s]")
 
 		self.args = parser.parse_args()

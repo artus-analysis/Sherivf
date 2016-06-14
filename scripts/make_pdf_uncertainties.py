@@ -3,9 +3,13 @@
 
 """calculate model/parametrization/total uncertainties from single job outputs"""
 
-import ROOT
 import math
 import sherivftools
+
+import ROOT
+ROOT.gROOT.SetBatch(True)
+ROOT.PyConfig.IgnoreCommandLineOptions = True
+ROOT.gErrorIgnoreLevel = ROOT.kError
 
 
 q_values = ['1_9_squared', '10_0_squared', '91_2']
@@ -35,7 +39,7 @@ def make_pdf_uncertainties(central, model, parametrization, output=None):
 		file_created = True
 		for obj in ["exp", "mod", "par", "exp_mod", "exp_mod_par"]:
 			eval(obj).Write(obj+"_"+flavour)
-		print "written to", output_filename
+		print flavour, "PDF written to", output_filename
 		out.Close()
 
 
