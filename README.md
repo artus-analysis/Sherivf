@@ -20,7 +20,7 @@ The important configuration files are:
 * The Sherpa runcard `sherpa/zjet/Run.dat`, which defines what process is simulated
 * The Rivet analysis `rivet/MCgrid_CMS_2015_Zee.cc`, which defines event selection
 and histogram / fastNLO table creation
-* The fastNLO steering file , which defines a few fastNLO settings
+* The fastNLO steering file `fastnlo/MCgrid_CMS_2015_Zee.str`, which defines a few fastNLO settings
 
 ### `sherivf.py`
 This is the main tool for event generation and fastNLO table production.
