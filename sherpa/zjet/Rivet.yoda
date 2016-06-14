@@ -1,0 +1,61 @@
+# BEGIN YODA_HISTO1D /MC_XS/N
+Path=/MC_XS/N
+Title=
+Type=Histo1D
+XLabel=
+YLabel=
+# Mean: 5.000000e-01
+# Area: 3.304000e+03
+# ID	 ID	 sumw	 sumw2	 sumwx	 sumwx2	 numEntries
+Total   	Total   	3.304000e+03	3.304000e+03	1.652000e+03	8.260000e+02	3304
+Underflow	Underflow	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0
+Overflow	Overflow	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0
+# xlow	 xhigh	 sumw	 sumw2	 sumwx	 sumwx2	 numEntries
+0.000000e+00	1.000000e+00	3.304000e+03	3.304000e+03	1.652000e+03	8.260000e+02	3304
+# END YODA_HISTO1D
+
+# BEGIN YODA_SCATTER2D /MC_XS/XS
+Path=/MC_XS/XS
+Title=
+Type=Scatter2D
+XLabel=
+YLabel=
+# xval	 xerr-	 xerr+	 yval	 yerr-	 yerr+
+0.000000e+00	5.000000e-01	5.000000e-01	1.739615e+02	2.088620e+01	2.088620e+01
+# END YODA_SCATTER2D
+
+# BEGIN YODA_HISTO1D /MC_XS/pmN
+Path=/MC_XS/pmN
+Title=
+Type=Histo1D
+XLabel=
+YLabel=
+# Mean: -1.147094e-01
+# Area: 3.304000e+03
+# ID	 ID	 sumw	 sumw2	 sumwx	 sumwx2	 numEntries
+Total   	Total   	3.304000e+03	3.304000e+03	-3.790000e+02	8.260000e+02	3304
+Underflow	Underflow	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0
+Overflow	Overflow	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0
+# xlow	 xhigh	 sumw	 sumw2	 sumwx	 sumwx2	 numEntries
+-1.000000e+00	0.000000e+00	2.031000e+03	2.031000e+03	-1.015500e+03	5.077500e+02	2031
+0.000000e+00	1.000000e+00	1.273000e+03	1.273000e+03	6.365000e+02	3.182500e+02	1273
+# END YODA_HISTO1D
+
+# BEGIN YODA_HISTO1D /MC_XS/pmXS
+Path=/MC_XS/pmXS
+ScaledBy=0.0003061849357011635
+Title=
+Type=Histo1D
+XLabel=
+YLabel=
+# Mean: 3.972292e-02
+# Area: 2.189687e+03
+# ID	 ID	 sumw	 sumw2	 sumwx	 sumwx2	 numEntries
+Total   	Total   	2.189687e+03	1.268614e+05	8.698075e+01	5.474216e+02	3304
+Underflow	Underflow	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0
+Overflow	Overflow	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0
+# xlow	 xhigh	 sumw	 sumw2	 sumwx	 sumwx2	 numEntries
+-1.000000e+00	0.000000e+00	1.007863e+03	7.268385e+04	-5.039313e+02	2.519656e+02	2031
+0.000000e+00	1.000000e+00	1.181824e+03	5.417759e+04	5.909120e+02	2.954560e+02	1273
+# END YODA_HISTO1D
+
