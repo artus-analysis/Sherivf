@@ -9,7 +9,7 @@ can be found [here](https://github.com/dhaitz/SheRivF/blob/master/INSTALLATION.m
 
 
 ## Introduction to PDF fits
-
+TODO
 
 ## Monte Carlo simulation and fastNLO table production
 Sherpa is used for Monte Carlo event generation.
@@ -63,7 +63,7 @@ The output files are copied into the respective directories.
 Full run of Sherpa and Rivet.
 Use this mode to check if everything works before starting batch production.
 
-    sherivf.py -n 1000
+    sherivf.py local -n 1000
 
 Creates a time-stamped output directory in `test/` which contains the Rivet output (`Rivet.yoda`) and the fastNLO tables.
 `-n` specifies the number of events.

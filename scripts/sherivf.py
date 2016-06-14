@@ -40,7 +40,7 @@ class Sherivf(object):
 		parser = argparse.ArgumentParser(
 			description="%(prog)s is the wrapper for Monte Carlo production and generation of fastNLO tables.", epilog="Have fun.")
 
-		parser.add_argument('mode', type=str, default='local', choices=self.mode_dict.keys(),
+		parser.add_argument('mode', type=str, choices=self.mode_dict.keys(),
 			help="mode. [Default: %(default)s]")
 
 		# for batch mode
