@@ -144,8 +144,7 @@ grid-control.
 
 
 xFitter needs 3 files:
-* The steering file `steering.txt` which contains information on data and theory
-files and fit settings
+* The steering file `steering.txt` which contains information on data files and fit settings
 * The `minuit.in.txt` file which contains information on the PDF parametrisation,
 which parameters are fitted and their starting values
 * The `ewparam.txt` which sets the values for some physical parameters like quark
@@ -185,6 +184,21 @@ It has two modes:
 * `xfit.py hera` to fit only HERA data
 * `xfit.py heracms` to fit the combined HERA and CMS data
 
+For the CMS mode, you can edit which data files are used, see [here](https://github.com/dhaitz/Sherivf/blob/941675807d/scripts/xfit.py#L30-L34)
+(set `self.corrfiles_cms = []` if you have no correlation files).
+An example for a datafile is [here](https://github.com/dhaitz/Sherivf/blob/94167580/datafiles/zjet/CMS_Zee_HFinput_zpt_inclusive.txt).
+Edit the binning (1st and 2nd column), cross section values (3rd column) and
+statistical uncertainties (4th column).
+The following columns are for the systematic errors.
+[NData](https://github.com/dhaitz/Sherivf/blob/94167580/datafiles/zjet/CMS_Zee_HFinput_zpt_inclusive.txt#L9)
+has to match the number of data points,
+[NColumn](https://github.com/dhaitz/Sherivf/blob/94167580/datafiles/zjet/CMS_Zee_HFinput_zpt_inclusive.txt#L10)
+has to match the number of columns.
+
+
+*TheoryInfoFile* is the fastNLO table you produced (of course for the same
+process that was measured!)
+
 The output are the fitted PDFs `pdf_?.root` at three scales: Q^2=1.9, Q^2=10.0 and Q=91.2 GeV.
 For debugging, have a look at the individual job log files as described in the
 *Batch mode* section for `sherivf.py`.
@@ -209,7 +223,7 @@ This should probably be deactivated for 13 TeV studies.
  does currently not include the Poisson Correction (perhaps it should ...)
 * For testing purposes, the [HF (Heavy Flavour) Scheme used by xFitter](https://github.com/dhaitz/SheRivF/blob/7dae32703fce664112fd1bd637292a22253adc20/xfitter/steering.txt#L97)
  can be set to `RT OPT FAST`.
-This accelerates the fitting procedure. 
+This accelerates the fitting procedure.
 However, it yields slightly different values so don't use it for results
 you want to present.
 * To also fit alpha_s together with the PDFs, the value for the alphas *step*
