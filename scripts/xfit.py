@@ -29,8 +29,9 @@ class Xfit(object):
 		# datafiles for CMS: zpt in rapidity bins:
 		self.rapidity_bins = ["{0:02d}".format(i) for i in range(0, 28, 4)]
 		self.rapidity_bins_strings = ["{0}y{1}".format(a,b) for a,b in zip(rapidity_bins[:-1], rapidity_bins[1:])]
-		self.datafiles += [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_HFinput_{0}_{1}.txt'").format('zpt', ptbin) for ptbin in rapidity_bins_strings[:-1]]
-		self.corrfiles += [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_correlation_{0}_{1}.corr'").format('zpt', ptbin) for ptbin in rapidity_bins_strings[:-1]]
+		self.rapidity_bins_strings = self.rapidity_bins_strings[:-1]  # dont use the highest-rapidity bin
+		self.datafiles += [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_HFinput_{0}_{1}.txt'").format('zpt', ptbin) for ptbin in self.rapidity_bins_strings]
+		self.corrfiles += [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_correlation_{0}_{1}.corr'").format('zpt', ptbin) for ptbin in self.rapidity_bins_strings]
 	
 	
 	def get_arguments(self):
