@@ -1,12 +1,12 @@
 # --- Use emacs in sh mode -*-sh-*- #
 # This is a automatically generated file by fastNLO and holds the values of the warmup run. 
 # The values are valid for the scenario y4_zpt
-# and if calculated with the steerfile: /portal/ekpcms6/home/dhaitz/qcd/new_sherivf/SheRivF/test/2016-05-27_09-18-21/MCgrid_CMS_2015_Zee/phasespace/y4_zpt.txt
+# and if calculated with the steerfile: /portal/ekpcms6/home/tberger/ZJetMC/SheRivF/test/2016-06-14_14-38-06/MCgrid_CMS_2015_Zee/phasespace/y4_zpt.txt
 # but only if no serious changes have been performed since its creation.
 # 
 # Delete this file, if you want fastNLO to calculate a new one.
 # 
-# This file has been calculated using 3314416 contributions.
+# This file has been calculated using 334978 contributions.
 #   ( Mind: contributions != events. And contributions are not necessarily in phase space region.
 # Please check by eye for reasonability of the values.
  
@@ -23,16 +23,16 @@ Warmup.DimensionIsDifferential {
 
 Warmup.Values {{
    ObsBin       x_min      x_max  Description_[GeV]_min  Description_[GeV]_max
-      0      1.21e-03   1.00e+00             86.50            108.49
-      1      1.34e-03   9.97e-01             90.53            112.47
-      2      1.46e-03   9.96e-01             95.32            116.99
-      3      1.54e-03   9.98e-01            101.40            128.48
-      4      1.70e-03   9.99e-01            114.30            141.50
-      5      2.07e-03   9.97e-01            128.77            156.41
-      6      2.41e-03   9.94e-01            145.06            171.39
-      7      2.73e-03   9.93e-01            162.76            196.80
-      8      3.49e-03   9.98e-01            189.16            223.48
-      9      3.74e-03   9.99e-01            217.42           1003.99
+      0      7.82e-04   9.85e-01             86.59            108.18
+      1      8.66e-04   9.91e-01             90.98            111.03
+      2      9.10e-04   8.86e-01             95.27            117.17
+      3      9.99e-04   9.85e-01            102.16            126.49
+      4      1.19e-03   8.91e-01            114.74            140.16
+      5      1.44e-03   8.92e-01            129.38            154.44
+      6      1.45e-03   9.85e-01            146.27            170.00
+      7      1.61e-03   9.92e-01            162.80            195.11
+      8      1.81e-03   9.61e-01            190.00            221.29
+      9      2.50e-03   9.98e-01            218.94           1000.00
 }}
 
 
