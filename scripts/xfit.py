@@ -21,7 +21,7 @@ class Xfit(object):
 	def __init__(self):
 		self.config = "xfitter.conf"
 		self.files_to_copy = [self.config, 'minuit.in.txt', 'ewparam.txt','run-xfitter.sh']
-		self.default_storage_path = sherivftools.get_env('HERA_STORAGE_PATH')
+		self.default_storage_path = sherivftools.get_env('XFITTER_STORAGE_PATH')
 		self.get_arguments()
 		# datafiles for HERA:
 		self.datafiles_hera = ["'{0}'".format(os.path.join(os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/"), f)) for f in os.listdir(os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/"))]

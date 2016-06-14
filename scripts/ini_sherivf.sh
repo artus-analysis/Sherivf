@@ -48,4 +48,4 @@ export LHAPATH=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$LHAPDF_CVMFS/share/LHA
 # output paths for batch mode
 export STORAGE_PATH=/storage/a/${USER}
 export SHERIVF_STORAGE_PATH=$STORAGE_PATH/sherivf/
-export HERA_STORAGE_PATH=$STORAGE_PATH/hera/
+export XFITTER_STORAGE_PATH=$STORAGE_PATH/xfitter/
