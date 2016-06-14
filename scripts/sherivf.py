@@ -159,7 +159,7 @@ class Sherivf(object):
 		os.environ["RIVET_ANALYSIS_PATH"] = test_dir
 
 		# copy warmupfiles and event count file
-		if warmup:
+		if not warmup:
 			try:
 				shutil.copy(os.path.join(ph_target_dir, self.rivet+".str.evtcount"), test_dir)
 			except IOError:
