@@ -32,7 +32,7 @@ Always make sure you are in the SheRivF directory and have sourced the ini scrip
     . scripts/ini_sherivf.sh
 
 
-* **Rivet analysis compilation**
+**Rivet analysis compilation**
 
 After every time something in the Rivet analysis file is changed:
 
@@ -40,7 +40,7 @@ After every time something in the Rivet analysis file is changed:
 
 This simply executes a compilation command for the Rivet analysis plugin, located in `rivet/`.
 
-* **Integration run of sherpa**
+**Integration run of sherpa**
 
 After every time some physical parameter in the Sherpa runcard `sherpa/zjet/Run.dat` is changed:
 
@@ -48,7 +48,7 @@ After every time some physical parameter in the Sherpa runcard `sherpa/zjet/Run.
 This deletes old integration files and executes a Sherpa phase space integration run.
 This integration run is necessary if a Sherpa configuration is executed for the first time.
 
-* **Warmup run for fastNLO**
+**Warmup run for fastNLO**
 
 After every time something in the Sherpa runcard or the Rivet analysis is changed, the
 fastNLO warmup files have to be recreated:
@@ -58,7 +58,7 @@ fastNLO warmup files have to be recreated:
 The warmup files contain information on the ranges in x and Q^2 in the analysis bins.
 The output files are copied into the respective directories.
 
-* **Local testing**
+**Local testing**
 
 Full run of Sherpa and Rivet.
 Use this mode to check if everything works before starting batch production.
@@ -69,7 +69,7 @@ Creates a time-stamped output directory in `test/` which contains the Rivet outp
 `-n` specifies the number of events.
 With a Z+1Jet@NLO config, 3000000 events roughly correspond to 1h runtime.
 
-* **Batch mode**
+**Batch mode**
 
 For large-scale parallel MC production; get sufficient events even in sparsely poulated phase space regions
 
@@ -86,12 +86,15 @@ For debugging of individual jobs, the grid-control and job outputs are located i
 `gc.stdout`, `gc.stderr`, `job.stderr.gz` and `job.stdout.gz` files.
 
 ### Helper scripts
-* Calculate a cross section from a fastNLO table (with a certain PDF set)
+**fastNLO table evaluation**
+
+Calculate a cross section from a fastNLO table (with a certain PDF set)
 and save as ROOT: 
 
     evaluate_fnlotable.py -i results/MCgrid_CMS_2015_Zee_zjet/zpt.tab -p NNPDF23_nlo_as_0118
 
-* Correlation plots
+**Correlation plots**
+
 The red-blue PDF correlation plots are created with two scripts.
 First, the correlations have to be calculated with a fastNLO table and saved as 
 ROOT file.
@@ -102,7 +105,8 @@ Then, the ROOT 2D-histogram has to be plotted.
 
 
 * fnlostatana script
-* pdf to root
+**PDFs as ROOT graphs**
+
     pdf_2_root.py --folder pdf_sets -p NNPDF23_nlo_as_0118
 
 
