@@ -7,6 +7,7 @@ sherivf.py
 """
 
 import argparse
+import getpass
 import glob
 import multiprocessing
 import os
@@ -252,12 +253,10 @@ class Sherivf(object):
 		return outputs
 
 
-	def compile_rivet_plugin(self):
-		""" compile the Rivet plugin via rivet-buildplugin. compiler flags are
-		read in via env var RIVET_COMPILER_FLAGS"""
-		compiler_flags = sherivftools.get_env("RIVET_COMPILER_FLAGS")
-		os.chdir(os.path.join(self.sherivf_path, 'rivet'))
+	def compile_rivet_plugin(self, compiler_flags = "-std=c++0x -Wl,--export-dynamic,-z,defs -I/usr/users/{user}/local/include -L/usr/users/{user}/local/lib -lmcgrid -lYODA".format(user=getpass.getuser())):
+		""" compile the Rivet plugin via rivet-buildplugin"""
 		print "Compiling Rivet Plugin {0}".format(self.rivet)
+		os.chdir(os.path.join(self.sherivf_path, 'rivet'))
 		sherivftools.print_and_call([
 			'rivet-buildplugin', 
 			"{path}/Rivet_{analysis}.so {path}/{analysis}.cc".format(

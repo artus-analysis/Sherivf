@@ -49,4 +49,3 @@ export LHAPATH=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$LHAPDF_CVMFS/share/LHA
 export STORAGE_PATH=/storage/a/${USER}
 export SHERIVF_STORAGE_PATH=$STORAGE_PATH/sherivf/
 export HERA_STORAGE_PATH=$STORAGE_PATH/hera/
-export RIVET_COMPILER_FLAGS="-std=c++0x -Wl,--export-dynamic,-z,defs -I/usr/users/$USER/local/include -L/usr/users/${USER}/local/lib -lmcgrid  -lYODA"
