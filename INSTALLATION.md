@@ -16,13 +16,13 @@ If possible, install in the `/home/$USER` directory:
 
 Now, set up SheRivf: Clone the repository and source the ini script to set the environment paths and get tools from CVMFS:
 
-    git clone git@github.com:dhaitz/SheRivF.git  # or with https: git clone https://github.com/dhaitz/SheRivF.git
-    cd SheRivF
+    git clone git@github.com:dhaitz/Sherivf.git  # or with https: git clone https://github.com/dhaitz/Sherivf.git
+    cd Sherivf
     . scripts/ini_sherivf.sh
     cd ..
 
 Then, install the needed programs by following the command-line instructions below.
-Please install the programs in the same folder next to the SheRivF toolkit.
+Please install the programs in the same folder next to the Sherivf toolkit.
 
 
 For batch submission of jobs necessary for PDF fits and large-scale MC production, [grid-control](https://ekptrac.physik.uni-karlsruhe.de/trac/grid-control) is used.

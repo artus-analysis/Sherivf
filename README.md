@@ -1,5 +1,5 @@
-# SheRivF 
-Toolkit for PDF studies with  Sherpa, Rivet, fastNLO and xFitter.
+# Sherivf 
+Toolkit for PDF studies with  **She**rpa, **Riv**et, **f**astNLO and xFitter.
 
 TODO: bild mit komplettem workflow
 
@@ -26,9 +26,9 @@ This is the main tool for event generation and fastNLO table production.
 It is a wrapper script, i.e. it mainly executes other commands in a convenient way for the user.
 It has different modes which are detailed below.
 After checkout, when using the default configuration, you can skip the *Integration* and *Warmup* steps.
-Always make sure you are in the SheRivF directory and have sourced the ini script:
+Always make sure you are in the Sherivf directory and have sourced the ini script:
 
-    cd SheRivF
+    cd Sherivf
     . scripts/ini_sherivf.sh
 
 
