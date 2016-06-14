@@ -133,15 +133,14 @@ To get a PDF from a LHAPDF set a certain energy scale, use
 
 ## PDF fits
 
-PDFs are determined by comparing data and theory. 
+PDFs are determined by comparing data and theory.
 These PDF fits are performed with [xFitter](https://wiki-zeuthen.desy.de/xFitter/),
 a software developed by the HERA collaborations.
 
 For PDF fits, the PDF uncertainties have to be estimated.
 This requires to perform multiple fits, each with a slightly different
-configuration. This is what requires the parallel execution of xFitter via 
+configuration. This is what requires the parallel execution of xFitter via
 grid-control.
-
 
 xFitter needs 3 files:
 * The steering file `steering.txt` which contains information on data files and fit settings
@@ -151,13 +150,13 @@ which parameters are fitted and their starting values
 masses
 
 These files are located in the `xfitter/` directory. Some of the variables are
-not explicitly set, e.g. `Q02 = @Q02@`. This means the value is set by 
+not explicitly set, e.g. `Q02 = @Q02@`. This means the value is set by
 grid-control, perhaps for each job differently.
 See also the grid-control steering file  `xfitter/xfitter.conf`.
 
 Right now, 19 jobs are submitted.
 The first job (job 0) is the central fit with the experimental errors.
-Jobs 1-8 are for the model uncertainties, 
+Jobs 1-8 are for the model uncertainties,
 Jobs 9-18 for the parametrisation uncertainties.
 
 * Job 0: Central fit
@@ -175,7 +174,7 @@ Jobs 9-18 for the parametrisation uncertainties.
 
 The script which manages the fitting is `xfit.py` (basically a wrapper to
  grid-control).
-Similar to the batch mode of `sherivf.py`, it creates a working directory on 
+Similar to the batch mode of `sherivf.py`, it creates a working directory on
 storage, copies the necessary files there, launches grid-control, handles the
 outputs (creates the PDF uncertainties from the results of the different jobs)
 and creates a link to the working directory in `results/`.
@@ -184,6 +183,7 @@ It has two modes:
 * `xfit.py hera` to fit only HERA data
 * `xfit.py heracms` to fit the combined HERA and CMS data
 
+######Datafile format
 For the CMS mode, you can edit which data files are used, see [here](https://github.com/dhaitz/Sherivf/blob/941675807d/scripts/xfit.py#L30-L34)
 (set `self.corrfiles_cms = []` if you have no correlation files).
 An example for a datafile is [here](https://github.com/dhaitz/Sherivf/blob/94167580/datafiles/zjet/CMS_Zee_HFinput_zpt_inclusive.txt).
@@ -194,11 +194,10 @@ The following columns are for the systematic errors.
 has to match the number of data points,
 [NColumn](https://github.com/dhaitz/Sherivf/blob/94167580/datafiles/zjet/CMS_Zee_HFinput_zpt_inclusive.txt#L10)
 has to match the number of columns.
-
-
 *TheoryInfoFile* is the fastNLO table you produced (of course for the same
 process that was measured!)
 
+######Output
 The output are the fitted PDFs `pdf_?.root` at three scales: Q^2=1.9, Q^2=10.0 and Q=91.2 GeV.
 For debugging, have a look at the individual job log files as described in the
 *Batch mode* section for `sherivf.py`.
