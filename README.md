@@ -143,9 +143,10 @@ grid-control, perhaps for each job differently.
 See also the grid-control steering file  `xfitter/xfitter.conf`.
 
 Right now, 19 jobs are submitted:
+
 1. central fit
 2. vary strange quark fraction f_s downwards
-...
+3. ...
 
 The script which manages the fitting is `xfit.py` (basically a wrapper to
  grid-control).
@@ -167,8 +168,26 @@ HERA-only and HERA+CMS, we are interested in two things:
 data?)
 
 
+#### Important notes for `xfit.py` usage:
+* In the xfitter steering file, a [cut on the Z pT above 200 GeV](https://github.com/dhaitz/SheRivF/blob/a63bd84/xfitter/steering.txt#L250-L252)
+is implemented because of insufficiencies of the 8 TeV cross section calculation.
+Should be disabled for future (13 TeV) studies.
+* Because of unresolved reconstruction issues at 8 TeV,
+the datafiles for the highest rapidity was not used, see [this line](https://github.com/dhaitz/SheRivF/blob/a63bd8409d24b18624b3a848dd49d2d7c1c4589f/scripts/xfit.py#L32)
+This should probably be deactivated for 13 TeV studies.
+* The [chi^2](https://github.com/dhaitz/SheRivF/blob/7dae32703fce664112fd1bd637292a22253adc20/xfitter/steering.txt#L138)
+ does currently not include the Poisson Correction (perhaps it should ...)
+* For testing purposes, the [HF (Heavy Flavour) Scheme used by xFitter](https://github.com/dhaitz/SheRivF/blob/7dae32703fce664112fd1bd637292a22253adc20/xfitter/steering.txt#L97)
+ can be set to `RT OPT FAST`.
+This accelerates the fitting procedure. 
+However, it yields slightly different values so don't use it for results
+you want to present.
+* To also fit alpha_s together with the PDFS, the value for the alphas *step*
+ (the first value [here]( https://github.com/dhaitz/SheRivF/blob/7dae32703fce664112fd1bd637292a22253adc20/xfitter/steering.txt#L155))
+could be set to > 0.
 
-Plot the results:
+
+#### Plot the resulting PDFs:
 
     plot_pdf.py
 
