@@ -23,6 +23,7 @@ class Xfit(object):
 		self.files_to_copy = [self.config, 'minuit.in.txt', 'ewparam.txt','run-xfitter.sh']
 		self.default_storage_path = sherivftools.get_env('XFITTER_STORAGE_PATH')
 		self.get_arguments()
+		# datafiles: please note that you need additional (single) quotes around each filename as part of the string! (needed for xFitter config)
 		# datafiles for HERA:
 		self.datafiles_hera = ["'{0}'".format(os.path.join(os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/"), f)) for f in os.listdir(os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/"))]
 		self.corrfiles_hera = []
@@ -30,8 +31,8 @@ class Xfit(object):
 		self.rapidity_bins = ["{0:02d}".format(i) for i in range(0, 28, 4)]
 		self.rapidity_bins_strings = ["{0}y{1}".format(a,b) for a,b in zip(self.rapidity_bins[:-1], self.rapidity_bins[1:])]
 		self.rapidity_bins_strings = self.rapidity_bins_strings[:-1]  # dont use the highest-rapidity bin
-		self.datafiles_cms = [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_HFinput_{0}_{1}.txt'").format('zpt', ptbin) for ptbin in self.rapidity_bins_strings]
-		self.corrfiles_cms = [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_correlation_{0}_{1}.corr'").format('zpt', ptbin) for ptbin in self.rapidity_bins_strings]
+		self.datafiles_cms = [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_HFinput_zpt_{0}.txt'").format(ptbin) for ptbin in self.rapidity_bins_strings]
+		self.corrfiles_cms = [("'" + os.environ['SHERIVFDIR'] + "/datafiles/zjet/CMS_Zee_correlation_zpt_{0}.corr'").format(ptbin) for ptbin in self.rapidity_bins_strings]
 	
 	
 	def get_arguments(self):
