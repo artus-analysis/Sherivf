@@ -1,7 +1,7 @@
 # Sherivf 
 Toolkit for PDF studies with  **She**rpa, **Riv**et, **f**astNLO and xFitter.
 
-TODO: bild mit komplettem workflow
+![Workflow](docs/workflow.png?raw=true)
 
 
 ## Installation instructions 
