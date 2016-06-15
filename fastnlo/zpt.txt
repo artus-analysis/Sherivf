@@ -1,7 +1,7 @@
 # --- Use emacs in sh mode -*-sh-*- #
 # This is a automatically generated file by fastNLO and holds the values of the warmup run. 
 # The values are valid for the scenario zpt
-# and if calculated with the steerfile: /portal/ekpcms6/home/tberger/ZJetMC/SheRivF/test/2016-06-14_14-38-06/MCgrid_CMS_2015_Zee/phasespace/zpt.txt
+# and if calculated with the steerfile: /portal/ekpcms6/home/tberger/ZJetMC/SheRivF/test/2016-06-14_14-53-03/MCgrid_CMS_2015_Zee/phasespace/zpt.txt
 # but only if no serious changes have been performed since its creation.
 # 
 # Delete this file, if you want fastNLO to calculate a new one.
