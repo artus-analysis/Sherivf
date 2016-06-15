@@ -60,8 +60,8 @@ def plot_pdf(input_filename, output_filename, flavour):
 					alpha=alpha,
 				)
 		ax2.fill_between(x,
-					[(error/y_val) for y_val, error in zip(y, yerrlow)],
-					[(-error/y_val) for y_val, error in zip(y, yerrhigh)],
+					[(-error/y_val) for y_val, error in zip(y, yerrlow)],
+					[(error/y_val) for y_val, error in zip(y, yerrhigh)],
 					color=color,
 					alpha=alpha,
 				)
