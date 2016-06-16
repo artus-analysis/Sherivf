@@ -16,7 +16,7 @@ If possible, install in the `/home/$USER` directory:
 
 Now, set up SheRivf: Clone the repository and source the ini script to set the environment paths and get tools from CVMFS:
 
-    git clone git@github.com:dhaitz/Sherivf.git  # or with https: git clone https://github.com/dhaitz/Sherivf.git
+    git clone git@github.com:artus-analysis/Sherivf.git  # or with https: git clone https://github.com/artus-analysis/Sherivf.git
     cd Sherivf
     . scripts/ini_sherivf.sh
     cd ..
