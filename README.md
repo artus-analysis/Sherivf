@@ -88,6 +88,8 @@ For large-scale parallel MC production; get sufficient events even in sparsely p
 sherivf.py creates a work directory (on a storage server), submits the jobs 
 (via grid-control), merges the output `Rivet.yoda` files and the fastNLO
 tables and creates a link to the work directory in `results/`.
+The cross section in the merged `Rivet.yoda` file needs to be manually scaled by
+the inverse of the number of jobs.
 
 For debugging of individual jobs, the grid-control and job outputs are located in
 `<work-directory>/work.sherpa-rivet_<config>/output/job_<Number>/`, i.e. the
@@ -193,7 +195,7 @@ It has two modes:
 * `xfit.py hera` to fit only HERA data
 * `xfit.py heracms` to fit the combined HERA and CMS data
 
-######Datafile format
+###### Datafile format
 For the CMS mode, you can edit which data files are used, see [here](https://github.com/artus-analysis/Sherivf/blob/941675807d/scripts/xfit.py#L30-L34)
 (set `self.corrfiles_cms = []` if you have no correlation files).
 An example for a datafile is [here](https://github.com/artus-analysis/Sherivf/blob/94167580/datafiles/zjet/CMS_Zee_HFinput_zpt_inclusive.txt).
@@ -207,7 +209,7 @@ has to match the number of columns.
 *TheoryInfoFile* is the fastNLO table you produced (of course for the same
 process that was measured!)
 
-######Output
+###### Output
 The output are the fitted PDFs `pdf_?.root` at three scales: Q^2=1.9, Q^2=10.0 and Q=91.2 GeV.
 For debugging, have a look at the individual job log files as described in the
 *Batch mode* section for `sherivf.py`.
