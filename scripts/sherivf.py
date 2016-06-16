@@ -34,7 +34,7 @@ class Sherivf(object):
 			"batch": self.batch
 		}
 		self.get_arguments()
-		self.fastnlo_outputs = [os.path.basename(f).replace('.txt', ('.txt' if (self.args.mode == 'warmup') else '.tab')) for f in glob.glob(os.path.join(self.sherivf_path,'fastnlo',self.rivet, '*.txt' ))]
+		self.fastnlo_outputs = [os.path.basename(f).replace('.txt', ('.txt' if (self.args.mode == 'warmup') else '.tab')) for f in glob.glob(os.path.join(self.sherivf_path,'fastnlo', '*.txt' ))]
 
 
 	def get_arguments(self):
@@ -106,7 +106,10 @@ class Sherivf(object):
 				self.create_output_dir()
 				self.copy_gc_configs()
 			self.gctime = time.time()
-			sherivftools.run_gc(self.args.output_dir + "/" + self.args.configfile, self.args.output_dir)
+			gc_exitcode = sherivftools.run_gc(self.args.output_dir + "/" + self.args.configfile, self.args.output_dir)
+			if gc_exitcode > 0:
+				print "grid-control run not successful!"
+				sys.exit(1)
 			self.gctime = time.time() - self.gctime
 
 			outputs = self.merge_outputs()
@@ -204,7 +207,7 @@ class Sherivf(object):
 		inputfiles = [
 			os.path.join(self.sherivf_path, 'rivet', 'Rivet_{0}.so'.format(self.rivet)),
 			os.path.join(self.sherivf_path, 'sherpa', self.sherpa, '*.*'),
-			os.path.join(self.sherivf_path, 'fastnlo', self.rivet, '*.*'),
+			os.path.join(self.sherivf_path, 'fastnlo', '*.*'),
 		]
 
 		for gcfile in self.args.list_of_gc_cfgs:
@@ -223,19 +226,15 @@ class Sherivf(object):
 
 	def merge_outputs(self):
 		outputs = []
-		try:
-			#merge yoda files
-			yoda_files = glob.glob(self.args.output_dir+'/output/'+'*.yoda')
-			commands = ['yodamerge'] + yoda_files + ['-o', self.args.output_dir+'/Rivet.yoda']
-			sherivftools.print_and_call(commands)
-			#apply scalefactor
-			scalefactor = 1./len(yoda_files)
-			commands = ['yodascale', '-c', "'.* {0}x'".format(scalefactor), '-i', self.args.output_dir+'/Rivet.yoda']
-			sherivftools.print_and_call(commands)
-			outputs.append(self.args.output_dir+'/Rivet.yoda')
-		except OSError as e:
-			print "Could not merge Rivet outputs ({0}): {1}".format(e.errno, e.strerror)
-
+		# DISABLE RIVET.YODA MERGING UNTIL FIXED
+		#try:
+		#	#merge yoda files
+		#	yoda_files = glob.glob(self.args.output_dir+'/output/'+'*.yoda')
+		#	commands = ['yodamerge'] + yoda_files + ['-o', self.args.output_dir+'/Rivet.yoda'
+		#	sherivftools.print_and_call(commands)
+		#	outputs.append(self.args.output_dir+'/Rivet.yoda')
+		#except OSError as e:
+		#	print "Could not merge Rivet outputs ({0}): {1}".format(e.errno, e.strerror)
 		try:
 			#merge fastNLO files: gather commands
 			commands_list = []
@@ -243,10 +242,12 @@ class Sherivf(object):
 				commands = ['fnlo-tk-merge'] + glob.glob(self.args.output_dir+'/output/'+'{0}*.tab'.format(quantity)) + [self.args.output_dir+'/{0}.tab'.format(quantity)]
 				commands_list.append(commands)
 				outputs.append(self.args.output_dir+'/{0}.tab'.format(quantity))
-			# merge in parallel
-			pool = multiprocessing.Pool(processes=len(commands_list))
-			results = pool.map_async(sherivftools.print_and_call, commands_list)
-			res = results.get(9999999) # 9999999 is needed for KeyboardInterrupt to work: http://stackoverflow.com/questions/1408356/keyboard-interrupts-with-pythons-multiprocessing-pool
+			# DISABLE FASTNLO PARALLEL MERGING UNTIL FIXED
+			#pool = multiprocessing.Pool(processes=len(commands_list))
+			#results = pool.map_async(sherivftools.print_and_call, commands_list)
+			#res = results.get(9999999) # 9999999 is needed for KeyboardInterrupt to work: htt
+			for commands in commands_list:
+				sherivftools.print_and_call(commands)
 		except OSError as e:
 			print "Could not merge fastNLO outputs ({0}): {1}".format(e.errno, e.strerror)
 

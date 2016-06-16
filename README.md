@@ -5,7 +5,7 @@ Toolkit for PDF studies with  **She**rpa, **Riv**et, **f**astNLO and xFitter.
 
 
 ## Installation instructions 
-can be found in a separate file [here](https://github.com/dhaitz/SheRivF/blob/master/INSTALLATION.md).
+can be found in a separate file [here](https://github.com/artus-analysis/Sherivf/blob/master/INSTALLATION.md).
 
 
 ## Introduction to PDF fits
@@ -88,6 +88,8 @@ For large-scale parallel MC production; get sufficient events even in sparsely p
 sherivf.py creates a work directory (on a storage server), submits the jobs 
 (via grid-control), merges the output `Rivet.yoda` files and the fastNLO
 tables and creates a link to the work directory in `results/`.
+The cross section in the merged `Rivet.yoda` file needs to be manually scaled by
+the inverse of the number of jobs.
 
 For debugging of individual jobs, the grid-control and job outputs are located in
 `<work-directory>/work.sherpa-rivet_<config>/output/job_<Number>/`, i.e. the
@@ -122,10 +124,13 @@ can bias the bin cross section.
 If you have a number of fastNLO tables, you can identify tables for which the
 cross section in a bin deviated by more than X sigma from the median of all tables:
 
-    fnlostatana.py
+    fnlostatana.py -i /storage/a/dhaitz/sherivf/ekpcluster_2016-06-16_13-35/output/ -r "^zpt.*$"
 
-Use this is you have produced a lot of events but still have some fluctuations
-in the outer bins.
+The `-r` argument is a regex expression to match the relevant files in the folder.
+The script will create plots for all bins. With `--filter` the 'critical' tables
+are automatically moved to a subfolder.
+Use this script if you have produced a lot of events but still have some
+fluctuations in the outer bins. 
 
 **PDFs as ROOT graphs**
 
@@ -190,24 +195,31 @@ It has two modes:
 * `xfit.py hera` to fit only HERA data
 * `xfit.py heracms` to fit the combined HERA and CMS data
 
-######Datafile format
-For the CMS mode, you can edit which data files are used, see [here](https://github.com/dhaitz/Sherivf/blob/941675807d/scripts/xfit.py#L30-L34)
+###### Datafile format
+For the CMS mode, you can edit which data files are used, see [here](https://github.com/artus-analysis/Sherivf/blob/941675807d/scripts/xfit.py#L30-L34)
 (set `self.corrfiles_cms = []` if you have no correlation files).
-An example for a datafile is [here](https://github.com/dhaitz/Sherivf/blob/94167580/datafiles/zjet/CMS_Zee_HFinput_zpt_inclusive.txt).
+An example for a datafile is [here](https://github.com/artus-analysis/Sherivf/blob/94167580/datafiles/zjet/CMS_Zee_HFinput_zpt_inclusive.txt).
 Edit the binning (1st and 2nd column), cross section values (3rd column) and
 statistical uncertainties (4th column).
 The following columns are for the systematic errors.
-[NData](https://github.com/dhaitz/Sherivf/blob/94167580/datafiles/zjet/CMS_Zee_HFinput_zpt_inclusive.txt#L9)
+[NData](https://github.com/artus-analysis/Sherivf/blob/94167580/datafiles/zjet/CMS_Zee_HFinput_zpt_inclusive.txt#L9)
 has to match the number of data points,
-[NColumn](https://github.com/dhaitz/Sherivf/blob/94167580/datafiles/zjet/CMS_Zee_HFinput_zpt_inclusive.txt#L10)
+[NColumn](https://github.com/artus-analysis/Sherivf/blob/94167580/datafiles/zjet/CMS_Zee_HFinput_zpt_inclusive.txt#L10)
 has to match the number of columns.
 *TheoryInfoFile* is the fastNLO table you produced (of course for the same
 process that was measured!)
 
-######Output
+###### Output
 The output are the fitted PDFs `pdf_?.root` at three scales: Q^2=1.9, Q^2=10.0 and Q=91.2 GeV.
 For debugging, have a look at the individual job log files as described in the
 *Batch mode* section for `sherivf.py`.
+
+For each job, the `job_?_fittedresults.txt` file contains information about the
+theory and data values as well as the nuisance parameter shifts/pulls.
+The `job_?_plots.pdf` contains plots of these values created with 
+xFitter's own plotting tool.
+Chi^2 values are written to `job_?_Results.txt`.
+The PDF parameter values can be found in `job_?_minuit.out.txt`.
 
 The precise HERA data are the basis for PDF determination.
 With the inclusion of CMS data, i.e. for the comparison between the results from
@@ -219,21 +231,21 @@ data?)
 
 
 #### Important notes for `xfit.py` usage:
-* In the xfitter steering file, a [cut on the Z pT above 200 GeV](https://github.com/dhaitz/SheRivF/blob/a63bd84/xfitter/steering.txt#L250-L252)
+* In the xfitter steering file, a [cut on the Z pT above 200 GeV](https://github.com/artus-analysis/Sherivf/blob/a63bd84/xfitter/steering.txt#L250-L252)
 is implemented because of insufficiencies of the 8 TeV cross section calculation.
 Should be disabled for future (13 TeV) studies.
 * Because of unresolved reconstruction issues at 8 TeV,
-the datafiles for the highest rapidity was not used, see [this line](https://github.com/dhaitz/SheRivF/blob/a63bd8409d24b18624b3a848dd49d2d7c1c4589f/scripts/xfit.py#L32)
+the datafiles for the highest rapidity was not used, see [this line](https://github.com/artus-analysis/Sherivf/blob/a63bd8409d24b18624b3a848dd49d2d7c1c4589f/scripts/xfit.py#L32)
 This should probably be deactivated for 13 TeV studies.
-* The [chi^2](https://github.com/dhaitz/SheRivF/blob/7dae32703fce664112fd1bd637292a22253adc20/xfitter/steering.txt#L138)
+* The [chi^2](https://github.com/artus-analysis/Sherivf/blob/7dae32703fce664112fd1bd637292a22253adc20/xfitter/steering.txt#L138)
  does currently not include the Poisson Correction (perhaps it should ...)
-* For testing purposes, the [HF (Heavy Flavour) Scheme used by xFitter](https://github.com/dhaitz/SheRivF/blob/7dae32703fce664112fd1bd637292a22253adc20/xfitter/steering.txt#L97)
+* For testing purposes, the [HF (Heavy Flavour) Scheme used by xFitter](https://github.com/artus-analysis/Sherivf/blob/7dae32703fce664112fd1bd637292a22253adc20/xfitter/steering.txt#L97)
  can be set to `RT OPT FAST`.
 This accelerates the fitting procedure.
 However, it yields slightly different values so don't use it for results
 you want to present.
 * To also fit alpha_s together with the PDFs, the value for the alphas *step*
- (the first value [here]( https://github.com/dhaitz/SheRivF/blob/7dae32703fce664112fd1bd637292a22253adc20/xfitter/steering.txt#L155))
+ (the first value [here]( https://github.com/artus-analysis/Sherivf/blob/7dae32703fce664112fd1bd637292a22253adc20/xfitter/steering.txt#L155))
 could be set to > 0.
 
 
