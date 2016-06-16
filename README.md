@@ -214,6 +214,13 @@ The output are the fitted PDFs `pdf_?.root` at three scales: Q^2=1.9, Q^2=10.0 a
 For debugging, have a look at the individual job log files as described in the
 *Batch mode* section for `sherivf.py`.
 
+For each job, the `job_?_fittedresults.txt` file contains information about the
+theory and data values as well as the nuisance parameter shifts/pulls.
+The `job_?_plots.pdf` contains plots of these values created with 
+xFitter's own plotting tool.
+Chi^2 values are written to `job_?_Results.txt`.
+The PDF parameter values can be found in `job_?_minuit.out.txt`.
+
 The precise HERA data are the basis for PDF determination.
 With the inclusion of CMS data, i.e. for the comparison between the results from
 HERA-only and HERA+CMS, we are interested in two things:
