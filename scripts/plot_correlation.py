@@ -37,8 +37,8 @@ def plot_correlation(input_filename, output_filename, flavour, y_label=""):
 	ax = fig.add_subplot(111)
 	ax.set_xscale('log', nonposx='clip')
 	ax.set_xlabel(r'$x$', position=(1., 0.), va='top', ha='right')
-	ax.set_ylabel(args.y_label, position=(0., 1.), va='top', ha='right')
-	ax.set_title(args.flavour, size=16)
+	ax.set_ylabel(r'$|y^Z|$', position=(0., 1.), va='top', ha='right')
+	ax.set_title(args.flavour+' 13 TeV NNPDF30', size=16)
 	
 	# convert from ROOT to numpy
 	#x = np.array([roothisto.GetXaxis().GetBinCenter(i) for i in xrange(1, roothisto.GetNbinsX() +1)])
@@ -53,8 +53,13 @@ def plot_correlation(input_filename, output_filename, flavour, y_label=""):
 			bincontents[y - 1, x - 1] = roothisto.GetBinContent(x, y)
 	
 	# draw
-	ax.pcolormesh(np.concatenate((xl, xu[-1:])), np.concatenate((yl, yu[-1:])), bincontents, cmap='coolwarm', rasterized=True)
-	
+	cax = ax.pcolormesh(np.concatenate((xl, xu[-1:])), np.concatenate((yl, yu[-1:])), bincontents, cmap='coolwarm', rasterized=True)
+	cbar = fig.colorbar(cax, ticks=[-1,-0.5,0,0.5,1])
+	plt.ylim(ymax = 2.3, ymin = 0)
+	#plt.zlim(zmax = 1, zmin = -1)
+	cbar.set_label('Correlation Coefficient')
+	#cbar.ax.set_yticklabels(['-1','-0.5','0','0.5','1'])
+	cax.set_clim(-1,1)
 	# finish
 	print "Writing to", args.output_filename
 	fig.savefig(args.output_filename, bbox_inches='tight')
@@ -66,5 +71,5 @@ if __name__ == "__main__":
 		"/usr/users/dhaitz/home/qcd/sherivf/correlations/zpt_NNPDF23_nlo_as_0118.root",
 		"pdf.png",
 		"gluon",
-		"$\mathit{p}_{T,Z}$ / GeV"
+		"$\mathit{\phi}_{\eta}^{*}$"
 	)

@@ -6,7 +6,7 @@
 import argparse
 import matplotlib
 import matplotlib.pyplot as plt
-
+import matplotlib.patches as mpatches
 import ROOT
 ROOT.gROOT.SetBatch(True)
 ROOT.PyConfig.IgnoreCommandLineOptions = True
@@ -30,24 +30,26 @@ def plot_pdf(input_filename, output_filename, flavour):
 	exp_mod = rootfile.Get("exp_mod_"+args.flavour)
 	exp_mod_par = rootfile.Get("exp_mod_par_"+args.flavour)
 	colors = ['#68A55A', '#FAA75B', '#D35658']  # green, yellow, red
-	
+	#colors = ['blue', 'blue', 'blue']
 	# prepare figure
 	set_matplotlib_params()
 	fig = plt.figure()
-	ax1, ax2 = [plt.subplot2grid((4,1), (0, 0), rowspan=3), plt.subplot2grid((4,1), (3, 0))]
+	ax1, ax2 = [plt.subplot2grid((4,1), (0, 0), rowspan=3) , plt.subplot2grid((4,1), (3, 0))]
 	for ax in [ax1, ax2]:
 		ax.set_xlim(1e-4, 0.9)
 		ax.set_xscale('log', nonposx='clip')
+	#ax1.set_xlabel(r'$x$', position=(1., 0.), va='top', ha='right')
 	ax2.set_xlabel(r'$x$', position=(1., 0.), va='top', ha='right')
 	ax1.set_ylabel('$x$f($x,Q^2$)', position=(0., 1.), va='top', ha='right')
 	ax2.set_ylabel('Rel. uncertainty', position=(0., 1.), va='top', ha='right')
 	ax1.set_xticklabels([])
-	ax2.set_ylim(-0.45, 0.45)
-	ax1.text(0.05, 0.95, args.flavour, size=16, transform=ax1.transAxes, ha="left", va="top")
+	ax2.set_ylim(-0.45, 0.45)	
+	ax1.text(0.05, 0.95, args.flavour.replace('_',' ')+' PDF', size=16, transform=ax1.transAxes, ha="left", va="top")
+	ax1.text(0.05, 0.85, r'$Q^2 = 1.9 \ GeV^2$', size=16, transform=ax1.transAxes, ha="left", va="top")
 
 
 	# iterate over ROOT objects
-	for color, histo, alpha in zip(colors, [exp_mod_par, exp_mod, exp], [0.7, 0.9, 0.7]):
+	for color, histo, alpha in zip(colors, [exp_mod_par, exp_mod, exp], [0.9, 0.9, 0.9]):
 		# convert ROOT histo to mpl format
 		x, y, yerrlow, yerrhigh = get_values_from_tgraphasymmerrors(histo)
 
@@ -59,13 +61,25 @@ def plot_pdf(input_filename, output_filename, flavour):
 					color=color,
 					alpha=alpha,
 				)
+		patch1 = mpatches.Patch(color='#D35658')
+                patch2 = mpatches.Patch(color='#FAA75B')
+                patch3 = mpatches.Patch(color='#68A55A')
+                if(args.flavour == 'gluon'): 
+		  ax1.legend((patch1,patch2,patch3),('Exp. Unc.', 'Model Unc.','Par Unc.'),loc="lower center")
+		elif(args.flavour == 'sea_quarks'):
+		  ax1.legend((patch1,patch2,patch3),('Exp. Unc.', 'Model Unc.','Par Unc.'),loc="upper right")
+		else:
+		  ax1.legend((patch1,patch2,patch3),('Exp. Unc.', 'Model Unc.','Par Unc.'),loc="center left")
 		ax2.fill_between(x,
 					[(-error/y_val) for y_val, error in zip(y, yerrlow)],
 					[(error/y_val) for y_val, error in zip(y, yerrhigh)],
 					color=color,
 					alpha=alpha,
 				)
-		ax1.set_ylim(0, max(ax.get_xlim()[1], max(y)*1.2))
+		if(args.flavour == 'd_valence_quark'):
+		  ax1.set_ylim(0,0.55)
+		else:  
+		  ax1.set_ylim(0, max(ax.get_xlim()[1], max(y)*1.4))
 	
 	# finish
 	print "Writing to", args.output_filename

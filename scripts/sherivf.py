@@ -57,7 +57,7 @@ class Sherivf(object):
 			help="batch config. [Default: %(default)s]")
 
 		# for local and batch
-		parser.add_argument('-n', '--n-events', type=str, default='100000',
+		parser.add_argument('-n', '--n-events', type=str, default='1000000',
 			help="n events [Default: %(default)s]")
 
 		self.args = parser.parse_args()
@@ -254,7 +254,7 @@ class Sherivf(object):
 		return outputs
 
 
-	def compile_rivet_plugin(self, compiler_flags = "-std=c++0x -Wl,--export-dynamic,-z,defs -I/usr/users/{user}/local/include -L/usr/users/{user}/local/lib -lmcgrid -lYODA".format(user=getpass.getuser())):
+	def compile_rivet_plugin(self, compiler_flags = "-std=c++0x -Wl,--export-dynamic,-z,defs -I/afs/desy.de/user/a/afriedel/local/include -L/afs/desy.de/user/a/afriedel//local/lib -lmcgrid -lYODA"):
 		""" compile the Rivet plugin via rivet-buildplugin"""
 		print "Compiling Rivet Plugin {0}".format(self.rivet)
 		os.chdir(os.path.join(self.sherivf_path, 'rivet'))

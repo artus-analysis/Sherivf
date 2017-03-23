@@ -23,6 +23,7 @@ ROOT.gErrorIgnoreLevel = ROOT.kError
 def main(
 		member=0,
 		input_filename='fnlo_yZ.tab',
+		output_filename='zpt.root',
 		pdf_set=(
 			#'../NNPDF21_100.LHgrid'
 			'CT10nlo.LHgrid'
@@ -34,7 +35,6 @@ def main(
 	fnlo.SetLHAPDFFilename(pdf_set)
 	fnlo.SetLHAPDFMember(member)
 	fnlo.CalcCrossSection()
-	output_filename = input_filename.replace(".tab", ("_"+str(member) if member != 0 else "")+".root")
 	out = ROOT.TFile(output_filename, "RECREATE")
 
 
@@ -105,5 +105,6 @@ if __name__ == '__main__':
 	parser.add_argument('-i', '--input-filename', type=str, default=argparse.SUPPRESS)
 	parser.add_argument('-p', '--pdf-set', type=str, default=argparse.SUPPRESS)
 	parser.add_argument('-m', '--member', type=int, default=argparse.SUPPRESS)
+	parser.add_argument('-o', '--output-filename', type=str, default=argparse.SUPPRESS)
 	opt = parser.parse_args()
 	main(**vars(opt))

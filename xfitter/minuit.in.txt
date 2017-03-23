@@ -30,7 +30,7 @@ parameters
   42   'BDbar'                     -0.172358  0.007237
   43   'CDbar'                      4.885482 1.423895
   44   'DDbar'                     0.0000   @DDBAR_S@
-  45   'EDbar'                     0.0000   @EDBAR_S@
+  45   'EDbar'                     @EDBAR_M@   @EDBAR_S@
   51   'AU'                        0.0000   0.000000e+00
   52   'BU'                        0.0000   0.000000e+00
   53   'CU'                        0.0000   0.000000e+00

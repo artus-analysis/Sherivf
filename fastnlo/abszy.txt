@@ -1,12 +1,12 @@
 # --- Use emacs in sh mode -*-sh-*- #
 # This is a automatically generated file by fastNLO and holds the values of the warmup run. 
 # The values are valid for the scenario abszy
-# and if calculated with the steerfile: /portal/ekpcms6/home/tberger/ZJetMC/SheRivF/test/2016-06-14_14-53-03/MCgrid_CMS_2015_Zee/phasespace/abszy.txt
+# and if calculated with the steerfile: /afs/desy.de/user/a/afriedel/PDFStudies/Sherivf/test/2017-03-21_00-21-43/MCgrid_CMS_2015_Zee/phasespace/abszy.txt
 # but only if no serious changes have been performed since its creation.
 # 
 # Delete this file, if you want fastNLO to calculate a new one.
 # 
-# This file has been calculated using 334978 contributions.
+# This file has been calculated using 3223726 contributions.
 #   ( Mind: contributions != events. And contributions are not necessarily in phase space region.
 # Please check by eye for reasonability of the values.
  
@@ -23,29 +23,29 @@ Warmup.DimensionIsDifferential {
 
 Warmup.Values {{
    ObsBin       x_min      x_max  Description_[GeV]_min  Description_[GeV]_max
-      0      5.02e-03   9.90e-01             86.54           4634.99
-      1      4.63e-03   1.00e+00             86.61           4943.56
-      2      4.13e-03   9.97e-01             87.00           5108.51
-      3      3.76e-03   9.98e-01             86.52           5354.93
-      4      3.32e-03   1.00e+00             86.99           5181.96
-      5      3.11e-03   9.85e-01             86.45           5181.89
-      6      2.84e-03   9.89e-01             86.60           4385.02
-      7      2.48e-03   9.99e-01             86.41           4018.42
-      8      2.29e-03   9.97e-01             86.78           4348.23
-      9      1.96e-03   1.00e+00             87.30           3906.66
-     10      1.83e-03   9.94e-01             86.50           3282.79
-     11      1.64e-03   9.91e-01             86.55           3073.91
-     12      1.58e-03   9.94e-01             86.57           3436.67
-     13      1.43e-03   9.96e-01             86.97           2946.48
-     14      1.25e-03   9.92e-01             86.72           2342.03
-     15      1.14e-03   9.96e-01             86.72           2430.58
-     16      9.57e-04   9.91e-01             87.00           2200.00
-     17      9.18e-04   9.98e-01             87.34           1857.15
-     18      8.55e-04   9.92e-01             86.59           1785.01
-     19      7.82e-04   9.98e-01             86.83           1601.88
-     20      7.23e-04   1.00e+00             88.34           1578.77
-     21      6.60e-04   9.93e-01             91.00           1339.57
-     22      6.29e-04   9.85e-01             91.21           1260.76
+      0      4.91e-03   9.99e-01             86.83           6300.00
+      1      4.35e-03   1.00e+00             86.67           6360.40
+      2      4.00e-03   9.98e-01             86.68           5671.19
+      3      3.51e-03   9.99e-01             86.72           5825.08
+      4      3.31e-03   1.00e+00             86.68           5925.14
+      5      3.02e-03   1.00e+00             86.66           5200.00
+      6      2.63e-03   9.99e-01             86.62           5348.52
+      7      2.42e-03   9.99e-01             86.73           4730.55
+      8      2.23e-03   9.99e-01             86.83           4821.68
+      9      2.00e-03   1.00e+00             86.63           4244.32
+     10      1.80e-03   9.97e-01             86.73           3902.67
+     11      1.68e-03   9.99e-01             86.68           3721.01
+     12      1.49e-03   9.98e-01             86.76           3514.01
+     13      1.34e-03   9.99e-01             86.65           3135.71
+     14      1.22e-03   1.00e+00             86.74           2778.81
+     15      1.08e-03   1.00e+00             86.64           2630.74
+     16      9.94e-04   1.00e+00             86.60           2430.25
+     17      9.15e-04   9.99e-01             86.76           2230.99
+     18      8.29e-04   1.00e+00             86.84           1974.35
+     19      7.63e-04   1.00e+00             87.43           1800.95
+     20      7.01e-04   9.97e-01             86.71           1638.59
+     21      6.51e-04   9.97e-01             86.76           1506.04
+     22      6.06e-04   9.97e-01             87.00           1381.86
 }}
 
 

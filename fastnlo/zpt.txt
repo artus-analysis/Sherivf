@@ -1,12 +1,12 @@
 # --- Use emacs in sh mode -*-sh-*- #
 # This is a automatically generated file by fastNLO and holds the values of the warmup run. 
 # The values are valid for the scenario zpt
-# and if calculated with the steerfile: /portal/ekpcms6/home/tberger/ZJetMC/SheRivF/test/2016-06-14_14-53-03/MCgrid_CMS_2015_Zee/phasespace/zpt.txt
+# and if calculated with the steerfile: /afs/desy.de/user/a/afriedel/PDFStudies/Sherivf/test/2017-03-21_00-21-43/MCgrid_CMS_2015_Zee/phasespace/zpt.txt
 # but only if no serious changes have been performed since its creation.
 # 
 # Delete this file, if you want fastNLO to calculate a new one.
 # 
-# This file has been calculated using 334978 contributions.
+# This file has been calculated using 3223726 contributions.
 #   ( Mind: contributions != events. And contributions are not necessarily in phase space region.
 # Please check by eye for reasonability of the values.
  
@@ -23,29 +23,39 @@ Warmup.DimensionIsDifferential {
 
 Warmup.Values {{
    ObsBin       x_min      x_max  Description_[GeV]_min  Description_[GeV]_max
-      0      6.29e-04   9.96e-01             86.41            108.52
-      1      6.85e-04   1.00e+00             90.41            112.35
-      2      7.42e-04   9.87e-01             95.27            117.32
-      3      6.90e-04   9.99e-01            100.00            128.63
-      4      9.43e-04   9.92e-01            114.18            141.67
-      5      1.22e-03   9.91e-01            129.17            156.49
-      6      1.16e-03   9.94e-01            145.13            171.65
-      7      1.61e-03   9.98e-01            162.44            196.14
-      8      1.81e-03   9.76e-01            188.56            223.48
-      9      2.26e-03   1.00e+00            217.92           1002.31
+      0      6.56e-04   9.99e-01             90.58            110.54
+      1      6.70e-04   9.97e-01             92.91            112.58
+      2      7.07e-04   9.97e-01             95.46            114.70
+      3      7.48e-04   9.99e-01             98.15            117.39
+      4      7.69e-04   9.99e-01            100.00            122.79
+      5      8.81e-04   1.00e+00            107.24            125.63
+      6      8.22e-04   9.95e-01            110.00            128.72
+      7      8.66e-04   9.98e-01            114.09            135.12
+      8      9.61e-04   9.99e-01            121.30            150.00
+      9      1.12e-03   9.99e-01            136.75            164.51
+     10      1.37e-03   9.99e-01            153.70            180.61
+     11      1.56e-03   9.99e-01            170.00            197.30
+     12      1.63e-03   9.97e-01            188.63            223.30
+     13      1.93e-03   1.00e+00            215.97            269.00
+     14      2.60e-03   1.00e+00            263.15            411.38
 }}
 
 
 Warmup.Binning {{
     ObsBin  Description_[GeV]_Lo  Description_[GeV]_Up       BinSize
-       0       30.0000       40.0000       10.0000    
-       1       40.0000       50.0000       10.0000    
-       2       50.0000       60.0000       10.0000    
-       3       60.0000       80.0000       20.0000    
-       4       80.0000       100.000       20.0000    
-       5       100.000       120.000       20.0000    
-       6       120.000       140.000       20.0000    
-       7       140.000       170.000       30.0000    
-       8       170.000       200.000       30.0000    
-       9       200.000       1000.00       800.000    
+       0       40.0000       45.0000       5.00000    
+       1       45.0000       50.0000       5.00000    
+       2       50.0000       55.0000       5.00000    
+       3       55.0000       60.0000       5.00000    
+       4       60.0000       70.0000       10.0000    
+       5       70.0000       75.0000       5.00000    
+       6       75.0000       80.0000       5.00000    
+       7       80.0000       90.0000       10.0000    
+       8       90.0000       110.000       20.0000    
+       9       110.000       130.000       20.0000    
+      10       130.000       150.000       20.0000    
+      11       150.000       170.000       20.0000    
+      12       170.000       200.000       30.0000    
+      13       200.000       250.000       50.0000    
+      14       250.000       400.000       150.000    
 }}

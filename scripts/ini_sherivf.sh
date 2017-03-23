@@ -3,7 +3,9 @@
 # source ROOT if not set
 if [ -z $ROOT_INCLUDE_PATH ]; then
 	export ROOTSYS=/cvmfs/sft.cern.ch/lcg/app/releases/ROOT/5.34.13/x86_64-slc6-gcc48-opt/root/
-	. $ROOTSYS/bin/thisroot.sh
+	cd $ROOTSYS
+	. bin/thisroot.sh
+	cd -
 fi
 
 # use GCC version from CVMFS
@@ -21,6 +23,7 @@ export FASTJET_CVMFS=fastjet/3.1.0
 export GSL_CVMFS=gsl/1.10-cms
 export NUMPY_CVMFS=py2-numpy/1.9.2
 export LHAPDF_CVMFS=lhapdf/6.1.5-cms
+export LHAPDF_DATA_PATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc493/external/lhapdf/6.1.6/share/LHAPDF/
 export PYTHON_CVMFS=python/2.7.6-kpegke
 export MATPLOTLIB_CVMFS=py2-matplotlib/1.2.1-cms3
 export LIBPNG_CVMFS=libpng/1.6.16
@@ -32,11 +35,11 @@ export QD_CVMFS=qd/2.3.13
 . /cvmfs/cms.cern.ch/$ARCHITECTURE_47/external/$QD_CVMFS/etc/profile.d/init.sh
 
 # some environment paths
-export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
+export SHERIVFDIR=/afs/desy.de/user/a/afriedel/PDFStudies/Sherivf
 export PATH=$SHERIVFDIR/scripts:$HOME/local/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/local/lib:$HOME/local/lib/SHERPA-MC:/cvmfs/cms.cern.ch/$ARCHITECTURE/external/python/2.7.6-kpegke/lib/:$LD_LIBRARY_PATH
 export PYTHONPATH="\
-/usr/users/$USER/local/lib64/python2.6/site-packages/\
+$HOME/local/lib64/python2.6/site-packages/\
 :/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$NUMPY_CVMFS/lib/python2.7/site-packages/\
 :/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$LHAPDF_CVMFS/lib/python2.7/site-packages/\
 :/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$MATPLOTLIB_CVMFS/lib/python2.7/site-packages/\
@@ -49,7 +52,8 @@ export LHAPATH=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$LHAPDF_CVMFS/share/LHA
 if [ $USER = "tberger" ]; then
 	export STORAGE_PATH=/storage/jbod/${USER}
 else
-	export STORAGE_PATH=/storage/a/${USER}
+	export STORAGE_PATH=/nfs/dust/cms/user/afriedel
 fi
 export SHERIVF_STORAGE_PATH=$STORAGE_PATH/sherivf/
 export XFITTER_STORAGE_PATH=$STORAGE_PATH/xfitter/
+export PATH=$HOME/PDFStudies/grid-control:$PATH

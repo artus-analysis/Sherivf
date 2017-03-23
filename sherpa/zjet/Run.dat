@@ -64,11 +64,11 @@
 
 
 (selector){
-  PTNLO 13 20 E_CMS
-  PTNLO -13 20 E_CMS
+  PTNLO 13 27 E_CMS
+  PTNLO -13 27 E_CMS
   PseudoRapidityNLO 13 -2.3 2.3
   PseudoRapidityNLO -13 -2.3 2.3
-  Mass 13 -13 81. 101.
+  Mass 13 -13 81.1876 101.1876
   PT2NLO 13 -13 30 E_CMS
 }(selector)
 
