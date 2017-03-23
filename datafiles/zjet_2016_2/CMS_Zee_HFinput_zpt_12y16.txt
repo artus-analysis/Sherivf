@@ -1,0 +1,45 @@
+!
+! Zee cross sections 2011
+! by CMS collaboration,
+!
+&Data
+   Name           = 'CMS Zee jets 2012 y3_zpt'
+   Reaction       = 'FastNLO jets'
+
+   NDATA          = 15
+   NColumn        = 10
+   ColumnType     = 'Bin' , 'Bin'  , 'Sigma', 'Error', 'Error', 'Error', 'Error', 'Error', 'Error', 'Error'
+   ColumnName     = 'zptlow', 'zpthigh', 'Sigma', 'stat' ,  'bkgr',  'ef',  'trigg', 'uncor', 'lumi', 'uncor'
+   NInfo          = 4
+   DataInfo       = 13000.     , 1.                 , -1.      , -1.
+   CInfo          = 'sqrt(S)' , 'PublicationUnits' , 'MurDef' , 'MufDef'
+
+   IndexDataset   = 685
+
+  TheoryInfoFile = '/nfs/dust/cms/user/afriedel/fastNLOTables/newbins_2/y3_zpt.tab'
+   TheoryType     = 'FastNLO'
+
+   Percent        = True*7
+&End
+&PlotDesc
+   PlotN = 1
+   PlotDefColumn = 'zptlow'
+   PlotDefValue = 40.0, 400.0
+   PlotOptions(1)  = 'Experiment:CMS@ExtraLabel: CMS Zee jets 2012 y3_zpt @Title: 2015 @XTitle: |quantity| @YTitle:(#sigma) #sigma'
+&End 
+40.0  45.0 0.500407 0.789303 0.353619 2.597354 0.222476 2.0 2.6 0.5
+45.0  50.0 0.381160 0.916627 0.425200 2.598450 0.222363 2.0 2.6 0.5
+50.0  55.0 0.291648 1.048654 0.493097 2.599706 0.222058 2.0 2.6 0.5
+55.0  60.0 0.220420 1.217928 0.594552 2.600803 0.221627 2.0 2.6 0.5
+60.0  70.0 0.165717 0.904755 0.707839 2.602399 0.220911 2.0 2.6 0.5
+70.0  75.0 0.121282 1.647827 0.839452 2.604304 0.220540 2.0 2.6 0.5
+75.0  80.0 0.107879 1.764413 0.810023 2.605656 0.219036 2.0 2.6 0.5
+80.0  90.0 0.084548 1.313934 0.967375 2.608852 0.219015 2.0 2.6 0.5
+90.0  110.0 0.054911 1.078012 1.046670 2.634664 0.217584 2.0 2.6 0.5
+110.0  130.0 0.033319 1.415250 1.062621 2.701025 0.223168 2.0 2.6 0.5
+130.0  150.0 0.020458 1.847373 0.951487 2.787905 0.263025 2.0 2.6 0.5
+150.0  170.0 0.011607 2.555639 0.993243 2.881519 0.310288 2.0 2.6 0.5
+170.0  200.0 0.007110 2.547287 0.938906 2.941347 0.354317 2.0 2.6 0.5
+200.0  250.0 0.003354 2.784610 0.820207 2.996498 0.472388 2.0 2.6 0.5
+250.0  400.0 0.000806 3.137526 1.108345 3.021812 0.883596 2.0 2.6 0.5
+

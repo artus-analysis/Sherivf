@@ -1,0 +1,43 @@
+!
+! Zee cross sections 2011
+! by CMS collaboration,
+!
+&Data
+   Name           = 'CMS Zee jets 2012 y3_zpt'
+   Reaction       = 'FastNLO jets'
+
+   NDATA          = 10
+   NColumn        = 9
+   ColumnType     = 'Bin' , 'Bin'  , 'Sigma', 'Error', 'Error', 'Error', 'Error', 'Error', 'Error'
+   ColumnName     = 'zptlow', 'zpthigh', 'Sigma', 'stat' ,  'bkgr',  'ef_y3',  'trigg', 'fsr', 'lumi'
+   NInfo          = 4
+   DataInfo       = 13000.     , 1.                 , -1.      , -1.
+   CInfo          = 'sqrt(S)' , 'PublicationUnits' , 'MurDef' , 'MufDef'
+
+   IndexDataset   = 685
+
+  TheoryInfoFile = '/nfs/dust/cms/user/afriedel/fastNLOTables/y3_zpt_27.tab'
+   TheoryType     = 'FastNLO'
+
+   Percent        = True*6
+&End
+&PlotDesc
+   PlotN = 1
+   PlotDefColumn = 'zptlow'
+   PlotDefValue = 30.0, 1000.0
+   PlotOptions(1)  = 'Experiment:CMS@ExtraLabel: CMS Zee jets 2012 y3_zpt_27 @Title: 2015 @XTitle: |quantity| @YTitle:(#sigma) #sigma'
+&End 
+30.0  35.0 0.130542 1.585419 0.225752 2.660119 0.299559 2.0 2.6 0.5
+35.0  40.0 0.109205 1.689079 0.253657 2.679237 0.305590 2.0 2.6 0.5
+40.0  45.0 0.083838 1.885553 0.259091 2.689029 0.311602 2.0 2.6 0.5
+45.0  50.0 0.063854 2.212585 0.349808 2.696787 0.315104 2.0 2.6 0.5
+50.0  55.0 0.051544 2.494462 0.439426 2.703410 0.315054 2.0 2.6 0.5
+55.0  60.0 0.038063 2.786685 0.540567 2.705414 0.313580 2.0 2.6 0.5
+60.0  70.0 0.024943 2.562735 0.605195 2.713100 0.312552 2.0 2.6 0.5
+70.0  80.0 0.015627 3.294805 0.599848 2.719473 0.310431 2.0 2.6 0.5
+80.0  100.0 0.010523 2.778846 0.685209 3.012140 0.312114 2.0 2.6 0.5
+100.0  120.0 0.006287 3.650792 0.685769 4.872188 0.326592 2.0 2.6 0.5
+120.0  140.0 0.003654 4.835477 0.825202 6.160667 0.490420 2.0 2.6 0.5
+140.0  170.0 0.002160 5.143005 0.804329 6.997601 0.717607 2.0 2.6 0.5
+170.0  200.0 0.000773 9.042211 0.920340 7.933731 0.876798 2.0 2.6 0.5
+200.0  1000.0 0.000061 5.220595 1.109384 8.596196 3.127175 2.0 2.6 0.5
