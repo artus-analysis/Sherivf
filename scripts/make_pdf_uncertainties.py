@@ -27,7 +27,7 @@ def make_pdf_uncertainties(central, model, parametrization, output=None):
 		parametrizations = [get_root_histo(p, flavour) for p in parametrization]
 
 		# get envelops from different jobs
-		mod = make_envelope(exp, models)
+		mod = add_quadratically(exp, models)
 		par = make_envelope(exp, parametrizations)
 
 		# add quadratically 
@@ -51,8 +51,36 @@ def get_root_histo(filename, flavour):
 	return histo
 
 
-
 def make_envelope(central, objects):
+        center_histo = central
+        n_bins = center_histo.GetN()
+
+        graph = ROOT.TGraphAsymmErrors(n_bins)
+
+        for i in range(1, n_bins+1):
+                values = []
+		diffup = 0
+		diffdown = 0
+                x, y = sherivftools.tgraph_get_point(center_histo, i-1)
+		for obj in objects:
+                        xvalue, value = sherivftools.tgraph_get_point(obj, i-1)
+                        values.append(value)
+		for pars in range(len(values)):
+			if diffup < max(values[pars]-y, 0):
+				diffup = max(values[pars]-y, 0)
+			if diffdown < max(y-values[pars], 0):
+                                diffdown = max(y-values[pars], 0) 
+                graph.SetPoint(i-1, x, y)
+                # y errors low/high as difference to the min/max values
+                graph.SetPointEYhigh(i-1, diffup)
+                graph.SetPointEYlow(i-1, diffdown)
+                # x errors as half the bin width
+                width = center_histo.GetErrorX(i-1)
+                graph.SetPointEXhigh(i-1, 0.5 * width)
+                graph.SetPointEXlow(i-1, 0.5 * width)
+        return graph
+
+def add_quadratically(central, objects):
 	center_histo = central
 	n_bins = center_histo.GetN()
 	
@@ -60,14 +88,20 @@ def make_envelope(central, objects):
 
 	for i in range(1, n_bins+1):
 		values = []
+		diffup = 0
+                diffdown = 0
 		for obj in objects:
 			xvalue, value = sherivftools.tgraph_get_point(obj, i-1)
 			values.append(value)
 		x, y = sherivftools.tgraph_get_point(center_histo, i-1)
+		for pars in range(len(values)/2):
+                        diffup += max((values[2*pars]-y), (values[2*pars+1]-y), 0)**2
+			
+                        diffdown += min((values[2*pars]-y), (values[2*pars+1]-y), 0)**2
 		graph.SetPoint(i-1, x, y)
 		# y errors low/high as difference to the min/max values
-		graph.SetPointEYhigh(i-1, max(values) - y)
-		graph.SetPointEYlow(i-1, y - min(values))
+		graph.SetPointEYhigh(i-1,math.sqrt(diffup))
+		graph.SetPointEYlow(i-1, math.sqrt(diffdown))
 		# x errors as half the bin width
 		width = center_histo.GetErrorX(i-1)
 		graph.SetPointEXhigh(i-1, 0.5 * width)
