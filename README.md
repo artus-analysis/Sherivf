@@ -81,7 +81,7 @@ With a Z+1Jet@NLO config, 3000000 events roughly correspond to 1h runtime.
 
 For large-scale parallel MC production; get sufficient events even in sparsely populated phase space regions
 
-    sherivf.py batch -n 1000000 -j 20 -b ekpcluster
+    sherivf.py batch -n 1000000 -j 20
 
 `-j` specifies the number of jobs, `-b` the batch resource.
 
@@ -95,6 +95,10 @@ For debugging of individual jobs, the grid-control and job outputs are located i
 `<work-directory>/work.sherpa-rivet_<config>/output/job_<Number>/`, i.e. the
 `gc.stdout`, `gc.stderr`, `job.stderr.gz` and `job.stdout.gz` files.
 
+Depending of the batch system you use it may be possible that the merging of the job outputs fails (for example on the NAF when the tables are too big). In this case, the job will finish with status failed. Don't worry, if this happens, you can merge the job outputs manually using
+
+    fnlo-tk-merge name_of_joboutput_*.tab some_filename.tab
+
 ### Helper scripts
 Some handy scripts located in the `scripts/` folder:
 
@@ -102,6 +106,7 @@ Some handy scripts located in the `scripts/` folder:
 
 Calculate a cross section from a fastNLO table (with a certain PDF set)
 and save as ROOT: 
+
 
     evaluate_fnlotable.py -i results/MCgrid_CMS_2015_Zee_zjet/zpt.tab -p NNPDF23_nlo_as_0118
 
@@ -138,10 +143,11 @@ To get a PDF from a LHAPDF set a certain energy scale, use
 
     pdf_2_root.py -p NNPDF30_nlo_as_0118 -q 91.2  # Q=91.2
     pdf_2_root.py -p NNPDF30_nlo_as_0118 -q 1.9 --q2  # Q^2=1.9
-
 (ToDo: `--q2` to have a squared value: should this be made more intuitive?)
 
+### Instructions for using fastNLO tables with Artus
 
+HarryPlotter offers the possibility to import fastNLO tables to calculate e.g. theory uncertainties. You can use the input_module InputFastNLO for this purpose. Scale calculations with HOPPET are included in the module, make sure you have HOPPET interfaced in fastNLO for an adequate calculation of scale uncertainties.
 
 ## PDF fits
 
