@@ -48,7 +48,7 @@ def plot_pdf(input_filename, output_filename, flavour):
 	if (args.flavour == 'd_valence_quark'):
 	  ax1.set_ylim(0, 0.6)
 	ax1.text(0.05, 0.95, args.flavour.replace('_',' ')+' PDF', size=16, transform=ax1.transAxes, ha="left", va="top")
-	ax1.text(0.05, 0.85, r'$Q^2 = 1.9 \ GeV^2$', size=16, transform=ax1.transAxes, ha="left", va="top")
+	ax1.text(0.05, 0.85, r'$Q = 91.2 \ GeV$', size=16, transform=ax1.transAxes, ha="left", va="top")
 	
 	# iterate over ROOT objects
 	for color, histo, alpha in zip(colors, [histo1,histo2], [0.7, 0.5]):
@@ -66,12 +66,14 @@ def plot_pdf(input_filename, output_filename, flavour):
 		patch1 = mpatches.Patch(color='red')
 		patch2 = mpatches.Patch(color='blue')
 		if(args.flavour == 'gluon'):
-		  location = "lower center"
+		  location = "upper right"
 		elif(args.flavour == 'sea_quarks'):
 		  location = "upper right"
 		else: 
 		  location = "center left"
-		ax1.legend((patch1,patch2),(r'$\phi^*_\eta$', r'$\mathit{p}_{T}^{Z}$'),loc=location)
+		#ax1.legend((patch1,patch2),('Hera','Hera+CMS'+r'($\mathit{p}_{T}^{Z}$)'),loc=location)
+		ax1.legend((patch1,patch2),(r'$\mathrm{Hera}$', r'$\mathrm{Hera+CMS \ Z+jet} \ (\mathit{p}_{T}^{Z})$'),loc=location)
+		#ax1.legend((patch1,patch2),(r'$\mathrm{Hera+CMS \ Z+jet} \ (\phi^*_\eta)$',r'$\mathrm{Hera+CMS \ Z+jet} \ (\mathit{p}_{T}^{Z})$'),loc=location)
 		ax2.fill_between(x,
 					[(-error/y_val) for y_val, error in zip(y, yerrlow)],
 					[(error/y_val) for y_val, error in zip(y, yerrhigh)],

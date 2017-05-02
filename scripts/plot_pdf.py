@@ -39,13 +39,16 @@ def plot_pdf(input_filename, output_filename, flavour):
 		ax.set_xlim(1e-4, 0.9)
 		ax.set_xscale('log', nonposx='clip')
 	#ax1.set_xlabel(r'$x$', position=(1., 0.), va='top', ha='right')
+	#ax1.set_title(r'HERA I+II & CMS Z+jets ($\mathit{p}_{T}^{Z}$)', size=16)
+	ax1.set_title(r'HERA I+II & CMS Z+jets ($\mathit{\phi}_{\eta}^{*}$)', size=16)
+	#ax1.set_title(r'HERA I+II', size=16)
 	ax2.set_xlabel(r'$x$', position=(1., 0.), va='top', ha='right')
 	ax1.set_ylabel('$x$f($x,Q^2$)', position=(0., 1.), va='top', ha='right')
 	ax2.set_ylabel('Rel. uncertainty', position=(0., 1.), va='top', ha='right')
 	ax1.set_xticklabels([])
 	ax2.set_ylim(-0.45, 0.45)	
 	ax1.text(0.05, 0.95, args.flavour.replace('_',' ')+' PDF', size=16, transform=ax1.transAxes, ha="left", va="top")
-	ax1.text(0.05, 0.85, r'$Q^2 = 1.9 \ GeV^2$', size=16, transform=ax1.transAxes, ha="left", va="top")
+	ax1.text(0.05, 0.85, r'$Q = 91.2 \ GeV$', size=16, transform=ax1.transAxes, ha="left", va="top")
 
 
 	# iterate over ROOT objects

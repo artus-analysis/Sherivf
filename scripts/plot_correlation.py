@@ -23,7 +23,7 @@ def plot_correlation(input_filename, output_filename, flavour, y_label=""):
 	parser.add_argument('-i', '--input-filename', help='Input root file. [Default: %(default)s]', default=input_filename)
 	parser.add_argument('-o', '--output-filename', help='Output root file. [Default: %(default)s]', default=output_filename)
 	parser.add_argument('-f', '--flavour', help='Parton flavour. [Default: %(default)s]', default=flavour)
-	parser.add_argument('-y', '--y-label', help='y-axis label. [Default: %(default)s]', default=y_label)
+	parser.add_argument('-m', '--mode', help='y-axis label. [Default: %(default)s]', default=y_label)
 	args = parser.parse_args()
 	
 	# get input
@@ -37,7 +37,19 @@ def plot_correlation(input_filename, output_filename, flavour, y_label=""):
 	ax = fig.add_subplot(111)
 	ax.set_xscale('log', nonposx='clip')
 	ax.set_xlabel(r'$x$', position=(1., 0.), va='top', ha='right')
-	ax.set_ylabel(r'$|y^Z|$', position=(0., 1.), va='top', ha='right')
+	if (args.mode == 'phistar'):
+		ax.set_ylabel(r'$\phi^{*}_{\eta}$', position=(0., 1.), va='top', ha='right')
+		#ax.set_yscale('log', nonposx='clip')
+		plt.ylim(ymax = 25, ymin = 0.4)
+		#ax.set_yticklabels([0.4,0.6,1,2,4,10,25])
+	if (args.mode == 'abszy'):
+                ax.set_ylabel(r'$|\mathit{y}^{Z}|$', position=(0., 1.), va='top',ha='right')
+		plt.ylim(ymax = 2.0, ymin = 0)
+	if (args.mode == 'zpt'):
+		plt.ylim(ymax = 400, ymin = 40)
+		#ax.set_yscale('log', nonposx='clip')
+                ax.set_ylabel(r'$\mathit{p}_{T}^{Z}$', position=(0., 1.), va='top', ha='right')
+		#ax.set_yticklabels([40, 60, 100, 200, 400])
 	ax.set_title(args.flavour+' 13 TeV NNPDF30', size=16)
 	
 	# convert from ROOT to numpy
@@ -55,7 +67,7 @@ def plot_correlation(input_filename, output_filename, flavour, y_label=""):
 	# draw
 	cax = ax.pcolormesh(np.concatenate((xl, xu[-1:])), np.concatenate((yl, yu[-1:])), bincontents, cmap='coolwarm', rasterized=True)
 	cbar = fig.colorbar(cax, ticks=[-1,-0.5,0,0.5,1])
-	plt.ylim(ymax = 2.3, ymin = 0)
+#	plt.ylim(ymax = 2.3, ymin = 0)
 	#plt.zlim(zmax = 1, zmin = -1)
 	cbar.set_label('Correlation Coefficient')
 	#cbar.ax.set_yticklabels(['-1','-0.5','0','0.5','1'])
