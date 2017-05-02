@@ -81,7 +81,7 @@ Also, make sure you have sufficient disk space available in your home directory.
     cd ..
 ## For Scale uncertainty calculation
 ## Caution: The calculation of scale uncertainties with this framework is not working as intended
-## Workaround: Use HOPPET for this purpose (needs a later fastNLO version):
+### Workaround: Use HOPPET for this purpose (needs a later fastNLO version):
     svn checkout http://hoppet.hepforge.org/svn/trunk hoppet
     cd hoppet/
     ./configure --prefix=$COMPILE
