@@ -35,7 +35,7 @@ export QD_CVMFS=qd/2.3.13
 . /cvmfs/cms.cern.ch/$ARCHITECTURE_47/external/$QD_CVMFS/etc/profile.d/init.sh
 
 # some environment paths
-export SHERIVFDIR=/afs/desy.de/user/a/afriedel/PDFStudies/Sherivf
+export SHERIVFDIR=$(dirname $(dirname $(readlink -mf ${BASH_SOURCE[0]})))
 export PATH=$SHERIVFDIR/scripts:$HOME/local/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/local/lib:$HOME/local/lib/SHERPA-MC:/cvmfs/cms.cern.ch/$ARCHITECTURE/external/python/2.7.6-kpegke/lib/:$LD_LIBRARY_PATH
 export PYTHONPATH="\
@@ -51,9 +51,10 @@ export LHAPATH=/cvmfs/cms.cern.ch/$ARCHITECTURE/external/$LHAPDF_CVMFS/share/LHA
 # output paths for batch mode
 if [ $USER = "tberger" ]; then
 	export STORAGE_PATH=/storage/jbod/${USER}
-else
+elif [ $USER = "afriedel" ]; then
 	export STORAGE_PATH=/nfs/dust/cms/user/afriedel
+	export COMPILE=/afs/desy.de/user/a/afriedel/local/
 fi
 export SHERIVF_STORAGE_PATH=$STORAGE_PATH/sherivf/
 export XFITTER_STORAGE_PATH=$STORAGE_PATH/xfitter/
-export PATH=$HOME/PDFStudies/grid-control:$PATH
+export PATH=$SHERIVFDIR/grid-control:$PATH
