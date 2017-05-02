@@ -28,11 +28,9 @@ class Xfit(object):
 		self.datafiles_hera = ["'{0}'".format(os.path.join(os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/"), f)) for f in os.listdir(os.path.join(os.environ['SHERIVFDIR'], "datafiles/hera/"))]
 		self.corrfiles_hera = []
 		# datafiles for CMS: zpt in rapidity bins:
-		self.datafiles_cms = ["'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016_2/CMS_Zee_HFinput_zpt_00y04.txt'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016_2/CMS_Zee_HFinput_zpt_04y08.txt'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016_2/CMS_Zee_HFinput_zpt_08y12.txt'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016_2/CMS_Zee_HFinput_zpt_12y16.txt'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016_2/CMS_Zee_HFinput_zpt_16y20.txt'"]
-		#self.datafiles_cms = ["'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016_new/CMS_Zee_HFinput_phistar_00y04.txt'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016_new/CMS_Zee_HFinput_phistar_04y08.txt'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016_new/CMS_Zee_HFinput_phistar_08y12.txt'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016_new/CMS_Zee_HFinput_phistar_12y16.txt'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016_new/CMS_Zee_HFinput_phistar_16y20.txt'"]
-		#self.datafiles_cms = ["'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016_new/CMS_Zee_HFinput_phistar_16y20.txt'"]
-		#self.datafiles_cms = ["'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2015/CMS_Zee_HFinput_zpt_06y12.txt'"]
-		#self.corrfiles_cms = ["'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016/CMS_Zee_correlation_zpt_00y06.corr'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2015/CMS_Zee_correlation_zpt_06y12.corr'", "'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2015/CMS_Zee_correlation_zpt_12y18.corr'"]
+		#self.datafiles_cms = ["'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016/CMS_Zee_HFinput_zpt_00y04.txt'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016/CMS_Zee_HFinput_zpt_04y08.txt'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016/CMS_Zee_HFinput_zpt_08y12.txt'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016/CMS_Zee_HFinput_zpt_12y16.txt'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016/CMS_Zee_HFinput_zpt_16y20.txt'"]
+		# datafiles for CMS: phistar in rapidity bins:
+		self.datafiles_cms = ["'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016/CMS_Zee_HFinput_phistar_00y04.txt'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016/CMS_Zee_HFinput_phistar_04y08.txt'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016/CMS_Zee_HFinput_phistar_08y12.txt'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016/CMS_Zee_HFinput_phistar_12y16.txt'","'"+os.environ['SHERIVFDIR'] + "/datafiles/zjet_2016/CMS_Zee_HFinput_phistar_16y20.txt'"]
 		self.corrfiles_cms = []
 		print self.datafiles_cms
 		print self.corrfiles_cms
