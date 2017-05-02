@@ -60,12 +60,16 @@ public:
 		/// Book RIVET histograms
 		std::vector<double> bin_edges = {40, 45, 50, 55, 60, 70, 75, 80, 90, 110, 130, 150, 170, 200, 250, 400}; 
 		
-		//std::vector<double> bin_edges2; //For Correlation Plots
-		//bin_edges2.reserve(100);
-		//for (int i=3; i<=100; i++)
-		//	bin_edges2.push_back(i*10);
+		std::vector<double> bin_edges2; //For Correlation Plots
+		std::vector<double> bin_edges_phistar2;
+		bin_edges2.reserve(1000);
+		bin_edges_phistar2.reserve(1000);
+		for (int i=0; i<1000; i++){
+			bin_edges2.push_back(i*10);
+			bin_edges_phistar2.push_back(i*0.1);
+		}
 ///		///Bins fuer phistar
-		std::vector<double> bin_edges_phistar = {0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.115, 0.130, 0.145, 0.165, 0.190, 0.220, 0.26, 0.310, 0.390, 0.500, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 1.0, 1.25, 1.5, 2, 3, 4, 6, 12, 25};
+		std::vector<double> bin_edges_phistar = {0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.115, 0.130, 0.145, 0.165, 0.190, 0.220, 0.26, 0.310, 0.350, 0.40, 0.45, 0.500, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 1.0, 1.25, 1.5, 2, 3, 4, 6, 12, 25};
 
 		/// bins for deltaphi
 		std::vector<double> bin_edges_deltaphi;
@@ -382,14 +386,14 @@ public:
 		
 
 ///		exportieren fastnlo phistar
-		//_fnlo_phistar->exportgrid();
+		_fnlo_phistar->exportgrid();
 
-		//_fnlo_phistar_0->exportgrid();
-                //_fnlo_phistar_1->exportgrid();
-                //_fnlo_phistar_2->exportgrid();
-                //_fnlo_phistar_3->exportgrid();
-                //_fnlo_phistar_4->exportgrid();
-                //_fnlo_phistar_5->exportgrid();
+		_fnlo_phistar_0->exportgrid();
+                _fnlo_phistar_1->exportgrid();
+                _fnlo_phistar_2->exportgrid();
+                _fnlo_phistar_3->exportgrid();
+                _fnlo_phistar_4->exportgrid();
+                _fnlo_phistar_5->exportgrid();
 
 		// Clear event handler
 		MCgrid::PDFHandler::CheckOutAnalysis(histoDir());
