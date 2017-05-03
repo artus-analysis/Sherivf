@@ -35,6 +35,8 @@ class Sherivf(object):
 			"batch": self.batch
 		}
 		self.get_arguments()
+		self.rivet = self.args.rivet_analysis
+                self.sherpa = self.args.sherpa_runcard
 		self.fastnlo_outputs = [os.path.basename(f).replace('.txt', ('.txt' if (self.args.mode == 'warmup') else '.tab')) for f in glob.glob(os.path.join(self.sherivf_path,'fastnlo', '*.txt' ))]
 
 
@@ -56,7 +58,10 @@ class Sherivf(object):
 			default=sherivftools.get_env('SHERIVF_STORAGE_PATH'))
 		parser.add_argument('-b', '--batch', type=str, default='ekpcluster', choices=['ekpcluster'],
 			help="batch config. [Default: %(default)s]")
-
+		parser.add_argument('-a', '--rivet_analysis', type=str, default='MCgrid_CMS_2015_Zee',
+                        help="Analysis file config. [Default: %(default)s]")
+		parser.add_argument('-s', '--sherpa_runcard', type=str, default='zjet',
+                        help="Sherpa runcard config. [Default: %(default)s]")
 		# for local and batch
 		parser.add_argument('-n', '--n-events', type=str, default='1000000',
 			help="n events [Default: %(default)s]")
