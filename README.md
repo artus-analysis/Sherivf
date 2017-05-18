@@ -147,7 +147,8 @@ To get a PDF from a LHAPDF set a certain energy scale, use
 
 ### Instructions for using fastNLO tables with Artus
 
-HarryPlotter offers the possibility to import fastNLO tables to calculate e.g. theory uncertainties. You can use the input_module InputFastNLO for this purpose. Scale calculations with HOPPET are included in the module, make sure you have HOPPET interfaced in fastNLO for an adequate calculation of scale uncertainties.
+HarryPlotter offers the possibility to import fastNLO tables to calculate e.g. theory uncertainties. You can use the input_module InputFastNLO for this purpose. You have to execute ini_sherivf.sh to use this input module. 
+Scale calculations with HOPPET are included in the module, make sure you have HOPPET interfaced in fastNLO for an adequate calculation of scale uncertainties.
 
 ## PDF fits
 
